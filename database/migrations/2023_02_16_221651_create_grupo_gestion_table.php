@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('grupo_gestion', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('entidad_id');
             $table->string('nombre');
 
             $table->timestamps();
