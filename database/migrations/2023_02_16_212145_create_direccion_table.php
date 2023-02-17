@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('direccion', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('provincia_id');
+            $table->unsignedBigInteger('localidad_id');
             $table->string('direccion');
             $table->string('cod_postal');
 
-            $table->foreign('provincia_id')->references('id')->on('provincia')->constrained();
+            $table->foreign('localidad_id')->references('id')->on('localidad')->constrained();
 
             $table->timestamps();
         });

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('cargo');
-            $table->string('cumpleagnos');
+            $table->timestamp('cumpleagnos');
 
             $table->foreign('entidad_id')->references('id')->on('entidad')->constrained()
             ->onUpdate('cascade')

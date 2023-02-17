@@ -16,15 +16,16 @@ return new class extends Migration
         Schema::create('entidad', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('direccion_id');
+            $table->unsignedBigInteger('grupo_gestion_id');
+            $table->unsignedBigInteger('gds_id');
             $table->string('nombre');
             $table->string('num_oficina');
-            $table->string('numbre_fiscal');
+            $table->string('nombre_fiscal');
             $table->string('nif');
-            $table->string('es_minorista');
-            $table->string('es_central');
+            $table->boolean('es_minorista');
+            $table->boolean('es_central');
             $table->string('iata');
             $table->string('rp');
-            $table->string('gds');
             $table->string('observ');
 
             $table->foreign('grupo_gestion_id')->references('id')->on('grupo_gestion')->constrained()
@@ -32,6 +33,10 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('direccion_id')->references('id')->on('direccion')->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('gds_id')->references('id')->on('gds')->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

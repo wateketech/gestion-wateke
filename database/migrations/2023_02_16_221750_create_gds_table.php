@@ -13,17 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('provincia', function (Blueprint $table) {
+        Schema::create('gds', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pais_id');
             $table->string('nombre');
-            $table->string('longitud');
-            $table->string('latitud');
-            $table->boolean('comunidad_autonoma');
-
-            $table->foreign('pais_id')->references('id')->on('pais')->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -36,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provincia');
+        Schema::dropIfExists('gds');
     }
 };
