@@ -1,2 +1,2 @@
 - validar controlador ForgotPassword (ir a comentarios) al no establecer coneccion con el servidor de correos
-  
+- hacer estilo sass   =>   .navbar-vertical.navbar-expand-xs .navbar-collapse {  height: auto;  
