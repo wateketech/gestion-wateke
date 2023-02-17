@@ -6,17 +6,13 @@
                     <table class="table align-items-center justify-content-center mb-0">
 
                         <thead>
-                            <tr>    
-                                @yield('thead')
-                            </tr>
+                            @yield('thead')
                         </thead>
 
                         <tbody>
-                            <tr>
-                                @yield('tbody')
-                            </tr>
+                            @yield('tbody')
                         </tbody>
-                        
+
                     </table>
                 </div>
             </div>
