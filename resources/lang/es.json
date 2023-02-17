@@ -825,7 +825,17 @@
     "Contacts management" : "Gestion de contactos",
     "Reservation management" : "Gestion de reservas",
     "Acoount" : "Cuenta",
-    "" : "",
+    
+    "App Configurator" : "Configuracion de la Web",
+    "See our dashboard options." : " ",
+    "Navbar Fixed" : "Fijar barra de navegacion",
+    "Sidebar Colors" : "Color de la barra lateral",
+    "Sidenav Type" : "Tipo de barra lateral",
+    "Choose between 2 different sidenav types" : "Escoje entre 2 tipos de visualizacion",
+    "You can change the sidenav type just on desktop view." : "Solo puedes cambiar el tipo de visualizacion en dimensiones de escritorio",
+    
+    
+    
     "" : ""
 
 
