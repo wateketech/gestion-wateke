@@ -17,6 +17,10 @@ use App\Http\Livewire\Rtl;
 use App\Http\Livewire\LaravelExamples\UserProfile;
 use App\Http\Livewire\LaravelExamples\UserManagement;
 
+
+use App\Http\Livewire\Contacts\Entidad;
+
+
 use Illuminate\Http\Request;
 
 /*
@@ -49,5 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/rtl', Rtl::class)->name('rtl');                                    // esta ruta su controlar y vista 
     Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
     Route::get('/laravel-user-management', UserManagement::class)->name('user-management');
+
+    // seccion de contactos
+    Route::get('/agencia-contatos', Entidad::class)->name('agencia');
 });
 
