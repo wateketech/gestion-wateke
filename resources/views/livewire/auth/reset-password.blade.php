@@ -6,7 +6,7 @@
                 <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                     <div class="card card-plain mt-8">
                         <div class="card-header pb-0 text-left bg-transparent">
-                            <p class="mb-0">{{ __('Forgot your password? Enter your email and new password here') }}
+                            <p class="mb-0">{{ __('Forgot your password?')}} {{ __('Enter your email and new password here') }}
                             <p>
                         </div>
                         <div class="card-body">
@@ -51,8 +51,7 @@
                                     class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
                                     <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
                                     <span class="alert-text text-white">
-                                        {{ __('Your password has been successfuly changed! You
-                                        can login now!') }}</a></span>
+                                        {{ __('Your password has been successfuly changed! You can login now!') }}</a></span>
                                     <button wire:click="$set('showSuccesNotification', false)" type="button"
                                         class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                     </button>
@@ -74,7 +73,8 @@
                 <div class="col-md-6">
                     <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
                         <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                            style="background-image:url('../assets/img/curved-images/curved6.jpg')"></div>
+                            style="background-image:url('../assets/img/wallpapers/wallpaper-2.jpg')"></div>
+                            
                     </div>
                 </div>
             </div>
