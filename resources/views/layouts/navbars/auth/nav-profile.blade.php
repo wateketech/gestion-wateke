@@ -13,7 +13,7 @@
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                     <div class="input-group">
                         <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" placeholder="Type here...">
+                        <input type="text" class="form-control" placeholder="{{ __('Type here...')}}">
                     </div>
                 </div>
                 <ul class="navbar-nav justify-content-end">
@@ -43,7 +43,9 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-bell cursor-pointer"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 ms-n4"
+
+<div hidden> informacion y notificaciones de la persona autenticada
+                    <ul class="dropdown-menu  dropdown-menu-end px-2 py-3 ms-n4"
                             aria-labelledby="dropdownMenuButton">
                             <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
@@ -124,8 +126,9 @@
                                 </a>
                             </li>
                         </ul>
+</div>
                     </li>
-                </ul>
+                </ul>               
             </div>
         </div>
     </nav>

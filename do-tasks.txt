@@ -3,6 +3,9 @@
 
 - cambiar el data-class y/o data-color de los colores en fixed-plugin.blade.php
 - ver porq no funciona transparent fixed-plugin.blade.php
-- navmenu no se fija bien 
+- navmenu no se fija bien en nav y nav-profile ni siquiera lo hace
+
+
+- hacer notificaciones e informacion del usuario auth en nav y nav-profile
 
 - al terminar subir la app desocultar los botones de compartir en el fixed-plugin.blade.php
