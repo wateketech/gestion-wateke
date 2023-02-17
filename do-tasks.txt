@@ -8,4 +8,6 @@
 
 - hacer notificaciones e informacion del usuario auth en nav y nav-profile
 
+- darle nombres en español a las rutas
+
 - al terminar subir la app desocultar los botones de compartir en el fixed-plugin.blade.php
