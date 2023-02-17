@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class Entidad extends Component
 {
+    public $view = 'main';
     public $nombre = 'hola';
 
     public function render()
