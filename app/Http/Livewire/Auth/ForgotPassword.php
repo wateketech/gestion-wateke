@@ -34,6 +34,8 @@ class ForgotPassword extends Component
     }
 
     public function recoverPassword() { 
+        // validar cunado no se pueda conectar con el servidor que envia los correos
+
         if(env('IS_DEMO')) {
             $this->showDemoNotification = true;
         } else {

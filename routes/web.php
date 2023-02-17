@@ -37,16 +37,16 @@ Route::get('/login', Login::class)->name('login');
 
 Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-password');
  
-Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');
+Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');  //  identificar esta ruta
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/billing', Billing::class)->name('billing');
     Route::get('/profile', Profile::class)->name('profile');
     Route::get('/tables', Tables::class)->name('tables');
-    Route::get('/static-sign-in', StaticSignIn::class)->name('sign-in');
-    Route::get('/static-sign-up', StaticSignUp::class)->name('static-sign-up');
-    Route::get('/rtl', Rtl::class)->name('rtl');
+    Route::get('/static-sign-in', StaticSignIn::class)->name('sign-in');            // esta ruta su controlar y vista sobra
+    Route::get('/static-sign-up', StaticSignUp::class)->name('static-sign-up');     // esta ruta su controlar y vista sobra
+    Route::get('/rtl', Rtl::class)->name('rtl');                                    // esta ruta su controlar y vista 
     Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
     Route::get('/laravel-user-management', UserManagement::class)->name('user-management');
 });
