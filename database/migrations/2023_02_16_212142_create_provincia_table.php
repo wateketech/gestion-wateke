@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('longitud');
             $table->string('latitud');
-            $table->boolean('comunidad_autonoma');
+            $table->string('comunidad_autonoma');
 
             $table->foreign('pais_id')->references('id')->on('pais')->constrained()
                 ->onUpdate('cascade')
