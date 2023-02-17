@@ -1,5 +1,7 @@
 - validar controlador ForgotPassword (ir a comentarios) al no establecer coneccion con el servidor de correos
 - hacer estilo sass   =>   .navbar-vertical.navbar-expand-xs .navbar-collapse {  height: auto;  
 
+- cambiar el data-class y/o data-color de los colores en fixed-plugin.blade.php
+- ver porq no funciona transparent fixed-plugin.blade.php
 
 - al terminar subir la app desocultar los botones de compartir en el fixed-plugin.blade.php
