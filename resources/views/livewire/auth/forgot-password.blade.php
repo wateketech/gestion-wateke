@@ -10,14 +10,13 @@
                                 <div wire:model="showDemoNotification"
                                     class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
                                     <span
-                                        class="alert-text text-white">{{ __(' You are in a demo version, you can\'t update the
-                                        profile.') }}</span>
+                                        class="alert-text text-white">{{ __("You are in a demo version, you can't update the profile") }}.</span>
                                     <button wire:click="$set('showDemoNotification', false)" type="button"
                                         class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                     </button>
                                 </div>
                             @endif
-                            <h4 class="mb-0">{{ __('Forgot your password? Enter your email here') }}</h4>
+                            <h4 class="mb-0">{{ __('Forgot your password?')}} {{ __('Enter your email here') }}</h4>
                         </div>
                         <div class="card-body">
                             <form wire:submit.prevent="recoverPassword" action="#" method="POST" role="form text-left">
@@ -31,8 +30,7 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="submit"
-                                        class="btn bg-gradient-info w-100 mt-4 mb-0">{{ __('Recover your
-                                    password') }}</button>
+                                        class="btn bg-gradient-info w-100 mt-4 mb-0">{{ __('Recover your password') }}</button>
                                 </div>
                             </form>
                             @if ($showSuccesNotification)
@@ -40,8 +38,7 @@
                                     class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
                                     <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
                                     <span
-                                        class="alert-text text-white">{{ __(' An email for resetting your password has been
-                                        sent!') }}</span>
+                                        class="alert-text text-white">{{ __('An email for resetting your password has been sent!') }}</span>
                                     <button wire:click="$set('showSuccesNotification', false)" type="button"
                                         class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                     </button>
@@ -52,9 +49,8 @@
                                 <div wire:model="showFailureNotification"
                                     class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
                                     <span class="alert-text text-white">
-                                        {{ __('You are not registered as a user. Please sign
-                                        up') }}
-                                        <a class="text-info" href="{{ route('sign-up') }}">here</a></span>
+                                        {{ __('You are not registered as a user. Please sign up') }}
+                                        <a class="text-info" href="{{ route('sign-up') }}">{{ __('here') }}</a></span>
                                     <button wire:click="$set('showFailureNotification', false)" type="button"
                                         class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                     </button>
@@ -67,7 +63,7 @@
                 <div class="col-md-6">
                     <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
                         <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                            style="background-image:url('../assets/img/curved-images/curved6.jpg')"></div>
+                            style="background-image:url('../assets/img/wallpapers/wallpaper-2.jpg')"></div>
                     </div>
                 </div>
             </div>
