@@ -1,0 +1,2 @@
+- validar controlador ForgotPassword (ir a comentarios) al no establecer coneccion con el servidor de correos
+  
