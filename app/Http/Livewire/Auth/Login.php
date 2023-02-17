@@ -12,7 +12,8 @@ class Login extends Component
     public $remember_me = false;
 
     protected $rules = [
-        'email' => 'required|email:rfc,dns',
+        // 'email' => 'required|email:rfc,dns',
+        'email' => 'required|email',
         'password' => 'required',
     ];
 
