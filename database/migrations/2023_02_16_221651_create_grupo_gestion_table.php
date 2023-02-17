@@ -18,10 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('entidad_id');
             $table->string('nombre');
 
-            $table->foreign('entidad_id')->references('id')->on('entidad')->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
             $table->timestamps();
         });
     }

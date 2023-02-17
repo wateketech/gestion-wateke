@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('provincia_id');
             $table->string('direccion');
+            $table->string('cod_postal');
 
             $table->foreign('provincia_id')->references('id')->on('provincia')->constrained();
 

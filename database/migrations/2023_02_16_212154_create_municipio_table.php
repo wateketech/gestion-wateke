@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('provincia_id');
             $table->string('nombre');
-            $table->string('codigo_postal');
             $table->string('longitud');
             $table->string('latitud');
 
