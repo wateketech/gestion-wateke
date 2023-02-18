@@ -6,7 +6,9 @@
 
     @section('thead')
         <tr>
+
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nombre</th>
+
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nombre fiscal</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Num Oficina</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NIF</th>
@@ -97,10 +99,10 @@
             @endsection
         @endforelse
 
-@endsection
+    @endsection
 
-@section('footer-table')
-    {{-- {{ $entidades->links() }}      --}}
-@endsection
+    @section('footer-table')
+        {{-- {{ $entidades->links() }}      --}}
+    @endsection
      
 </div>

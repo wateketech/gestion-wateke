@@ -8,9 +8,9 @@
 
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center justify-content-center mb-0">
+                    <table class="table table-flush" id="datatable-basic">
 
-                        <thead>
+                        <thead class="thead-light">
                             @yield('thead')
                         </thead>
 
@@ -33,3 +33,14 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script src="../../assets/js/plugins/datatables.js"></script>
+    
+    <script type="text/javascript">
+        const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
+          searchable: true,
+          fixedHeight: true
+        });
+    </script>
+@endpush
