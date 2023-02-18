@@ -14,16 +14,7 @@
                             name="nombre_fiacal" id="nombre_fiacal" wire:model="nombre_fiscal">
                     </div>
                     <div class="col-3 form-group">
-                        <label for="grupo_gestion" class="form-control-label">Grupo Gestion</label>                     
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Esto es un componente aparte</option>
-                            <option>AMADEUS</option>
-                            <option>nombre-grup-gest-2</option>
-                            <option>...</option>
-                            <option>Comvertir en input</option>
-                        </select>
-                        {{-- <input class="form-control" type="text" placeholder="AMADEUS"
-                            name="grupo_gestion" id="grupo_gestion" wire:model="grupo_gestion"> --}}
+                            @livewire('contacts.entidad.layouts.grupogestion')
                     </div>
                     <div class="col-3 form-group">
                         <label for="num_oficina" class="form-control-label">Num Oficina *</label>
@@ -50,15 +41,7 @@
                     </div>
         
                     <div class="col-3 form-group">
-                        <label for="gds" class="form-control-label">GDS *</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Esto es un componente aparte</option>
-                            <option>nombre-gds-2</option>
-                            <option>...</option>
-                            <option>Comvertir en input</option>
-                        </select>
-                        {{-- <input class="form-control" type="text" placeholder="John Snow" 
-                        name="gds" id="gds" wire:model="gds"> --}}
+                            @livewire('contacts.entidad.layouts.gds')
                     </div>
                 </div>
         
@@ -91,14 +74,21 @@
 
             <div class="m-3">
                 @livewire('contacts.entidad.layouts.direccion')
-                @livewire('contacts.entidad.layouts.telefono')
-                @livewire('contacts.entidad.layouts.correo')
-
-                @livewire('contacts.entidad.layouts.web')
-                @livewire('contacts.entidad.layouts.redsocial')
+            </div>
+            <div class="m-3">
                 @livewire('contacts.entidad.layouts.cuenta')
-                @livewire('contacts.entidad.layouts.grupogestion')
-                @livewire('contacts.entidad.layouts.gds')
+            </div>
+            <div class="m-3">
+                @livewire('contacts.entidad.layouts.web')
+            </div>
+            <div class="m-3">
+                @livewire('contacts.entidad.layouts.redsocial')
+            </div>
+            <div class="m-3">
+                @livewire('contacts.entidad.layouts.correo')
+            </div>
+            <div class="m-3">
+                @livewire('contacts.entidad.layouts.telefono')
             </div>
 
         </form>

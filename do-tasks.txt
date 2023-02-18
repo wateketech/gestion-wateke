@@ -13,5 +13,6 @@
 - al terminar subir la app desocultar los botones de compartir en el fixed-plugin.blade.php
 
 
-- cambiar numbre por nombres_fiscal
-- analizar la relacion con grupo de gestion
+
+
+- grupo gestion, gds, (seccion de direccion, telefonos, correos, ..) conformar el wire:model
