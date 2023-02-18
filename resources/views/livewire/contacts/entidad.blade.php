@@ -67,13 +67,15 @@
                 <i class="cursor-pointer fa fa-ellipsis-v text-xs"></i> --}}
 
 
-                <a class="mx-1" data-bs-toggle="tooltip" title="mostrar contactos"
-                        data-bs-original-title="Mostrar contactos">
-                        <i class="cursor-pointer fas fa-info-circle text-secondary ishow"></i>
+                <a class="mx-1"> 
+                    <i class="cursor-pointer fas fa-info-circle text-secondary ishow"
+                        data-bs-toggle="tooltip" title="mostrar"
+                        data-bs-original-title="Mostrar">
+                    </i>
                 </a>
 
                 <a class="mx-1" href='#'>
-                    <i class="cursor-pointer fas fa-edit text-secondary idelet"
+                    <i class="cursor-pointer fas fa-edit text-secondary iedit"
                     data-bs-toggle="tooltip" title="editar"
                     data-bs-original-title="Editar"></i>
                 </a>
@@ -87,9 +89,15 @@
             </td>
         </tr>
         @empty
-            No hay nada
+            @section('footer')
+            <p> No hay agencias disponibles  &nbsp;&nbsp; <strong>._.</strong> </p>
+            @endsection
         @endforelse
 
-    @endsection
+@endsection
 
+@section('footer')
+    {{-- {{ $entidades->links() }}      --}}
+@endsection
+     
 </div>
