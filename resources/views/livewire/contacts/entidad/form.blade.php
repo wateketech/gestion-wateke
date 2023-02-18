@@ -90,10 +90,15 @@
             </div>
 
             <div class="m-3">
-                direccion, 
-                telefonos, 
-                correos, 
-                ...
+                @livewire('contacts.entidad.layouts.direccion')
+                @livewire('contacts.entidad.layouts.telefono')
+                @livewire('contacts.entidad.layouts.correo')
+
+                @livewire('contacts.entidad.layouts.web')
+                @livewire('contacts.entidad.layouts.redsocial')
+                @livewire('contacts.entidad.layouts.cuenta')
+                @livewire('contacts.entidad.layouts.grupogestion')
+                @livewire('contacts.entidad.layouts.gds')
             </div>
 
         </form>

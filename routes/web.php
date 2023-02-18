@@ -18,7 +18,8 @@ use App\Http\Livewire\LaravelExamples\UserProfile;
 use App\Http\Livewire\LaravelExamples\UserManagement;
 
 
-use App\Http\Livewire\Contacts\Entidad;
+use App\Http\Livewire\Contacts\Entidad\Entidad;
+use App\Http\Livewire\Contacts\Agente\Agente;
 
 
 use Illuminate\Http\Request;
@@ -55,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/laravel-user-management', UserManagement::class)->name('user-management');
 
     // seccion de contactos
-    Route::get('/agencia-contatos', Entidad::class)->name('agencia');
+    Route::get('/agencias', Entidad::class)->name('agencia');
+    Route::get('/agentes', Agente::class)->name('agente');
 });
 

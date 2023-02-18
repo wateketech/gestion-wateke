@@ -8,7 +8,7 @@
 
 
     @section('body-form')
-        @include("livewire.contacts.form")
+        @include("livewire.contacts.entidad.form")
     @endsection
 
 

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Contacts;
+namespace App\Http\Livewire\Contacts\Entidad;
 
 use Livewire\Component;
 use App\Models\Entidad as Entidades;
+
 use Livewire\WithPagination;
 
 class Entidad extends Component
@@ -21,6 +22,6 @@ class Entidad extends Component
     {
         $entidades = Entidades::all();
 
-        return view('livewire.contacts.entidad', compact('entidades'));
+        return view('livewire.contacts.entidad.entidad', compact('entidades'));
     }
 }
