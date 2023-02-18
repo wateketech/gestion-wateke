@@ -1,6 +1,7 @@
 <div>
    
         <form action="#" method="POST">
+
             <div class="m-3">
                 <div class="row">
                     <div class="col-3 form-group">
@@ -75,24 +76,37 @@
             <div class="m-3">
                 @livewire('contacts.entidad.layouts.direccion')
             </div>
+
             <div class="m-3">
                 @livewire('contacts.entidad.layouts.cuenta')
             </div>
+
             <div class="m-3">
-                @livewire('contacts.entidad.layouts.web')
+                <div class='row'>
+                    @livewire('contacts.entidad.layouts.web')
+                </div>
             </div>
+
             <div class="m-3">
-                @livewire('contacts.entidad.layouts.redsocial')
+                <div class='row'>
+                    @livewire('contacts.entidad.layouts.redsocial')
+                    @livewire('contacts.entidad.layouts.redsocial')
+                </div>
             </div>
+
             <div class="m-3">
-                @livewire('contacts.entidad.layouts.correo')
+                <div class='row'>
+                    @livewire('contacts.entidad.layouts.correo')
+                    @livewire('contacts.entidad.layouts.correo')
+                </div>
             </div>
+
             <div class="m-3">
                 <div class='row'>
                         @livewire('contacts.entidad.layouts.telefono')
                         @livewire('contacts.entidad.layouts.telefono')
                         @livewire('contacts.entidad.layouts.telefono')
-                    </div>
+                </div>
             </div>
 
         </form>
