@@ -20307,7 +20307,7 @@ label,
 .form-label {
   font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   color: #344767;
   margin-left: 0.25rem;
 }
