@@ -12,4 +12,6 @@
             @include('livewire.contacts.entidad.table')
         </div>
     </main>
+
+    @stack('entidad-scripts')
 </div>

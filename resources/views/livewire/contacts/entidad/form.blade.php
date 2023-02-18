@@ -88,8 +88,19 @@
                 @livewire('contacts.entidad.layouts.correo')
             </div>
             <div class="m-3">
-                @livewire('contacts.entidad.layouts.telefono')
+                <div class='row'>
+                        @livewire('contacts.entidad.layouts.telefono')
+                        @livewire('contacts.entidad.layouts.telefono')
+                        @livewire('contacts.entidad.layouts.telefono')
+                    </div>
             </div>
 
         </form>
 </div>
+
+
+@section('scripts')
+    <script>
+
+    </script>
+@endsection

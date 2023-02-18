@@ -3,3 +3,4 @@ window.PerfectScrollbar = PerfectScrollbar;
 
 require('./bootstrap');
 require('./custom');
+require('./phoneInputs');

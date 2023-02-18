@@ -79,11 +79,8 @@
 </div>
 
 
-@section('script')
-    <script>
-        
+@push('scripts')
 
+@endpush()    
 
-    </script>
-@endsection
 
