@@ -16,3 +16,6 @@
 
 
 - grupo gestion, gds, (seccion de direccion, telefonos, correos, ..) conformar el wire:model
+
+
+https://github.com/mediconesystems/livewire-datatables
