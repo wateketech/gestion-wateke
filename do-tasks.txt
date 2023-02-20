@@ -19,3 +19,8 @@
 
 
 https://github.com/mediconesystems/livewire-datatables
+
+
+- cambiar la orientacion del layout para longitudes y latitudes de provincias que no esten 
+- darle estilos al datalist (select2??)
+- cambiar la manera que recibe los datalist (enviar solo el id)

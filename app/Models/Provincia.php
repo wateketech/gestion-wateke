@@ -9,8 +9,6 @@ class Provincia extends Model
 {
     use HasFactory;
     protected $table='provincia';
-    protected $fillable = ['name', 'latitude', 'longitude'];
-
 
     public function municipio()
     {
