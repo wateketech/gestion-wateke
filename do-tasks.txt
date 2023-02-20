@@ -1,5 +1,5 @@
 - validar controlador ForgotPassword (ir a comentarios) al no establecer coneccion con el servidor de correos
-- hacer estilo sass   =>   .navbar-vertical.navbar-expand-xs .navbar-collapse {  height: auto;  
+- hacer estilo sass   =>   .navbar-vertical.navbar-expand-xs .navbar-collapse {  height: auto;
 
 - cambiar el data-class y/o data-color de los colores en fixed-plugin.blade.php
 - ver porq no funciona transparent fixed-plugin.blade.php
@@ -23,6 +23,8 @@ https://github.com/mediconesystems/livewire-datatables
 
 - poner paises y provincias al español
 - agregar seeder de ciudades ??
-- cambiar la orientacion del layout para longitudes y latitudes de provincias que no esten 
+- cambiar la orientacion del layout para longitudes y latitudes de provincias que no esten
 - darle estilos al datalist (select2??)
 - cambiar la manera que recibe los datalist (enviar solo el id)
+
+- definir las rutas como post y no como get al igual que el action de los formularios
