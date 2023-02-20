@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pais', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->string('observ');
 
-            $table->timestamps();
-        });
+        $sql = file_get_contents('database/seeders/countries.sql');
+        \DB::unprepared($sql);
+
     }
 
     /**
@@ -30,5 +27,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('pais');
+        Schema::dropIfExists('countries');
     }
 };

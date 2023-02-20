@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('latitud');
 
             $table->foreign('provincia_id')->references('id')->on('provincia')->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
+                // ->onUpdate('cascade')
+                // ->onDelete('cascade');
+        ;
             $table->timestamps();
         });
     }
