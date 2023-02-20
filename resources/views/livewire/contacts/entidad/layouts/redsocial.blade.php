@@ -2,8 +2,13 @@
         <div class="row">
             <div class="col-4 form-group">
                 <label for="observ" class="form-control-label">RRSS *</label>
-                <input class="form-control" type="text" placeholder="instagram"
+                <input list="categories-rrss" class="form-control" type="text" placeholder="instagram"
                     name="observ" id="observ" wire:model="observ">
+                <datalist id="categories-rrss">
+                    <option>Facebook</option>
+                    <option>Instagram</option>
+                    <option>Twitter</option>
+                </datalist>
             </div>
             <div class="col-6 form-group">
                 <label for="enlace" class="form-control-label">Enlace *</label>
