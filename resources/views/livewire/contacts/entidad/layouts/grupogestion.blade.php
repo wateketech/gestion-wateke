@@ -1,12 +1,16 @@
 <div>
-    <label for="grupo_gestion" class="form-control-label">Grupo Gestion</label>                     
-    <select class="form-control" id="exampleFormControlSelect1">
-        <option>Esto es un componente aparte</option>
-        <option>AMADEUS</option>
-        <option>nombre-grup-gest-2</option>
-        <option>...</option>
-        <option>Comvertir en input</option>
-    </select>
-    {{-- <input class="form-control" type="text" placeholder="AMADEUS"
-        name="grupo_gestion" id="grupo_gestion" wire:model="grupo_gestion"> --}}
+
+    <label for="grupo_gestion" class="form-control-label">Grupo Gestion</label>   
+    <input list="grupo_gestiones" name="grupo_gestiones" class="form-control" id="grupo_gestion" 
+    wire:model='grupog_name'>
+
+    <datalist id="grupo_gestiones">    
+        @forelse ($grupogestiones as $grupogestion)
+            <option> {{ $grupogestion->nombre }} </option>
+        @empty
+        @endforelse
+    </datalist>
+
 </div>
+
+
