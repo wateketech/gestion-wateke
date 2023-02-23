@@ -22,9 +22,14 @@
             </div>
             @include('components.plugins.fixed-plugin')
         @else
-            @include('layouts.navbars.auth.sidebar')
+            @if (auth()->user()->role == 'Admin')
+                @include('layouts.navbars.auth.admin.sidebar')
+            @else
+                @include('layouts.navbars.auth.sidebar')
+            @endif
+
             @include('layouts.navbars.auth.nav')
-            @include('components.plugins.fixed-plugin')
+            {{-- @include('components.plugins.fixed-plugin') --}}
             {{ $slot }}
             <main>
                 <div class="container-fluid">

@@ -49,6 +49,18 @@ Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')-
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
+
+    // SECCION DE CUENTA
+    Route::get('/profile', Profile::class)->name('profile');
+
+    // RUTAS PARA ADMINISTRADORES
+    // if (auth()->user()->role == 'Admin'){
+        // SECCION DE CUENTA
+        Route::get('/user-management', UserManagement::class)->name('user-management');
+    // }
+
+    
+
     // Route::get('/billing', Billing::class)->name('billing');
     // Route::get('/tables', Tables::class)->name('tables');
     // Route::get('/static-sign-in', StaticSignIn::class)->name('sign-in');            // esta ruta su controlar y vista sobra
@@ -56,11 +68,13 @@ Route::middleware('auth')->group(function () {
     // Route::get('/rtl', Rtl::class)->name('rtl');                                    // esta ruta su controlar y vista sobra
     // Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
     
-    // SECCION DE CUENTA
-    Route::get('/user-management', UserManagement::class)->name('user-management');
-    Route::get('/profile', Profile::class)->name('profile');
+
+
     // SECCION DE CONTACTOS
     // Route::get('/agencias', Entidad::class)->name('agencia');
     // Route::get('/agentes', Agente::class)->name('agente');
+
+
+    
 });
 
