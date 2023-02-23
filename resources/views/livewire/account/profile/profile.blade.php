@@ -27,8 +27,8 @@
                 </div>
             </div>
 
-         
-            
+
+
         </div>
     </div>
 </div>
@@ -40,12 +40,12 @@
 
         <div class="col-lg-4 py-2">
             {{-- informacion del perfil --}}
-            @include('livewire.account.profile.layouts.information')            
+            @include('livewire.account.profile.layouts.information')
         </div>
 
         <div class="col-lg-8 py-2">
-            {{-- grafoca de metricas --}}
-            @include('livewire.account.profile.layouts.metrics')
+            {{-- grafica de metricas --}}
+            @livewire('account.profile.layouts.metrics')
         </div>
 
 

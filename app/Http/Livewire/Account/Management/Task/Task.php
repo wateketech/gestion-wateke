@@ -14,7 +14,7 @@ class Task extends Component
     public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo','datetime-local' => 'Fecha'];
 
     protected $listeners = [
-        'viewUpdate-metrica' => 'view_update',
+        'viewUpdate-metric' => 'view_update',
         'deleteComfirmed-metric' => 'deleteComfirmed',
         'delete-metric' => 'delete',
         'update-metric' => 'update'
@@ -50,17 +50,18 @@ class Task extends Component
         Tasks::create($validatedData);
 
         $this->dispatchBrowserEvent('show-metric-createComfirmed');
-        // $this->emit('resetTable');
-        // $this->refresh();
+        $this->emit('resetTable');
+        $this->refresh();
     }
     //  ---------------------  DELETE ---------------------
     public function deleteComfirmed($id){
         $this->loadDatas($id);
         $this->dispatchBrowserEvent('show-metric-deleteComfirmed');
+        $this->delete();                // eliminar esto cuendo los popus funcionen
     }
     public function delete(){
         Tasks::destroy($this->id_task);
-        // $this->emit('resetTable');
+        $this->emit('resetTable');
         $this->refresh();
     }
     //  ---------------------  UPDATE ---------------------
@@ -70,14 +71,15 @@ class Task extends Component
     }
     public function updateComfirmed(){
         $this->dispatchBrowserEvent('show-metric-updateComfirmed');
+        $this->update();                // eliminar esto cuendo los popus funcionen
     }
     public function update(){
         $validatedData = $this->validate();
 
-        Metricas::find($this->id_task)
+        Tasks::find($this->id_task)
             ->update($validatedData);
 
-        // $this->emit('resetTable');
+        $this->emit('resetTable');
         $this->reset();
     }
 

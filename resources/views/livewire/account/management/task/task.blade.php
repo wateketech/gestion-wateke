@@ -30,68 +30,68 @@
             buttonsStyling: false
         })
 
-        // window.addEventListener('show-metric-updateComfirmed', function(){
-        //     swalWithBootstrapButtons.fire({
-        //         position: 'center' ,
-        //         title: '¿Estas seguro?',
-        //         html: "¡Al actualizar la métrica no habrá vuelta atrás!",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonText: 'Actualizalo',
-        //         cancelButtonText: 'Cancelar',
-        //         timer: 10000
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             Livewire.emit('update-metric');
+        window.addEventListener('show-metric-updateComfirmed', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: '¿Estas seguro?',
+                html: "¡Al actualizar la métrica no habrá vuelta atrás!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Actualizalo',
+                cancelButtonText: 'Cancelar',
+                timer: 10000
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emit('update-metric');
 
-        //             swalWithBootstrapButtons.fire(
-        //                 '¡Actualizado!',
-        //                 'La métrica ha sido actualizada en la base de datos.',
-        //                 'success'
-        //             )
-        //         } else if
-        //         ( result.dismiss === Swal.DismissReason.cancel)
-        //         {
-        //             swalWithBootstrapButtons.fire(
-        //                 'Cancelado',
-        //                 'La métrica esta a salvo :)',
-        //                 'error'
-        //             )
-        //         }
-        //     });
-        // });
+                    swalWithBootstrapButtons.fire(
+                        '¡Actualizado!',
+                        'La métrica ha sido actualizada en la base de datos.',
+                        'success'
+                    )
+                } else if
+                ( result.dismiss === Swal.DismissReason.cancel)
+                {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'La métrica esta a salvo :)',
+                        'error'
+                    )
+                }
+            });
+        });
 
-        // window.addEventListener('show-metric-deleteComfirmed', function(){
-        //     swalWithBootstrapButtons.fire({
-        //         position: 'center' ,
-        //         title: '¿Estas seguro?',
-        //         html: "¡Al eliminar la métrica no habrá vuelta atrás!",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonText: 'Borralo',
-        //         cancelButtonText: 'Cancelar',
-        //         timer: 10000
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             Livewire.emit('delete-metric');
+        window.addEventListener('show-metric-deleteComfirmed', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: '¿Estas seguro?',
+                html: "¡Al eliminar la métrica no habrá vuelta atrás!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Borralo',
+                cancelButtonText: 'Cancelar',
+                timer: 10000
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emit('delete-metric');
 
-        //             swalWithBootstrapButtons.fire(
-        //                 '¡Eliminado!',
-        //                 'La métrica ha sido eliminada de la base de datos.',
-        //                 'success'
-        //             )
-        //         } else if
-        //         ( result.dismiss === Swal.DismissReason.cancel)
-        //         {
-        //             swalWithBootstrapButtons.fire(
-        //                 'Cancelado',
-        //                 'La métrica está a salvo :)',
-        //                 'error'
-        //             )
-        //         }
+                    swalWithBootstrapButtons.fire(
+                        '¡Eliminado!',
+                        'La métrica ha sido eliminada de la base de datos.',
+                        'success'
+                    )
+                } else if
+                ( result.dismiss === Swal.DismissReason.cancel)
+                {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'La métrica está a salvo :)',
+                        'error'
+                    )
+                }
 
-        //     });
-        // });
+            });
+        });
 
 
 

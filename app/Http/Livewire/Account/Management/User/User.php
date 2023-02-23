@@ -12,21 +12,21 @@ class User extends Component
 
     public $prueba;
     public $view;
-    public $id_usuario, $name, $email, $role_id, $public_password;
+    public $id_user, $name, $email, $role, $public_password;
     public $password;
-    public $roles;
+    public $roles = ['Admin', 'Usuario'];
 
     protected $listeners = [
-    //     'viewUpdate-user' => 'view_update',
-    //     'deleteComfirmed-user' => 'deleteComfirmed',
-    //     'delete-user' => 'delete',
-    //     'update-user' => 'update'
+        'viewUpdate-user' => 'view_update',
+        'deleteComfirmed-user' => 'deleteComfirmed',
+        'delete-user' => 'delete',
+        'update-user' => 'update'
     ];
 
     protected $rules = [
         'name' => 'required',
         'email' => 'required|email',
-        'role_id' => 'required',
+        'role' => 'required',
         'password' => 'required'
     ];
     protected $messages = [
@@ -34,15 +34,15 @@ class User extends Component
     ];
 
     //  ---------------------  RENDER ---------------------
-    public function mount()
-    {
-        // $this->roles = UserRoles::All();
-        // $this->role_id = $this->roles[0]['id'];
-    }
-    public function updatedRoleId()
-    {
-        $this->role_id = (int) $this->role_id;
-    }
+    // public function mount()
+    // {
+    //     $this->roles = UserRoles::All();
+    //     $this->role = $this->roles[0]['id'];
+    // }
+    // public function updatedRoleId()
+    // {
+    //     $this->role = (int) $this->role;
+    // }
     public function updatedPublicPassword(){
         $this->password = Hash::make($this->public_password);
     }
@@ -66,18 +66,18 @@ class User extends Component
         $validatedData = $this->validate();
         Users::create($validatedData);
 
-        // $this->dispatchBrowserEvent('show-user-createComfirmed');
-        // $this->emit('resetTable');
+        $this->dispatchBrowserEvent('show-user-createComfirmed');
+        $this->emit('resetTable');
         $this->refresh();
     }
     //  ---------------------  DELETE ---------------------
     public function deleteComfirmed($id){
         $this->loadDatas($id);
-        // $this->dispatchBrowserEvent('show-user-deleteComfirmed');
+        $this->dispatchBrowserEvent('show-user-deleteComfirmed');
     }
     public function delete(){
         Users::destroy($this->id_user);
-        // $this->emit('resetTable');
+        $this->emit('resetTable');
         $this->refresh();
     }
 
@@ -87,7 +87,7 @@ class User extends Component
         $this->view = 'edit' ;
     }
     public function updateComfirmed(){
-        // $this->dispatchBrowserEvent('show-user-updateComfirmed');
+        $this->dispatchBrowserEvent('show-user-updateComfirmed');
     }
     public function update(){
         $validatedData = $this->validate();
@@ -95,7 +95,7 @@ class User extends Component
         Users::find($this->id_user)
             ->update($validatedData);
 
-        // $this->emit('resetTable');
+        $this->emit('resetTable');
         $this->reset();
     }
 }

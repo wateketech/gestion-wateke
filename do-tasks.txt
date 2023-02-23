@@ -16,6 +16,10 @@
 
 
 - grupo gestion, gds, (seccion de direccion, telefonos, correos, ..) conformar el wire:model
+- cuando muestra los usuarios que no salga el de la persona autenticada
+- los popues de metricas no funcionan
+
+
 
 
 https://github.com/mediconesystems/livewire-datatables

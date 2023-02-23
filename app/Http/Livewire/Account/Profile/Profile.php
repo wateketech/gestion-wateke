@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Http\Livewire\Account\Profile;
-use App\Models\User;
+use App\Models\User as User;
 
 use Livewire\Component;
 
 class Profile extends Component
 {
-    public User $user;
+    public $user;
     public $showSuccesNotification  = true;
 
     public $showDemoNotification = false;
-    
+
     protected $rules = [
         'user.name' => 'max:40|min:3',
         'user.email' => 'email:rfc,dns',
@@ -20,7 +20,7 @@ class Profile extends Component
         'user.location' => 'min:3'
     ];
 
-    public function mount() { 
+    public function mount() {
         $this->user = auth()->user();
     }
 
