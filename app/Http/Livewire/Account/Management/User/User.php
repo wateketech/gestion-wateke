@@ -36,8 +36,8 @@ class User extends Component
     //  ---------------------  RENDER ---------------------
     public function mount()
     {
-        $this->roles = UserRoles::All();
-        $this->role_id = $this->roles[0]['id'];
+        // $this->roles = UserRoles::All();
+        // $this->role_id = $this->roles[0]['id'];
     }
     public function updatedRoleId()
     {

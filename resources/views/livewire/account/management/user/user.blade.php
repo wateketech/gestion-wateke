@@ -12,16 +12,16 @@
         </div>
     </main>
 
-    @stack('user-scripts')  
+    @stack('user-scripts')
 
 </div>
 
 
 {{-- <div>
- 
-    
 
-    
+
+
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
@@ -227,6 +227,6 @@
 
 
 
-    
+
 </div> --}}
 

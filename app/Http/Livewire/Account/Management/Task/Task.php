@@ -9,7 +9,7 @@ class Task extends Component
 {
     public $prueba;
     public $view;
-    public $id_task, $name, $average, $about; 
+    public $id_task, $name, $average, $about;
     public $type_value = 'text';
     public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo','datetime-local' => 'Fecha'];
 
@@ -39,16 +39,15 @@ class Task extends Component
     private function loadDatas($id){
         $metric = Tasks::find($id);
         $this->id_task = $id;
-        $this->name = $task->name;
-        $this->type_value = $task->type_value;
-        $this->value = $task->value;
-        $this->average = $task->average;
-        $this->about = $task->about;
+        $this->name = $metric->name;
+        $this->type_value = $metric->type_value;
+        $this->average = $metric->average;
+        $this->about = $metric->about;
     }
     //  ---------------------  SAVE ---------------------
     public function save(){
-        // $validatedData = $this->validate();
-        // Tasks::create($validatedData);
+        $validatedData = $this->validate();
+        Tasks::create($validatedData);
 
         $this->dispatchBrowserEvent('show-metric-createComfirmed');
         // $this->emit('resetTable');
