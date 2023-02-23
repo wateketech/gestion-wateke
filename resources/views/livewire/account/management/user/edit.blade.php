@@ -14,7 +14,7 @@
 
     @section('footer-form')
         <button type="button" class="btn btn-secondary mx-2" wire:click="refresh" >Deshacer</button>
-        <button type="button" class="btn btn-success mx-2" wire:click="updateComfirmed">Actualizar Usuario</button>
+        <button type="submit" class="btn btn-success mx-2" wire:click="update-userComfirmed">Actualizar Usuario</button>
     @endsection
 
 </div>

@@ -1,6 +1,7 @@
 <button class="p-3 btn btn-success rounded" wire:click="$set('view', 'create')">
-    Crear Metrica
+    Nueva Metrica
 </button>
 
-@livewire('metrica.metrica-table')
+
+{{-- @livewire('metrica.metrica-table') --}}
 

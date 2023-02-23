@@ -3,7 +3,7 @@
 
 
     @section('header-form')
-        <h6 class="mb-2 h5">Nuevas tareas </h6>
+        <h6 class="mb-2 h5">Nueva Métrica </h6>
     @endsection
 
 

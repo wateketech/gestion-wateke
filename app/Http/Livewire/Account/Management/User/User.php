@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Account\Management\User;
 use App\Models\User as Users;
+use App\Models\UserRole as UserRoles;
 
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -11,24 +12,37 @@ class User extends Component
 
     public $prueba;
     public $view;
-    public $id_usuario, $name, $email, $role, $public_password;
+    public $id_usuario, $name, $email, $role_id, $public_password;
     public $password;
+    public $roles;
 
     protected $listeners = [
-
+    //     'viewUpdate-user' => 'view_update',
+    //     'deleteComfirmed-user' => 'deleteComfirmed',
+    //     'delete-user' => 'delete',
+    //     'update-user' => 'update'
     ];
 
     protected $rules = [
         'name' => 'required',
         'email' => 'required|email',
-        'role' => 'required',
+        'role_id' => 'required',
         'password' => 'required'
     ];
     protected $messages = [
-
+        '*.required' => 'Campo Oblitgatorio'
     ];
 
     //  ---------------------  RENDER ---------------------
+    public function mount()
+    {
+        $this->roles = UserRoles::All();
+        $this->role_id = $this->roles[0]['id'];
+    }
+    public function updatedRoleId()
+    {
+        $this->role_id = (int) $this->role_id;
+    }
     public function updatedPublicPassword(){
         $this->password = Hash::make($this->public_password);
     }
@@ -42,7 +56,7 @@ class User extends Component
 
     private function loadDatas($id){
         $user = Users::find($id);
-        $this->id_usuario = $id;
+        $this->id_user = $id;
         $this->name = $user->name;
         $this->email = $user->email;
         $this->role = $user->role;
@@ -62,7 +76,7 @@ class User extends Component
         // $this->dispatchBrowserEvent('show-user-deleteComfirmed');
     }
     public function delete(){
-        Users::destroy($this->id_usuario);
+        Users::destroy($this->id_user);
         // $this->emit('resetTable');
         $this->refresh();
     }
@@ -78,7 +92,7 @@ class User extends Component
     public function update(){
         $validatedData = $this->validate();
 
-        Users::find($this->id_usuario)
+        Users::find($this->id_user)
             ->update($validatedData);
 
         // $this->emit('resetTable');

@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->text('about')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            // $table->foreign('role_id')->references('id')->on('user_roles')->constrained();
         });
     }
 

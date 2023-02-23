@@ -116,5 +116,5 @@
         @endif
     </div>
 
-
+    @stack('user-management-scripts')
 </div>

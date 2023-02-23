@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
+use App\Models\UserRole;
 use DB;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        // UserRole::create([
+        //     'id' => '1',
+        //     'name' => 'Admin',
+        // ]);
+        // UserRole::create([
+        //     'id' => '2',
+        //     'name' => 'RRHH',
+        // ]);
+        // UserRole::create([
+        //     'id' => '3',
+        //     'name' => 'Comercial',
+        // ]);
+
+
         User::factory()->create([
             'name' => 'Alberto',
             'email' => 'soporteit@wateke.tech',
@@ -51,6 +67,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         
+
 
 
 

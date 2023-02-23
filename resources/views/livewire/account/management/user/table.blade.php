@@ -3,4 +3,4 @@
 </button>
 
 
-@livewire('usuario.usuario-table')
+{{-- @livewire('usuario.usuario-table') --}}

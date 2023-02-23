@@ -7,7 +7,7 @@
                 <div class="col-3 form-group">
                     <label for="name" class="form-control-label">Nombre *</label>
                     <input class="form-control @error('name')border border-danger rounded-3 @enderror" 
-                        wire:model='name' name="name" id="name" type="text" placeholder="Rodrigo">
+                        wire:model='name' name="name" id="name" type="text" placeholder="Alberto">
                         @error('name') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
                 <div class="col-3 form-group">
@@ -19,14 +19,16 @@
                 <div class="col-3 form-group">
                     <label for="password" class="form-control-label">Contraseña *</label>
                     <input class="form-control @error('password')border border-danger rounded-3 @enderror" 
-                        wire:model='public_password' name="password" id="password" type="password" placeholder="Perez">
-                        @error('public_password') <sub class="text-danger">{{ $message }}</sub> @enderror
+                        wire:model='public_password' name="password" id="password" type="password" placeholder="Secret123*">
+                        @error('password') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
                 <div class="col-3 form-group">
                     <label for="role" class="form-control-label">Rol *</label>
-                    <input class="form-control @error('role')border border-danger rounded-3 @enderror" 
-                        wire:model='role' name="role" id="role" type="text">
-                        @error('role') <sub class="text-danger">{{ $message }}</sub> @enderror
+                    <select class="form-control" name="role" id="role" wire:model='role_id'>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

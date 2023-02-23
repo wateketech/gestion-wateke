@@ -21,6 +21,9 @@
 https://github.com/mediconesystems/livewire-datatables
 
 
+- incluir roles de ususario
+- revisar notificaciones sweet alert
+
 - poner paises y provincias al español
 - agregar seeder de ciudades ??
 - cambiar la orientacion del layout para longitudes y latitudes de provincias que no esten
