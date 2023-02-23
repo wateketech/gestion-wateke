@@ -1,4 +1,23 @@
 <div>
+
+    <main class="main-content">
+        <div class="container-fluid py-4">
+
+            {{-- CRUD --}}
+            @include("livewire.account.management.user.$view")
+
+            {{-- Tables --}}
+            @include("livewire.account.management.user.table")
+
+        </div>
+    </main>
+
+    @stack('user-scripts')  
+
+</div>
+
+
+{{-- <div>
  
     
 
@@ -209,4 +228,5 @@
 
 
     
-</div>
+</div> --}}
+

@@ -107,7 +107,13 @@
 
     {{-- SECCIONES DE LA PAGINA  --}}
     <div class="my-2">
-        @include("livewire.account.management.$view.$view")
+        @if($view === 'user')
+            @livewire("account.management.user.user")
+        @elseif($view === 'task')
+            @livewire("account.management.task.task")
+        @elseif($view === 'user-task')
+            @livewire("account.management.user-task.user-task")
+        @endif
     </div>
 
 
