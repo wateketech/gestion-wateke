@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\LaravelExamples;
+namespace App\Http\Livewire\Account\Profile;
 use App\Models\User;
 
 use Livewire\Component;
 
-class UserProfile extends Component
+class Profile extends Component
 {
     public User $user;
-    public $showSuccesNotification  = false;
+    public $showSuccesNotification  = true;
 
     public $showDemoNotification = false;
     
@@ -29,12 +29,12 @@ class UserProfile extends Component
            $this->showDemoNotification = true;
         } else {
             $this->validate();
-            $this->user->save();
             $this->showSuccesNotification = true;
+            // $this->user->save();
         }
     }
     public function render()
     {
-        return view('livewire.laravel-examples.user-profile');
+        return view('livewire.account.profile.profile');
     }
 }

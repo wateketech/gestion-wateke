@@ -3,7 +3,7 @@
         <div class="container-fluid py-1">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 ps-2 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm"><a class="text-white opacity-5" href="javascript:;">Pages</a>
+                    <li class="breadcrumb-item text-sm"><a class="text-white opacity-5" href="javascript:;">{{__('Pages')}}</a>
                     </li>
                     <li class="breadcrumb-item text-sm text-white active text-capitalize" aria-current="page"> {{ str_replace('-', ' ', Route::currentRouteName()) }}</li>
                 </ol>
@@ -43,8 +43,8 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-bell cursor-pointer"></i>
                         </a>
-
-<div hidden> informacion y notificaciones de la persona autenticada
+{{-- 
+informacion y notificaciones de la persona autenticada
                     <ul class="dropdown-menu  dropdown-menu-end px-2 py-3 ms-n4"
                             aria-labelledby="dropdownMenuButton">
                             <li class="mb-2">
@@ -126,7 +126,8 @@
                                 </a>
                             </li>
                         </ul>
-</div>
+
+ --}}
                     </li>
                 </ul>               
             </div>
