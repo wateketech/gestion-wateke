@@ -59,7 +59,7 @@
                             <span class="ms-1">Tareas</span>
                         </a>
                     </li>
-                    <li class="nav-item" wire:click="$set('view', 'settask')">
+                    <li class="nav-item" wire:click="$set('view', 'user-task')">
                         <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
                             aria-controls="dashboard" aria-selected="false">
                             <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1"
