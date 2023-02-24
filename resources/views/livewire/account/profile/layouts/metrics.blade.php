@@ -2,8 +2,8 @@
     <div class="card-header pb-0">
       <h6>Mis metricas</h6>
       <p class="text-sm">
-        <i class="fa fa-arrow-up text-success"></i>
-        <span class="font-weight-bold">4% more</span> in 2023
+        {{-- <i class="fa fa-arrow-up text-success"></i> --}}
+        {{-- <span class="font-weight-bold">4% more</span> in 2023 --}}
       </p>
     </div>
     <div class="card-body p-3">
@@ -30,7 +30,7 @@
   new Chart(ctx1, {
     type: "line",
     data: {
-      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      labels: [ {!! html_entity_decode($days) !!} ],
       datasets: [
         {!! html_entity_decode($dataset) !!}
     //   {
