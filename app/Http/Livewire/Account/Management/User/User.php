@@ -34,6 +34,9 @@ class User extends Component
     ];
 
     //  ---------------------  RENDER ---------------------
+    public function updatedView(){
+        $this->role = $this->roles[0];
+    }
     // public function mount()
     // {
     //     $this->roles = UserRoles::All();
