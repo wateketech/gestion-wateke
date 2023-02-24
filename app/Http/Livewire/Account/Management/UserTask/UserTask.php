@@ -32,7 +32,7 @@ class UserTask extends Component
     ];
 
     //  ---------------------  RENDER ---------------------
-    public function hydrateView(){
+    public function updatedView(){
         $this->tasks = Tasks::select('id', 'name')->get();
         if (count($this->tasks) > 0){    $this->task_id = $this->tasks[0]['id'];   }
         $this->users = Users::select('id', 'name')->get();

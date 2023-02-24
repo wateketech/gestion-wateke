@@ -44,7 +44,7 @@ Route::get('/sign-up', SignUp::class)->name('sign-up');
 Route::get('/login', Login::class)->name('login');
 
 Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-password');
- 
+
 Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');  //  identificar esta ruta
 
 Route::middleware('auth')->group(function () {
@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/user-management', UserManagement::class)->name('user-management');
     // }
 
-    
+
 
     // Route::get('/billing', Billing::class)->name('billing');
     // Route::get('/tables', Tables::class)->name('tables');
@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/static-sign-up', StaticSignUp::class)->name('static-sign-up');     // esta ruta su controlar y vista sobra
     // Route::get('/rtl', Rtl::class)->name('rtl');                                    // esta ruta su controlar y vista sobra
     // Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
-    
+
 
 
     // SECCION DE CONTACTOS
@@ -75,6 +75,10 @@ Route::middleware('auth')->group(function () {
     // Route::get('/agentes', Agente::class)->name('agente');
 
 
-    
+
 });
+
+// Route::fallback(function (){
+//     return redirect('/dashboard');
+// });
 
