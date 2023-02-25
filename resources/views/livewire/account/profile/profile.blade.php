@@ -1,9 +1,10 @@
 <div class="main-content">
-    <div class="page-header min-height-300 border-radius-xl mt-4"
+    {{-- <div class="page-header min-height-300 border-radius-xl mt-6"
         style="background-image: url('../assets/img/wallpapers/wallpaper-2.jpg'); background-position-y: 50%;">
         <span class="mask bg-gradient-secondary opacity-7"></span>
     </div>
-    <div class="card card-body blur shadow-blur mx-4 mt-n6">
+    <div class="card card-body blur shadow-blur mx-4 mt-n6"> --}}
+    <div class="card card-body blur shadow-blur mx-4">
         <div class="row gx-4">
             <div class="col-auto">
                 <div class="avatar avatar-xl position-relative">
@@ -19,7 +20,7 @@
             <div class="col-auto my-auto">
                 <div class="h-100">
                     <h5 class="mb-1">
-                        {{ auth()->user()->name}} |  {{ auth()->user()->role_id}}
+                        {{ auth()->user()->name}} |  {{ auth()->user()->role}}
                     </h5>
                     <p class="mb-0 font-weight-bold text-sm">
                         {{ auth()->user()->email }}
