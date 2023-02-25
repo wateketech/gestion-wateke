@@ -7,7 +7,7 @@ use App\Http\Livewire\Auth\ResetPassword;
 use App\Http\Livewire\Auth\SignUp;
 use App\Http\Livewire\Auth\Login;
 
-use App\Http\Livewire\Dashboard;
+use App\Http\Livewire\Dashboard\Dashboard;
 use App\Http\Livewire\Account\Profile\Profile;
 use App\Http\Livewire\Account\Management\UserManagement;
 
