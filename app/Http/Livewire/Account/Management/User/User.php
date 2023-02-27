@@ -14,7 +14,7 @@ class User extends Component
     public $view;
     public $id_user, $name, $email, $role, $public_password;
     public $password;
-    public $roles = ['Admin', 'Usuario'];
+    public $roles;
 
     protected $listeners = [
         'viewUpdate-user' => 'view_update',
@@ -26,7 +26,6 @@ class User extends Component
     protected $rules = [
         'name' => 'required',
         'email' => 'required|email',
-        'role' => 'required',
         'password' => 'required'
     ];
     protected $messages = [
@@ -35,17 +34,10 @@ class User extends Component
 
     //  ---------------------  RENDER ---------------------
     public function updatedView(){
-        $this->role = $this->roles[0];
+        $this->roles = \Spatie\Permission\Models\Role::all();
     }
-    // public function mount()
-    // {
-    //     $this->roles = UserRoles::All();
-    //     $this->role = $this->roles[0]['id'];
-    // }
-    // public function updatedRoleId()
-    // {
-    //     $this->role = (int) $this->role;
-    // }
+
+
     public function updatedPublicPassword(){
         $this->password = Hash::make($this->public_password);
     }
@@ -58,16 +50,18 @@ class User extends Component
     }
 
     private function loadDatas($id){
+        $this->roles = \Spatie\Permission\Models\Role::all();
         $user = Users::find($id);
         $this->id_user = $id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->role;
+        $this->role = Users::find($id)->roles->pluck('id')[0];
     }
     //  ---------------------  SAVE ---------------------
     public function save(){
         $validatedData = $this->validate();
-        Users::create($validatedData);
+        Users::create($validatedData)
+            ->assignRole($this->role);
 
         $this->dispatchBrowserEvent('show-user-createComfirmed');
         $this->emit('resetTable');

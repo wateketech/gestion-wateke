@@ -18,15 +18,21 @@
                 </div>
                 <div class="col-3 form-group">
                     <label for="password" class="form-control-label">Contraseña *</label>
-                    <input class="form-control @error('password')border border-danger rounded-3 @enderror"
-                        wire:model='public_password' name="password" id="password" type="password" placeholder="Secret123*">
-                        @error('password') <sub class="text-danger">{{ $message }}</sub> @enderror
+
+                    @if ($view=='create')
+                        <input class="form-control @error('password')border border-danger rounded-3 @enderror"
+                            wire:model='public_password' name="password" id="password" type="password" placeholder="Secret123*">
+                            @error('password') <sub class="text-danger">{{ $message }}</sub> @enderror
+                    @else
+                        <input disabled class="form-control" wire:model='public_password' name="password" id="password" type="password" placeholder="*******">
+                    @endif
+
                 </div>
                 <div class="col-3 form-group">
                     <label for="role" class="form-control-label">Rol *</label>
                     <select class="form-control" name="role" id="role" wire:model='role'>
                         @foreach ($roles as $role)
-                            <option value="{{ $role }}">{{ $role }}</option>
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
                 </div>

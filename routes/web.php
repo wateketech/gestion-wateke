@@ -27,6 +27,16 @@ use App\Http\Livewire\Contacts\Agente\Agente;
 
 use Illuminate\Http\Request;
 
+
+
+
+
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,10 +64,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', Profile::class)->name('profile');
 
     // RUTAS PARA ADMINISTRADORES
-    // if (auth()->user()->role == 'Admin'){
+    Route::group(['middleware' => ['role:writer']], function () {
         // SECCION DE CUENTA
         Route::get('/user-management', UserManagement::class)->name('user-management');
-    // }
+
+    });
+
+
+
 
 
 
@@ -77,6 +91,7 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
 
 // Route::fallback(function (){
 //     return redirect('/dashboard');

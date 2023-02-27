@@ -7,6 +7,7 @@ use Livewire\Component;
 
 class Profile extends Component
 {
+
     public $user;
     public $showSuccesNotification  = true;
 

@@ -10,10 +10,12 @@
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^9.0",
         "laravel/tinker": "^2.6",
+        "laravelcollective/html": "^6.4",
         "livewire/livewire": "^2.8",
         "maatwebsite/excel": "^3.1",
         "mediconesystems/livewire-datatables": "^0.10.0",
-        "psr/simple-cache": "1.0"
+        "psr/simple-cache": "1.0",
+        "spatie/laravel-permission": "^5.9"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
