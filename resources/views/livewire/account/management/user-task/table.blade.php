@@ -1,5 +1,5 @@
 <button class="p-3 btn btn-success rounded" wire:click="$set('view', 'create')">
-    Asignar Metrica
+    Asignar Metrica asdfas
 </button>
 
 @if (auth()->user()->hasRole('SuperAdmin'))
