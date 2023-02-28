@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         // Permission::create(['name' => 'unpublish articles']);
 
         // create roles and assign created permissions
-        Role::create(['name' => 'super-admin'])
+        Role::create(['name' => 'SuperAdmin'])
             ->givePermissionTo(Permission::all());
 
         // roles internos
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 54771254',
             'about' => '  '
-        ])->assignRole('super-admin');
+        ])->assignRole('SuperAdmin');
 
         User::factory()->create([
             'name' => 'Eduardo',
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 58643912',
             'about' => '  '
-        ])->assignRole('super-admin');
+        ])->assignRole('SuperAdmin');
 
         // User::factory()->create([
         //     'name' => 'Kadir',
