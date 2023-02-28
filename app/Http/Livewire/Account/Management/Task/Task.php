@@ -10,8 +10,8 @@ class Task extends Component
     public $prueba;
     public $view;
     public $id_task, $name, $average, $about;
-    public $type_value = 'text';
-    public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo','datetime-local' => 'Fecha'];
+    public $type_value = 'number';
+    public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo', 'datetime-local' => 'Fecha'];
 
     protected $listeners = [
         'viewUpdate-metric' => 'view_update',
