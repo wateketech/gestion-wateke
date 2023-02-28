@@ -74,7 +74,7 @@ class UserTask extends Component
         $this->dispatchBrowserEvent('show-metric-user-deleteComfirmed');
     }
     public function delete(){
-        UserTasks::destroy($this->id_usuario_metrica);
+        UserTasks::destroy($this->id_user_task);
         $this->emit('resetTable');
         $this->refresh();
     }
@@ -85,13 +85,13 @@ class UserTask extends Component
         $this->view = 'edit' ;
     }
     public function updateComfirmed(){
-        $validatedData = $this->validate();
+        $this->validate();
         $this->dispatchBrowserEvent('show-metric-user-updateComfirmed');
     }
     public function update(){
         $validatedData = $this->validate();
 
-        UserTasks::find($this->id_usuario_metrica)
+        UserTasks::find($this->id_user_task)
             ->update($validatedData);
 
         $this->emit('resetTable');

@@ -26,6 +26,15 @@
                     <div class="m-3">
                         <div class="row">
                             <div class="col-3 form-group">
+                                <label for="user" class="form-control-label">Usuario *</label>
+                                <select class="form-control" name="user" id="user"
+                                wire:model="user_id">
+                                    @foreach ($users as $user)
+                                        <option value={{ $user->id }}>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-3 form-group">
                                 <label for="task" class="form-control-label">Metrica *</label>
                                 <select class="form-control" name="task" id="task"
                                 wire:model="task_id">
@@ -35,15 +44,6 @@
                                 </select>
                             </div>
 
-                            <div class="col-3 form-group">
-                                <label for="user" class="form-control-label">Usuario *</label>
-                                <select class="form-control" name="user" id="user"
-                                wire:model="user_id">
-                                    @foreach ($users as $user)
-                                        <option value={{ $user->id }}>{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="col-3 form-group">
                                 <label for="value" class="form-control-label">Valor *</label>
                                 <input class="@error('value')border border-danger rounded-3 @enderror form-control" type="text" placeholder="30"
