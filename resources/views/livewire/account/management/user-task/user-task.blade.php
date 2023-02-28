@@ -6,23 +6,25 @@
                 {{-- CRUD --}}
                 @include("livewire.account.management.user-task.$view")
 
-              
-              
-                <div class="row">  
-                      <div class="row my-4">
 
-                {{-- Visual Table --}}
-                @livewire("account.management.user-task.layouts.visual-table")
-                @include("livewire.account.management.user-task.layouts.nose")
-                
-                
 
+                <div class="row">
+                    <div class="row my-4">
+
+                        {{-- Visual Table --}}
+                        @livewire("account.management.user-task.layouts.visual-table")
+                        @include("livewire.account.management.user-task.layouts.nose")
+
+                        {{-- Tables --}} {{-- if user is root --}}
+                        @if (auth()->user()->hasRole('SuperAdmin'))
+                            @include("livewire.account.management.user-task.table")
+                        @endif
+
+                    </div>
                 </div>
-                </div>
 
 
-                {{-- Tables --}} {{-- if user is root --}}
-                {{-- @include("livewire.account.management.user-task.table") --}}
+
 
             </div>
         </main>
