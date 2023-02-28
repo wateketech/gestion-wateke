@@ -23,7 +23,7 @@
             @include('components.plugins.fixed-plugin')
         @else --}}
 
-            @if (auth()->user()->hasRole('super-admin'))
+            @if (auth()->user()->hasRole('Gerencia|SuperAdmin'))
                 @include('layouts.navbars.auth.admin.sidebar')
             @else
                 @include('layouts.navbars.auth.sidebar')
