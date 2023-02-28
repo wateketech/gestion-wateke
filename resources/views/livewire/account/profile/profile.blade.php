@@ -20,7 +20,8 @@
             <div class="col-auto my-auto">
                 <div class="h-100">
                     <h5 class="mb-1">
-                        {{ auth()->user()->name}} |  {{ auth()->user()->role}}
+                        {{ auth()->user()->name}} |
+                        {{ auth()->user()->roles->pluck('name')[0] ?? 'Ningun rol' }}
                     </h5>
                     <p class="mb-0 font-weight-bold text-sm">
                         {{ auth()->user()->email }}
@@ -35,6 +36,11 @@
 </div>
 
 {{-- notificaciones --}}
+{{-- @if(auth()->user()->getRoleNames))
+
+Holaaaaaaaaaaa
+
+@endif --}}
 
 <div class="container-fluid py-2">
     <div class="row">

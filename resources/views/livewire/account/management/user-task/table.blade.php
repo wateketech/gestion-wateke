@@ -2,6 +2,10 @@
     Asignar Metrica
 </button>
 
-@livewire('account.management.user-task.user-task-table')
+@if (auth()->user()->hasRole('super-admin'))
+    @livewire('account.management.user-task.user-task-table')
+@else
 {{-- @livewire('usuario-metrica.usuario-metrica-table') --}}
+@endif
+
 

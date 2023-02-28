@@ -23,7 +23,7 @@ class UserTable extends LivewireDatatable
     {
         return[
             Column::name('users.name')  ->label('Nombre'),
-            Column::name('users.role')  ->label('Rol'),
+            // Column::name('.role')  ->label('Rol'),
             Column::name('users.email') ->label('Correo'),
             Column::name('users.phone') ->label('Movil'),
 

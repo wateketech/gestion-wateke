@@ -35,3 +35,9 @@ https://github.com/mediconesystems/livewire-datatables
 - cambiar la manera que recibe los datalist (enviar solo el id)
 
 - definir las rutas como post y no como get al igual que el action de los formularios
+
+
+
+
+-
+quitar la posibilidad de eliminar mi propio usuario

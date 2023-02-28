@@ -820,14 +820,14 @@
     "Terms and Conditions" : "Términos y Condiciones",
     "Your password has been successfuly changed! You can login now!" : "¡Su contraseña ha sido cambiada con éxito! ¡Ya puedes iniciar sesión!",
     "Please enter the correct email address!" : "¡Por favor ingrese la dirección de correo electrónico correcta!",
-    
+
     "Made by" : "Hecho por",
     "Home" : "Inicio",
     "Contacts management" : "Gestion de contactos",
     "User Management" : "Gestion de usuarios",
     "Reservation management" : "Gestion de reservas",
     "Acoount" : "Cuenta",
-    
+
     "App Configurator" : "Configuracion de la Web",
     "See our dashboard options." : " ",
     "Navbar Fixed" : "Fijar barra de navegacion",
@@ -835,10 +835,12 @@
     "Sidenav Type" : "Tipo de barra lateral",
     "Choose between 2 different sidenav types" : "Escoje entre 2 tipos de visualizacion",
     "You can change the sidenav type just on desktop view." : "Solo puedes cambiar el tipo de visualizacion en dimensiones de escritorio",
-    
+
     "Pages" : "Pagina",
     "Type here..." : "Escribe aqui ...",
-    
+
+    "There's Nothing to show at the moment" : "Nada a mostrar por el momento",
+
     "" : ""
 
 

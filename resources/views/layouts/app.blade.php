@@ -22,7 +22,8 @@
             </div>
             @include('components.plugins.fixed-plugin')
         @else --}}
-            @if (auth()->user()->role == 'Admin')
+
+            @if (auth()->user()->hasRole('super-admin'))
                 @include('layouts.navbars.auth.admin.sidebar')
             @else
                 @include('layouts.navbars.auth.sidebar')
