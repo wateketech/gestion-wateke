@@ -45,12 +45,13 @@ Holaaaaaaaaaaa
 <div class="container-fluid py-2">
     <div class="row">
 
-        <div class="col-lg-4 py-2">
+        <div class="col-lg-12 py-2">
+        {{-- <div class="col-lg-4 py-2"> --}}
             {{-- informacion del perfil --}}
-            @include('livewire.account.profile.layouts.information')
-        </div>
+            {{-- @include('livewire.account.profile.layouts.information') --}}
+        {{-- </div> --}}
 
-        <div class="col-lg-8 py-2">
+        {{-- <div class="col-lg-8 py-2"> --}}
             {{-- grafica de metricas --}}
             @livewire('account.profile.layouts.metrics')
         </div>
