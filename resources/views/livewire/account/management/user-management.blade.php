@@ -1,26 +1,22 @@
 <div class="main-content">
 <div wire:ignore>
-
-
-
-
-    <div id='menu'>  
+    <div id='menu' class="card blur shadow-blur mx-4">  
         <div class="nav-wrapper position-relative end-0">
             <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                     <li class="nav-item" wire:click="$set('view', 'user')">
-                        <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" 
+                        <a class="nav-link mb-0 px-0 py-2 active " data-bs-toggle="tab" href="javascript:;" role="tab" 
                             aria-controls="overview" aria-selected="true">
                             <span class="ms-1">Usuarios</span>
                         </a>
                     </li>
                     <li class="nav-item" wire:click="$set('view', 'task')">
-                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
+                        <a class="nav-link mb-0 px-0 py-2 " data-bs-toggle="tab" href="javascript:;" role="tab"
                             aria-controls="teams" aria-selected="false">
                             <span class="ms-1">Tareas</span>
                         </a>
                     </li>
                     <li class="nav-item" wire:click="$set('view', 'user-task')">
-                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
+                        <a class="nav-link mb-0 px-0 py-2 " data-bs-toggle="tab" href="javascript:;" role="tab"
                             aria-controls="dashboard" aria-selected="false">
                             <span class="ms-1">Asignacion de Tareas</span>
                         </a>
@@ -28,8 +24,6 @@
             </ul>
         </div>
     </div>
-    
-
 </div>
 
 

@@ -6,8 +6,23 @@
                 {{-- CRUD --}}
                 @include("livewire.account.management.user-task.$view")
 
-                {{-- Tables --}}
-                @include("livewire.account.management.user-task.table")
+              
+              
+                <div class="row">  
+                      <div class="row my-4">
+
+                {{-- Visual Table --}}
+                @livewire("account.management.user-task.layouts.visual-table")
+                @include("livewire.account.management.user-task.layouts.nose")
+                
+                
+
+                </div>
+                </div>
+
+
+                {{-- Tables --}} {{-- if user is root --}}
+                {{-- @include("livewire.account.management.user-task.table") --}}
 
             </div>
         </main>

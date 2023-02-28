@@ -3,7 +3,7 @@
     <div class="container-fluid py-4">
         <div class="row">
 
-            @livewire('dashboard.layouts.user-metrics')
+            @livewire('dashboard.layouts.user-metrics') {{-- Bootstrap CountUp JS --}}
 
 
         </div>
