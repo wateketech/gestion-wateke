@@ -88,6 +88,7 @@ class Metrics extends Component
                     ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
                     ->where('user_tasks.user_id', '=', auth()->user()->id)
                     ->where('tasks.name', '=', $this->metrics[$i]['name'])
+                    ->where('tasks.enable', '=', true)
                     ->groupBy('DAY')
                     ->groupBy('MONTH')
                     ->groupBy('YEAR')

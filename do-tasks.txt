@@ -39,5 +39,4 @@ https://github.com/mediconesystems/livewire-datatables
 
 
 
--
-quitar la posibilidad de eliminar mi propio usuario
+- depurar seccion de mis metricas

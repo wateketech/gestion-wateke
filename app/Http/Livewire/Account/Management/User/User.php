@@ -13,6 +13,7 @@ class User extends Component
     public $prueba;
     public $view;
     public $id_user, $name, $email, $role, $public_password;
+    private $enable = true;
     public $password;
     public $roles;
 
@@ -26,7 +27,8 @@ class User extends Component
     protected $rules = [
         'name' => 'required',
         'email' => 'required|email',
-        'password' => 'required'
+        'password' => 'required',
+        'enable' => 'required'
     ];
     protected $messages = [
         '*.required' => 'Campo Oblitgatorio'
@@ -73,7 +75,8 @@ class User extends Component
         $this->dispatchBrowserEvent('show-user-deleteComfirmed');
     }
     public function delete(){
-        Users::destroy($this->id_user);
+        Users::find($this->id_user)
+            ->update(['enable' => false]);
         $this->emit('resetTable');
         $this->refresh();
     }

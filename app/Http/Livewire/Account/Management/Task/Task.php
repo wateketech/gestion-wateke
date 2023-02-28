@@ -57,10 +57,10 @@ class Task extends Component
     public function deleteComfirmed($id){
         $this->loadDatas($id);
         $this->dispatchBrowserEvent('show-metric-deleteComfirmed');
-        $this->delete();                // eliminar esto cuendo los popus funcionen
     }
     public function delete(){
-        Tasks::destroy($this->id_task);
+        Tasks::find($this->id_task)
+            ->update(['enable' => false]);
         $this->emit('resetTable');
         $this->refresh();
     }
@@ -71,7 +71,6 @@ class Task extends Component
     }
     public function updateComfirmed(){
         $this->dispatchBrowserEvent('show-metric-updateComfirmed');
-        $this->update();                // eliminar esto cuendo los popus funcionen
     }
     public function update(){
         $validatedData = $this->validate();

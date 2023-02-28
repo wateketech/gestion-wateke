@@ -16,7 +16,8 @@ class TaskTable extends LivewireDatatable
     // public $buttonsSlot = 'livewire.usuario.main';
     public function builder()
     {
-        return Task::query();
+        return Task::query()
+            ->where('enable', '=', true);
     }
 
     public function columns()

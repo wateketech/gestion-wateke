@@ -33,9 +33,9 @@ class UserTask extends Component
 
     //  ---------------------  RENDER ---------------------
     public function updatedView(){
-        $this->tasks = Tasks::select('id', 'name')->get();
+        $this->tasks = Tasks::select('id', 'name')->where('enable', '=', true)->get();
         if (count($this->tasks) > 0){    $this->task_id = $this->tasks[0]['id'];   }
-        $this->users = Users::select('id', 'name')->get();
+        $this->users = Users::select('id', 'name')->where('enable', '=', true)->get();
         if (count($this->users) > 0){    $this->user_id = $this->users[0]['id'];   }
     }
     public function updated(){

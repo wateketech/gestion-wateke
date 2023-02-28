@@ -16,7 +16,8 @@ class UserTable extends LivewireDatatable
     // public $buttonsSlot = 'livewire.usuario.main';
     public function builder()
     {
-        return User::query();
+        return User::query()
+            ->where('enable', '=', true);
     }
 
     public function columns()

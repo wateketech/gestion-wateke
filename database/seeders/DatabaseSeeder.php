@@ -71,7 +71,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'soporteit@wateke.tech',
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 54771254',
-            'about' => '  '
+            'about' => '  ',
+            'enable' => true
         ])->assignRole('SuperAdmin');
 
         User::factory()->create([
@@ -79,28 +80,32 @@ class DatabaseSeeder extends Seeder
             'email' => 'pjunior@wateke.tech',
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 58643912',
-            'about' => '  '
+            'about' => '  ',
+            'enable' => true
         ])->assignRole('SuperAdmin');
 
 
         // default metrics
-        Task::factory()->create([
+        Task::create([
             'name' => 'Presupuetos por Correo',
             'type_value' => 'text',
             'average' => ' ',
-            'about' => ' '
+            'about' => ' ',
+            'enable' => true
         ]);
-        Task::factory()->create([
+        Task::create([
             'name' => 'Presupuetos por Web',
             'type_value' => 'text',
             'average' => ' ',
-            'about' => ' '
+            'about' => ' ',
+            'enable' => true
         ]);
-        Task::factory()->create([
+        Task::create([
             'name' => 'Presupuetos por Movil',
             'type_value' => 'text',
             'average' => ' ',
-            'about' => ' '
+            'about' => ' ',
+            'enable' => true
         ]);
 
 

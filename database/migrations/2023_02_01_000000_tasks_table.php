@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('type_value');
             $table->string('average');
             $table->text('about');
+            $table->boolean('enable');
 
             $table->timestamps();
         });
