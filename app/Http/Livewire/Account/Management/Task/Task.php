@@ -9,7 +9,7 @@ class Task extends Component
 {
     public $prueba;
     public $view;
-    public $id_task, $name, $average, $about;
+    public $id_task, $name, $average, $frequency, $about;
     public $type_value = 'number';
     public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo', 'datetime-local' => 'Fecha'];
 
@@ -23,6 +23,7 @@ class Task extends Component
         'name' => 'required',
         'type_value' => 'required',
         'average' => 'required',
+        'frequency' => 'required',
         'about' => 'required'
     ];
     protected $messages = [

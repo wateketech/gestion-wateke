@@ -37,6 +37,14 @@
             </div>
         </div>
 
+
+        <div class="col-3 form-group">
+            <label for="frequency" class="form-control-label">Frecuencia *</label>
+            <input class="form-control @error('frequency')border border-danger rounded-3 @enderror" 
+                wire:model="frequency" name="frequency" id="frequency" type="text" placeholder="Frecuencia a introducir">
+                @error('frequency') <sub class="text-danger">{{ $message }}</sub> @enderror
+        </div>
+
     </form>
 </div>
 
