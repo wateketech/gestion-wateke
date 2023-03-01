@@ -90,22 +90,25 @@ class DatabaseSeeder extends Seeder
             'name' => 'Presupuetos por Correo',
             'type_value' => 'text',
             'average' => ' ',
-            'about' => ' ',
-            'enable' => true
+            'about' => 'Presupuestos que fueron enviados por el Correo',
+            'enable' => true,
+            'type_frec' => 'dialy'
         ]);
         Task::create([
             'name' => 'Presupuetos por Web',
             'type_value' => 'text',
             'average' => ' ',
-            'about' => ' ',
-            'enable' => true
+            'about' => 'Presupuestos que fueron enviados por la Web',
+            'enable' => true,
+            'type_frec' => 'dialy'
         ]);
         Task::create([
             'name' => 'Presupuetos por Movil',
             'type_value' => 'text',
             'average' => ' ',
-            'about' => ' ',
-            'enable' => true
+            'about' => 'Presupuestos que fueron enviados por el Movil',
+            'enable' => true,
+            'type_frec' => 'dialy'
         ]);
 
 

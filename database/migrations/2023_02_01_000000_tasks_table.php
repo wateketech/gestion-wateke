@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('type_value');
             $table->string('average');
-            $table->string('frequency');
-            $table->text('about');
-            $table->boolean('enable');
+            $table->string('type_frec');
+            $table->text('about')->nullable();
+            $table->boolean('enable')->default(true);
 
             $table->timestamps();
         });

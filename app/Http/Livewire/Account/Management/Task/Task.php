@@ -9,9 +9,12 @@ class Task extends Component
 {
     public $prueba;
     public $view;
-    public $id_task, $name, $average, $frequency, $about;
+    public $id_task, $name, $average, $about;
+    private $enable = true;
     public $type_value = 'number';
     public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo', 'datetime-local' => 'Fecha'];
+    public $type_frec = 'daily';
+    public $type_frecs = ['daily' =>'Diaria', 'weekly' => 'Semanal', 'monthly' => 'Mensual'];
 
     protected $listeners = [
         'viewUpdate-metric' => 'view_update',
@@ -23,7 +26,7 @@ class Task extends Component
         'name' => 'required',
         'type_value' => 'required',
         'average' => 'required',
-        'frequency' => 'required',
+        'type_frec' => 'required',
         'about' => 'required'
     ];
     protected $messages = [
