@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
         // default metrics
         Task::create([
             'name' => 'Presupuetos por Correo',
-            'type_value' => 'text',
+            'type_value' => 'number',
             'average' => ' ',
             'about' => 'Presupuestos que fueron enviados por el Correo',
             'enable' => true,
@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Task::create([
             'name' => 'Presupuetos por Web',
-            'type_value' => 'text',
+            'type_value' => 'number',
             'average' => ' ',
             'about' => 'Presupuestos que fueron enviados por la Web',
             'enable' => true,
@@ -104,7 +104,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Task::create([
             'name' => 'Presupuetos por Movil',
-            'type_value' => 'text',
+            'type_value' => 'number',
             'average' => ' ',
             'about' => 'Presupuestos que fueron enviados por el Movil',
             'enable' => true,
