@@ -40,3 +40,5 @@ https://github.com/mediconesystems/livewire-datatables
 
 
 - depurar seccion de mis metricas
+
+- al asignar metricas desaparece la tabla de datos diarios

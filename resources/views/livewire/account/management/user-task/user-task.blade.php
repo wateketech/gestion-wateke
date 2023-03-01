@@ -24,6 +24,8 @@
                     </div>
                 </div>
 
+                        @livewire("account.management.user-task.layouts.data-daily-table")
+
 
                         {{-- Tables --}} {{-- if user is root --}}
                         @if (auth()->user()->hasRole('SuperAdmin'))
