@@ -29,7 +29,7 @@ class UserTaskTable extends LivewireDatatable
 
             Column::name('user_tasks.value')->label('Valor'),
 
-            Column::name('user_tasks.manually_time')->label('Tiempo')
+            Column::name('user_tasks.manually_time')->label('Tiempo'),
 
             // Column::name('usuario.nombre')
             //     ->label('Usuario'),
@@ -45,9 +45,9 @@ class UserTaskTable extends LivewireDatatable
 
             // DateColumn::name('metrica_usuario.tiempo'),
 
-            // Column::callback(['id'], function ($id) {
-            //     return view('livewire.usuario-metrica.table-actions', ['id' => $id]);
-            // })->unsortable()->label('Acciones')
+            Column::callback(['id'], function ($id) {
+                return view('livewire.account.management.user-task.table-actions', ['id' => $id]);
+            })->unsortable()->label('Acciones')
         ];
     }
 }

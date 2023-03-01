@@ -21,12 +21,12 @@ class Login extends Component
         if(auth()->user()){
             redirect('/dashboard');
         }
-        $this->fill(['email' => 'soporteit@wateke.tech', 'password' => 'Wateke2023+']);
+        $this->fill(['email' => 'soporteit@wateke.tech', 'password' => 'B3lcr0s5*8905']);
     }
 
     public function login() {
         $credentials = $this->validate();
-        if(auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember_me)) {
+        if(auth()->attempt(['email' => $this->email, 'password' => $this->password, 'enable' => true], $this->remember_me)) {
             $user = User::where(["email" => $this->email])->first();
             auth()->login($user, $this->remember_me);
             return redirect()->intended('/dashboard');

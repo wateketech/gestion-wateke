@@ -5,9 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\User;
-use App\Models\UserRole;
+
 use DB;
+use App\Models\User;
+use App\Models\Task;
 
 
 
@@ -70,7 +71,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'soporteit@wateke.tech',
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 54771254',
-            'about' => '  '
+            'about' => '  ',
+            'enable' => true
         ])->assignRole('SuperAdmin');
 
         User::factory()->create([
@@ -78,33 +80,34 @@ class DatabaseSeeder extends Seeder
             'email' => 'pjunior@wateke.tech',
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 58643912',
-            'about' => '  '
+            'about' => '  ',
+            'enable' => true
         ])->assignRole('SuperAdmin');
 
-        // User::factory()->create([
-        //     'name' => 'Kadir',
-        //     'email' => 'a.general@wateke.tech',
-        //     'role' => 'Admin',
-        //     'password' => Hash::make('Wateke2023+'),
-        //     'phone' => '+53 58354698',
-        //     'about' => 'Una descripcion mia de ejemplo para el perfil de la app'
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Patricia',
-        //     'email' => 'rrhh@wateke.tech',
-        //     'role' => 'RRHH',
-        //     'password' => Hash::make('Wateke2023+'),
-        //     'phone' => '+53 52346500',
-        //     'about' => 'Hola este es una descripcion breve mia'
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Norge',
-        //     'email' => 'comercial@wateke.travel',
-        //     'role' => 'Comercial',
-        //     'password' => Hash::make('Wateke2023+'),
-        //     'phone' => '+53 53667802',
-        //     'about' => 'Hola este es mi descripcion como comercial'
-        // ]);
+
+        // default metrics
+        Task::create([
+            'name' => 'Presupuetos por Correo',
+            'type_value' => 'text',
+            'average' => ' ',
+            'about' => ' ',
+            'enable' => true
+        ]);
+        Task::create([
+            'name' => 'Presupuetos por Web',
+            'type_value' => 'text',
+            'average' => ' ',
+            'about' => ' ',
+            'enable' => true
+        ]);
+        Task::create([
+            'name' => 'Presupuetos por Movil',
+            'type_value' => 'text',
+            'average' => ' ',
+            'about' => ' ',
+            'enable' => true
+        ]);
+
 
 
 

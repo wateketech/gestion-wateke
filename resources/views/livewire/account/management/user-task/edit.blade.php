@@ -13,17 +13,17 @@
                     <div class="m-3">
                         <div class="row">
                             <div class="col-3 form-group">
-                                <label for="metrica" class="form-control-label">Metrica</label>
-                                <input class="form-control" type="text" name="metrica" id="metrica"
-                                    disabled value='prueba'>
-
-                            </div>
-
-                            <div class="col-3 form-group">
                                 <label for="usuario" class="form-control-label">Usuarios</label>
                                 <input class="form-control" type="text" name="usuario" id="usuario"
-                                    disabled value="prueba">
+                                    disabled wire:model="user_id">
                             </div>
+                            <div class="col-3 form-group">
+                                <label for="metrica" class="form-control-label">Metrica</label>
+                                <input class="form-control" type="text" name="metrica" id="metrica"
+                                    disabled wire:model="task_id">
+
+                            </div>
+
                             <div class="col-3 form-group">
                                 <label for="valor" class="form-control-label">Valor *</label>
                                 <input class="@error('valor')border border-danger rounded-3 @enderror form-control" type="text" placeholder="30"

@@ -33,9 +33,9 @@ class UserTask extends Component
 
     //  ---------------------  RENDER ---------------------
     public function updatedView(){
-        $this->tasks = Tasks::select('id', 'name')->get();
+        $this->tasks = Tasks::select('id', 'name')->where('enable', '=', true)->get();
         if (count($this->tasks) > 0){    $this->task_id = $this->tasks[0]['id'];   }
-        $this->users = Users::select('id', 'name')->get();
+        $this->users = Users::select('id', 'name')->where('enable', '=', true)->get();
         if (count($this->users) > 0){    $this->user_id = $this->users[0]['id'];   }
     }
     public function updated(){
@@ -74,7 +74,7 @@ class UserTask extends Component
         $this->dispatchBrowserEvent('show-metric-user-deleteComfirmed');
     }
     public function delete(){
-        UserTasks::destroy($this->id_usuario_metrica);
+        UserTasks::destroy($this->id_user_task);
         $this->emit('resetTable');
         $this->refresh();
     }
@@ -85,13 +85,13 @@ class UserTask extends Component
         $this->view = 'edit' ;
     }
     public function updateComfirmed(){
-        $validatedData = $this->validate();
+        $this->validate();
         $this->dispatchBrowserEvent('show-metric-user-updateComfirmed');
     }
     public function update(){
         $validatedData = $this->validate();
 
-        UserTasks::find($this->id_usuario_metrica)
+        UserTasks::find($this->id_user_task)
             ->update($validatedData);
 
         $this->emit('resetTable');

@@ -48,6 +48,7 @@ class Metrics extends Component
 
         $this->metrics = UserTasks::selectRaw('tasks.name, count(tasks.name) as count')
                 ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
+                ->where('tasks.type_value', '=', 'number')      // metricas de tipo numerico
                 ->where('user_tasks.user_id', '=', auth()->user()->id)
                 ->groupBy('tasks.name')
                 ->get();
@@ -72,63 +73,68 @@ class Metrics extends Component
 
     public function fillDataset(){
 
+
         $this->labels = $this->days;
         for ($i=0; $i < count($this->metrics); $i++){
-            $this->label = $this->metrics[$i]['name'];
-            $this->color = $this->colors[$i%6] ;
-
-            $this->data = '';
 
 
-            $this->values = UserTasks::selectRaw('sum(value) AS value, day(manually_time) AS DAY, MONTH(manually_time) AS MONTH, YEAR(manually_time) AS YEAR')
-                ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
-                ->where('user_tasks.user_id', '=', auth()->user()->id)
-                ->where('tasks.name', '=', $this->metrics[$i]['name'])
-                ->groupBy('DAY')
-                ->groupBy('MONTH')
-                ->groupBy('YEAR')
-                ->orderBy('MONTH')
-                ->orderBy('DAY')
-                ->get();
-            // ) as tt where tt.month = $this->today_month
+                $this->label = $this->metrics[$i]['name'];
+                $this->color = $this->colors[$i%6] ;
 
-            for ($k=1; $k < $this->d_month+1; $k++){
-                $flag = false;
+                $this->data = '';
 
-                for ($j=0; $j < count($this->values); $j++){
 
-                    if ($this->values[$j]['MONTH'] == $this->today_month){
+                $this->values = UserTasks::selectRaw('sum(value) AS value, day(manually_time) AS DAY, MONTH(manually_time) AS MONTH, YEAR(manually_time) AS YEAR')
+                    ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
+                    ->where('user_tasks.user_id', '=', auth()->user()->id)
+                    ->where('tasks.name', '=', $this->metrics[$i]['name'])
+                    ->where('tasks.enable', '=', true)
+                    ->groupBy('DAY')
+                    ->groupBy('MONTH')
+                    ->groupBy('YEAR')
+                    ->orderBy('MONTH')
+                    ->orderBy('DAY')
+                    ->get();
+                // ) as tt where tt.month = $this->today_month
 
-                        if ( $k == $this->values[$j]['DAY']){
-                            $flag = true;
-                            $this->data .=  $this->values[$j]['value'] . ', '  ;
-                            break;
+                for ($k=1; $k < $this->d_month+1; $k++){
+                    $flag = false;
+
+                    for ($j=0; $j < count($this->values); $j++){
+
+                        if ($this->values[$j]['MONTH'] == $this->today_month){
+
+                            if ( $k == $this->values[$j]['DAY']){
+                                $flag = true;
+                                $this->data .=  $this->values[$j]['value'] . ', '  ;
+                                break;
+                            }
+                            else
+                                $flag = false;
+
                         }
-                        else
-                            $flag = false;
-
                     }
+
+                    if (! $flag)
+                        $this->data .= '0, ';
+
                 }
 
-                if (! $flag)
-                    $this->data .= '0, ';
-
-            }
 
 
 
+                $this->dataset .= "{
+                    label: '" . $this->label . "',
+                    tension: 0.4,
+                    pointRadius: 2,
+                    pointBackgroundColor: '" . $this->color . "',
+                    borderColor: '" . $this->color . "',
+                    borderWidth: 3,
+                    backgroundColor: 'transparent',
+                    data: [" . $this->data . "],
+                    maxBarThickness: 6
+                },";
 
-            $this->dataset .= "{
-                label: '" . $this->label . "',
-                tension: 0.4,
-                pointRadius: 2,
-                pointBackgroundColor: '" . $this->color . "',
-                borderColor: '" . $this->color . "',
-                borderWidth: 3,
-                backgroundColor: 'transparent',
-                data: [" . $this->data . "],
-                maxBarThickness: 6
-              },";
         }
 
 

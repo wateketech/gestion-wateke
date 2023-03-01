@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('average');
             $table->string('frequency');
             $table->text('about');
+            $table->boolean('enable');
 
             $table->timestamps();
         });
