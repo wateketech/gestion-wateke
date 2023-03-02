@@ -42,3 +42,8 @@ https://github.com/mediconesystems/livewire-datatables
 - depurar seccion de mis metricas
 
 - al asignar metricas desaparece la tabla de datos diarios
+
+
+-
+almacenar average en metricas-usuarios para historico
+validar cuando no existan usuarios ni metricas en la tabla diaria
