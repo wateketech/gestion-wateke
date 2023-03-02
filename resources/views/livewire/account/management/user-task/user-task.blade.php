@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                        @livewire("account.management.user-task.layouts.data-daily-table")
+                        @livewire("account.management.user-task.layouts.data-table")
 
 
                         {{-- Tables --}} {{-- if user is root --}}
