@@ -17,7 +17,7 @@
                 name="correo" id="correo" wire:model="correo">
         </div>
         <div class="col-2 p-0">
-            <button type="button" class="btn btn-secondary my-4">+</button>
+            <button wire:click="$emitUp('addEmail')" type="button" class="btn btn-secondary my-4">+</button>
             {{-- <button type="button" class="btn btn-secondary my-4">-</button> --}}
         </div>       
     </div>

@@ -69,6 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', Profile::class)->name('profile');
 
 
+    // SECCION DE CONTACTOS
+    Route::get('/agencias', Entidad::class)->name('agencia');
+    Route::get('/agentes', Agente::class)->name('agente');
 
 
 
@@ -81,9 +84,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-    // SECCION DE CONTACTOS
-    // Route::get('/agencias', Entidad::class)->name('agencia');
-    // Route::get('/agentes', Agente::class)->name('agente');
 
 
 
