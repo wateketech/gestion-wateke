@@ -67,7 +67,7 @@ class DataTable extends Component
 
     public function mount(){
         $this->average = (Task::select('tasks.average')
-            ->where('tasks.name', '=', $this->task_name)
+        ->where('tasks.name', '=', $this->task_name)
             ->get())[0]->average;
 
         $this->users = User::select('users.name', 'users.email')
