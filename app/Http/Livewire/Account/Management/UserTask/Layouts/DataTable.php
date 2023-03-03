@@ -15,8 +15,8 @@ class DataTable extends Component
     public $today, $today_day, $today_month, $today_year, $d_month;
     public $days = [];
     public $users, $metrics, $average;
-    public $task_name = "Presupuetos por Correo";
-    public $task_names = ['Presupuetos por Correo', 'Presupuetos por Web', 'Presupuetos por Movil'];
+    public $task_name = "Presupuestos por Correo";
+    public $task_names = ['Presupuestos por Correo', 'Presupuestos por Web', 'Presupuestos por Movil'];
 
     public function todayDate(){
         $this->today = new DateTime();
@@ -68,7 +68,7 @@ class DataTable extends Component
 
     public function mount(){
         $this->average = (Task::select('tasks.average')
-            ->where('tasks.name', '=', 'Presupuetos por Correo')
+            ->where('tasks.name', '=', 'Presupuestos por Correo')
             ->get())[0]->average;
 
 
