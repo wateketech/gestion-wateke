@@ -30,15 +30,20 @@
                     <table class="table align-items-center mb-0">
 
                         {{-- table content  --}}
-                        @include("livewire.account.management.user-task.layouts.data-table-$tableview")
-
+                        @if (count($users) != 0)
+                            @include("livewire.account.management.user-task.layouts.data-table-$tableview")
+                        @endif
                     </table>
                 </div>
             </div>
             <div class="card-footer pt-4 pb-0">
                 <div class="container">
                     <div class="d-flex justify-content-center mb-4">
-                        @yield('tfooter-content')
+                        @if (count($users) != 0)
+                            @yield('tfooter-content')
+                        @else
+                            <div class="d-flex justify-content-center mb-4">No hay nada para mostrar mostrar</div>
+                        @endif
                     </div>
                 </div>
             </div>

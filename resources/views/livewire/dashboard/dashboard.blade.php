@@ -4,7 +4,9 @@
         <div class="row">
 
             {{-- Bootstrap CountUp JS --}}
-            @livewire('dashboard.layouts.user-metrics')
+            @livewire('dashboard.layouts.budgets')
+
+            {{-- @livewire('dashboard.layouts.user-metrics') --}}
 
 
         </div>

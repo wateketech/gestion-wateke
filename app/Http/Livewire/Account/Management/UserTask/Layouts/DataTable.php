@@ -15,8 +15,8 @@ class DataTable extends Component
     public $today, $today_day, $today_month, $today_year, $d_month;
     public $days = [];
     public $users, $metrics, $average;
-    public $task_name = "Presupuetos por Correo";
-    public $task_names = ['Presupuetos por Correo', 'Presupuetos por Web', 'Presupuetos por Movil'];
+    public $task_name = "Presupuestos Respondidos por Correo";
+    public $task_names = ['Presupuestos Respondidos por Correo', 'Presupuestos Respondidos por Web', 'Presupuestos Respondidos por Movil'];
 
     public function todayDate(){
         $this->today = new DateTime();
@@ -45,7 +45,6 @@ class DataTable extends Component
             ->groupBy('users.id')
             ->get();
 
-        // dd($this->users);
 
     }
 
@@ -68,9 +67,8 @@ class DataTable extends Component
 
     public function mount(){
         $this->average = (Task::select('tasks.average')
-            ->where('tasks.name', '=', 'Presupuetos por Correo')
+            ->where('tasks.name', '=', $this->task_name)
             ->get())[0]->average;
-
 
         $this->users = User::select('users.name', 'users.email')
             ->join('user_tasks', 'user_tasks.user_id', '=', 'users.id')
