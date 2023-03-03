@@ -78,34 +78,42 @@
             </div>
 
             <div class="m-3">
-                @livewire('contacts.entidad.layouts.cuenta')
-            </div>
-
-            <div class="m-3">
                 <div class='row'>
-                    @livewire('contacts.entidad.layouts.web')
+                    @for ($i = 0; $i < $c_cuenta; $i++)
+                        @livewire('contacts.entidad.layouts.cuenta', key($i*0.00001))
+                    @endfor
                 </div>
             </div>
 
             <div class="m-3">
                 <div class='row'>
-                    @livewire('contacts.entidad.layouts.redsocial')
-                    @livewire('contacts.entidad.layouts.redsocial')
+                    @for ($i = 0; $i < $c_web; $i++)
+                        @livewire('contacts.entidad.layouts.web', key($i*0.0001))
+                    @endfor
                 </div>
             </div>
 
             <div class="m-3">
                 <div class='row'>
-                    @livewire('contacts.entidad.layouts.correo')
-                    @livewire('contacts.entidad.layouts.correo')
+                    @for ($i = 0; $i < $c_rrss; $i++)
+                        @livewire('contacts.entidad.layouts.redsocial', key($i*0.001))
+                    @endfor
                 </div>
             </div>
 
             <div class="m-3">
                 <div class='row'>
-                        @livewire('contacts.entidad.layouts.telefono')
-                        @livewire('contacts.entidad.layouts.telefono')
-                        @livewire('contacts.entidad.layouts.telefono')
+                    @for ($i = 0; $i < $c_email; $i++)
+                        @livewire('contacts.entidad.layouts.correo', key($i*0.01))
+                    @endfor
+                </div>
+            </div>
+
+            <div class="m-3">
+                <div class='row'>
+                    @for ($i = 0; $i < $c_movil; $i++)
+                        @livewire('contacts.entidad.layouts.telefono', key($i*0.1))
+                    @endfor
                 </div>
             </div>
 
