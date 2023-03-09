@@ -8,9 +8,9 @@ Gestion Wateke Travel, web app for manage all wateke's ecosystem
 
 ## License
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+<!-- [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
-[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0) -->
 
 ## Used By
 
@@ -23,9 +23,7 @@ This project is used by the following companies:
 
 ## Support
 
-For support, email soporteit@wateke.tech or email albertolicea00@icloud.com.
-For support, email pjunior@wateke.tech
-For support, email itmanager@wateke.tech
+For support, email soporteit@wateke.tech or email pjunior@wateke.tech
 
 
 ## Screenshots
@@ -81,9 +79,9 @@ Start the server
 
 **Server:** PHP, Laravel, Livewire
 
-[Laravel Documentation](https://cordova.apache.org/#getstarted](https://laravel.com/docs/10.x)
+[Laravel Documentation](https://laravel.com/docs/10.x)
 [Livewire Documentation](https://laravel-livewire.com/docs/2.x/quickstart)
-[Template Documentation](https://cordova.apache.org/#getstarted](https://laravel.com/docs/10.x](https://soft-ui-dashboard-laravel.creative-tim.com/documentation/bootstrap/overview/soft-ui-dashboard/index.html)
+[Template Documentation](https://soft-ui-dashboard-laravel.creative-tim.com/documentation/bootstrap/overview/soft-ui-dashboard/index.html)
 
 ## Color Reference
 
@@ -101,6 +99,7 @@ Start the server
 ## Authors
 
 - [@albertolicea00](https://www.github.com/albertolicea00)
+- [@Edes7191](https://github.com/Edes7191)
 
 ## Credits
 
