@@ -8,6 +8,7 @@ Gestion Wateke Travel, web app for manage all wateke's ecosystem
 
 ## License
 
+....
 <!-- [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 [![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0) -->
@@ -79,9 +80,9 @@ Start the server
 
 **Server:** PHP, Laravel, Livewire
 
-[Laravel Documentation](https://laravel.com/docs/10.x)
-[Livewire Documentation](https://laravel-livewire.com/docs/2.x/quickstart)
-[Template Documentation](https://soft-ui-dashboard-laravel.creative-tim.com/documentation/bootstrap/overview/soft-ui-dashboard/index.html)
+- [Laravel Documentation](https://laravel.com/docs/10.x)
+- [Livewire Documentation](https://laravel-livewire.com/docs/2.x/quickstart)
+- [Template Documentation](https://soft-ui-dashboard-laravel.creative-tim.com/documentation/bootstrap/overview/soft-ui-dashboard/index.html)
 
 ## Color Reference
 
