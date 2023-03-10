@@ -2,7 +2,7 @@
 <!-- ![Logo](https://wateke.travel/wp-content/uploads/2022/10/LOGO-WTK-OFICIAL-negro-bolas.png) -->
 ![Logo](https://wateke.travel/wp-content/uploads/2022/10/LOGO-WTK-OFICIAL-blanco-bolas.png)
 
-# Wateke Travel for Android
+# Gestion Wateke
 
 Gestion Wateke Travel, web app for manage all wateke's ecosystem 
 
