@@ -69,7 +69,7 @@
                 </form>
         @endif
     @endsection
-
+ 
 
     @section('footer-form')
             <button class="btn btn-secondary mx-2" wire:click="refresh" >Deshacer</button>

@@ -25,19 +25,19 @@
                             </div>
 
                             <div class="col-3 form-group">
-                                <label for="valor" class="form-control-label">Valor *</label>
-                                <input class="@error('valor')border border-danger rounded-3 @enderror form-control" type="text" placeholder="30"
-                                    wire:model="valor" name="valor" id="valor">
-                                @error('valor')
+                                <label for="value" class="form-control-label">Valor *</label>
+                                <input class="@error('value')border border-danger rounded-3 @enderror form-control" type="text" placeholder="30"
+                                    wire:model="value" name="value" id="value">
+                                @error('value')
                                     <sub class="text-danger">{{ $message }}</sub>
                                 @enderror
                             </div>
 
                             <div class="col-3 form-group">
-                                <label for="tiempo" class="form-control-label">Tiempo *</label>
-                                <input class="@error('tiempo')border border-danger rounded-3 @enderror form-control" type="datetime-local"
-                                    wire:model='tiempo' name="tiempo" id="tiempo">
-                                @error('tiempo')
+                                <label for="manually_time" class="form-control-label">Tiempo *</label>
+                                <input class="@error('manually_time')border border-danger rounded-3 @enderror form-control" type="datetime-local"
+                                    wire:model='manually_time' name="manually_time" id="manually_time">
+                                @error('manually_time')
                                     <sub class="text-danger">{{ $message }}</sub>
                                 @enderror
                             </div>

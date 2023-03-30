@@ -15,6 +15,7 @@ class UserTask extends Component
     public $users, $tasks;
 
     protected $listeners = [
+        'viewCreate-user-metric' => "view_create",
         'viewUpdate-user-metric' => 'view_update',
         'deleteComfirmed-user-metric' => 'deleteComfirmed',
         'delete-user' => 'delete',
@@ -30,7 +31,11 @@ class UserTask extends Component
     protected $messages = [
 
     ];
-
+    public function mount()
+    {
+        $this->tasks = Tasks::select('id', 'name')->where('enable', '=', true)->get();
+        $this->users = Users::select('id', 'name')->where('enable', '=', true)->get();
+    }
     //  ---------------------  RENDER ---------------------
     public function updatedView(){
         $this->tasks = Tasks::select('id', 'name')->where('enable', '=', true)->get();
@@ -60,7 +65,14 @@ class UserTask extends Component
         $this->manually_time = $rel->manually_time;
     }
     //  ---------------------  SAVE ---------------------
-       public function save(){
+    public function view_create(){
+        $this->view = 'create';
+        $this->tasks = Tasks::select('id', 'name')->where('enable', '=', true)->get();
+        if (count($this->tasks) > 0){    $this->task_id = $this->tasks[0]['id'];   }
+        $this->users = Users::select('id', 'name')->where('enable', '=', true)->get();
+        if (count($this->users) > 0){    $this->user_id = $this->users[0]['id'];   }
+    }   
+    public function save(){
         $validatedData = $this->validate();
         UserTasks::create($validatedData);
 

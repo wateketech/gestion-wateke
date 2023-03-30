@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
             'type_frec' => 'dialy'
         ]);
         Task::create([
-            'name' => 'Presupuetos Respondidos por Correo',
+            'name' => 'Presupuestos Respondidos por Correo',
             'type_value' => 'number',
             'average' => '1',
             'about' => 'Presupuestos que fueron enviados por el Correo',
@@ -103,7 +103,7 @@ class DatabaseSeeder extends Seeder
             'type_frec' => 'dialy'
         ]);
         Task::create([
-            'name' => 'Presupuetos Respondidos por Web',
+            'name' => 'Presupuestos Respondidos por Web',
             'type_value' => 'number',
             'average' => '1',
             'about' => 'Presupuestos que fueron enviados por la Web',
@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
             'type_frec' => 'dialy'
         ]);
         Task::create([
-            'name' => 'Presupuetos Respondidos por Movil',
+            'name' => 'Presupuestos Respondidos por Movil',
             'type_value' => 'number',
             'average' => '1',
             'about' => 'Presupuestos que fueron enviados por el Movil',

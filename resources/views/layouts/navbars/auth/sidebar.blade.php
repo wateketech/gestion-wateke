@@ -78,8 +78,7 @@
                 </a>
             </li>
 
-
-
+{{--
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ __("Contacts management") }}</h6>
             </li>
@@ -145,6 +144,8 @@
                     <span class="nav-link-text ms-1">Agentes</span>
                 </a>
             </li>
+             
+--}}
 {{-- 
   
             <li class="nav-item mt-2">

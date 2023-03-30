@@ -13,10 +13,10 @@
 
                         {{-- Visual Table --}}
                         <div class="col-lg-8 col-md-6">
-                            @livewire("account.management.user-task.layouts.visual-table")
+                            @include("livewire.account.management.user-task.layouts.visual-table")
                         </div>
                         <div class="col-lg-4 col-md-6">
-                            @include("livewire.account.management.user-task.layouts.nose")
+                            @livewire("account.management.user-task.layouts.lasts")
                         </div>
 
 
