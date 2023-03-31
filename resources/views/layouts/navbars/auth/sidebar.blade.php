@@ -10,9 +10,6 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-    
-    
-{{-- 
             <li class="nav-item pb-2">
                 <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"
                     href="{{ route('dashboard') }}">
@@ -41,7 +38,6 @@
                     <span class="nav-link-text ms-1">{{ __("Home") }}</span>
                 </a>
             </li>
- --}}
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ __("Acoount") }}</h6>
             </li>

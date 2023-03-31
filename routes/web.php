@@ -56,15 +56,15 @@ Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-passwo
 Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');  //  identificar esta ruta
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
     // RUTAS PARA GERENCIA
     Route::group(['middleware' => ['role:Gerencia|SuperAdmin']], function () {
-        Route::get('/dashboard', Dashboard::class)->name('dashboard');
         // SECCION DE CUENTA
         Route::get('/user-management', UserManagement::class)->name('user-management');
     });
-
-
+    
+    
     // SECCION DE CUENTA
     Route::get('/profile', Profile::class)->name('profile');
 
