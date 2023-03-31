@@ -10,7 +10,13 @@
             @foreach ($last_metrics as $lastm)
                 <div class="timeline-block mb-3">
                     <span class="timeline-step">
-                        <i class="ni ni-bell-55 text-success text-gradient"></i>
+                        @if (str_contains($lastm->task, 'Presupuestos Respondidos'))
+                            <i class="fas fa-comments-dollar text-info"></i>
+                        @elseif (str_contains($lastm->task, 'Reservas en Firme'))
+                            <i class="fas fa-hand-holding-usd text-warning"></i>
+                        @else
+                            <i class="fas fa-clipboard-check"></i>
+                        @endif
                     </span>
 
                     <div class="timeline-content">

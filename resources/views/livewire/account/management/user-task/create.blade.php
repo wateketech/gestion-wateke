@@ -46,7 +46,7 @@
 
                             <div class="col-3 form-group">
                                 <label for="value" class="form-control-label">Valor *</label>
-                                <input class="@error('value')border border-danger rounded-3 @enderror form-control" type="text" placeholder="30"
+                                <input class="@error('value')border border-danger rounded-3 @enderror form-control" type="number" placeholder="30"
                                     wire:model="value" name="value" id="value">
                                 @error('value')
                                     <sub class="text-danger">{{ $message }}</sub>

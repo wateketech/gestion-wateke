@@ -126,6 +126,7 @@ class DatabaseSeeder extends Seeder
             'enable' => true,
             'type_frec' => 'dialy'
         ]);
+        
 
 
 

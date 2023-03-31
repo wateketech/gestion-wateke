@@ -25,11 +25,12 @@ class UserTask extends Component
     protected $rules = [
         'task_id' => 'required',
         'user_id' => 'required',
-        'value' => 'required',
+        'value' => 'required|numeric',
         'manually_time' => 'required'
     ];
     protected $messages = [
-
+        '*.required' => 'El campo es obligatorio',
+        'value.numeric' => 'El valor tiene que ser numerico',
     ];
     public function mount()
     {

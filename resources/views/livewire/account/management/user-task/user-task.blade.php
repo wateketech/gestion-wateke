@@ -9,14 +9,15 @@
 
 
                 <div class="row">
-                    <div class="row my-4">
+                    <div class="row">
 
                         {{-- Visual Table --}}
-                        <div class="col-lg-8 col-md-6">
-                            @include("livewire.account.management.user-task.layouts.visual-table")
-                        </div>
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-3 col-md-6 my-3">
                             @livewire("account.management.user-task.layouts.lasts")
+                        </div>
+                        {{-- Ultimos inserciones --}}
+                        <div class="col-lg-9 col-md-6 my-3">
+                            @include("livewire.account.management.user-task.layouts.visual-table")
                         </div>
 
 
