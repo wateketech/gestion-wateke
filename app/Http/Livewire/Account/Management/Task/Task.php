@@ -12,7 +12,7 @@ class Task extends Component
     public $id_task, $name, $average, $about;
     private $enable = true;
     public $type_value = 'number';
-    public $type_values = ['number' =>'Cuantitativo', 'text' => 'Cualitativo', 'datetime-local' => 'Fecha'];
+    public $type_values = ['number' =>'Cuantitativo',]; // 'text' => 'Cualitativo', 'datetime-local' => 'Fecha'];
     public $type_frec = 'daily';
     public $type_frecs = ['daily' =>'Diaria', 'weekly' => 'Semanal', 'monthly' => 'Mensual'];
 
