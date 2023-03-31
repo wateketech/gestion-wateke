@@ -50,6 +50,8 @@ class UserTask extends Component
     }
 
     public function refresh(){
+        $this->emitTo('account.management.user-task.layouts.lasts', 'remount');
+        $this->emitTo('account.management.user-task.layouts.data-table', 'remount');
         $this->reset();
     }
     public function render()
@@ -107,7 +109,7 @@ class UserTask extends Component
             ->update($validatedData);
 
         $this->emit('resetTable');
-        $this->reset();
+        $this->refresh();
     }
 
 }

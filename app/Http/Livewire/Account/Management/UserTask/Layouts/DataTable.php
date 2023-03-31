@@ -18,6 +18,10 @@ class DataTable extends Component
     public $task_name = "Presupuestos Respondidos por Correo";
     public $task_names = ['Presupuestos Respondidos por Correo', 'Presupuestos Respondidos por Web', 'Presupuestos Respondidos por Movil'];
 
+    protected $listeners = [
+        'remount' => "mount",
+    ];
+
     public function todayDate(){
         $this->today = new DateTime();
         $this->today_day = date('d');
