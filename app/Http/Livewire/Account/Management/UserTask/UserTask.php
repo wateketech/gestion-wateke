@@ -19,7 +19,7 @@ class UserTask extends Component
         'viewUpdate-user-metric' => 'view_update',
         'deleteComfirmed-user-metric' => 'deleteComfirmed',
         'delete-user' => 'delete',
-        'update-user' => 'update'
+        'update-user' => 'update',
     ];
     // public $validatedData;
     protected $rules = [
@@ -32,6 +32,7 @@ class UserTask extends Component
         '*.required' => 'El campo es obligatorio',
         'value.numeric' => 'El valor tiene que ser numerico',
     ];
+
     public function mount()
     {
         $this->tasks = Tasks::select('id', 'name')->where('enable', '=', true)->get();

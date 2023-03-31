@@ -40,11 +40,11 @@
     {{-- SECCIONES DE LA PAGINA  --}}
     <div class="my-2">
         @if($view === 'user')
-            @livewire("account.management.user.user")
+            @livewire("account.management.user.user", key(1))
         @elseif($view === 'task')
-            @livewire("account.management.task.task")
+            @livewire("account.management.task.task", key(2))
         @elseif($view === 'user-task')
-            @livewire("account.management.user-task.user-task")
+            @livewire("account.management.user-task.user-task", key(3))
         @endif
     </div>
 </div>
@@ -308,10 +308,9 @@
     <script src="../../assets/js/plugins/chartjs.min.js"></script>
     <script>
         window.addEventListener('build-user-metrics', function(){
-            // alert('hola')
-            // window.addEventListener('build-user-metrics-visual-metrics', function(days, dataset){
+            alert('hola')
 
-                // Line chart
+            // Line chart
     
             
 

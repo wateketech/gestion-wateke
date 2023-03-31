@@ -18,7 +18,9 @@ class VisualTable extends Component
     public $days = '';
     public $colors = [  '#32CD32', '#FF6400', '#FF00FF', '#800000', '3A416F', 'e3316e', '17c1e8' ];
 
-
+    public function build_user_metrics(){
+        $this->emitTo('account.management.user-management', 'build-user-metrics');
+    }
 
 
     public $metrics, $values;
@@ -45,7 +47,6 @@ class VisualTable extends Component
     }
 
     public function mount() {
-
         $this->metrics = UserTasks::selectRaw('tasks.name, count(tasks.name) as count')
                 ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
                 ->where('tasks.type_value', '=', 'number')      // metricas de tipo numerico
@@ -68,8 +69,6 @@ class VisualTable extends Component
 
         $this->todayDate();
         $this->fillDataset();
-
-
     }
 
 
@@ -159,6 +158,7 @@ class VisualTable extends Component
     public function render()
     {
         return view('livewire.account.management.user-task.layouts.visual-table');
+        // $this->emitTo('account.management.user-tasks.user-tasks', 'hola');
     }
 
     public function setDataset(){
