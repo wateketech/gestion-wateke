@@ -53,12 +53,12 @@
             </div>
 
             {{-- If the user is on the sign up page --}}
-        @elseif (!auth()->check() && in_array(request()->route()->getName(),['sign-up'],))
-            <div>
-                @include('layouts.navbars.guest.sign-up')
-                {{ $slot }}
-                @include('layouts.footers.guest.with-socials')
-            </div>
+        {{-- @elseif (!auth()->check() && in_array(request()->route()->getName(),['sign-up'],)) --}}
+            {{-- <div> --}}
+                {{-- @include('layouts.navbars.guest.sign-up') --}}
+                {{-- {{ $slot }} --}}
+                {{-- @include('layouts.footers.guest.with-socials') --}}
+            {{-- </div> --}}
         @endif
     @endguest
 

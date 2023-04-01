@@ -38,14 +38,22 @@
                             </form>
                         </div>
                         <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                            <small class="text-muted">{{ __('Forgot you password?') }} <a
+                            <p class="mt-2 text-sm mx-auto">
+                                <strong>{{ __("Don't have an account?") }} </strong>
+                                 o
+                                <strong>{{ __("Forgot you password?") }} </strong>
+                            </p>
+                            <p class="text-muted">
+                                ¡ Por favor, Contacte a un Admin del sistema !
+                            </p>
+                            {{-- <small class="text-muted">{{ __('Forgot you password?') }} <a
                                     href="{{ route('forgot-password') }}"
                                     class="text-info text-gradient font-weight-bold">{{ __('Reset you password') }}</a></small>
                             <p class="mb-4 text-sm mx-auto">
                                 {{ __("Don't have an account?") }}
                                 <a href="{{ route('sign-up') }}"
                                     class="text-info text-gradient font-weight-bold">{{ __('Sign up') }}</a>
-                            </p>
+                            </p> --}}
                         </div>
                     </div>
                 </div>

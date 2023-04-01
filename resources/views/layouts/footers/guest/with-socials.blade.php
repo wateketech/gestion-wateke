@@ -33,7 +33,7 @@
                       Copyright © {{ now()->year }} Made with ❤️ by
                       <a href="https://github.com/albertolicea00" class="font-weight-bold ml-1" target="_blank">Alberto</a>
                       &amp; <a href="https://github.com/Edes7191" class="font-weight-bold ml-1" target="_blank">Eduardo</a>
-                      <a style="color: #252f40;" href="https://wateke.travel/" class="text-muted ml-1" target="_blank">, Wateke Soluciones Tecnológicas</a>
+                      <a style="color: #252f40;" href="https://wateke.tech/" class="text-muted ml-1" target="_blank">, Wateke Soluciones Tecnológicas</a>
               </div>
               </p>
           </div>

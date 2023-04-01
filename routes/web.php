@@ -49,11 +49,11 @@ use App\Http\Controllers\ProductController;
 */
 
 Route::get('/', Login::class)->name('login');
-Route::get('/sign-up', SignUp::class)->name('sign-up');
+// Route::get('/sign-up', SignUp::class)->name('sign-up');
 Route::get('/login', Login::class)->name('login');
-Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-password');
+// Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-password');
 
-Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');  //  identificar esta ruta
+// Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');  //  identificar esta ruta
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');

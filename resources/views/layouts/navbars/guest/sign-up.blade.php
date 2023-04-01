@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent mt-4">
     <div class="container">
         <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white" href="{{ route('dashboard') }}">
-            Gestion :: Wateke Travel
+            Gestión :: Wateke Travel
         </a>
         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
             data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
@@ -29,12 +29,12 @@
                         </a>
                     </li>
                 @endif
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link text-white me-2" href="{{ auth()->user() ? route('static-sign-up') : route('sign-up') }}">
                         <i class="fas fa-user-circle opacity-6  me-1"></i>
                         {{ __('Sign up')}}
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link text-white me-2" href="{{ auth()->user() ? route('sign-in') : route('login') }}">
                         <i class="fas fa-key opacity-6  me-1"></i>
