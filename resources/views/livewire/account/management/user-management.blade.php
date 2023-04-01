@@ -307,15 +307,72 @@
 @push('scripts')
     <script src="../../assets/js/plugins/chartjs.min.js"></script>
     <script>
-        window.addEventListener('build-user-metrics', function(){
-            alert('hola')
+        window.addEventListener('build-user-metrics', function($event){
+            var ctx1 = document.getElementById("line-chart-metrics").getContext("2d");
 
-            // Line chart
-    
-            
-
-          });
-
+            new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: eval($event.detail.days),
+                datasets: eval($event.detail.dataset),
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                legend: {
+                    display: false,
+                }
+                },
+                interaction: {
+                intersect: false,
+                mode: 'index',
+                },
+                scales: {
+                y: {
+                    grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                    },
+                    ticks: {
+                    display: true,
+                    padding: 10,
+                    color: '#b2b9bf',
+                    font: {
+                        size: 11,
+                        family: "Open Sans",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                    }
+                },
+                x: {
+                    grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: true,
+                    borderDash: [5, 5]
+                    },
+                    ticks: {
+                    display: true,
+                    color: '#b2b9bf',
+                    padding: 10,
+                    font: {
+                        size: 11,
+                        family: "Open Sans",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                    }
+                },
+                },
+            },
+            });
+        });
     </script>
 
 @endpush

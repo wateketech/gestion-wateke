@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Task as Tasks;
 use App\Models\UserTask as UserTasks;
+use App\Models\User as User;
 
 use DateTime;
 use Livewire\Component;
@@ -15,16 +16,12 @@ class VisualTable extends Component
     public $today, $today_day, $today_month, $today_year, $d_month;
     public $months = [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'] ;
     public $weeks = [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    public $days = '';
+    public $days;
     public $colors = [  '#32CD32', '#FF6400', '#FF00FF', '#800000', '3A416F', 'e3316e', '17c1e8' ];
 
-    public function build_user_metrics(){
-        $this->emitTo('account.management.user-management', 'build-user-metrics');
-    }
 
-
-    public $metrics, $values;
-    public $dataset, $labels, $label, $data, $color;
+    public $metrics, $users, $selected_user, $selected_month;
+    public $dataset, $values, $labels, $label, $data, $color;
 
     public $tension = 0.4;
     public $borderWidth1 = 0;
@@ -33,24 +30,45 @@ class VisualTable extends Component
     public $maxBarThickness = 6;
     public $backgroundColor = 'transparent';
 
+    protected $listeners = [
+        'rerender' => "rerender",
+    ];
 
+    public function rerender(){
+        $this->mount();
+        $this->build_user_metrics();
+    }
+    public function build_user_metrics(){
+        $this->dispatchBrowserEvent('build-user-metrics', ['days' => $this->days ,'dataset' => $this->dataset]);
+    }
+
+    public function updatedSelectedUser()
+    {
+        $this->rerender();
+    }
     public function todayDate(){
         $this->today = new DateTime();
         $this->today_day = date('d');
         $this->today_month = date('m');
         $this->today_year = date('y');
         $this->d_month = cal_days_in_month(CAL_GREGORIAN,$this->today_month, $this->today_year);
-
+        $this->days = "[";
         foreach (range(1, $this->d_month) as $day){
             $this->days .= "'día " . $day . "',";
         }
+        $this->days .= "]";
     }
 
     public function mount() {
+        $this->users = User::selectRaw('users.id, users.name')
+                // ->join('user_tasks', 'user_tasks.user_id', '=', 'users.id')
+                // ->whereRaw('count(user_tasks.user_id)')
+                // ->groupBy('tasks.name')
+                ->get();
         $this->metrics = UserTasks::selectRaw('tasks.name, count(tasks.name) as count')
                 ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
                 ->where('tasks.type_value', '=', 'number')      // metricas de tipo numerico
-                ->where('user_tasks.user_id', '=', auth()->user()->id)
+                ->where('user_tasks.user_id', '=', (isset($this->selected_user)) ? $this->selected_user : $this->users[0]->id)
                 ->groupBy('tasks.name')
                 ->get();
 
@@ -74,7 +92,7 @@ class VisualTable extends Component
 
     public function fillDataset(){
 
-
+        $this->dataset = "[";
         $this->labels = $this->days;
         for ($i=0; $i < count($this->metrics); $i++){
 
@@ -137,6 +155,7 @@ class VisualTable extends Component
                 },";
 
         }
+        $this->dataset .= "]";
 
 
     }
@@ -158,7 +177,6 @@ class VisualTable extends Component
     public function render()
     {
         return view('livewire.account.management.user-task.layouts.visual-table');
-        // $this->emitTo('account.management.user-tasks.user-tasks', 'hola');
     }
 
     public function setDataset(){

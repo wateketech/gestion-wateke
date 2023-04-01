@@ -54,6 +54,7 @@ class UserTask extends Component
     public function refresh(){
         $this->emitTo('account.management.user-task.layouts.lasts', 'remount');
         $this->emitTo('account.management.user-task.layouts.data-table', 'remount');
+        $this->emitTo('account.management.user-task.layouts.visual-table', 'rerender');
         $this->reset();
     }
     public function render()

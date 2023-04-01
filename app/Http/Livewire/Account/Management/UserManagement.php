@@ -9,13 +9,6 @@ class UserManagement extends Component
     public $prueba;
     public $view = 'user';
 
-    protected $listeners = [
-        'build-user-metrics' => 'build_user_metrics',
-    ];
-
-    public function build_user_metrics(){
-        $this->dispatchBrowserEvent('build-user-metrics');
-    }
     public function updatedView(){
         // eventos para los js al cambio de vista (en el menu)
         if ($this->view == 'user'){
