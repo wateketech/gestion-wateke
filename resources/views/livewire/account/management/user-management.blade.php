@@ -307,13 +307,30 @@
 @push('scripts')
     <script src="../../assets/js/plugins/chartjs.min.js"></script>
     <script>
+
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+
+        function removeData(chart) {         
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            chart.update();
+        }
+
+
         window.addEventListener('build-user-metrics', function($event){
-            var ctx1 = document.getElementById("line-chart-metrics").getContext("2d");
-            new Chart(ctx1, {
+            window.ctx2 = new Chart(document.getElementById("line-chart-metrics").getContext("2d"), {
             type: "line",
-            data: {
-                labels: eval($event.detail.days),
-                datasets: eval($event.detail.dataset),
+                data: {
+                    labels: eval($event.detail.days),
+                    datasets: eval($event.detail.dataset),
             },
             options: {
                 responsive: true,
@@ -371,7 +388,21 @@
                 },
             },
             });
+
         });
+
+        window.addEventListener('update-user-metrics', function($event){
+            let chart = window.ctx2;
+            chart.data.labels = [];
+            chart.data.datasets = [];
+            chart.update();
+            
+            chart.data.labels = eval($event.detail.days);
+            chart.data.datasets = eval($event.detail.dataset);
+            chart.update();
+        });
+
+
     </script>
 
 @endpush

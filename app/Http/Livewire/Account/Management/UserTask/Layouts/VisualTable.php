@@ -37,7 +37,7 @@ class VisualTable extends Component
     public function rerender(){
         $this->todayDate();
         $this->mount();
-        $this->build_user_metrics();
+        $this->dispatchBrowserEvent('update-user-metrics', ['days' => $this->days ,'dataset' => $this->dataset]);
     }
     public function build_user_metrics(){
         $this->dispatchBrowserEvent('build-user-metrics', ['days' => $this->days ,'dataset' => $this->dataset]);
