@@ -35,6 +35,7 @@ class VisualTable extends Component
     ];
 
     public function rerender(){
+        $this->todayDate();
         $this->mount();
         $this->build_user_metrics();
     }
@@ -46,17 +47,29 @@ class VisualTable extends Component
     {
         $this->rerender();
     }
+    public function updatedSelectedMonth()
+    {
+        $this->rerender();
+    }
     public function todayDate(){
-        $this->today = new DateTime();
+
+        if (isset($this->selected_month)){
+            $this->today = date("M-d-Y", mktime(0, 0, 0, array_search($this->selected_month, $this->months)+1, 5, $this->today_year));
+            $this->today_month = date('m', mktime(0, 0, 0, array_search($this->selected_month, $this->months)+1, 5, $this->today_year));
+        }else{
+            $this->today = new DateTime();
+            $this->today_month = date('m');
+        }
         $this->today_day = date('d');
-        $this->today_month = date('m');
         $this->today_year = date('y');
         $this->d_month = cal_days_in_month(CAL_GREGORIAN,$this->today_month, $this->today_year);
         $this->days = "[";
         foreach (range(1, $this->d_month) as $day){
             $this->days .= "'día " . $day . "',";
         }
-        $this->days .= "]";
+        $this->days .= "]";  
+
+        $this->selected_month = $this->months[$this->today_month-1];
     }
 
     public function mount() {
@@ -105,7 +118,7 @@ class VisualTable extends Component
 
                 $this->values = UserTasks::selectRaw('sum(value) AS value, day(manually_time) AS DAY, MONTH(manually_time) AS MONTH, YEAR(manually_time) AS YEAR')
                     ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
-                    ->where('user_tasks.user_id', '=', auth()->user()->id)
+                    ->where('user_tasks.user_id', '=', (isset($this->selected_user)) ? $this->selected_user : $this->users[0]->id)
                     ->where('tasks.name', '=', $this->metrics[$i]['name'])
                     ->where('tasks.enable', '=', true)
                     ->groupBy('DAY')

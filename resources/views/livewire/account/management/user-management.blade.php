@@ -309,7 +309,6 @@
     <script>
         window.addEventListener('build-user-metrics', function($event){
             var ctx1 = document.getElementById("line-chart-metrics").getContext("2d");
-
             new Chart(ctx1, {
             type: "line",
             data: {
