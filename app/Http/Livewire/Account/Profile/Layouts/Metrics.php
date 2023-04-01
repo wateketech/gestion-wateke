@@ -15,13 +15,12 @@ class Metrics extends Component
     public $today, $today_day, $today_month, $today_year, $d_month;
     public $months = [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'] ;
     public $weeks = [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    public $days = '';
+    public $days;
     public $colors = [  '#32CD32', '#FF6400', '#FF00FF', '#800000', '3A416F', 'e3316e', '17c1e8' ];
 
 
 
-
-    public $metrics, $values;
+    public $metrics, $values, $selected_month;
     public $dataset, $labels, $label, $data, $color;
 
     public $tension = 0.4;
@@ -31,17 +30,32 @@ class Metrics extends Component
     public $maxBarThickness = 6;
     public $backgroundColor = 'transparent';
 
+    public function updatedSelectedMonth()
+    {
+        $this->todayDate();
+        $this->mount();
+        $this->dispatchBrowserEvent('update-profile-metrics', ['days' => $this->days ,'dataset' => $this->dataset]);
+    }
 
     public function todayDate(){
-        $this->today = new DateTime();
+        if (isset($this->selected_month)){
+            $this->today = date("M-d-Y", mktime(0, 0, 0, array_search($this->selected_month, $this->months)+1, 5, $this->today_year));
+            $this->today_month = date('m', mktime(0, 0, 0, array_search($this->selected_month, $this->months)+1, 5, $this->today_year));
+        }else{
+            $this->today = new DateTime();
+            $this->today_month = date('m');
+        }
         $this->today_day = date('d');
-        $this->today_month = date('m');
         $this->today_year = date('y');
         $this->d_month = cal_days_in_month(CAL_GREGORIAN,$this->today_month, $this->today_year);
-
+        
+        
+        $this->days = "";
         foreach (range(1, $this->d_month) as $day){
             $this->days .= "'día " . $day . "',";
         }
+
+        $this->selected_month = $this->months[$this->today_month-1];
     }
 
     public function mount() {
@@ -72,8 +86,8 @@ class Metrics extends Component
     }
 
     public function fillDataset(){
-
-
+        
+        $this->dataset = '';
         $this->labels = $this->days;
         for ($i=0; $i < count($this->metrics); $i++){
 
@@ -119,7 +133,6 @@ class Metrics extends Component
                         $this->data .= '0, ';
 
                 }
-
 
 
 

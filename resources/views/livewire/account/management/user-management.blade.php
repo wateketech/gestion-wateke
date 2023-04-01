@@ -308,23 +308,6 @@
     <script src="../../assets/js/plugins/chartjs.min.js"></script>
     <script>
 
-        function addData(chart, label, data) {
-            chart.data.labels.push(label);
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(data);
-            });
-            chart.update();
-        }
-
-        function removeData(chart) {         
-            chart.data.labels.pop();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
-            chart.update();
-        }
-
-
         window.addEventListener('build-user-metrics', function($event){
             window.ctx2 = new Chart(document.getElementById("line-chart-metrics").getContext("2d"), {
             type: "line",

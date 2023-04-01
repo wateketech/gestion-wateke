@@ -1,16 +1,22 @@
 <div class="card">
-  <div class="card-header pb-0">
-    <h6>Mis metricas</h6>
-    <p class="text-sm">
-      {{-- <i class="fa fa-arrow-up text-success"></i> --}}
-      {{-- <span class="font-weight-bold">4% more</span> in 2023 --}}
-    </p>
-  </div>
-  <div class="card-body p-3">
-    <div class="chart">
-      <canvas id="line-chart" class="chart-canvas" height="300px"></canvas>
+    <div class="card-header pb-0">
+        <h6>Mis Metricas en el mes de 
+            <select name="months" id="months" wire:model='selected_month'>
+                @foreach ( $months as $month )
+                    <option value="{{ $month }}">{{ $month }}</option>
+                @endforeach
+            </select>
+        </h6>
+        {{-- <p class="text-sm"> --}}
+        {{-- <i class="fa fa-arrow-up text-success"></i> --}}
+        {{-- <span class="font-weight-bold">4% more</span> in 2023 --}}
+        {{-- </p> --}}
     </div>
-  </div>
+    <div class="card-body p-3">
+        <div class="chart">
+            <canvas id="line-chart" class="chart-canvas" height="300px"></canvas>
+        </div>
+    </div>
 </div>
 
 
@@ -21,59 +27,13 @@
 
 <script type="text/javascript">
 // Line chart
-
-
-
-
-var ctx1 = document.getElementById("line-chart").getContext("2d");
-
-new Chart(ctx1, {
+window.ctx1 = new Chart(document.getElementById("line-chart").getContext("2d"), {
   type: "line",
   data: {
     labels: [ {!! html_entity_decode($days) !!} ],
     datasets: [
       {!! html_entity_decode($dataset) !!}
-  //   {
-  //       label: "Valor Promedio",
-  //       tension: 0.4,
-  //       borderWidth: 0,
-  //       pointRadius: 2,
-  //       pointBackgroundColor: "#e3316e",
-  //       borderColor: "#e3316e",
-  //       borderWidth: 3,
-  //       backgroundColor: 'transparent',
-  //       data: [50, 50, 300, 220, 500, 250, 400, 230, 500],
-  //       maxBarThickness: 6
-  //     },
-  //     {
-  //       label: "Referral",
-  //       tension: 0.4,
-  //       borderWidth: 0,
-  //       pointRadius: 2,
-  //       pointBackgroundColor: "#3A416F",
-  //       borderColor: "#3A416F",
-  //       borderWidth: 3,
-  //       backgroundColor: 'transparent',
-  //       data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-  //       maxBarThickness: 6
-  //     },
-  //     {
-  //       label: "Direct",
-  //       tension: 0.4,
-  //       borderWidth: 0,
-  //       pointRadius: 2,
-  //       pointBackgroundColor: "#17c1e8",
-  //       borderColor: "#17c1e8",
-  //       borderWidth: 3,
-  //       backgroundColor: 'transparent',
-  //       data: [40, 80, 70, 90, 30, 90, 140, 130, 200],
-  //       maxBarThickness: 6
-  //     },
     ],
-
-
-
-
   },
   options: {
     responsive: true,
@@ -131,6 +91,18 @@ new Chart(ctx1, {
     },
   },
 });
+
+window.addEventListener('update-profile-metrics', function($event){
+    let chart = window.ctx1;
+    chart.data.labels = [];
+    chart.data.datasets = [];
+    chart.update();
+
+    chart.data.labels = eval('[' + $event.detail.days + ']');
+    chart.data.datasets = eval('[' + $event.detail.dataset + ']');
+    chart.update();
+});
+
 </script>
 
 @endpush
