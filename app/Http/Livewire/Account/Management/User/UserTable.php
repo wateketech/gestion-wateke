@@ -27,23 +27,28 @@ class UserTable extends LivewireDatatable
             Column::name('users.name')  ->label('Nombre'),
             
             Column::callback(['id'], function ($id) {
-                return User::selectRaw('roles.name')
+                $role = User::selectRaw('roles.name')
                 ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->where('users.id', '=', $id)
-                ->get()[0]->name;
+                ->get();
+                $roleN = isset($role[0]) ? $role[0]->name : 'Ninguno';
+                return $roleN;
                 })->label('Rol'),
 
             Column::name('users.email') ->label('Correo'),
             Column::name('users.phone') ->label('Movil'),
 
             Column::callback(['id', 'name'], function ($id, $name) {
-                $a = User::selectRaw('roles.name')
+                $role = User::selectRaw('roles.name')
                 ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->where('users.id', '=', $id)
-                ->get()[0]->name;
-                return view('livewire.account.management.user.table-actions', ['id' => $id, 'name' => $name, 'role' => $a]);
+                ->get();
+                
+                $roleN = isset($role[0]) ? $role[0]->name : 'Ninguno';
+                
+                return view('livewire.account.management.user.table-actions', ['id' => $id, 'name' => $name, 'role' => $roleN]);
             })->unsortable()->label('Acciones')
 
         ];

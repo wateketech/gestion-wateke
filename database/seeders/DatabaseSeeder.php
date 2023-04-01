@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
         // Permission::create(['name' => 'publish articles']);
         // Permission::create(['name' => 'unpublish articles']);
 
+        Role::create(['name' => 'Invitado']);
+
         // create roles and assign created permissions
         Role::create(['name' => 'SuperAdmin'])
             ->givePermissionTo(Permission::all());
@@ -65,6 +67,7 @@ class DatabaseSeeder extends Seeder
 
 
 
+
         // create default users
         User::factory()->create([
             'name' => 'Alberto',
@@ -80,6 +83,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'pjunior@wateke.tech',
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 58643912',
+            'about' => '  ',
+            'enable' => true
+        ])->assignRole('SuperAdmin');
+
+        User::factory()->create([
+            'name' => 'Erduin',
+            'email' => 'itmanager@wateke.tech',
+            'password' => Hash::make('B3lcr0s5*8905'),
+            'phone' => '+53 58640646',
             'about' => '  ',
             'enable' => true
         ])->assignRole('SuperAdmin');

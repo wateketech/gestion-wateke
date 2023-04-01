@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('task_id');
             $table->string('value');
+            $table->string('about');
             $table->timestamp('manually_time');
             $table->timestamps();
 

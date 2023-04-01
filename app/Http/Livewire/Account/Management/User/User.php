@@ -55,7 +55,9 @@ class User extends Component
         $this->id_user = $id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = Users::find($id)->roles->pluck('id')[0];
+
+        $role = Users::find($id)->roles->pluck('id');
+        $this->role = isset($role[0]) ? $role[0] : 1; 
     }
     //  ---------------------  SAVE ---------------------
     public function save(){
