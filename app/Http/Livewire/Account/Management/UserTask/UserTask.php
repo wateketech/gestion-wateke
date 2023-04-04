@@ -11,7 +11,7 @@ class UserTask extends Component
 {
     public $prueba;
     public $view;
-    public $id_user_task, $task_id, $user_id, $value, $manually_time;
+    public $id_user_task, $task_id, $user_id, $value, $manually_time, $about;
     public $users, $tasks;
 
     protected $listeners = [
@@ -26,7 +26,8 @@ class UserTask extends Component
         'task_id' => 'required',
         'user_id' => 'required',
         'value' => 'required|numeric',
-        'manually_time' => 'required'
+        'manually_time' => 'required|date',
+        'about' => ''
     ];
     protected $messages = [
         '*.required' => 'El campo es obligatorio',
@@ -68,6 +69,7 @@ class UserTask extends Component
         $this->user_id = $rel->user_id;
         $this->value = $rel->value;
         $this->manually_time = $rel->manually_time;
+        $this->about = $rel->about;
     }
     //  ---------------------  SAVE ---------------------
     public function view_create(){
