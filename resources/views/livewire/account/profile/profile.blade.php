@@ -53,6 +53,7 @@ Holaaaaaaaaaaa
 
         {{-- <div class="col-lg-8 py-2"> --}}
             {{-- grafica de metricas --}}
+            @livewire('account.profile.layouts.create-metrics')
             @livewire('account.profile.layouts.metrics')
         </div>
 

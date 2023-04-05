@@ -29,7 +29,19 @@ class Metrics extends Component
     public $borderWidth2 = 3;
     public $maxBarThickness = 6;
     public $backgroundColor = 'transparent';
+    protected $listeners = [
+        'rerefresh' => "refresh",
+    ];
 
+    public function refresh(){
+        // resetea las tablas del admin-gestion 
+        $this->emitTo('account.management.user-task.layouts.lasts', 'remount');
+        $this->emitTo('account.management.user-task.layouts.data-table', 'remount');
+        $this->emitTo('account.management.user-task.layouts.visual-table', 'rerender');
+        // resetea esta misma tabla
+        $this->mount();
+        $this->dispatchBrowserEvent('update-profile-metrics', ['days' => $this->days ,'dataset' => $this->dataset]);
+    }
     public function updatedSelectedMonth()
     {
         $this->todayDate();
@@ -59,7 +71,8 @@ class Metrics extends Component
     }
 
     public function mount() {
-
+        $this->user_id = auth()->user()->id ;
+        
         $this->metrics = UserTasks::selectRaw('tasks.name, count(tasks.name) as count')
                 ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
                 ->where('tasks.type_value', '=', 'number')      // metricas de tipo numerico

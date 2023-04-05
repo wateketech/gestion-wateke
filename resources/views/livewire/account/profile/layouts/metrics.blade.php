@@ -1,20 +1,29 @@
 <div class="card">
     <div class="card-header pb-0">
-        <h6>Mis Metricas en el mes de 
-            <select name="months" id="months" wire:model='selected_month'>
-                @foreach ( $months as $month )
-                    <option value="{{ $month }}">{{ $month }}</option>
-                @endforeach
-            </select>
-        </h6>
-        {{-- <p class="text-sm"> --}}
-        {{-- <i class="fa fa-arrow-up text-success"></i> --}}
-        {{-- <span class="font-weight-bold">4% more</span> in 2023 --}}
-        {{-- </p> --}}
+        <div class="d-flex flex-row justify-content-between">           
+            <div>
+                <h6>Mis Metricas en el mes de 
+                    <select name="months" id="months" wire:model='selected_month'>
+                        @foreach ( $months as $month )
+                            <option value="{{ $month }}">{{ $month }}</option>
+                        @endforeach
+                    </select>
+                </h6>
+                {{-- <p class="text-sm"> --}}
+                {{-- <i class="fa fa-arrow-up text-success"></i> --}}
+                {{-- <span class="font-weight-bold">4% more</span> in 2023 --}}
+                {{-- </p> --}}
+            </div>
+            <div>
+                <button id='createView-metrics-btn' class="p-3 btn btn-success rounded" wire:click="$emitTo('account.profile.layouts.create-metrics', 'showCreate')">
+                    Nueva Metrica
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="card-body p-3">
-        <div class="chart">
-            <canvas id="line-chart" class="chart-canvas" height="300px"></canvas>
+    <div wire:ignore class="card-body p-3">
+        <div wire:ignore class="chart">
+            <canvas wire:ignore id="line-chart" class="chart-canvas" height="300px"></canvas>
         </div>
     </div>
 </div>
@@ -23,7 +32,28 @@
 @push('scripts')
 <script src="../../assets/js/plugins/chartjs.min.js"></script>
 
+{{-- Seccion de crear metrica inline --}}
+<script>
 
+    // Sweet Alert Notificaciones
+    window.addEventListener('show-metric-asignComfirmed', function(){
+            Swal.mixin({
+                customClass: {
+                    container: 'swal-wide-container',
+                    popup: 'swal-wide-popup',
+                    confirmButton: 'btn btn-success mx-3',
+                    cancelButton: 'btn btn-danger mx-3'
+                },
+                buttonsStyling: false
+            }).fire({
+                position: 'center' ,
+                title: 'Creado',
+                html: "¡Metrica asignada exitosamente!",
+                icon: 'success',
+                timer: 5000
+            })
+        });
+</script>
 
 <script type="text/javascript">
 // Line chart

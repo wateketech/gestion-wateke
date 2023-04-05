@@ -92,7 +92,7 @@ class UserTask extends Component
         $this->loadDatas($id);
         $this->dispatchBrowserEvent('show-metric-user-deleteComfirmed');
     }
-    public function delete(){
+    public function delete(){ 
         UserTasks::destroy($this->id_user_task);
         $this->emit('resetTable');
         $this->refresh();
