@@ -65,7 +65,7 @@
                             <div class="col-3 form-group">
                                 <label for="about" class="form-control-label">Observaciones</label>
                                 <input class="@error('about')border border-danger rounded-3 @enderror form-control" type="text" placeholder="Notas acerca de la métrica ..."
-                                    wire:model='about' name="about" id="about">
+                                    wire:model.defer='about' name="about" id="about">
                                 @error('about')
                                     <sub class="text-danger">{{ $message }}</sub>
                                 @enderror
@@ -78,7 +78,7 @@
                 </form>
         @endif
     @endsection
- 
+
 
     @section('footer-form')
             <button class="btn btn-secondary mx-2" wire:click="refresh" >Deshacer</button>

@@ -23,7 +23,7 @@ class CreateMetrics extends Component
         'user_id' => 'required',
         'value' => 'required|numeric',
         'manually_time' => 'required|date',
-        'about' => ''
+        'about' => 'nullable'
     ];
     protected $messages = [
         '*.required' => 'El campo es obligatorio',

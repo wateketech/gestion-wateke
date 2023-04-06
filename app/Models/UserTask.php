@@ -18,4 +18,10 @@ class UserTask extends Model
     {
         return $this->hasMany('App\Models\Task', 'id');
     }
+
+    public function setAboutAttribute($value)
+    {
+        $this->attributes['about'] = ucfirst($value);
+    }
+
 }

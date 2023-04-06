@@ -1,11 +1,11 @@
-<div id='createView-metrics'> 
+<div id='createView-metrics'>
     @if($isVisible)
-     
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6 class="mb-2 h5">Asignar métricas a mi usuario </h6> 
+                    <h6 class="mb-2 h5">Asignar métricas a mi usuario </h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
 
@@ -30,7 +30,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-        
+
                                     <div class="col-2 form-group">
                                         <label for="value" class="form-control-label">Valor *</label>
                                         <input class="@error('value')border border-danger rounded-3 @enderror form-control" type="number" placeholder="30"
@@ -39,7 +39,7 @@
                                             <sub class="text-danger">{{ $message }}</sub>
                                         @enderror
                                     </div>
-        
+
                                     <div class="col-2 form-group">
                                         <label for="manually_time" class="form-control-label">Tiempo *</label>
                                         <input class="@error('manually_time')border border-danger rounded-3 @enderror form-control" type="datetime-local"
@@ -48,23 +48,23 @@
                                             <sub class="text-danger">{{ $message }}</sub>
                                         @enderror
                                     </div>
-        
+
                                     <div class="col-5 form-group">
                                         <label for="about" class="form-control-label">Observaciones</label>
                                         <textarea class="@error('about')border border-danger rounded-3 @enderror form-control" placeholder="Notas acerca de la métrica ..."
-                                            wire:model='about' name="about" id="about">                        
+                                            wire:model.defer='about' name="about" id="about">
                                         </textarea>
                                         @error('about')
                                             <sub class="text-danger">{{ $message }}</sub>
                                         @enderror
                                     </div>
-        
+
                                 </div>
                             </div>
-        
-        
+
+
                         </form>
-                    @endif 
+                    @endif
 
 
                 </div>

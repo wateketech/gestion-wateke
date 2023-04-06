@@ -38,9 +38,9 @@
                 </div>
 
                 <div class="col-3 form-group">
-                    <label for="about" class="form-control-label">Observaciones *</label>
+                    <label for="about" class="form-control-label">Observaciones</label>
                     <input class="form-control @error('about')border border-danger rounded-3 @enderror"
-                        wire:model="about" name="about" id="about" type="text" placeholder="notas referentes">
+                        wire:model.defer="about" name="about" id="about" type="text" placeholder="notas referentes">
                         @error('about') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
 

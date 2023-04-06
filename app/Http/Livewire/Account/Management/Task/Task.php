@@ -27,7 +27,7 @@ class Task extends Component
         'type_value' => 'required',
         'average' => 'required',
         'type_frec' => 'required',
-        'about' => 'required'
+        'about' => 'nullable'
     ];
     protected $messages = [
         '*.required' => 'Campo Oblitgatorio'

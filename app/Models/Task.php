@@ -11,4 +11,9 @@ class Task extends Model
     protected $table='tasks';
 
     protected $fillable = ['name', 'type_value', 'average', 'type_frec', 'about', 'enable'];
+
+    public function setAboutAttribute($value)
+    {
+        $this->attributes['about'] = ucfirst($value);
+    }
 }

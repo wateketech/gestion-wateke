@@ -27,7 +27,7 @@ class UserTask extends Component
         'user_id' => 'required',
         'value' => 'required|numeric',
         'manually_time' => 'required|date',
-        'about' => ''
+        'about' => 'nullable'
     ];
     protected $messages = [
         '*.required' => 'El campo es obligatorio',
@@ -78,7 +78,7 @@ class UserTask extends Component
         if (count($this->tasks) > 0){    $this->task_id = $this->tasks[0]['id'];   }
         $this->users = Users::select('id', 'name')->where('enable', '=', true)->get();
         if (count($this->users) > 0){    $this->user_id = $this->users[0]['id'];   }
-    }   
+    }
     public function save(){
         $validatedData = $this->validate();
         UserTasks::create($validatedData);
@@ -92,7 +92,7 @@ class UserTask extends Component
         $this->loadDatas($id);
         $this->dispatchBrowserEvent('show-metric-user-deleteComfirmed');
     }
-    public function delete(){ 
+    public function delete(){
         UserTasks::destroy($this->id_user_task);
         $this->emit('resetTable');
         $this->refresh();
