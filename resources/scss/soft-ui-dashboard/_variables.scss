@@ -23,15 +23,15 @@ $gray-900: #212529 !default;
 $black:    #000 !default;
 
 // fusv-enable
-
-$blue:    #63B3ED !default;
+// $brown:   #cb6235 !default;
+$blue:    #0097e8 !default;
 $indigo:  #596CFF !default;
-$purple:  #6f42c1 !default;
+$purple:  #9f0ecd !default;
 $pink:    #d63384 !default;
-$red:     #F56565 !default;
-$orange:  #fd7e14 !default;
-$yellow:  #FBD38D !default;
-$green:   #81E6D9 !default;
+$red:     #ff0000 !default;
+$orange:  #ff6400 !default;
+$yellow:  #ffbb00 !default;
+$green:   #01953f !default;
 $teal:    #20c997 !default;
 $cyan:    #0dcaf0 !default;
 
@@ -53,12 +53,12 @@ $colors: (
 ) !default;
 // scss-docs-end colors-map
 
-$primary:       #f53939 !default;
+$primary:       #ff6400 !default;
 $secondary:     #8392AB !default;
-$info:          #17c1e8 !default;
-$success:       #82d616 !default;
-$warning:       #fbcf33 !default;
-$danger:        #ea0606 !default;
+$info:          #0097e8 !default;
+$success:       #01953f !default;
+$warning:       #ffbb00 !default;
+$danger:        #ff0000 !default;
 $light:         $gray-200 !default;
 $dark:          $h-color !default;
 
