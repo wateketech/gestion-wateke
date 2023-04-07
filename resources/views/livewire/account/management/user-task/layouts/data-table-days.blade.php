@@ -14,7 +14,7 @@
 <tbody>
     @foreach ( $days as $day)
         @if ($day[1] == 'Saturday' || $day[1] == 'Sunday' )
-            <tr style="background-color:rgba(116, 112, 112, 0.16)">
+            <tr class="text-sm" style="background-color:rgba(116, 112, 112, 0.16)">
         @else
             <tr>
         @endif
@@ -24,15 +24,15 @@
                 <p class="text-xs font-weight-bold mb-0">
                     @if ($day[1] == 'Saturday' || $day[1] == 'Sunday' )
                         @if (count($this->getMetric($day[0], $user->email)) == 0)
-                            <p>0</p>
+                            <p class="text-sm">0</p>
                         @else
-                            <p> {{ $this->getMetric($day[0], $user->email)[0]['value'] }} </p>
+                            <p class="text-sm"> {{ $this->getMetric($day[0], $user->email)[0]['value'] }} </p>
                         @endif
                     @else
                         @if (count($this->getMetric($day[0], $user->email)) == 0)
-                            <p class = "text-danger">0</p>
+                            <p class = "text-danger text-sm ">0</p>
                         @elseif ($this->getMetric($day[0], $user->email)[0]['value'] < $average )
-                            <p class = "text-danger"> {{ $this->getMetric($day[0], $user->email)[0]['value'] }} </p>
+                            <p class = "text-danger text-sm "> {{ $this->getMetric($day[0], $user->email)[0]['value'] }} </p>
                         @elseif ($this->getMetric($day[0], $user->email)[0]['value'] == $average)
                             <p class = "text-warning"> {{ $this->getMetric($day[0], $user->email)[0]['value'] }} </p>
                         @elseif ($this->getMetric($day[0], $user->email)[0]['value'] > $average)

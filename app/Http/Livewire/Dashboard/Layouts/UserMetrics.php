@@ -33,19 +33,30 @@ class UserMetrics extends Component
         }
 
     }
-
-    public function getMetric($day, $user)
-    {
-        // las metricas deshabilitadas se controlan en la generacion del combobox a elegir
-        $metric = User::selectRaw("SUM( user_tasks.value) AS value, DAY(user_tasks.manually_time) as day")
+    public function getTodayValue($user, $metric){
+        // Los usuarios y metricas deshabititados se muesrtran en funcion de los parametros (no es necesario volver a validarlos ya que no se contruira visualmente usuarios/metricas no validadas)
+        $value = User::selectRaw("SUM(user_tasks.value) as value")
             ->join('user_tasks', 'user_tasks.user_id', '=', 'users.id')
             ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
-            ->where('users.id', '=', $this->user )
-            ->whereRaw('MONTH(user_tasks.manually_time) = ' .  $this->today_month)
-            ->groupBy('day')
+            ->where('users.id', '=', $user )
+            ->where('tasks.id', '=', $metric )
+            ->whereRaw('DAY(user_tasks.manually_time) = ' .  $this->today_day)
             ->get();
 
-        return $metric;
+        return $value[0]->value != Null ? $value[0]->value : 0;
+    }
+
+    public function getAccumulatedValue($user, $metric){
+        // Los usuarios y metricas deshabititados se muesrtran en funcion de los parametros (no es necesario volver a validarlos ya que no se contruira visualmente usuarios/metricas no validadas)
+        $value = User::selectRaw("SUM(user_tasks.value) as value")
+            ->join('user_tasks', 'user_tasks.user_id', '=', 'users.id')
+            ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
+            ->where('users.id', '=', $user )
+            ->where('tasks.id', '=', $metric )
+            ->whereRaw('MONTH(user_tasks.manually_time) = ' .  $this->today_month)
+            ->get();
+
+        return $value[0]->value != Null ? $value[0]->value : 0;
     }
 
     public function mount(){

@@ -35,11 +35,25 @@
                                     <tr>
                                         <td class="text-sm text-end">{{ $metric->name }}  :</td>
                                         @foreach ( $users as $user)
+                                                @php
+                                                    $todayValue = $this->getTodayValue($user->id, $metric->id);
+                                                    $accumulatedValue = $this->getAccumulatedValue($user->id, $metric->id);
+                                                @endphp
 
                                             {{-- SACAR LOS VALORES DE HOY Y ACTUAL DE LAS METRICAS DE ESTE MES DADO (PARAMETRO) UN USUARIO --}}
                                             {{-- UN METODO PARA GET TODAYVALUE Y OTRO PARA GETACUMVALUE --}}
-                                            <td class="text-xs text-end" scope="col">29</td>
-                                            <td class="text-xs text-start" scope="col">109</td>
+                                            <td class="text-xs text-end" scope="col">
+                                                @if ($todayValue < $metric->average)
+                                                    <p class="text-danger text-m text-weight-bolder">{{ $todayValue }}</p>
+                                                @elseif ($todayValue == $metric->average)
+                                                    <p class="text-warning text-weight-bolder">{{ $todayValue }}</p>
+                                                @elseif ($todayValue > $metric->average)
+                                                    <p class="text-success text-weight-bolder">{{ $todayValue }}</p>
+                                                @endif
+                                            </td>
+                                            <td class="text-xs text-start" scope="col">
+                                                <p>{{ $accumulatedValue }}</p>
+                                            </td>
                                         @endforeach
                                     </tr>
                                 @endforeach
@@ -76,14 +90,7 @@
 
             </td>
             @endforeach
-
-            <td class="w-10">
-                {{ $day[0] }} : {{ __($day[1]) }}
-
-            </td>
-        </tr>
-    @endforeach --}}
-                            {{-- </tbody> --}}
+     </tbody> --}}
 
 
                         @endif
