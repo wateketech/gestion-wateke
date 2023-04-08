@@ -22045,6 +22045,10 @@ pre[class*=language-] {
     overflow: auto !important;
   }
 }
+.form-control {
+  padding-left: 20px !important;
+}
+
 .icon:hover {
   color: #ff6400;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

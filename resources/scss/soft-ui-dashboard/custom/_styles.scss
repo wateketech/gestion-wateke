@@ -1,5 +1,13 @@
+
+// fix scss template
+.form-control{
+    padding-left: 20px !important; 
+}
+
+// iconos en general
 .icon{
     &:hover{
         color: #ff6400;
     }
 }
+
