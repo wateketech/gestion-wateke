@@ -5,11 +5,11 @@
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                     <li class="nav-item">
                         <a href="https://wateke.travel/quienes-somos/" class="nav-link text-muted"
-                            target="_blank">Quienes somos</a>
+                            target="_blank">¿Quienes somos?</a>
                     </li>
                     <li class="nav-item">
                         <a href="https://wateke.travel/contactos/" class="nav-link text-muted"
-                            target="_blank">Donde estamos</a>
+                            target="_blank">¿Donde estamos?</a>
                     </li>
                 </ul>
             </div>

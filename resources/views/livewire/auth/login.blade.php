@@ -1,11 +1,12 @@
 <section>
+    <div class="d-none d-md-block mt-6"></div>
     <div class="page-header section-height-75">
         <div class="container">
             <div class="row">
                 <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-                    <div class="card card-plain mt-8">
+                    <div class="card card-plain mt-8 z-index-1">
                         <div class="card-header pb-0 text-left bg-transparent">
-                            <h3 class="font-weight-bolder text-info text-gradient">{{ __('Welcome Back!') }}</h3>
+                            <h3 class="fs-4 font-weight-bolder text-warning text-gradient">{{ __('Welcome Back!') }}</h3>
                         </div>
                         <div class="card-body">
                             <form wire:submit.prevent="login" action="#" method="POST" role="form text-left">
@@ -33,7 +34,7 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="submit"
-                                        class="btn bg-gradient-info w-100 mt-4 mb-0">{{ __('Sign in') }}</button>
+                                        class="btn bg-primary text-white w-100 mt-4 mb-0">{{ __('Sign in') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -44,7 +45,7 @@
                                 <strong>{{ __("Forgot you password?") }} </strong>
                             </p>
                             <p class="text-muted">
-                                ¡ Por favor, Contacte a un Admin del sistema !
+                                ¡Por favor, Contacte a un Admin del sistema!
                             </p>
                             {{-- <small class="text-muted">{{ __('Forgot you password?') }} <a
                                     href="{{ route('forgot-password') }}"
@@ -58,7 +59,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+                    <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-4">
                         <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
                             style="background-image:url('../assets/img/wallpapers/wallpaper-2.jpg')"></div>
                     </div>

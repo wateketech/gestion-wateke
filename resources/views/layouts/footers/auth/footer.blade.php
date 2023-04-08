@@ -4,7 +4,7 @@
             <div class="col-lg-6 mb-lg-0 mb-4">
             <div class="copyright text-center text-sm text-muted text-lg-left">
                     © {{ now()->year }} {{ __('Made by') }}
-                    <a href="https://wateke.tech/" class="font-weight-bold ml-1" target="_blank">Wateke Soluciones Tecnológicas</a>
+                    <a href="https://wateke.tech/" class="font-weight-bold" target="_blank">Wateke Soluciones Tecnológicas</a>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -14,7 +14,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="https://wateke.travel/quienes-somos/" class="nav-link text-muted"
-                            target="_blank">Quienes somos</a>
+                            target="_blank">¿Quienes somos?</a>
                     </li>
                 </ul>
             </div>

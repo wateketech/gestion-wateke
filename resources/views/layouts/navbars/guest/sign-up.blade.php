@@ -29,12 +29,6 @@
                         </a>
                     </li>
                 @endif
-                {{-- <li class="nav-item">
-                    <a class="nav-link text-white me-2" href="{{ auth()->user() ? route('static-sign-up') : route('sign-up') }}">
-                        <i class="fas fa-user-circle opacity-6  me-1"></i>
-                        {{ __('Sign up')}}
-                    </a>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link text-white me-2" href="{{ auth()->user() ? route('sign-in') : route('login') }}">
                         <i class="fas fa-key opacity-6  me-1"></i>
