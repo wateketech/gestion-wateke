@@ -3,6 +3,10 @@
 .form-control{
     padding-left: 20px !important; 
 }
+.form-switch .form-check-input:checked{
+    border-color: #ff6400;
+    background-color: #ff6400;
+}
 
 // iconos en general
 .icon{

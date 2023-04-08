@@ -22049,6 +22049,11 @@ pre[class*=language-] {
   padding-left: 20px !important;
 }
 
+.form-switch .form-check-input:checked {
+  border-color: #ff6400;
+  background-color: #ff6400;
+}
+
 .icon:hover {
   color: #ff6400;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */
