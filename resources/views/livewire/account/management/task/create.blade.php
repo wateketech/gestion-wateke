@@ -3,7 +3,7 @@
 
 
     @section('header-form')
-        <h6 class="mb-2 h5">Nueva Métrica </h6>
+        <h6 class="text-danger text-gradient font-weight-bolder h5 mb-2"><i class="fas fa-tasks pr-2"></i> Nueva Métrica </h6>
     @endsection
 
 

@@ -7,7 +7,7 @@ use Livewire\Component;
 class UserManagement extends Component
 {
     public $prueba;
-    public $view = 'user';
+    public $view = 'task';
 
     public function updatedView(){
         // eventos para los js al cambio de vista (en el menu)
