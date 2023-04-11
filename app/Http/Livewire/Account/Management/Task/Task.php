@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Account\Management\Task;
 use App\Models\Task as Tasks;
+use App\Models\User as Users;
+use App\Models\UserHasTasks as UserHasTasks;
+use App\Models\RoleHasTasks as RoleHasTasks;
 
 use Livewire\Component;
 
@@ -32,7 +35,59 @@ class Task extends Component
     protected $messages = [
         '*.required' => 'Campo Oblitgatorio'
     ];
+
+    public $availableRoles = [];
+    public $availableUsers = [];
+    public $activeRoles = [];
+    public $activeUsers = [];
+    public $selectedRoles = [];
+    public $selectedUsers = [];
+    //  ---------------------  TRANSFER-All ---------------------
+
+    public function transferAllUsers($to){
+        if ($to == 'active') {
+            $this->activeUsers = $this->availableUsers;
+            $this->availableUsers = [];
+        }
+        else if ($to == 'avaible') {
+            $this->availableUsers = $this->activeUsers;
+            $this->activeUsers = [];
+        } 
+    }
+    public function transferAllRoles($to){
+        if ($to == 'active') {
+            $this->activeRoles = $this->availableRoles;
+            $this->availableRoles = [];
+        }
+        else if ($to == 'avaible') {
+            $this->availableRoles = $this->activeRoles;
+            $this->activeRoles = [];
+        } 
+    }
+    //  ---------------------  TRANSFER-ONE ---------------------
+
+    public function transferUser($to){
+        if ($to == 'active') {
+            
+        }
+        else if ($to == 'avaible') {
+
+        } 
+    }
+    public function transferRole($to){
+        if ($to == 'active') {
+            
+        }
+        else if ($to == 'avaible') {
+
+        } 
+    }
     //  ---------------------  RENDER ---------------------
+
+    public function mount(){
+        $this->availableRoles = \Spatie\Permission\Models\Role::all();
+        $this->availableUsers = Users::all();
+    }
     public function refresh(){
         $this->reset();
     }

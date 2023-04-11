@@ -22056,4 +22056,8 @@ pre[class*=language-] {
 
 .icon:hover {
   color: #ff6400;
+}
+
+div.btn > i:active {
+  color: #ff6400;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

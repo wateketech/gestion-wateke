@@ -1,7 +1,7 @@
 
 // fix scss template
 .form-control{
-    padding-left: 20px !important; 
+    padding-left: 20px !important;
 }
 .form-switch .form-check-input:checked{
     border-color: #ff6400;
@@ -15,3 +15,7 @@
     }
 }
 
+
+div.btn > i:active {
+    color: #ff6400;
+}
