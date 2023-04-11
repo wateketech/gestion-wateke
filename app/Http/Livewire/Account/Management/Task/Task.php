@@ -23,7 +23,15 @@ class Task extends Component
         'viewUpdate-metric' => 'view_update',
         'deleteComfirmed-metric' => 'deleteComfirmed',
         'delete-metric' => 'delete',
-        'update-metric' => 'update'
+        'update-metric' => 'update',
+
+        'transferRoleToActiveEvent', 'transferRoleToAvailableEvent', 'transferUserToActiveEvent', 'transferUserToAvailableEvent',
+        'transferRoleToActive' => 'transferRole',
+        'transferRoleToAvailable' => 'transferRole',
+        'transferUserToActive' => 'transferUser',
+        'transferUserToAvailable' => 'transferUser',
+
+
     ];
     protected $rules = [
         'name' => 'required',
@@ -40,53 +48,71 @@ class Task extends Component
     public $availableUsers = [];
     public $activeRoles = [];
     public $activeUsers = [];
-    public $selectedRoles = [];
-    public $selectedUsers = [];
-    //  ---------------------  TRANSFER-All ---------------------
+    public function transferRoleToActiveEvent() {   $this->dispatchBrowserEvent('transferRoleToActiveEvent');    }
+    public function transferRoleToAvailableEvent(){ $this->dispatchBrowserEvent('transferRoleToAvailableEvent'); }
+    public function transferUserToActiveEvent() {    $this->dispatchBrowserEvent('transferUserToActiveEvent');   }
+    public function transferUserToAvailableEvent(){  $this->dispatchBrowserEvent('transferUserToAvailableEvent');}
 
-    public function transferAllUsers($to){
-        if ($to == 'active') {
-            $this->activeUsers = $this->availableUsers;
-            $this->availableUsers = [];
-        }
-        else if ($to == 'avaible') {
-            $this->availableUsers = $this->activeUsers;
-            $this->activeUsers = [];
-        } 
+    //  ---------------------  TRANSFER-All ---------------------
+    public function transferAllUsersToActive(){
+        $this->availableUsers = [];
+        $this->activeUsers = Users::all()->toArray();
     }
-    public function transferAllRoles($to){
-        if ($to == 'active') {
-            $this->activeRoles = $this->availableRoles;
-            $this->availableRoles = [];
-        }
-        else if ($to == 'avaible') {
-            $this->availableRoles = $this->activeRoles;
-            $this->activeRoles = [];
-        } 
+    public function transferAllUsersToAvailable(){
+        $this->availableUsers = Users::all()->toArray();
+        $this->activeUsers = [];
+    }
+    public function transferAllRolesToActive(){
+        $this->availableRoles = [];
+        $this->activeRoles = \Spatie\Permission\Models\Role::all()->toArray();
+    }
+    public function transferAllRolesToAvailable(){
+        $this->activeRoles = [];
+        $this->availableRoles = \Spatie\Permission\Models\Role::all()->toArray();
     }
     //  ---------------------  TRANSFER-ONE ---------------------
-
-    public function transferUser($to){
-        if ($to == 'active') {
-            
+    public function transferRole($arg){
+        if ($arg[1] == 'toactive') {
+            foreach ($this->availableRoles as $role) {
+                if (in_array($role['id'], $arg[0]) ){
+                    array_push($this->activeRoles, $role);
+                    unset($this->availableRoles[array_search($role, $this->availableRoles)]);
+                }
+            }
         }
-        else if ($to == 'avaible') {
-
-        } 
-    }
-    public function transferRole($to){
-        if ($to == 'active') {
-            
+        else if ($arg[1] == 'toavailable') {
+            foreach ($this->activeRoles as $role) {
+                if (in_array($role['id'], $arg[0]) ){
+                    array_push($this->availableRoles, $role);
+                    unset($this->activeRoles[array_search($role, $this->activeRoles)]);
+                }
+            }
         }
-        else if ($to == 'avaible') {
-
-        } 
     }
+    public function transferUser($arg){
+
+        if ($arg[1] == 'toactive') {
+            foreach ($this->availableUsers as $user) {
+                if (in_array($user['id'], $arg[0]) ){
+                    array_push($this->activeUsers, $user);
+                    unset($this->availableUsers[array_search($user, $this->availableUsers)]);
+                }
+            }
+        }
+        else if ($arg[1] == 'toavailable') {
+            foreach ($this->activeUsers as $user) {
+                if (in_array($user['id'], $arg[0]) ){
+                    array_push($this->availableUsers, $user);
+                    unset($this->activeUsers[array_search($user, $this->activeUsers)]);
+                }
+            }
+        }
+    }
+
     //  ---------------------  RENDER ---------------------
-
     public function mount(){
-        $this->availableRoles = \Spatie\Permission\Models\Role::all();
-        $this->availableUsers = Users::all();
+        $this->availableRoles = \Spatie\Permission\Models\Role::all()->toArray();
+        $this->availableUsers = Users::all()->toArray();
     }
     public function refresh(){
         $this->reset();

@@ -27,7 +27,7 @@
 </div>
 
 
-  
+
     {{-- <div class="alert alert-secondary mx-4" role="alert">
         <span class="text-white"><strong>Add, Edit, Delete features are not functional!</strong> This is a
             <strong>PRO</strong> feature!
@@ -303,8 +303,48 @@
 {{-- JSs SECCION DE TASK    (encapsulados en eventos al cambio de menu ($view) )--}}
 @push('scripts')
     <script>
-    // document.getElementById('select-users').select2({
-    // document.getElementById('select-roles').select2({
+        window.addEventListener('transferRoleToActiveEvent', function(){
+            roles = document.querySelectorAll('li[name="availableRoles"] > input');
+            checkedRoles = [];
+            roles.forEach(role => {
+                if (role.checked){
+                    checkedRoles.push(role.value);
+                }
+            });
+            Livewire.emitTo('account.management.task.task', 'transferRoleToActive', [checkedRoles, 'toactive'] );
+        });
+        window.addEventListener('transferRoleToAvailableEvent', function(){
+            roles = document.querySelectorAll('li[name="activeRoles"] > input');
+            checkedRoles = [];
+            roles.forEach(role => {
+                if (role.checked){
+                    checkedRoles.push(role.value);
+                }
+            });
+            Livewire.emitTo('account.management.task.task', 'transferRoleToAvailable', [checkedRoles, 'toavailable'] );
+        });
+        window.addEventListener('transferUserToActiveEvent', function(){
+            users = document.querySelectorAll('li[name="availableUsers"] > input');
+            checkedUsers = [];
+            users.forEach(user => {
+                if (user.checked){
+                    checkedUsers.push(user.value);
+                }
+            });
+            Livewire.emitTo('account.management.task.task', 'transferUserToActive', [checkedUsers, 'toactive'] );
+
+        });
+        window.addEventListener('transferUserToAvailableEvent', function(){
+            users = document.querySelectorAll('li[name="activeUsers"] > input');
+            checkedUsers = [];
+            users.forEach(user => {
+                if (user.checked){
+                    checkedUsers.push(user.value);
+                }
+            });
+            Livewire.emitTo('account.management.task.task', 'transferUserToAvailable', [checkedUsers, 'toavailable'] );
+
+        });
     </script>
 @endpush
 
@@ -384,7 +424,7 @@
             chart.data.labels = [];
             chart.data.datasets = [];
             chart.update();
-            
+
             chart.data.labels = eval($event.detail.days);
             chart.data.datasets = eval($event.detail.dataset);
             chart.update();
