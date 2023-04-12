@@ -26,7 +26,7 @@ class TaskTable extends LivewireDatatable
             Column::name('tasks.name')  ->label('Nombre'),
             // Column::name('tasks.type_value')  ->label('Valor'),
             Column::name('tasks.average') ->label('Promedio'),
-            Column::name('tasks.type_frec') ->label('Frecuencia'),
+            // Column::name('tasks.type_frec') ->label('Frecuencia'),
             Column::name('tasks.about') ->label('Observaciones'),
 
             Column::callback(['id', 'name'], function ($id, $name) {

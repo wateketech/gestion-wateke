@@ -4,7 +4,7 @@
         <div class="container-fluid py-4">
 
             {{-- CRUD --}}
-            @include("livewire.account.management.task.create")
+            @include("livewire.account.management.task.$view")
 
             {{-- Tables --}}
             @include("livewire.account.management.task.table")
