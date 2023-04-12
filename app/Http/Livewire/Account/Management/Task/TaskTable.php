@@ -47,7 +47,7 @@ class TaskTable extends LivewireDatatable
                     $html .= '<span class="badge rounded-pill bg-light text-dark" title="' . $title . '">Todos los Roles</span>';
                 }else{
                     foreach ($userData as $user) {
-                        $html .= '<span class="badge rounded-pill bg-light text-dark">' . $user . '</span>';
+                        $html .= '<span class="mb-1 mr-1 badge rounded-pill bg-light text-dark">' . $user . '</span>';
                     }
                 }
 
@@ -70,7 +70,7 @@ class TaskTable extends LivewireDatatable
                     $html = '<span class="badge rounded-pill bg-light text-dark" title="' . $title . '">Todos los Roles</span>';
                 }else{
                     foreach ($roleData as $role) {
-                        $html .= '<span class="badge rounded-pill bg-light text-dark">' . $role . '</span>';
+                        $html .= '<span class="mb-1 mr-1 badge rounded-pill bg-light text-dark">' . $role . '</span>';
                     }
                 }
                 return $html;
