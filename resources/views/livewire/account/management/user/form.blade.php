@@ -30,10 +30,10 @@
                     @else
                         @if (auth()->user()->hasRole('SuperAdmin'))
                             <input class="form-control @error('password')border border-danger rounded-3 @enderror"
-                                wire:model='public_password' name="password" id="password-input" type="text" placeholder="Secret123*" required autofocus>
+                                wire:model='public_password' name="password" id="password-input" type="text" placeholder="Secret123*" required autofocus aria-label="Password" aria-describedby="password-addon">
                                 @error('password') <sub class="text-danger">{{ $message }}</sub> @enderror                          
                         @else
-                            <input disabled class="form-control" name="password" id="password" type="password" placeholder="*******">                            
+                            <input disabled class="form-control" name="password" id="password" type="password" placeholder="*******" aria-label="Password" aria-describedby="password-addon">                            
                         @endif
                     @endif
 

@@ -15,7 +15,6 @@
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar">
                 <div class="ms-md-3 pe-md-3 d-flex align-items-center">
                     <div class="input-group">
-                        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
                         <input type="text" class="form-control" placeholder="{{ __('Type here...')}}">
                     </div>
                 </div>
@@ -34,6 +33,7 @@
                             </div>
                         </a>
                     </li>
+{{-- 
                     <li class="nav-item px-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0">
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
@@ -43,8 +43,8 @@
                         <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-bell cursor-pointer"></i>
                         </a>
-{{-- 
-informacion y notificaciones de la persona autenticada
+
+// informacion y notificaciones de la persona autenticada
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
