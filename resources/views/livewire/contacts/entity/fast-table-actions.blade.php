@@ -2,7 +2,7 @@
 
 
     {{-- <button class="p-2 text-blue-600 hover:bg-blue-600 hover:text-white rounded"
-        wire:click="$emit('viewUpdate-metric', {{ $id }})"><i class="fas fa-edit"></i> Editar mas datos
+        wire:click="$emit('viewUpdate-metric', {{ $id }})"><i class="fas fa-edit"></i> Editar datos
     </button> --}}
 
     <button class="p-2 text-red-600 hover:bg-red-600 hover:text-white rounded"

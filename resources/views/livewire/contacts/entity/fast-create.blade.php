@@ -3,7 +3,8 @@
         
         <div class="card card-body blur shadow-blur mx-4 my-1">
                 <div class="d-flex justify-content-center mb-3 h3">
-                    Formulario <i class="fas fa-bolt"></i>rapido para agencias.
+                    {{-- <i class="fas fa-bolt"></i>  --}}
+                    Formulario rápido para agencias.
                 </div>
                 <div class="row">
 
@@ -52,7 +53,7 @@
                 </div>                
                 <div class="d-flex justify-content-center mt-3">
                     <button type="button" onclick="document.getElementById('fast-form-create').hidden = true" class="btn btn-secondary mx-2">Deshacer</button>
-                    <button type="submit" class="btn btn-success mx-2">Crear Agencia <i class="fas fa-bolt"></i></button>
+                    <button type="submit" class="btn btn-success mx-2"><i class="fas fa-bolt"></i> Crear Agencia</button>
                 </div>
             </div>    
 
