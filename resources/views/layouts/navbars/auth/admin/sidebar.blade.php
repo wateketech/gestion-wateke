@@ -90,13 +90,12 @@
                     <span class="nav-link-text ms-1">{{ __("User Management") }}</span>
                 </a>
             </li>
-{{-- 
+
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ __("Contacts management") }}</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'agencia' ? 'active' : '' }}"
-                    href="{{ route('agencia') }}">
+                <a href="{{ route('contactos') }}" class="nav-link {{ (Route::currentRouteName() == 'contactos' || Route::currentRouteName() == 'agente' || Route::currentRouteName() == 'agencia' || Route::currentRouteName() == 'crear-agencia-full' || Route::currentRouteName() == 'crear-agencia-basic') ? 'active' : '' }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
@@ -122,9 +121,10 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Agencias</span>
+                    <span class="nav-link-text ms-1">Contactos</span>
                 </a>
             </li>
+{{--  
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'agente' ? 'active' : '' }}"
                     href="{{ route('agente') }}">
@@ -156,8 +156,8 @@
                     <span class="nav-link-text ms-1">Agentes</span>
                 </a>
             </li>
---}}
-{{--   
+
+
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ __("Reservation management") }}</h6>
             </li>

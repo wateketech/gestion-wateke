@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('correo_ent', function (Blueprint $table) {
+        Schema::create('entity_emails', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('entidad_id');
-            $table->string('correo');
-            $table->string('observ');
+            $table->unsignedBigInteger('entity_id');
+            $table->string('label');
+            $table->string('email');
 
-            $table->foreign('entidad_id')->references('id')->on('entidad')->constrained()
+            $table->foreign('entity_id')->references('id')->on('entitys')->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('correo_ent');
+        Schema::dropIfExists('entity_emails');
     }
 };

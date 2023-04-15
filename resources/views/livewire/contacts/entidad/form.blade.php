@@ -14,9 +14,9 @@
                         <input class="form-control" type="text" placeholder="John Snow"
                             name="nombre_fiacal" id="nombre_fiacal" wire:model="nombre_fiscal">
                     </div>
-                    <div class="col-3 form-group">
+                    {{-- <div class="col-3 form-group">
                             @livewire('contacts.entidad.layouts.grupogestion')
-                    </div>
+                    </div> --}}
                     <div class="col-3 form-group">
                         <label for="num_oficina" class="form-control-label">Num Oficina *</label>
                         <input class="form-control" type="tel" placeholder="(770)-888-444"
@@ -24,7 +24,7 @@
                     </div>
                 </div>
         
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-3 form-group">
                         <label for="nif" class="form-control-label">NIF *</label>
                         <input class="form-control" type="text" placeholder="John Snow" 
@@ -44,7 +44,7 @@
                     <div class="col-3 form-group">
                             @livewire('contacts.entidad.layouts.gds')
                     </div>
-                </div>
+                </div> --}}
         
                 <div class="row">
         
@@ -72,12 +72,11 @@
         
                 </div>
             </div>
+                <div class="m-3">
+                    @livewire('contacts.entidad.layouts.direccion')
+                </div>
 
-            <div class="m-3">
-                @livewire('contacts.entidad.layouts.direccion')
-            </div>
-
-            <div class="m-3">
+            {{-- <div class="m-3">
                 <div class='row'>
                     @for ($i = 0; $i < $c_cuenta; $i++)
                         @livewire('contacts.entidad.layouts.cuenta', key($i*0.00001))
@@ -91,15 +90,15 @@
                         @livewire('contacts.entidad.layouts.web', key($i*0.0001))
                     @endfor
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="m-3">
+            {{-- <div class="m-3">
                 <div class='row'>
                     @for ($i = 0; $i < $c_rrss; $i++)
                         @livewire('contacts.entidad.layouts.redsocial', key($i*0.001))
                     @endfor
                 </div>
-            </div>
+            </div> --}}
 
             <div class="m-3">
                 <div class='row'>

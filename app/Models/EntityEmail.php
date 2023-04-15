@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CorreoEnt extends Model
+class EntityEmail extends Model
 {
     use HasFactory;
-    protected $table='correo_ent';
-    protected $fillable = ['correo', 'observ', 'entidad_id'];
+    protected $table='entity_emails';
+    protected $fillable = ['label', 'email', 'entity_id'];
 }

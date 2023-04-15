@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('task_id');
             $table->string('value');
             $table->string('about')->default(' ');
-            $table->timestamp('manually_time')->default( now() );;
+            $table->timestamp('manually_time')->default( now() );
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->constrained();

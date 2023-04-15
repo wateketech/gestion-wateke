@@ -3,11 +3,8 @@
         <div class="container-fluid py-4">
     
             {{-- CRUD --}}
-            @include('livewire.contacts.entidad.create')
-            {{-- @include('livewire.contacts.entidad.edit') --}}
-            {{-- @include('livewire.contacts.entidad.show') --}}
-            
-            
+            @include("livewire.contacts.entidad.$view")
+                      
             {{-- Tables --}}
             {{-- @include('livewire.contacts.entidad.table') --}}
         </div>
