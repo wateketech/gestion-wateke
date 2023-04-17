@@ -99,6 +99,14 @@ class DatabaseSeeder extends Seeder
 
         // default metrics
         Task::create([
+            'name' => 'Visitas Comerciales',
+            'type_value' => 'number',
+            'average' => '1',
+            'about' => 'Realizar visitas comerciales a agencias',
+            'enable' => true,
+            'type_frec' => 'dialy'
+        ]);
+        Task::create([
             'name' => 'Presupuestos Solicitados',
             'type_value' => 'number',
             'average' => '1',
@@ -138,7 +146,7 @@ class DatabaseSeeder extends Seeder
             'enable' => true,
             'type_frec' => 'dialy'
         ]);
-        
+
 
 
 

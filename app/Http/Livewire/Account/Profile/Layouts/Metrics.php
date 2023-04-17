@@ -5,12 +5,15 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Task as Tasks;
 use App\Models\UserTask as UserTasks;
+use App\Models\UserHasTasks as UserHasTasks;
+use App\Models\RoleHasTasks as RoleHasTasks;
 
 use DateTime;
 use Livewire\Component;
 
 class Metrics extends Component
 {
+    public $visit = false;
     public $prueba = 0;
     public $today, $today_day, $today_month, $today_year, $d_month;
     public $months = [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'] ;
@@ -34,7 +37,7 @@ class Metrics extends Component
     ];
 
     public function refresh(){
-        // resetea las tablas del admin-gestion 
+        // resetea las tablas del admin-gestion
         $this->emitTo('account.management.user-task.layouts.lasts', 'remount');
         $this->emitTo('account.management.user-task.layouts.data-table', 'remount');
         $this->emitTo('account.management.user-task.layouts.visual-table', 'rerender');
@@ -60,8 +63,8 @@ class Metrics extends Component
         $this->today_day = date('d');
         $this->today_year = date('y');
         $this->d_month = cal_days_in_month(CAL_GREGORIAN,$this->today_month, $this->today_year);
-        
-        
+
+
         $this->days = "";
         foreach (range(1, $this->d_month) as $day){
             $this->days .= "'día " . $day . "',";
@@ -71,8 +74,16 @@ class Metrics extends Component
     }
 
     public function mount() {
+        $this->visit =
+            (count(RoleHasTasks::whereIn('role_has_tasks.role_id', auth()->user()->roles()->pluck('id')->toArray())
+                ->where('tasks.enable', '=', '1')->where('tasks.id', '=', '1')->orWhere('tasks.name', '=', 'Visitas Comerciale3s')
+                ->join('tasks', 'tasks.id', '=', 'role_has_tasks.task_id')->get()) !=0 ) ||
+            (count (UserHasTasks::where('user_has_tasks.user_id', '=', auth()->user()->id)->where('tasks.enable', '=', '1')->where('tasks.id', '=', '1')->orWhere('tasks.name', '=', 'Visitas Comerciale3s')
+                ->join('tasks', 'tasks.id', '=', 'user_has_tasks.task_id')->get()) !=0 )
+            ? true : false;
+        // dd($this->visit);
         $this->user_id = auth()->user()->id ;
-        
+
         $this->metrics = UserTasks::selectRaw('tasks.name, count(tasks.name) as count')
                 ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
                 ->where('tasks.type_value', '=', 'number')      // metricas de tipo numerico
@@ -99,7 +110,7 @@ class Metrics extends Component
     }
 
     public function fillDataset(){
-        
+
         $this->dataset = '';
         $this->labels = $this->days;
         for ($i=0; $i < count($this->metrics); $i++){

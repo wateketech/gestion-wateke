@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header pb-0">
-        <div class="d-flex flex-row justify-content-between">           
+        <div class="d-flex flex-row justify-content-between">
             <div>
-                <h6>Mis Metricas en el mes de 
+                <h6>Mis Metricas en el mes de
                     <select name="months" id="months" wire:model='selected_month'>
                         @foreach ( $months as $month )
                             <option value="{{ $month }}">{{ $month }}</option>
@@ -15,8 +15,13 @@
                 {{-- </p> --}}
             </div>
             <div>
+                @if ($visit)
+                  <button id='' class="p-3 btn btn-info rounded" wire:click="$emitTo('account.profile.layouts.create-visit', 'createVisit')">
+                      Hacer Visita Comercial
+                  </button>
+                @endif
                 <button id='createView-metrics-btn' class="p-3 btn btn-success rounded" wire:click="$emitTo('account.profile.layouts.create-metrics', 'showCreate')">
-                    Nueva Metrica
+                    nueva Metrica
                 </button>
             </div>
         </div>
