@@ -849,6 +849,9 @@
     "Saturday" : "Sábado",
     "Sunday" : "Domingo",
 
+    "daily": "Diaria",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
 
     "" : ""
 

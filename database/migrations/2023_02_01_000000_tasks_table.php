@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('type_frec');
             $table->text('about')->nullable();
             $table->boolean('enable')->default(true);
+            $table->boolean('permanent')->default(false);
 
             $table->timestamps();
         });

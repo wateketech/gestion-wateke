@@ -10,7 +10,7 @@ class Task extends Model
     use HasFactory;
     protected $table='tasks';
 
-    protected $fillable = ['name', 'type_value', 'average', 'type_frec', 'about', 'enable'];
+    protected $fillable = ['name', 'type_value', 'average', 'type_frec', 'about', 'enable', 'permanent'];
 
     public function setAboutAttribute($value)
     {

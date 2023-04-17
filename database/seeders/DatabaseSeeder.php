@@ -104,7 +104,8 @@ class DatabaseSeeder extends Seeder
             'average' => '1',
             'about' => 'Realizar visitas comerciales a agencias',
             'enable' => true,
-            'type_frec' => 'dialy'
+            'type_frec' => 'daily',
+            'permanent' => true
         ]);
         Task::create([
             'name' => 'Presupuestos Solicitados',
@@ -112,7 +113,8 @@ class DatabaseSeeder extends Seeder
             'average' => '1',
             'about' => 'Presupuestos que fueron solicitados',
             'enable' => true,
-            'type_frec' => 'dialy'
+            'type_frec' => 'daily',
+            'permanent' => true
         ]);
         Task::create([
             'name' => 'Presupuestos Respondidos por Correo',
@@ -120,7 +122,8 @@ class DatabaseSeeder extends Seeder
             'average' => '1',
             'about' => 'Presupuestos que fueron enviados por el Correo',
             'enable' => true,
-            'type_frec' => 'dialy'
+            'type_frec' => 'daily',
+            'permanent' => true
         ]);
         Task::create([
             'name' => 'Presupuestos Respondidos por Web',
@@ -128,7 +131,8 @@ class DatabaseSeeder extends Seeder
             'average' => '1',
             'about' => 'Presupuestos que fueron enviados por la Web',
             'enable' => true,
-            'type_frec' => 'dialy'
+            'type_frec' => 'daily',
+            'permanent' => true
         ]);
         Task::create([
             'name' => 'Presupuestos Respondidos por Movil',
@@ -136,7 +140,8 @@ class DatabaseSeeder extends Seeder
             'average' => '1',
             'about' => 'Presupuestos que fueron enviados por el Movil',
             'enable' => true,
-            'type_frec' => 'dialy'
+            'type_frec' => 'daily',
+            'permanent' => true
         ]);
         Task::create([
             'name' => 'Reservas en Firme',
@@ -144,7 +149,8 @@ class DatabaseSeeder extends Seeder
             'average' => '1',
             'about' => 'Presupuestos que fueron convertidos a reservas',
             'enable' => true,
-            'type_frec' => 'dialy'
+            'type_frec' => 'daily',
+            'permanent' => true
         ]);
 
 

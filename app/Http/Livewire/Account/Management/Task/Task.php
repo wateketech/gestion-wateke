@@ -6,20 +6,31 @@ use App\Models\User as Users;
 use App\Models\UserHasTasks as UserHasTasks;
 use App\Models\RoleHasTasks as RoleHasTasks;
 
+use App\Models\Entity as Agencys;
+
 use Livewire\Component;
 
 class Task extends Component
 {
     public $prueba;
     public $view;
+
+    // visits variables
+    public $agency_visit, $deaddate_visit, $assignedUser_visit, $about_visit;
+    public $users_has_visits, $agencys;
+
+    // metrics variables
     public $id_task, $name, $average, $about;
     private $enable = true;
+    private $permanent = false;
+
     public $type_value = 'number';
     public $type_values = ['number' =>'Cuantitativo',]; // 'text' => 'Cualitativo', 'datetime-local' => 'Fecha'];
     public $type_frec = 'daily';
     public $type_frecs = ['daily' =>'Diaria', 'weekly' => 'Semanal', 'monthly' => 'Mensual'];
 
     protected $listeners = [
+        'viewPrograming-visit-metric' => 'view_programming_visit',
         'viewUpdate-metric' => 'view_update',
         'deleteComfirmed-metric' => 'deleteComfirmed',
         'delete-metric' => 'delete',
@@ -112,6 +123,19 @@ class Task extends Component
     public function mount(){
         $this->availableRoles = \Spatie\Permission\Models\Role::all()->toArray();
         $this->availableUsers = Users::all()->toArray();
+
+        $this->users_has_visits = UserHasTasks::where('tasks.id', 1)->orWhere('tasks.name', '=', 'Visitas Comerciales')
+            ->join('tasks', 'tasks.id', 'user_has_tasks.task_id')
+            ->join('users', 'users.id', 'user_has_tasks.user_id')
+            ->get()->toArray();
+        $this->users_has_visits = RoleHasTasks::where('tasks.id', 1)->orWhere('tasks.name', '=', 'Visitas Comerciales')
+            ->join('tasks', 'tasks.id', 'role_has_tasks.task_id')
+            ->join('roles', 'roles.id', 'role_has_tasks.role_id')
+            ->toArray();
+
+            // dd($this->users_has_visits);
+
+        $this->agencys = Agencys::all();
     }
     public function refresh(){
         $this->reset();
@@ -210,5 +234,13 @@ class Task extends Component
         $this->emit('resetTable');
         $this->reset();
     }
+    //  ---------------------  PROGRAMING ---------------------
 
+
+
+
+    public function view_programming_visit(){
+        // $this->loadDatas($id);
+        $this->view = 'programming_visit' ;
+    }
 }

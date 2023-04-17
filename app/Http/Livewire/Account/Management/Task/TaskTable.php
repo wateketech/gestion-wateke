@@ -29,8 +29,12 @@ class TaskTable extends LivewireDatatable
         return[
             Column::name('tasks.name')  ->label('Nombre'),
             // Column::name('tasks.type_value')  ->label('Valor'),
-            Column::name('tasks.average') ->label('Promedio'),
-            // Column::name('tasks.type_frec') ->label('Frecuencia'),
+
+            Column::callback(['average', 'type_frec'], function($average, $type_frec){
+                $html = $average . ' : ' . __($type_frec);
+                return $html;
+            })->unsortable()->label('Promedio'),
+
 
             Column::callback(['id'], function($id_task){
                 $userData = UserHasTasks::where('task_id', $id_task)
@@ -78,8 +82,8 @@ class TaskTable extends LivewireDatatable
 
             Column::name('tasks.about') ->label('Observaciones'),
 
-            Column::callback(['id', 'name'], function ($id, $name) {
-                return view('livewire.account.management.task.table-actions', ['id' => $id, 'name' => $name]);
+            Column::callback(['id', 'name', 'permanent'], function ($id, $name, $permanent) {
+                return view('livewire.account.management.task.table-actions', ['id' => $id, 'name' => $name, 'permanent' => $permanent]);
             })->unsortable()->label('Acciones')
         ];
     }
