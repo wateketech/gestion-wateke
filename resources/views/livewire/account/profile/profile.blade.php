@@ -46,6 +46,13 @@ Holaaaaaaaaaaa
     <div class="row">
 
         <div class="col-lg-12 py-2">
+
+            @if ($visit)
+                @livewire('account.profile.layouts.create-visit')
+            @endif
+
+
+
         {{-- <div class="col-lg-4 py-2"> --}}
             {{-- informacion del perfil --}}
             {{-- @include('livewire.account.profile.layouts.information') --}}

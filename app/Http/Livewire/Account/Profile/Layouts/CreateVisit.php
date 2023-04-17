@@ -7,6 +7,9 @@ use Livewire\Component;
 class CreateVisit extends Component
 {
     public $prueba = 0;
+
+
+
     protected $listeners = [
         'createVisit' => "showCreateVisit",
     ];

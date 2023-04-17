@@ -15,11 +15,6 @@
                 {{-- </p> --}}
             </div>
             <div>
-                @if ($visit)
-                  <button id='' class="p-3 btn btn-info rounded" wire:click="$emitTo('account.profile.layouts.create-visit', 'createVisit')">
-                      Hacer Visita Comercial
-                  </button>
-                @endif
                 <button id='createView-metrics-btn' class="p-3 btn btn-success rounded" wire:click="$emitTo('account.profile.layouts.create-metrics', 'showCreate')">
                     nueva Metrica
                 </button>
