@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Livewire\Account\Management\Task;
+use Illuminate\Validation\Rule;
 use App\Models\Task as Tasks;
 use App\Models\User as Users;
 use App\Models\UserHasTasks as UserHasTasks;
 use App\Models\RoleHasTasks as RoleHasTasks;
+use App\Models\UserHasVisits as UserHasVisits;
 
 use App\Models\Entity as Agencys;
 
@@ -16,7 +18,7 @@ class Task extends Component
     public $view;
 
     // visits variables
-    public $agency_visit, $deaddate_visit, $assignedUser_visit, $about_visit;
+    public $entity_id, $deaddate_visit, $assignedUser_visit, $about_visit;
     public $users_has_visits, $agencys;
 
     // metrics variables
@@ -124,21 +126,29 @@ class Task extends Component
         $this->availableRoles = \Spatie\Permission\Models\Role::all()->toArray();
         $this->availableUsers = Users::all()->toArray();
 
-        $this->users_has_visits = UserHasTasks::where('tasks.id', 1)->orWhere('tasks.name', '=', 'Visitas Comerciales')
+        $this->users_has_visits = UserHasTasks::where('tasks.id', 1)->orWhere('users.enable', 1)->orWhere('tasks.name', '=', 'Visitas Comerciales')
             ->join('tasks', 'tasks.id', 'user_has_tasks.task_id')
             ->join('users', 'users.id', 'user_has_tasks.user_id')
-            ->get()->toArray();
-        $this->users_has_visits = RoleHasTasks::where('tasks.id', 1)->orWhere('tasks.name', '=', 'Visitas Comerciales')
+            ->select('users.name', 'users.id', 'users.email')->get()->toArray();
+        $roles_has_visits = RoleHasTasks::where('tasks.id', 1)->orWhere('tasks.name', '=', 'Visitas Comerciales')
             ->join('tasks', 'tasks.id', 'role_has_tasks.task_id')
             ->join('roles', 'roles.id', 'role_has_tasks.role_id')
-            ->toArray();
-
-            // dd($this->users_has_visits);
-
+            ->select('roles.name')->get()->toArray();
+        foreach ($roles_has_visits as $role) {
+            $users_has_rolevisits = Users::role($role['name'])->select('users.name', 'users.id', 'users.email')->where('users.enable', 1)->get()->toArray();
+            foreach ($users_has_rolevisits as $user) {
+                $this->users_has_visits[] = $user;
+            }
+        }
+        $this->users_has_visits = array_map("unserialize", array_unique(array_map("serialize", $this->users_has_visits)));
         $this->agencys = Agencys::all();
+
+        if (count($this->users_has_visits) != 0){    $this->assignedUser_visit = $this->users_has_visits[0]['id'];         }
+        if (count($this->agencys) != 0){  $this->entity_id = $this->agencys[0]->id;            }
     }
     public function refresh(){
         $this->reset();
+        $this->emit('resetTable');
         $this->mount();
     }
     public function render()
@@ -234,13 +244,36 @@ class Task extends Component
         $this->emit('resetTable');
         $this->reset();
     }
-    //  ---------------------  PROGRAMING ---------------------
-
-
-
-
-    public function view_programming_visit(){
-        // $this->loadDatas($id);
+    //  ---------------------  PROGRAMING VISIT ---------------------
+    public function view_programming_visit($id){
+        $this->loadDatas($id);
         $this->view = 'programming_visit' ;
+    }
+    public function programming_visit(){
+            $this->validate([
+                'deaddate_visit' => 'required',
+                'about' => 'nullable',
+                'entity_id' => Rule::unique('user_has_visits')->where(function ($query) {
+                                    return $query->select('entity_id as entity_id')
+                                        ->where('entity_id', intval($this->entity_id))
+                                        ->where('user_id', intval($this->assignedUser_visit))
+                                        ->whereRaw('DAY(deaddate) = DAY(?)', [$this->deaddate_visit]);
+                                }),
+            ], [
+                '*.required' => 'El campo es obligatorio',
+                'entity_id.unique' => 'Ya existe una visita programada para este usuario a esta agencia en ese dia',
+            ]);
+            UserHasVisits::create([
+                'entity_id' => intval($this->entity_id),
+                'user_id' => intval($this->assignedUser_visit),
+                'deaddate' => $this->deaddate_visit,
+                'about' => $this->about_visit,
+            ]);
+
+            $this->dispatchBrowserEvent('show-visit-programedComfirmed');
+            $this->refresh();
+
+
+
     }
 }

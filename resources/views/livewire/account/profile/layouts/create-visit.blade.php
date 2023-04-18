@@ -35,9 +35,9 @@
                     <div class="form-group">
                       <label for="visitAgencys" class="col-form-label h6">Agencia:</label>
                       <select class="form-control" name="visitAgencys" id="visitAgencys">
-                          {{-- @foreach ( $visitAgencys as $agency ) --}}
-                              {{-- <option value="{{ $agency->id }}">{{ $agency->name }}</option> --}}
-                          {{-- @endforeach --}}
+                          @foreach ( $visitAgencys as $agency )
+                              <option value="{{ $agency->id }}">{{ $agency->name }}</option>
+                          @endforeach
                       </select>
                     </div>
                   </form>

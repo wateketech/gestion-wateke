@@ -215,6 +215,16 @@
             })
         });
 
+        window.addEventListener('show-visit-programedComfirmed', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: 'Programado',
+                html: "Visita programada exitosamente!",
+                icon: 'success',
+                timer: 5000
+            })
+        });
+
 
 
         // SECCION TAREAS POR USUARIOS
