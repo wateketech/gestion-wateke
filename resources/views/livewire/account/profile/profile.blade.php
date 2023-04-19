@@ -48,7 +48,7 @@ Holaaaaaaaaaaa
         <div class="col-lg-12 py-2">
 
             @if ($visit)
-                @livewire('account.profile.layouts.create-visit')
+                @livewire('account.profile.layouts.make-visit')
             @endif
 
 

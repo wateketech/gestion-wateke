@@ -35,12 +35,15 @@
                     <div class="form-group">
                       <label for="visitAgencys" class="col-form-label h6">Agencia:</label>
                       <select class="form-control" name="visitAgencys" id="visitAgencys">
-                          {{-- @foreach ( $visitAgencys as $agency )
-                              <option value="{{ $agency->id }}">{{ $agency->name }}</option>
-                          @endforeach --}}
+                          @foreach ( $visitAgencys as $agency )
+                              <option value="{{ $agency->id }}">hasta: {{ date('d-d-Y', strtotime($agency->deaddate)) }} | {{ $agency->name }}</option>
+                          @endforeach
                       </select>
                     </div>
-                  </form>
+                    <div>
+                        observaciones de la agencia
+                    </div>
+                </form>
             </div>
             <div hidden id="modal-body-visit-start">
 
@@ -68,6 +71,16 @@
 
 @push('scripts')
 <script>
+
+    // Evitar el cierre si la tecla presionada es la tecla "Escape"
+    // document.getElementById('ModalWindow').addEventListener('keydown', function(event) {
+    //     event.stopPropagation();
+    //     modal.style.display = "block";
+    // });
+    // document.getElementById('ModalWindow').addEventListener('keyup', function(event) {
+    //     event.stopPropagation();
+    //     modal.style.display = "block";
+    // });
 
     document.getElementById('modal-booton-visit-init').addEventListener('click', function(){
         document.getElementById('modal-booton-visit-cancel').hidden = true
