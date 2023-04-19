@@ -14,25 +14,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_has_visits', function (Blueprint $table) {
+        Schema::create('user_has_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('entity_id');
+            $table->unsignedBigInteger('notification_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->timestamp('deaddate');
+            $table->timestamp('viewed');
+            // $table->timestamp('status');
+
             $table->string('about')->nullable()->default('');
-            $table->string('enable')->nullable()->default(1);
             $table->timestamps();
 
 
-            $table->foreign('entity_id')->references('id')->on('entitys')->constrained();
+            $table->foreign('notification_id')->references('id')->on('notifications')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-
-            $table->unique(['entity_id', 'user_id', 'deaddate']);
         });
     }
 
@@ -43,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_has_tasks');
+        Schema::dropIfExists('user_has_notifications');
     }
 };

@@ -19,12 +19,12 @@
                     </div>
                 </div>
                 <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                    {{-- <li class="nav-item d-flex align-items-center text-dark">
+                        <a href="javascript:;" class="text-dark nav-link font-weight-bold px-0">
                             <livewire:auth.logout />
-                        </a>
+                        </a> --}}
                     </li>
-                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center text-dark">
                         <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                             <div class="sidenav-toggler-inner">
                                 <i class="sidenav-toggler-line"></i>
@@ -33,7 +33,7 @@
                             </div>
                         </a>
                     </li>
-{{-- 
+
                     <li class="nav-item px-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0">
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
@@ -43,7 +43,7 @@
                         <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-bell cursor-pointer"></i>
                         </a>
-
+{{--
 // informacion y notificaciones de la persona autenticada
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
@@ -52,7 +52,7 @@
                                         <div class="my-auto">
                                             <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
                                         </div>
-                                        
+
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="text-sm font-weight-normal mb-1">
                                                 <span class="font-weight-bold">New message</span> from Laur

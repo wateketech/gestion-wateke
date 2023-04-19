@@ -14,14 +14,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_has_visits', function (Blueprint $table) {
+        Schema::create('user_visits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('entity_id');
             $table->unsignedBigInteger('user_id');
+            $table->timestamp('start');
+            $table->string('longitude');
+            $table->string('latitude');
+            $table->timestamp('end');
 
-            $table->timestamp('deaddate');
             $table->string('about')->nullable()->default('');
-            $table->string('enable')->nullable()->default(1);
             $table->timestamps();
 
 
@@ -31,8 +33,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-
-            $table->unique(['entity_id', 'user_id', 'deaddate']);
         });
     }
 
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_has_tasks');
+        Schema::dropIfExists('user_visits');
     }
 };
