@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Profile extends Component
 {
-
+    public $prueba;
     public $visit = false;
     public $user;
     public $showSuccesNotification  = true;
@@ -22,7 +22,14 @@ class Profile extends Component
         'user.about' => 'max:200',
         'user.location' => 'min:3'
     ];
+    protected $listeners = [
+        'refresh',
+    ];
 
+    public function refresh(){
+        $this->reset();
+        $this->mount();
+    }
     public function mount() {
         $this->user = auth()->user();
 
