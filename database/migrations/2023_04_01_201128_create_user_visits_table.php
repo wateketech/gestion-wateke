@@ -16,8 +16,7 @@ return new class extends Migration
     {
         Schema::create('user_visits', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('entity_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('visit_id');
             $table->timestamp('start');
             $table->string('longitude');
             $table->string('latitude');
@@ -27,10 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('entity_id')->references('id')->on('entitys')->constrained();
-            // ->onUpdate('cascade')
-            // ->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->constrained();
+            $table->foreign('visit_id')->references('id')->on('user_has_visits')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });

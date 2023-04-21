@@ -139,6 +139,14 @@
     document.getElementById('modal-booton-visit-init').addEventListener('click', function(){
         document.getElementById('modal-booton-visit-cancel').hidden = true
 
+        // arreglar bien eswto y coger el token de la api de google maps
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log(latitude, longitude);
+          Livewire.emit('locationGeted', latitude, longitude);
+        });
+        Livewire.emit('start');
         document.getElementById('modal-booton-visit-init').hidden = true;
         document.getElementById('modal-body-visit-init').hidden = true;
         document.getElementById('modal-header-visit-init').hidden = true;
@@ -149,6 +157,7 @@
 
     document.getElementById('modal-booton-visit-start').addEventListener('click', function(){
 
+        Livewire.emit('end');
         document.getElementById('modal-booton-visit-start').hidden = true;
         document.getElementById('modal-body-visit-start').hidden = true;
         document.getElementById('modal-header-visit-start').hidden = true;

@@ -9,5 +9,5 @@ class UserVisits extends Model
 {
     use HasFactory;
     protected $table='user_visits';
-    protected $fillable = ['entity_id', 'user_id', 'start', 'longitude', 'latitude', 'end', 'about'];
+    protected $fillable = ['visit_id', 'start', 'longitude', 'latitude', 'end', 'about'];
 }
