@@ -1,52 +1,99 @@
 {
     "1" : {
         "model" : "management_group",
-        "visual_name" : "Grupo de Gestion",
-        "visuals_name" : "Grupos de Gestion",
-        "icon" : ""
+        "visual_name_s" : "Grupo de Gestion",
+        "visual_name_p" : "Grupos de Gestion",
+        "icon" : "<i class='fas fa-users opacity-10' aria-hidden='true'></i>",
+        "color" : "#333333"
     },
     "3" : {
         "model" : "agency_wholesale",
-        "visual_name" : "Agencia Minorista",
-        "visuals_name" : "Agencias Mayoristas",
-        "icon" : ""
+        "visual_name_s" : "Agencia Minorista",
+        "visual_name_p" : "Agencias Mayoristas",
+        "icon" : "<i class='fas fa-store-alt opacity-10' aria-hidden='true'></i>",
+        "color" : "#556B2F"
     },
     "4" : {
         "model" : "agency_retail",
-        "visual_name" : "Agencia Mayorista",
-        "visuals_name" : "Agencias Minoristas",
-        "icon" : ""
+        "visual_name_s" : "Agencia Mayorista",
+        "visual_name_p" : "Agencias Minoristas",
+        "icon" : "<i class='fas fa-store opacity-10' aria-hidden='true'></i>",
+        "color" : "#191970"
     },
     "5" : {
         "model" : "restaurant",
-        "visual_name" : "Restaurante",
-        "visuals_name" : "Restaurantes",
-        "icon" : ""
+        "visual_name_s" : "Restaurante",
+        "visual_name_p" : "Restaurantes",
+        "icon" : "<i class='fas fa-glass-cheers opacity-10' aria-hidden='true'></i>",
+        "color" : "#D2B48C"
     },
     "6" : {
         "model" : "hotel_group",
-        "visual_name" : "Grupo Helero",
-        "visuals_name" : "Grupos Hoteleros",
-        "icon" : ""
+        "visual_name_s" : "Grupo Helero",
+        "visual_name_p" : "Grupos Hoteleros",
+        "icon" : "<i class='fas fa-city opacity-10' aria-hidden='true'></i>",
+        "color" : " #F5DEB3"
     },
     "7" : {
         "model" : "hotel",
-        "visual_name" : "Hotel",
-        "visuals_name" : "Hoteles",
-        "icon" : ""
+        "visual_name_s" : "Hotel",
+        "visual_name_p" : "Hoteles",
+        "icon" : "<i class='fas fa-hotel opacity-10' aria-hidden='true'></i>",
+        "color" : "#BEBEBE"
     },
     "8" : {
         "model" : "hostel",
-        "visual_name" : "Hostal",
-        "visuals_name" : "Hostales",
-        "icon" : ""
+        "visual_name_s" : "Hostal",
+        "visual_name_p" : "Hostales",
+        "icon" : "<i class='fas fa-house-user opacity-10' aria-hidden='true'></i>",
+        "color" : "#C0C0C0"
     },
     "9" : {
         "model" : "paladar",
-        "visual_name" : "Paladar",
-        "visuals_name" : "Paladares",
-        "icon" : ""
-    }
+        "visual_name_s" : "Paladar",
+        "visual_name_p" : "Paladares",
+        "icon" : "<i class='fas fa-utensils opacity-10' aria-hidden='true'></i>",
+        "color" : "#8B4513"
+    },
+    "10" : {
+        "model" : "carrier",
+        "visual_name_s" : "Transportista",
+        "visual_name_p" : "Transportistas",
+        "icon" : "<i class='fas fa-car-side opacity-10' aria-hidden='true'></i>",
+        "color" : "#2F4F4F"
+    },
+    "11" : {
+        "model" : "airline",
+        "visual_name_s" : "Compañia Aerea",
+        "visual_name_p" : "Compañias Aereas",
+        "icon" : "<i class='fas fa-plane-arrival opacity-10' aria-hidden='true'></i>",
+        "color" : "#87CEEB"
+    },
+    "12" : {
+        "model" : "air_consolidator",
+        "visual_name_s" : "Consolidador Aéreo",
+        "visual_name_p" : "Consolidadores Aéreo",
+        "icon" : "<i class='fas fa-suitcase opacity-10' aria-hidden='true'></i>",
+        "color" : "#808080"
+    },
+    "13" : {
+        "model" : "bar",
+        "visual_name_s" : "Bar",
+        "visual_name_p" : "Bares",
+        "icon" : "<i class='fas fa-beer opacity-10' aria-hidden='true'></i>",
+        "color" : "#800000"
+    },
 
+
+
+
+
+    "14" : {
+        "model" : "",
+        "visual_name_s" : "Otro",
+        "visual_name_p" : "Otros",
+        "icon" : "<i class='fas fa-folder-open opacity-10' aria-hidden='true'></i>",
+        "color" : "#1e1e1e"
+    }
 
 }
