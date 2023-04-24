@@ -14,8 +14,11 @@
         color: #ff6400;
     }
 }
-
-
 div.btn > i:active {
     color: #ff6400;
 }
+
+a.nav-link.icon.active svg path {
+    fill: #ffffff;
+  }
+

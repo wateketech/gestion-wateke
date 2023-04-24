@@ -22060,4 +22060,8 @@ pre[class*=language-] {
 
 div.btn > i:active {
   color: #ff6400;
+}
+
+a.nav-link.icon.active svg path {
+  fill: #ffffff;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

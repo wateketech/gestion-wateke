@@ -18,8 +18,8 @@ use App\Http\Livewire\StaticSignUp;
 use App\Http\Livewire\Rtl;
 
 // use App\Http\Livewire\LaravelExamples\UserProfile;
-use App\Http\Livewire\Contacts\Contacts;
-
+use App\Http\Livewire\Contacts\Contacts\AllContacts;
+use App\Http\Livewire\Contacts\Entity\AllEntity;
 
 use App\Http\Livewire\Contacts\Entity\Entity;
 use App\Http\Livewire\Contacts\Entity\Create as CreateEntity;
@@ -65,23 +65,23 @@ Route::middleware('auth')->group(function () {
         // SECCION DE CUENTA
         Route::get('/user-management', UserManagement::class)->name('user-management');
     });
-    
-    
+
+
     // SECCION DE CUENTA
     Route::get('/profile', Profile::class)->name('profile');
 
 
     // SECCION DE CONTACTOS
-    Route::get('/contactos', Contacts::class)->name('contactos');
+    Route::get('/contactos', AllContacts::class)->name('contactos');
+    Route::get('/entidades', AllEntity::class)->name('entidades');
 
-    Route::get('/agencias', Entity::class)->name('agencia');
     // Route::get('/crear-agencias-full', CreateEntity::class)->name('crear-agencia-full');
-    Route::get('/crear-agencias-basic', CreateFastEntity::class)->name('crear-agencia-basic');
+    // Route::get('/crear-agencias-basic', CreateFastEntity::class)->name('crear-agencia-basic');
 
-    Route::get('/agentes', Agente::class)->name('agente');
+    // Route::get('/agentes', Agente::class)->name('agente');
 
 
-    
+
     // Route::get('/billing', Billing::class)->name('billing');
     // Route::get('/tables', Tables::class)->name('tables');
     // Route::get('/static-sign-in', StaticSignIn::class)->name('sign-in');            // esta ruta su controlar y vista sobra
