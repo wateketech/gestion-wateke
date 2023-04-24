@@ -1,5 +1,5 @@
 <div>
-   
+
         <form action="#" method="POST">
 
             <div class="m-3">
@@ -10,9 +10,9 @@
                             name="nombre" id="nombre" wire:model="nombre">
                     </div>
                     <div class="col-3 form-group">
-                        <label for="nombre_fiacal" class="form-control-label">Nombre Fiscal *</label>
+                        <label for="nombre_fiscal" class="form-control-label">Nombre Fiscal *</label>
                         <input class="form-control" type="text" placeholder="John Snow"
-                            name="nombre_fiacal" id="nombre_fiacal" wire:model="nombre_fiscal">
+                            name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
                     </div>
                     {{-- <div class="col-3 form-group">
                             @livewire('contacts.entidad.layouts.grupogestion')
@@ -23,16 +23,16 @@
                             name="num_oficina" id="num_oficina" wire:model="num_oficina">
                     </div>
                 </div>
-        
+
                 {{-- <div class="row">
                     <div class="col-3 form-group">
                         <label for="nif" class="form-control-label">NIF *</label>
-                        <input class="form-control" type="text" placeholder="John Snow" 
+                        <input class="form-control" type="text" placeholder="John Snow"
                             name="nif" id="nif" wire:model="nif">
                     </div>
                     <div class="col-3 form-group">
                         <label for="iata" class="form-control-label">IATA *</label>
-                        <input class="form-control" type="text" placeholder="MZT" 
+                        <input class="form-control" type="text" placeholder="MZT"
                             name="iata" id="iata" wire:model="iata">
                     </div>
                     <div class="col-3 form-group">
@@ -40,17 +40,17 @@
                         <input class="form-control" type="text" placeholder="John Snow"
                             name="rp" id="rp" wire:model="rp">
                     </div>
-        
+
                     <div class="col-3 form-group">
                             @livewire('contacts.entidad.layouts.gds')
                     </div>
                 </div> --}}
-        
+
                 <div class="row">
-        
+
                     <div class="col-6 form-group">
                         <label for="observ">Observaciones</label>
-                        <textarea class="form-control" rows="3" name="observ" id="observ" wire:model="observ"></textarea> 
+                        <textarea class="form-control" rows="3" name="observ" id="observ" wire:model="observ"></textarea>
                     </div>
                     <div class="col-6 my-4">
                         <div class="container">
@@ -60,7 +60,7 @@
                                     name="es_minorista" id="es_minorista" wire:model="es_minorista">
                                     <label class="custom-control-label" for="es_minorista">Es una minorista</label>
                                 </div>
-                                
+
                                 <div class="form-check my-2">
                                     <input class="form-check-input" type="checkbox"
                                     name="es_central" id="es_central" wire:model="es_central">
@@ -68,8 +68,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
-        
+                    </div>
+
                 </div>
             </div>
                 <div class="m-3">

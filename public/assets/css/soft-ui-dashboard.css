@@ -22064,4 +22064,8 @@ div.btn > i:active {
 
 a.nav-link.icon.active svg path {
   fill: #ffffff;
+}
+
+.primary-disabled {
+  background-color: 255, 241, 230 !important;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

@@ -1,0 +1,52 @@
+{
+    "1" : {
+        "model" : "management_group",
+        "visual_name" : "Grupo de Gestion",
+        "visuals_name" : "Grupos de Gestion",
+        "icon" : ""
+    },
+    "3" : {
+        "model" : "agency_wholesale",
+        "visual_name" : "Agencia Minorista",
+        "visuals_name" : "Agencias Mayoristas",
+        "icon" : ""
+    },
+    "4" : {
+        "model" : "agency_retail",
+        "visual_name" : "Agencia Mayorista",
+        "visuals_name" : "Agencias Minoristas",
+        "icon" : ""
+    },
+    "5" : {
+        "model" : "restaurant",
+        "visual_name" : "Restaurante",
+        "visuals_name" : "Restaurantes",
+        "icon" : ""
+    },
+    "6" : {
+        "model" : "hotel_group",
+        "visual_name" : "Grupo Helero",
+        "visuals_name" : "Grupos Hoteleros",
+        "icon" : ""
+    },
+    "7" : {
+        "model" : "hotel",
+        "visual_name" : "Hotel",
+        "visuals_name" : "Hoteles",
+        "icon" : ""
+    },
+    "8" : {
+        "model" : "hostel",
+        "visual_name" : "Hostal",
+        "visuals_name" : "Hostales",
+        "icon" : ""
+    },
+    "9" : {
+        "model" : "paladar",
+        "visual_name" : "Paladar",
+        "visuals_name" : "Paladares",
+        "icon" : ""
+    }
+
+
+}

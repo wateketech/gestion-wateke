@@ -74,8 +74,7 @@ Route::middleware('auth')->group(function () {
     // SECCION DE CONTACTOS
     Route::get('/contactos', AllContacts::class)->name('contactos');
     Route::get('/entidades', AllEntity::class)->name('entidades');
-
-    // Route::get('/crear-agencias-full', CreateEntity::class)->name('crear-agencia-full');
+    Route::get('/crear-agencias-full', CreateEntity::class)->name('crear-agencia-full');
     // Route::get('/crear-agencias-basic', CreateFastEntity::class)->name('crear-agencia-basic');
 
     // Route::get('/agentes', Agente::class)->name('agente');

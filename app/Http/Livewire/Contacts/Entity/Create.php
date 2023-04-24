@@ -7,71 +7,80 @@ use Livewire\Component;
 class Create extends Component
 {
     public $prueba = 1;
+    public $currentStep = 1;
+    public $entity_types = [
+        // bbdd_table_name => visual_name
+        ['model' => 'management_group',
+            'visual_name' => 'Grupo de Gestion', 'visuals_name' => 'Grupos de Gestion',
+            'icon' => ''
+        ],
+        ['model' => 'agency_wholesale',
+            'visual_name' => 'Agencia Mayorista', 'visuals_name' => 'Agencias Mayoristas',
+            'icon' => ''
+        ],
+        ['model' => 'agency_retail',
+            'visual_name' => 'Agencia Minorista', 'visuals_name' => 'Agencias Minoristas',
+            'icon' => ''
+        ],
+        ['model' => 'restaurant',
+            'visual_name' => 'Restaurante', 'visuals_name' => 'Restaurantes',
+            'icon' => ''
+        ],
+        ['model' => 'hotel_group',
+            'visual_name' => 'Grupo Hotelero', 'visuals_name' => 'Grupos Hoteleros',
+            'icon' => ''
+        ],
+        ['model' => 'hotel',
+            'visual_name' => 'Hotel', 'visuals_name' => 'Hoteles',
+            'icon' => ''
+        ],
+        ['model' => 'hostel',
+            'visual_name' => 'Hostal', 'visuals_name' => 'Hostales',
+            'icon' => ''
+        ],
+        ['model' => 'paladar',
+            'visual_name' => 'Paladar', 'visuals_name' => 'Paladares',
+            'icon' => ''
+        ],
+    ];
+    // -------- entidades --------
+    public $entity_type;
 
-    public $name, $legal_name, $management_group, $office_num, $about;
-    public $is_retail = "true";
-    public $is_mainoffice = "true";
+    // -------- hoteles --------
+    // -------- agencias --------
+    // -------- RESTAURANTES --------
 
-    public $emails = [];
+
+
+
 
 // ----------------------- VALIDACIONES --------------------------
-    public function validateEmails(){
-        foreach($this->emails as $index => $email){
-            $this->validate([
-                "emails.{$index}.label" => 'required',
-                "emails.{$index}.email" => 'required|email|unique:correo_ent,correo',
-            ],[
-                "emails.{$index}.*.required" => 'Campo Obligatorio',
-                // "emails.{$index}.email" => 'required|email|unique:correo_ent,correo',
-
-                // '*.'.$value.'.required' => '',
-                // 'email_contacto.'.$value.'.unique' => 'Ya existe un contacto con este email',
-                // 'email_contacto.'.$value.'.email' => 'Email no valido'
-
-            ]);
-        }
+// ----------------------- RENDER --------------------------
+    public function mount(){
+        $json = file_get_contents('https://github.com/wateketech/gestion-wateke/blob/main/database/data/entity_types.json#L32');
+        dd($json);
     }
-
-
-        
-    //         'nombre_contacto.'.$value => 'required',
-    //         'email_contacto.'.$value => 'required|email|unique:contactos,email',
-    //         'num_movil_contacto.'.$value => 'required'
-    //     ],[
-    //         '*.'.$value.'.required' => 'Campo Obligatorio',
-    //         'email_contacto.'.$value.'.unique' => 'Ya existe un contacto con este email',
-    //         'email_contacto.'.$value.'.email' => 'Email no valido'
-
-    //     ]);
-    // }
-
-
-
-    public function store()
-    {
-        $this->validateEmails();
-        // $validatedData = validate([
-        //     'emails.*.label' => 'required|string|max:255',
-        //     'emails.*.address' => 'required|email|max:255',
-        // ]);
-
-        // foreach ($validatedData['emails'] as $emailData) {
-        //     $email = new Email();
-        //     $email->label = $emailData['label'];
-        //     $email->address = $emailData['address'];
-        //     $email->save();
-        // }
-
-        // return redirect()->route('emails.index');
-    }
-
-
-
-
-
-
     public function render()
     {
         return view('livewire.contacts.entity.create');
+    }
+
+// ----------------------- flujo STEPS --------------------------
+    public function stepSubmit_1(){
+        $this->currentStep = 2;
+    }
+    public function stepSubmit_2(){
+        $this->currentStep = 3;
+    }
+    public function stepSubmit_3(){
+        $this->currentStep = 4;
+    }
+    public function stepSubmit_4(){
+        $this->currentStep = 0;
+    }
+
+    // final step
+    public function store(){
+
     }
 }
