@@ -1,28 +1,28 @@
 {
     "1" : {
         "model" : "management_group",
-        "visual_name_s" : "Grupo de Gestion",
-        "visual_name_p" : "Grupos de Gestion",
+        "visual_name_s" : "Grupo de Gestión",
+        "visual_name_p" : "Grupos de Gestión",
         "icon" : "<i class='fas fa-users opacity-10' aria-hidden='true'></i>",
         "color" : "#333333"
     },
     "3" : {
         "model" : "agency_wholesale",
         "visual_name_s" : "Agencia Minorista",
-        "visual_name_p" : "Agencias Mayoristas",
+        "visual_name_p" : "Agencias Minoristas",
         "icon" : "<i class='fas fa-store-alt opacity-10' aria-hidden='true'></i>",
         "color" : "#556B2F"
     },
     "4" : {
         "model" : "agency_retail",
         "visual_name_s" : "Agencia Mayorista",
-        "visual_name_p" : "Agencias Minoristas",
+        "visual_name_p" : "Agencias Mayoristas",
         "icon" : "<i class='fas fa-store opacity-10' aria-hidden='true'></i>",
         "color" : "#191970"
     },
     "5" : {
         "model" : "restaurant",
-        "visual_name_s" : "Restaurante",
+        "visual_name_s" : "Restaurant",
         "visual_name_p" : "Restaurantes",
         "icon" : "<i class='fas fa-glass-cheers opacity-10' aria-hidden='true'></i>",
         "color" : "#D2B48C"
@@ -64,15 +64,15 @@
     },
     "11" : {
         "model" : "airline",
-        "visual_name_s" : "Compañia Aerea",
-        "visual_name_p" : "Compañias Aereas",
+        "visual_name_s" : "Compañía Aérea",
+        "visual_name_p" : "Compañías Aéreas",
         "icon" : "<i class='fas fa-plane-arrival opacity-10' aria-hidden='true'></i>",
         "color" : "#87CEEB"
     },
     "12" : {
         "model" : "air_consolidator",
         "visual_name_s" : "Consolidador Aéreo",
-        "visual_name_p" : "Consolidadores Aéreo",
+        "visual_name_p" : "Consolidadores Aéreos",
         "icon" : "<i class='fas fa-suitcase opacity-10' aria-hidden='true'></i>",
         "color" : "#808080"
     },

@@ -16,189 +16,30 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-users opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Grupos de Gestion</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-store-alt opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Agencias Mayoristas</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-store opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Agencias Minoristas</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-glass-cheers opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Restaurantes</h5>
-                </div>
-            </div>
-        </div>
+    <div class="container">
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xxl-6">
 
-    </div>
-    <div class="row">
+            @foreach ( $entity_types as $entity )
+                <div class="col p-2">
+                    <div class="card">
+                        <div class="card-header mx-auto p-3 text-center">
+                            <div class="icon icon-shape icon-lg shadow text-center border-radius-lg"
+                                style="background-color: {{ $entity['color'] }}">
+                                {!! html_entity_decode($entity['icon']) !!}
+                            </div>
+                        </div>
+                        <div class="card-body pt-0 p-3 text-center">
+                            <hr class="horizontal dark my-2">
+                            <h5 class="mb-0">{{ $entity['visual_name_p'] }}</h5>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
 
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-city opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Grupos Hoteleros</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-hotel opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Hoteles</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-house-user opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Hostales</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-utensils opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Paladares</h5>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-car-side opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Transportistas</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-plane-arrival opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Compañias Aereas</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-suitcase opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Consolidadores Aéreo</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-beer opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Bares</h5>
-                </div>
-            </div>
         </div>
     </div>
 
 
 
-    <div class="row">
-        <div class="col-3 p-2">
-            <div class="card">
-                <div class="card-header mx-auto p-3 text-center">
-                    <div class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg">
-                        <i class="fas fa-folder-open opacity-10" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="card-body pt-0 p-3 text-center">
-                    <hr class="horizontal dark my-3">
-                    <h5 class="mb-0">Otros</h5>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
