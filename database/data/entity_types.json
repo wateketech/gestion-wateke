@@ -4,21 +4,21 @@
         "visual_name_s" : "Grupo de Gestión",
         "visual_name_p" : "Grupos de Gestión",
         "icon" : "<i class='fas fa-users opacity-10' aria-hidden='true'></i>",
-        "color" : "#333333"
+        "color" : "#E9EDC9"
     },
     "3" : {
         "model" : "agency_wholesale",
         "visual_name_s" : "Agencia Minorista",
         "visual_name_p" : "Agencias Minoristas",
         "icon" : "<i class='fas fa-store-alt opacity-10' aria-hidden='true'></i>",
-        "color" : "#556B2F"
+        "color" : "#CDB4DB"
     },
     "4" : {
         "model" : "agency_retail",
         "visual_name_s" : "Agencia Mayorista",
         "visual_name_p" : "Agencias Mayoristas",
         "icon" : "<i class='fas fa-store opacity-10' aria-hidden='true'></i>",
-        "color" : "#191970"
+        "color" : "#FFAFCC"
     },
     "5" : {
         "model" : "restaurant",
@@ -29,24 +29,24 @@
     },
     "6" : {
         "model" : "hotel_group",
-        "visual_name_s" : "Grupo Helero",
+        "visual_name_s" : "Grupo Hotelero",
         "visual_name_p" : "Grupos Hoteleros",
         "icon" : "<i class='fas fa-city opacity-10' aria-hidden='true'></i>",
-        "color" : " #F5DEB3"
+        "color" : " #D8E2DC"
     },
     "7" : {
         "model" : "hotel",
         "visual_name_s" : "Hotel",
         "visual_name_p" : "Hoteles",
         "icon" : "<i class='fas fa-hotel opacity-10' aria-hidden='true'></i>",
-        "color" : "#BEBEBE"
+        "color" : "#D0F4DE"
     },
     "8" : {
         "model" : "hostel",
         "visual_name_s" : "Hostal",
         "visual_name_p" : "Hostales",
         "icon" : "<i class='fas fa-house-user opacity-10' aria-hidden='true'></i>",
-        "color" : "#C0C0C0"
+        "color" : "#A9DEF9"
     },
     "9" : {
         "model" : "paladar",

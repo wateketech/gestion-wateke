@@ -9,13 +9,13 @@
 
                 {{-- form steps --}}
                 <div class="col-lg-2 py-2">
-                    <div id="menu-step-1" href="#step-1"class="btn btn-primary d-lg-block {{ $currentStep != 1 ? 'disabled' : 'text-white' }}">Tipo de Entidad</div>
-                    <div id="menu-step-2" href="#step-2"class="btn btn-primary d-lg-block {{ $currentStep != 2 ? 'disabled' : 'text-white' }}">Datos Generales</div>
-                    <div id="menu-step-3" href="#step-3"class="btn btn-primary d-lg-block {{ $currentStep != 3 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-4" href="#step-4"class="btn btn-primary d-lg-block {{ $currentStep != 4 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-5" href="#step-5"class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-6" href="#step-6"class="btn btn-primary d-lg-block {{ $currentStep != 6 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-0" href="#step-0"class="btn btn-primary d-lg-block {{ $currentStep != 0 ? 'disabled' : 'text-white' }}">Vista Resumen</div>
+                    <div id="menu-step-1" href="#step-1" class="btn btn-primary d-lg-block {{ $currentStep != 1 ? 'disabled' : 'text-white' }}">Tipo de Entidad</div>
+                    <div id="menu-step-2" href="#step-2" class="btn btn-primary d-lg-block {{ $currentStep != 2 ? 'disabled' : 'text-white' }}">Datos Generales</div>
+                    <div id="menu-step-3" href="#step-3" class="btn btn-primary d-lg-block {{ $currentStep != 3 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-4" href="#step-4" class="btn btn-primary d-lg-block {{ $currentStep != 4 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-5" href="#step-5" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-6" href="#step-6" class="btn btn-primary d-lg-block {{ $currentStep != 6 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-0" href="#step-0" class="btn btn-primary d-lg-block" style="background-color: #000" >Vista Resumen</div>
                 </div>
 
                 {{-- form --}}
