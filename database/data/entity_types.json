@@ -74,14 +74,14 @@
         "visual_name_s" : "Consolidador Aéreo",
         "visual_name_p" : "Consolidadores Aéreos",
         "icon" : "<i class='fas fa-suitcase opacity-10' aria-hidden='true'></i>",
-        "color" : "#808080"
+        "color" : "#A2D2FF"
     },
     "13" : {
         "model" : "bar",
         "visual_name_s" : "Bar",
         "visual_name_p" : "Bares",
         "icon" : "<i class='fas fa-beer opacity-10' aria-hidden='true'></i>",
-        "color" : "#800000"
+        "color" : "#FF99C8"
     },
 
 
@@ -93,7 +93,7 @@
         "visual_name_s" : "Otro",
         "visual_name_p" : "Otros",
         "icon" : "<i class='fas fa-folder-open opacity-10' aria-hidden='true'></i>",
-        "color" : "#1e1e1e"
+        "color" : "#dab894"
     }
 
 }
