@@ -1,6 +1,6 @@
 <div class="main-content">
     <div class="d-flex justify-content-center my-3 h3 text-primary">
-        {{-- Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type }} --}}
+        {{-- Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type['visual_name_p'] }} --}}
     </div>
 
     <div class="container-fluid py-2">
@@ -14,8 +14,8 @@
                     <div id="menu-step-3" href="#step-3" class="btn btn-primary d-lg-block {{ $currentStep != 3 ? 'disabled' : 'text-white' }}">General</div>
                     <div id="menu-step-4" href="#step-4" class="btn btn-primary d-lg-block {{ $currentStep != 4 ? 'disabled' : 'text-white' }}">General</div>
                     <div id="menu-step-5" href="#step-5" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-6" href="#step-6" class="btn btn-primary d-lg-block {{ $currentStep != 6 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-0" href="#step-0" class="btn btn-primary d-lg-block" style="background-color: #000" >Vista Resumen</div>
+                    <div id="menu-step-6" href="#step-6" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-0" href="#step-0" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">Vista Resumen</div>
                 </div>
 
                 {{-- form --}}
@@ -31,14 +31,14 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3 form-group">
+                                <div class="col-5 form-group">
                                     <label for="entity_type" class="form-control-label">Tipo de entidad *</label>
-                                    {{-- <select class="form-control" type="text" name="entity_type" id="entity_type"
+                                    <select class="form-control" type="text" name="entity_type" id="entity_type"
                                         wire:model="entity_type">
                                         @foreach ($entity_types as $entity)
-                                            <option value="{{ $entity }}">{{ $entity }}</option>
+                                            <option value={{ $entity['id'] }}>{{ $entity['visual_name_s'] }}</option>
                                         @endforeach
-                                    </select> --}}
+                                    </select>
                                 </div>
                             </div>
 

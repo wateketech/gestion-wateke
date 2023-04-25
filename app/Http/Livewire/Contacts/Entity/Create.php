@@ -25,7 +25,7 @@ class Create extends Component
 // ----------------------- VALIDACIONES --------------------------
 // ----------------------- RENDER --------------------------
     public function mount(){
-        $this->entity_types = file_get_contents('https://raw.githubusercontent.com/wateketech/gestion-wateke/main/database/data/entity_types.json');
+        $this->entity_types = json_decode(file_get_contents('https://raw.githubusercontent.com/wateketech/gestion-wateke/main/database/data/entity_types.json'), true);
     }
     public function render()
     {
