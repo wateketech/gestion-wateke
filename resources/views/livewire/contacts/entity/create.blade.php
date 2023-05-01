@@ -93,7 +93,7 @@
 
 
                                     <div class="col-3 form-group">
-                                            @livewire('contacts.entidad.layouts.gds')
+                                            {{-- @livewire('contacts.entidad.layouts.gds') --}}
                                     </div>
                                 </div>
 
