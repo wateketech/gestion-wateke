@@ -11,5 +11,5 @@ class EntityType extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_types';
-    protected $fillable = ['model', 'visual_name_s', 'visual_name_p', 'icon', 'color'];
+    protected $fillable = ['model', 'visual_name_s', 'visual_name_p', 'icon', 'color', 'enable'];
 }

@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_has_tasks');
+        Schema::dropIfExists('user_has_visits');
     }
 };

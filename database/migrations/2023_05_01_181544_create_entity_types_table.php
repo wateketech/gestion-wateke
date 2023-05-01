@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('visual_name_p');
             $table->string('icon');
             $table->string('color');
+            $table->boolean('enable')->default(1);
             $table->timestamps();
         });
     }
