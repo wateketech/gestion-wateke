@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Contacts\Entity;
 
 use Livewire\Component;
+use App\Models\EntityType as EntityTypes;
 
 class Create extends Component
 {
@@ -10,7 +11,7 @@ class Create extends Component
     public $currentStep = 1;
 
     // -------- entidades --------
-    public $entity_types, $entity_type, $entity_type_id;
+    public $entity_types, $entity_type;
 
     public $name;
 
@@ -25,7 +26,7 @@ class Create extends Component
 // ----------------------- VALIDACIONES --------------------------
 // ----------------------- RENDER --------------------------
     public function mount(){
-        $this->entity_types = json_decode(file_get_contents('https://raw.githubusercontent.com/wateketech/gestion-wateke/main/database/data/entity_types.json'), true);
+        $this->entity_types = EntityTypes::all();
     }
     public function render()
     {
@@ -33,9 +34,9 @@ class Create extends Component
     }
 
 // ----------------------- flujo STEPS --------------------------
-    public function updatedEntityTypeId()
+    public function updatedEntityType()
     {
-        $this->entity_type = $this->entity_types[intVal($this->entity_type_id)];
+        $this->entity_type = EntityTypes::find($this->entity_type);
         $this->stepSubmit_1();
     }
     public function stepSubmit_1(){
