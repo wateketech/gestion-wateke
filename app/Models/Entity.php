@@ -11,4 +11,10 @@ class Entity extends Model
     protected $table='entitys';
     protected $fillable = ['alias', 'legal_name', 'comercial_name', 'about', 'enable', 'entity_type_id'];
 
+    public function entity_type(){
+        return $this->hasOne('App\Models\EntityType', 'id');
+    }
+    public function entity_id(){
+        return $this->hasOne('App\Models\EntityId', 'id');
+    }
 }
