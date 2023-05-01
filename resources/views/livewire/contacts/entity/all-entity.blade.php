@@ -24,13 +24,12 @@
                     <div class="card">
                         <div class="card-header mx-auto p-3 text-center">
                             <div class="icon icon-shape icon-lg shadow text-center border-radius-lg"
-                                style="background-color: {{ $entity['color'] }}">
-                                {!! html_entity_decode($entity['icon']) !!}
-                            </div>
+                                style="background-color: {{ $entity->color }}">
+                                {!! html_entity_decode($entity->icon) !!}                            </div>
                         </div>
                         <div class="card-body pt-0 p-3 text-center">
                             <hr class="horizontal dark my-2">
-                            <h5 class="mb-0">{{ $entity['visual_name_p'] }}</h5>
+                            <h5 class="mb-0">{{ $entity->visual_name_p }}</h5>
                         </div>
                     </div>
                 </div>

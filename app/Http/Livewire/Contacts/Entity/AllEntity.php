@@ -3,12 +3,13 @@
 namespace App\Http\Livewire\Contacts\Entity;
 
 use Livewire\Component;
+use App\Models\EntityType as EntityTypes;
 
 class AllEntity extends Component
 {
     public $entity_types;
     public function mount(){
-        $this->entity_types = json_decode(file_get_contents('https://raw.githubusercontent.com/wateketech/gestion-wateke/main/database/data/entity_types.json'), true);
+        $this->entity_types = EntityTypes::all();
     }
     public function render()
     {
