@@ -52,39 +52,52 @@
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
                                 </div>
-                                <div class="col-2 form-group">
-                                    <label for="nif" class="form-control-label">NIF *</label>
-                                    <input class="form-control" type="text" placeholder="John Snow"
-                                        name="nif" id="nif" wire:model="nif">
-                                </div>
-                                <div class="col-5 form-group">
-                                    <label for="nif" class="form-control-label">NIF *</label>
-                                    <input class="form-control" type="text" placeholder="John Snow"
-                                        name="nif" id="nif" wire:model="nif">
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-2 form-group">
+                                                <label for="nif" class="form-control-label">ID *</label>
+                                                <input class="form-control" type="text" placeholder="John Snow"
+                                                name="nif" id="nif" wire:model="nif">
+                                            </div>
+                                            <div class="col-10 form-group">
+                                                <label for="nif" class="form-control-label">NIF *</label>
+                                                <input class="form-control" type="text" placeholder="John Snow"
+                                                name="nif" id="nif" wire:model="nif">
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label for="nombre" class="form-control-label">Alias *</label>
+                                                <input class="form-control" type="text" placeholder="HAVANATUR"
+                                                    name="nombre" id="nombre" wire:model="nombre">
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label for="nombre_fiscal" class="form-control-label">Nombre Fiscal *</label>
+                                                <input class="form-control" type="text" placeholder="John Snow"
+                                                    name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label for="nombre_fiscal" class="form-control-label">Nombre Comercial *</label>
+                                                <input class="form-control" type="text" placeholder="John Snow"
+                                                    name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="col-12 mt-4 form-group">
+                                            <label for="observ">Observaciones</label>
+                                            <textarea class="form-control" rows="4" name="observ" id="observ" wire:model="observ"></textarea>
+                                        </div>
+                                    </div>
+
+
                                 </div>
 
 
-                                <div class="col-4 form-group">
-                                    <label for="nombre" class="form-control-label">Alias *</label>
-                                    <input class="form-control" type="text" placeholder="HAVANATUR"
-                                        name="nombre" id="nombre" wire:model="nombre">
-                                </div>
-                                <div class="col-4 form-group">
-                                    <label for="nombre_fiscal" class="form-control-label">Nombre Fiscal *</label>
-                                    <input class="form-control" type="text" placeholder="John Snow"
-                                        name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
-                                </div>
-                                <div class="col-4 form-group">
-                                    <label for="nombre_fiscal" class="form-control-label">Nombre Comercial *</label>
-                                    <input class="form-control" type="text" placeholder="John Snow"
-                                        name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
-                                </div>
 
 
-                                <div class="col-6 form-group">
-                                    <label for="observ">Observaciones</label>
-                                    <textarea class="form-control" rows="3" name="observ" id="observ" wire:model="observ"></textarea>
-                                </div>
+
 
 
 
