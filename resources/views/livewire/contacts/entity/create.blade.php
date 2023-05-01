@@ -1,6 +1,6 @@
 <div class="main-content">
     <div class="d-flex justify-content-center my-3 h3 text-primary">
-        {{-- Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type['visual_name_p'] }} --}}
+        Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type['visual_name_p'] }}
     </div>
 
     <div class="container-fluid py-2">
@@ -33,12 +33,14 @@
 
                                 <div class="col-5 form-group">
                                     <label for="entity_type" class="form-control-label">Tipo de entidad *</label>
-                                    <select class="form-control" type="text" name="entity_type" id="entity_type"
-                                        wire:model="entity_type">
+                                    <select class="form-control @error('entity_type')border border-danger rounded-3 @enderror" type="text" name="entity_type" id="entity_type"
+                                        wire:model="entity_type_id" required>
+                                        <option value=""></option>
                                         @foreach ($entity_types as $entity)
                                             <option value={{ $entity['id'] }}>{{ $entity['visual_name_s'] }}</option>
                                         @endforeach
                                     </select>
+                                    @error('entity_type') <sub class="text-danger">{{ $message }}</sub> @enderror
                                 </div>
                             </div>
 
@@ -50,7 +52,85 @@
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
                                 </div>
-                                paso 2
+
+
+                                <div class="col-3 form-group">
+                                    <label for="nombre" class="form-control-label">Nombre *</label>
+                                    <input class="form-control" type="text" placeholder="HAVANATUR"
+                                        name="nombre" id="nombre" wire:model="nombre">
+                                </div>
+                                <div class="col-3 form-group">
+                                    <label for="nombre_fiscal" class="form-control-label">Nombre Fiscal *</label>
+                                    <input class="form-control" type="text" placeholder="John Snow"
+                                        name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-3 form-group">
+                                        <label for="nif" class="form-control-label">NIF *</label>
+                                        <input class="form-control" type="text" placeholder="John Snow"
+                                            name="nif" id="nif" wire:model="nif">
+                                    </div>
+                                    <div class="col-3 form-group">
+                                        <label for="iata" class="form-control-label">IATA *</label>
+                                        <input class="form-control" type="text" placeholder="MZT"
+                                            name="iata" id="iata" wire:model="iata">
+                                    </div>
+                                    <div class="col-3 form-group">
+                                        <label for="rp" class="form-control-label">RP *</label>
+                                        <input class="form-control" type="text" placeholder="John Snow"
+                                            name="rp" id="rp" wire:model="rp">
+                                    </div>
+                                    <div class="col-3 form-group">
+                                        <label for="rp" class="form-control-label">Descripción *</label>
+                                        <input class="form-control" type="text" placeholder="John Snow"
+                                            name="rp" id="rp" wire:model="rp">
+                                    </div>
+
+
+
+
+                                    <div class="col-3 form-group">
+                                            @livewire('contacts.entidad.layouts.gds')
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-6 form-group">
+                                    <label for="observ">Observaciones</label>
+                                    <textarea class="form-control" rows="3" name="observ" id="observ" wire:model="observ"></textarea>
+                                </div>
+                                <div class="col-6 my-4">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="form-check my-2">
+                                                <input class="form-check-input" type="checkbox"
+                                                name="es_minorista" id="es_minorista" wire:model="es_minorista">
+                                                <label class="custom-control-label" for="es_minorista">Es una minorista</label>
+                                            </div>
+
+                                            <div class="form-check my-2">
+                                                <input class="form-check-input" type="checkbox"
+                                                name="es_central" id="es_central" wire:model="es_central">
+                                                <label class="custom-control-label" for="es_central">Es una central</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
 
                             </div>
                         {{-- -------------------------- STEP 3 -------------------------- --}}
