@@ -21,11 +21,11 @@
                 {{-- form --}}
                 <div class="col-lg-10 py-2">
                     <form wire:submit.prevent="store" action="#" method="POST">
-                        <div class="card card-body blur shadow-blur mx-4 my-1">
+                        <div class="card card-body blur shadow-blur mx-2 my-1 px-4">
                         {{-- -------------------------- STEP 1 -------------------------- --}}
                             <div class="row {{ $currentStep != 1 ? 'd-none' : '' }}" id="step-1">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-2 btn btn-primary"
+                                    <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_1">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
@@ -47,74 +47,60 @@
                         {{-- -------------------------- STEP 2 -------------------------- --}}
                             <div class="row {{ $currentStep != 2 ? 'd-none' : '' }}" id="step-2">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-2 btn btn-primary"
+                                    <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_2">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-2 form-group">
-                                                <label for="nif" class="form-control-label">ID *</label>
-                                                <input class="form-control" type="text" placeholder="John Snow"
-                                                name="nif" id="nif" wire:model="nif">
+                                <div class="container-fluid mt-4">
+                                    <div class="row">
+                                        <div class='col-lg-8'>
+                                            <div class="row">
+                                                <div class="col-2 form-group pr-0">
+                                                    <label for="nif" class="form-control-label">ID *</label>
+                                                    <input class="form-control" type="text" placeholder="John Snow"
+                                                    name="nif" id="nif" wire:model="nif">
+                                                </div>
+                                                <div class="col-10 form-group">
+                                                    <label for="nif" class="form-control-label">NIF *</label>
+                                                    <input class="form-control" type="text" placeholder="John Snow"
+                                                    name="nif" id="nif" wire:model="nif">
+                                                </div>
+                                                <div class="col-12 form-group">
+                                                    <label for="nombre" class="form-control-label">Alias *</label>
+                                                    <input class="form-control" type="text" placeholder="HAVANATUR"
+                                                        name="nombre" id="nombre" wire:model="nombre">
+                                                </div>
+                                                <div class="col-12 form-group">
+                                                    <label for="nombre_fiscal" class="form-control-label">Nombre Fiscal *</label>
+                                                    <input class="form-control" type="text" placeholder="John Snow"
+                                                        name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
+                                                </div>
+                                                <div class="col-12 form-group">
+                                                    <label for="nombre_fiscal" class="form-control-label">Nombre Comercial *</label>
+                                                    <input class="form-control" type="text" placeholder="John Snow"
+                                                        name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
+                                                </div>
+                                                <div class="col-12 form-group">
+                                                    <label for="observ">Observaciones</label>
+                                                    <textarea class="form-control" rows="3" name="observ" id="observ" wire:model="observ"></textarea>
+                                                </div>
                                             </div>
-                                            <div class="col-10 form-group">
-                                                <label for="nif" class="form-control-label">NIF *</label>
-                                                <input class="form-control" type="text" placeholder="John Snow"
-                                                name="nif" id="nif" wire:model="nif">
-                                            </div>
-                                            <div class="col-12 form-group">
-                                                <label for="nombre" class="form-control-label">Alias *</label>
-                                                <input class="form-control" type="text" placeholder="HAVANATUR"
-                                                    name="nombre" id="nombre" wire:model="nombre">
-                                            </div>
-                                            <div class="col-12 form-group">
-                                                <label for="nombre_fiscal" class="form-control-label">Nombre Fiscal *</label>
-                                                <input class="form-control" type="text" placeholder="John Snow"
-                                                    name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
-                                            </div>
-                                            <div class="col-12 form-group">
-                                                <label for="nombre_fiscal" class="form-control-label">Nombre Comercial *</label>
-                                                <input class="form-control" type="text" placeholder="John Snow"
-                                                    name="nombre_fiscal" id="nombre_fiscal" wire:model="nombre_fiscal">
-                                            </div>
-
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="col-12 mt-4 form-group">
-                                            <label for="observ">Observaciones</label>
-                                            <textarea class="form-control" rows="4" name="observ" id="observ" wire:model="observ"></textarea>
-                                        </div>
-                                    </div>
+                                        <div class='col-lg-4'>
+                                            <div class="row">
+                                                <div class="col-sm-5 col-md-5 col-lg-12 col-xl-12 col-xxl-11">
 
+                                                    <div class="form-group p-4">
+                                                        <img src="https://picsum.photos/50/50" class="w-100 h-74 rounded-top" alt="...">
+                                                        <input class="form-control" id="profile_pic" type="file">
+                                                    </div>
 
-                                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                                </div>
+                                            </div>
+                                      </div>
+                                  </div>
 
 
 
@@ -122,7 +108,7 @@
                         {{-- -------------------------- STEP 3 -------------------------- --}}
                             <div class="row {{ $currentStep != 3 ? 'd-none' : '' }}" id="step-3">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-2 btn btn-primary"
+                                    <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_3">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
@@ -134,7 +120,7 @@
                         {{-- -------------------------- STEP 3 -------------------------- --}}
                             <div class="row {{ $currentStep != 4 ? 'd-none' : '' }}" id="step-3">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-2 btn btn-primary"
+                                    <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_4">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
