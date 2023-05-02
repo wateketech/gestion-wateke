@@ -90,12 +90,79 @@
                                         </div>
                                         <div class='col-lg-4'>
                                             <div class="row">
-                                                <div class="col-sm-5 col-md-5 col-lg-12 col-xl-12 col-xxl-11">
+                                                <div class="col-sm-5 col-md-5 col-lg-12 col-xl-11 col-xxl-11">
 
                                                     <div class="form-group p-4">
-                                                        <img src="https://picsum.photos/50/50" class="w-100 h-74 rounded-top" alt="...">
-                                                        <input class="form-control" id="profile_pic" type="file">
+
+                                                        <div wire:ignore id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                            <ol class="carousel-indicators">
+                                                                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                                                                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                                                                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+                                                            </ol>
+                                                            <div class="carousel-inner">
+                                                                <div class="carousel-item">
+                                                                    <img class="d-block w-100" src="https://via.placeholder.com/800x800?text=First+Slide" class="w-100 h-74 d-block rounded-top" alt="...">
+                                                                    {{-- <button id="deleteButton" class="btn btn-danger">Borrar foto actual</button> --}}
+                                                                </div>
+                                                                <div class="carousel-item active">
+                                                                    <img class="d-block w-100" src="https://via.placeholder.com/800x800?text=Second+Slide" class="w-100 h-74 d-block rounded-top" alt="...">
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <div class="position-absolute top-0 p-3">
+                                                                            <a href="" class="icon p-1"><i class="far fa-trash-alt"></i></a>
+                                                                            <a href="" class="icon p-1"><i class="far fa-eye"></i></a>
+                                                                            <a href="" class="icon p-1"><i class="far fa-star"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="carousel-item">
+                                                                    <img class="d-block w-100" src="https://via.placeholder.com/800x800?text=Third+Slide" class="w-100 h-74 d-block rounded-top" alt="...">
+                                                                    {{-- <button id="deleteButton" class="btn btn-danger">Borrar foto actual</button> --}}
+                                                                </div>
+                                                            </div>
+                                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                              <span class="sr-only">Previous</span>
+                                                            </a>
+                                                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                              <span class="sr-only">Next</span>
+                                                            </a>
+                                                        </div>
+
+                                                        <input class="form-control" id="profile_pic" type="file" name="images[]" multiple>
+                                                        <sub><strong>NOTA:</strong> Seleccionar todos los logotipos a subir al mismo tiempo con un tamaño máximo 5mg por cada uno.</sub>
                                                     </div>
+
+
+
+
+                        <script wire:ignore>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var carousel = document.querySelector("#carouselExampleIndicators");
+                                var carouselInstance = new bootstrap.Carousel(carousel);
+
+                                var prevButton = carousel.querySelector(".carousel-control-prev");
+                                var nextButton = carousel.querySelector(".carousel-control-next");
+
+                                prevButton.addEventListener("click", function() {
+                                    carouselInstance.prev();
+                                });
+
+                                nextButton.addEventListener("click", function() {
+                                    carouselInstance.next();
+                                });
+
+                                carousel.addEventListener("mouseenter", function() {
+                                    carouselInstance.pause();
+                                });
+
+                                carousel.addEventListener("mouseleave", function() {
+                                    carouselInstance.cycle();
+                                });
+                            });
+                        </script>
+
 
                                                 </div>
                                             </div>
