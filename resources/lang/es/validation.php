@@ -11,7 +11,7 @@ return [
     | como las reglas de tamaño. Siéntase libre de modificar cada uno de estos mensajes aquí.
     |
     */
-
+    'valid_image_mime'     => 'El archivo debe ser una imagen válida.',
     'accepted'             => ':attribute debe ser aceptado.',
     'active_url'           => ':attribute no es una URL válida.',
     'after'                => ':attribute debe ser una fecha posterior a :date.',
