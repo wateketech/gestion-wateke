@@ -12,4 +12,8 @@ class EntityType extends Model
     use MassAssignmentConcerns;
     protected $table='entity_types';
     protected $fillable = ['model', 'visual_name_s', 'visual_name_p', 'icon', 'color', 'enable'];
+
+    public function entitys(){
+        return $this->hasMany('App\Models\Entity', 'type_id');
+    }
 }
