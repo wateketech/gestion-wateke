@@ -13,7 +13,7 @@ class EntityIdType extends Model
     protected $table='entity_id_types';
     protected $fillable = ['label', 'title', 'regEx'];
 
-    public function type(){
+    public function ids(){
         return $this->hasMany('App\Models\EntityId', 'id');
     }
 }

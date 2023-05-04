@@ -13,7 +13,7 @@ class EntityDateType extends Model
     protected $table='entity_date_types';
     protected $fillable = ['label'];
 
-    public function type(){
+    public function dates(){
         return $this->hasMany('App\Models\EntityDate', 'id');
     }
 }

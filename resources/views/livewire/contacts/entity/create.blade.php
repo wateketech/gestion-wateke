@@ -9,24 +9,25 @@
 
                 {{-- form steps --}}
                 <div class="col-lg-2 py-2">
-                    <div id="menu-step-1" href="#step-1" class="btn btn-primary d-lg-block {{ $currentStep != 1 ? 'disabled' : 'text-white' }}">Tipo de Entidad</div>
-                    <div id="menu-step-2" href="#step-2" class="btn btn-primary d-lg-block {{ $currentStep != 2 ? 'disabled' : 'text-white' }}">Datos Generales</div>
-                    <div id="menu-step-3" href="#step-3" class="btn btn-primary d-lg-block {{ $currentStep != 3 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-4" href="#step-4" class="btn btn-primary d-lg-block {{ $currentStep != 4 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-5" href="#step-5" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-6" href="#step-6" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
-                    <div id="menu-step-0" href="#step-0" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">Vista Resumen</div>
+                    <div id="menu-step-entity_type" class="btn btn-primary d-lg-block {{ $currentStep != 'entity_type' ? 'disabled' : 'text-white' }}">Tipo de Entidad</div>
+                    <div id="menu-step-entity_general" class="btn btn-primary d-lg-block {{ $currentStep != 'entity_general' ? 'disabled' : 'text-white' }}">Datos Generales</div>
+                    <div id="menu-step-3" class="btn btn-primary d-lg-block {{ $currentStep != 3 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-4" class="btn btn-primary d-lg-block {{ $currentStep != 4 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-5" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
+                    <div id="menu-step-6" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">General</div>
+
+                    <div id="menu-step-0" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">Vista Resumen</div>
                 </div>
 
                 {{-- form --}}
                 <div class="col-lg-10 py-2">
                     <form wire:submit.prevent="store" action="#" method="POST">
                         <div class="card card-body blur shadow-blur mx-2 my-1 px-4">
-                        {{-- -------------------------- STEP 1 -------------------------- --}}
-                            <div class="row {{ $currentStep != 1 ? 'd-none' : '' }}" id="step-1">
+                        {{-- -------------------------- STEP TYPE -------------------------- --}}
+                            <div class="row {{ $currentStep != 'entity_type' ? 'd-none' : '' }}" id="step-entity_type">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_1">
+                                        wire:click="stepSubmit_entity_type">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
                                 </div>
@@ -44,11 +45,11 @@
                                 </div>
                             </div>
 
-                        {{-- -------------------------- STEP 2 -------------------------- --}}
-                            <div class="row {{ $currentStep != 2 ? 'd-none' : '' }}" id="step-2">
+                        {{-- -------------------------- STEP GENERALS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'entity_general' ? 'd-none' : '' }}" id="step-entity_general">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_2">
+                                        wire:click="stepSubmit_entity_general">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
                                 </div>
@@ -59,15 +60,33 @@
                                             <div class="row">
                                                 <div class="col-2 form-group pr-0">
                                                     <label for="entity_id_types" class="form-control-label">ID *</label>
-                                                    <input class="@error('entity_id_label')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
+                                                    <select class="@error('entity_id_label')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
                                                         name="entity_id_types" id="entity_id_types" wire:model="entity_id_label">
+                                                        @foreach ($entity_type_ids as $id_type)
+                                                            <option value="{{ $id_type->id }}">{{ $id_type->label }}</option>
+                                                        @endforeach
+                                                    </select>
                                                     @error('entity_id_label') <sub class="text-danger">{{ $message }}</sub> @enderror
                                                 </div>
                                                 <div class="col-10 form-group">
-                                                    <label for="entity_ids" class="form-control-label">NIF *</label>
+                                                    <label for="entity_ids" class="form-control-label">{{  $entity_type_ids->find($entity_id_label)->title }} *</label>
                                                     <input class="@error('entity_id_value')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
                                                         name="entity_ids" id="entity_ids" wire:model="entity_id_value">
                                                     @error('entity_id_value') <sub class="text-danger">{{ $message }}</sub> @enderror
+                                                    @php
+                                                        $entity_id_value_valid = true;
+                                                        foreach (json_decode($entity_type_ids->find($entity_id_label)->regEx) as $regEx){
+                                                            if ($entity_id_value && !preg_match($regEx, $entity_id_value)){
+                                                                $entity_id_value_valid = false;
+                                                                // print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
+                                                            }else{
+                                                                $entity_id_value_valid = true;
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    @if (!$entity_id_value_valid)
+                                                        <sub class="text-warning">Este {{ $entity_type_ids->find($entity_id_label)->label }} no cumple con las validacion predefinidas</sub>
+                                                    @endif
                                                 </div>
                                                 <div class="col-12 form-group">
                                                     <label for="entity_alias" class="form-control-label">Alias *</label>
@@ -160,31 +179,31 @@
 
 
 
-                        <script wire:ignore>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                var carousel = document.querySelector("#carouselExampleIndicators");
-                                var carouselInstance = new bootstrap.Carousel(carousel);
+                                                        <script wire:ignore>
+                                                            document.addEventListener("DOMContentLoaded", function() {
+                                                                var carousel = document.querySelector("#carouselExampleIndicators");
+                                                                var carouselInstance = new bootstrap.Carousel(carousel);
 
-                                var prevButton = carousel.querySelector(".carousel-control-prev");
-                                var nextButton = carousel.querySelector(".carousel-control-next");
+                                                                var prevButton = carousel.querySelector(".carousel-control-prev");
+                                                                var nextButton = carousel.querySelector(".carousel-control-next");
 
-                                prevButton.addEventListener("click", function() {
-                                    carouselInstance.prev();
-                                });
+                                                                prevButton.addEventListener("click", function() {
+                                                                    carouselInstance.prev();
+                                                                });
 
-                                nextButton.addEventListener("click", function() {
-                                    carouselInstance.next();
-                                });
+                                                                nextButton.addEventListener("click", function() {
+                                                                    carouselInstance.next();
+                                                                });
 
-                                carousel.addEventListener("mouseenter", function() {
-                                    carouselInstance.pause();
-                                });
+                                                                carousel.addEventListener("mouseenter", function() {
+                                                                    carouselInstance.pause();
+                                                                });
 
-                                carousel.addEventListener("mouseleave", function() {
-                                    carouselInstance.cycle();
-                                });
-                            });
-                        </script>
+                                                                carousel.addEventListener("mouseleave", function() {
+                                                                    carouselInstance.cycle();
+                                                                });
+                                                            });
+                                                        </script>
 
 
                                                 </div>
@@ -207,7 +226,7 @@
                                 paso 3
 
                             </div>
-                        {{-- -------------------------- STEP 3 -------------------------- --}}
+                        {{-- -------------------------- STEP 4 -------------------------- --}}
                             <div class="row {{ $currentStep != 4 ? 'd-none' : '' }}" id="step-3">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"

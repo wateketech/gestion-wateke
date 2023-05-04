@@ -7,18 +7,25 @@ use Livewire\TemporaryUploadedFile;
 use Livewire\Component;
 
 use App\Models\EntityType as EntityTypes;
+use App\Models\EntityIdType as EntityIdTypes;
 
 class Create extends Component
 {
     use WithFileUploads;
     public $prueba;
-    public $currentStep = 1;
+    public $currentStep = 'entity_type';
+
+    public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
+    protected $rules = [
+
+    ];
+
 
     // -------- entidades --------
     public $entity_types, $entity_type;
 
-    public $entity_alias, $entity_legal_name, $entity_comercial_name, $entity_about, $entity_type_id;
-    public $entity_id_value, $entity_id_label;
+    public $entity_alias, $entity_legal_name, $entity_comercial_name, $entity_about;
+    public $entity_type_ids, $entity_id_label, $entity_id_value;
     public $entity_dates_value, $entity_date_label;
     public $entity_logos = [];
 
@@ -31,6 +38,8 @@ class Create extends Component
 // ----------------------- RENDER --------------------------
     public function mount(){
         $this->entity_types = EntityTypes::all();
+        $this->entity_type_ids = EntityIdTypes::all();
+        $this->entity_id_label = $this->entity_type_ids->first()->id;
     }
     public function render()
     {
@@ -38,18 +47,22 @@ class Create extends Component
     }
 
 // ----------------------- flujo STEPS --------------------------
-    public function updatedEntityType()
-    {
-        $this->entity_type = EntityTypes::find($this->entity_type);
-        $this->stepSubmit_1();
+// -------------------------- STEP TYPE --------------------------
+    public function updatedEntityType(){
+        $this->entity_type = $this->entity_types->find($this->entity_type);
+        $this->stepSubmit_entity_type();
     }
-    public function stepSubmit_1(){
+    public function stepSubmit_entity_type(){
         $this->validate([
             'entity_type' => 'required',
         ],[
             'entity_type.required' => 'El campo es obligatorio'
         ]);
-        $this->currentStep = 2;
+        $this->currentStep = 'entity_general';
+    }
+// -------------------------- STEP GENERALS --------------------------
+    public function updatedEntityIdLabel(){
+        $this->entity_id_label = $this->entity_type_ids->find($this->entity_id_label)->id;
     }
     public function updatedEntityLogos(){
         // validar las imagenes
@@ -64,7 +77,7 @@ class Create extends Component
             $image->save($filePath);
         }
     }
-    public function stepSubmit_2(){
+    public function stepSubmit_entity_general(){
         // entity_id_label
         // entity_id_value
         // entity_alias
@@ -72,19 +85,27 @@ class Create extends Component
         // entity_about
         $this->validate([
             'entity_logos' => 'max:5120|valid_image_mime',
-            'entity_legal_name' => 'required',
+            'entity_id_value' => 'required',
+            'entity_legal_name' => 'nullable|required_without_all:entity_comercial_name',
+            'entity_comercial_name' => 'nullable|required_without_all:entity_legal_name',
         ],[
-            '*.required' => 'El campo es obligatorio'
+            '*.required' => 'El campo es obligatorio',
+            'entity_legal_name.required_without_all' => 'Sin un Nombre Comercial este campo es requerido',
+            'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
         ]);
         $this->currentStep = 3;
     }
+// -------------------------- STEP  --------------------------
     public function stepSubmit_3(){
         $this->currentStep = 4;
     }
+// -------------------------- STEP  --------------------------
     public function stepSubmit_4(){
         $this->currentStep = 0;
     }
 
+
+// -------------------------- STEP  --------------------------
     // final step
     public function store(){
 
