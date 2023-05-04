@@ -60,22 +60,22 @@
                                             <div class="row">
                                                 <div class="col-2 form-group pr-0">
                                                     <label for="entity_id_types" class="form-control-label">ID *</label>
-                                                    <select class="@error('entity_id_label')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
-                                                        name="entity_id_types" id="entity_id_types" wire:model="entity_id_label">
+                                                    <select class="@error('entity_id_type')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
+                                                        name="entity_id_types" id="entity_id_types" wire:model="entity_id_type">
                                                         @foreach ($entity_type_ids as $id_type)
                                                             <option value="{{ $id_type->id }}">{{ $id_type->label }}</option>
                                                         @endforeach
                                                     </select>
-                                                    @error('entity_id_label') <sub class="text-danger">{{ $message }}</sub> @enderror
+                                                    @error('entity_id_type') <sub class="text-danger">{{ $message }}</sub> @enderror
                                                 </div>
                                                 <div class="col-10 form-group">
-                                                    <label for="entity_ids" class="form-control-label">{{  $entity_type_ids->find($entity_id_label)->title }} *</label>
+                                                    <label for="entity_ids" class="form-control-label">{{  $entity_type_ids->find($entity_id_type)->title }} *</label>
                                                     <input class="@error('entity_id_value')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
                                                         name="entity_ids" id="entity_ids" wire:model="entity_id_value">
                                                     @error('entity_id_value') <sub class="text-danger">{{ $message }}</sub> @enderror
                                                     @php
                                                         $entity_id_value_valid = true;
-                                                        foreach (json_decode($entity_type_ids->find($entity_id_label)->regEx) as $regEx){
+                                                        foreach (json_decode($entity_type_ids->find($entity_id_type)->regEx) as $regEx){
                                                             if ($entity_id_value && !preg_match($regEx, $entity_id_value)){
                                                                 $entity_id_value_valid = false;
                                                                 // print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
@@ -85,7 +85,7 @@
                                                         }
                                                     @endphp
                                                     @if (!$entity_id_value_valid)
-                                                        <sub class="text-warning">Este {{ $entity_type_ids->find($entity_id_label)->label }} no cumple con las validacion predefinidas</sub>
+                                                        <sub class="text-warning">Este {{ $entity_type_ids->find($entity_id_type)->label }} no cumple con las validacion predefinidas</sub>
                                                     @endif
                                                 </div>
                                                 <div class="col-12 form-group">
@@ -176,34 +176,37 @@
                                                         @error('entity_logos')<br/><sub class="text-danger">{{ $message }}</sub> @enderror
                                                     </div>
 
+@push('scripts')
+
+    <script wire:ignore>
+        document.addEventListener("DOMContentLoaded", function() {
+            var carousel = document.querySelector("#carouselExampleIndicators");
+            var carouselInstance = new bootstrap.Carousel(carousel);
+
+            var prevButton = carousel.querySelector(".carousel-control-prev");
+            var nextButton = carousel.querySelector(".carousel-control-next");
+
+            prevButton.addEventListener("click", function() {
+                carouselInstance.prev();
+            });
+
+            nextButton.addEventListener("click", function() {
+                carouselInstance.next();
+            });
+
+            carousel.addEventListener("mouseenter", function() {
+                carouselInstance.pause();
+            });
+
+            carousel.addEventListener("mouseleave", function() {
+                carouselInstance.cycle();
+            });
+        });
+    </script>
 
 
 
-                                                        <script wire:ignore>
-                                                            document.addEventListener("DOMContentLoaded", function() {
-                                                                var carousel = document.querySelector("#carouselExampleIndicators");
-                                                                var carouselInstance = new bootstrap.Carousel(carousel);
-
-                                                                var prevButton = carousel.querySelector(".carousel-control-prev");
-                                                                var nextButton = carousel.querySelector(".carousel-control-next");
-
-                                                                prevButton.addEventListener("click", function() {
-                                                                    carouselInstance.prev();
-                                                                });
-
-                                                                nextButton.addEventListener("click", function() {
-                                                                    carouselInstance.next();
-                                                                });
-
-                                                                carousel.addEventListener("mouseenter", function() {
-                                                                    carouselInstance.pause();
-                                                                });
-
-                                                                carousel.addEventListener("mouseleave", function() {
-                                                                    carouselInstance.cycle();
-                                                                });
-                                                            });
-                                                        </script>
+@endpush
 
 
                                                 </div>
@@ -260,3 +263,34 @@
 
 
 </div>
+
+
+
+{{-- Sweet Alert Notificaciones --}}
+@push('scripts')
+<script>
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                container: 'swal-wide-container',
+                popup: 'swal-wide-popup',
+                confirmButton: 'btn btn-success mx-3',
+                cancelButton: 'btn btn-danger mx-3'
+            },
+            buttonsStyling: false
+        })
+
+        window.addEventListener('ddbb-error', function($event){
+            swalWithBootstrapButtons.fire({
+                icon: 'error',
+                title: 'Oops...',
+                timer: 5000,
+                text: "Hubo un error al procesar sus datos!",
+                footer: "<code> " + $event.detail.code + " : " + $event.detail.message + "</code>"
+            }).then(() => {
+                window.location.href = "entidades";
+            })
+        });
+
+
+</script>
+@endpush

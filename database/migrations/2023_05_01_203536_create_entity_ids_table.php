@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('entity_id');
             $table->unsignedBigInteger('type_id');
             $table->string('value');
-            // $table->timestamps();
+            $table->timestamps();
 
 
             $table->foreign('entity_id')->references('id')->on('entitys')->constrained();
