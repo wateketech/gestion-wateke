@@ -16,9 +16,8 @@ class Create extends Component
     use WithFileUploads;
     public $prueba;
     public $errorMessage;
-    public $currentStep = 'entity_type';
+    public $currentStep = 'entity_bank_accounts';
 
-    public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
     protected $rules = [
 
     ];
@@ -26,11 +25,20 @@ class Create extends Component
 
     // -------- entidades --------
     public $entity_types, $entity_type;
-
+        // --- //
     public $entity_alias, $entity_legal_name, $entity_comercial_name, $entity_about;
-    public $entity_type_ids, $entity_id_type, $entity_id_value;
+        // --- //
+    public $entity_id_types, $entity_id_type;
+    public $entity_id_value;
+        // --- //
     public $entity_dates_value, $entity_date_label;
-    public $entity_logos = [];
+        // --- //
+    public $entity_logos = [];      //  all in one
+        // --- //
+
+    public $entity_bank_account_types, $entity_bank_account_type;
+    public $entity_bank_account_value, $entity_bank_account_expiration_date, $entity_bank_account_about;
+        // --- //
 
     // -------- hoteles --------
     // -------- agencias --------
@@ -38,11 +46,14 @@ class Create extends Component
 
 
 // ----------------------- VALIDACIONES --------------------------
+    public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
+    public function cleanErrors(){   $this->resetValidation(); }
+    public function cleanError($m){   $this->resetValidation($m);   }
 // ----------------------- RENDER --------------------------
     public function mount(){
         $this->entity_types = EntityTypes::all();
-        $this->entity_type_ids = EntityIdTypes::all();
-        $this->entity_id_type = $this->entity_type_ids->first()->id;
+        $this->entity_id_types = EntityIdTypes::all();
+        $this->entity_id_type = $this->entity_id_types->first()->id;
     }
     public function render()
     {
@@ -93,10 +104,10 @@ class Create extends Component
             'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
         ]);
 
-        $this->currentStep = 3;
+        $this->currentStep = "entity_bank_accounts";
     }
 // -------------------------- STEP  --------------------------
-    public function stepSubmit_3(){
+    public function stepSubmit_entity_bank_accounts(){
         $this->currentStep = 4;
     }
 // -------------------------- STEP  --------------------------
