@@ -106,7 +106,7 @@ class Create extends Component
 
         $this->currentStep = "entity_bank_accounts";
     }
-// -------------------------- STEP  --------------------------
+// -------------------------- STEP BANK ACCOUNTS --------------------------
     public function stepSubmit_entity_bank_accounts(){
         $this->currentStep = 4;
     }
