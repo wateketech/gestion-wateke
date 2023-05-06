@@ -16,7 +16,7 @@ class Create extends Component
     use WithFileUploads;
     public $prueba;
     public $errorMessage;
-    public $currentStep = 'entity_bank_accounts';
+    public $currentStep = 'entity_type';
 
     protected $rules = [
 

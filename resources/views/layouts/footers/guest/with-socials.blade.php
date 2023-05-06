@@ -32,7 +32,7 @@
                   <p class="mb-0 text-secondary">
                       Copyright © {{ now()->year }} Made with ❤️ by
                       <a href="https://github.com/albertolicea00" class="font-weight-bol" target="_blank">Alberto</a>
-                      <a href="https://github.com/Edes7191" class="font-weight-bold" target="_blank">Eduardo</a>
+                      {{-- <a href="https://github.com/Edes7191" class="font-weight-bold" target="_blank">Eduardo</a> --}}
                       <a style="color: #252f40;" href="https://wateke.tech/" class="font-italic text-muted" target="_blank">, Wateke Soluciones Tecnológicas</a>
               </div>
               </p>

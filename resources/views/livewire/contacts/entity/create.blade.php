@@ -1,5 +1,5 @@
 <div class="main-content">
-    <div class="d-flex justify-content-center my-3 h3 text-primary">
+    <div class="d-flex justify-content-center my-3 h3 text-dark">
         Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type->visual_name_p }}
     </div>
 
@@ -9,14 +9,14 @@
 
                 {{-- form steps --}}
                 <div class="col-lg-2 py-2">
-                    <div id="menu-step-entity_type" class="btn btn-primary d-lg-block {{ $currentStep != 'entity_type' ? 'disabled' : 'text-white' }}">Tipo de Entidad</div>
-                    <div id="menu-step-entity_general" class="btn btn-primary d-lg-block {{ $currentStep != 'entity_general' ? 'disabled' : 'text-white' }}">Datos Generales</div>
-                    <div id="menu-step-entity_bank_accounts" class="btn btn-primary d-lg-block {{ $currentStep != 'entity_bank_accounts' ? 'disabled' : 'text-white' }}">Datos Bancarios</div>
-                    <div id="menu-step-4" class="btn btn-primary d-lg-block {{ $currentStep != 4 ? 'disabled' : 'text-white' }}">Teléfonos y Mensajería</div>
-                    <div id="menu-step-5" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">RRSS y WEBS</div>
-                    <div id="menu-step-6" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">Datos Extras</div>
+                    <div id="menu-step-entity_type" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_type' ? 'primary-btn-disabled' : '' }}">Tipo de Entidad</div>
+                    <div id="menu-step-entity_general" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_general' ? 'primary-btn-disabled' : '' }}">Datos Generales</div>
+                    <div id="menu-step-entity_bank_accounts" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_bank_accounts' ? 'primary-btn-disabled' : '' }}">Datos Bancarios</div>
+                    <div id="menu-step-4" class="d-lg-block btn btn-primary {{ $currentStep != 4 ? 'primary-btn-disabled' : '' }}">Teléfonos y Mensajería</div>
+                    <div id="menu-step-5" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled' : '' }}">RRSS y WEBS</div>
+                    <div id="menu-step-6" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled' : '' }}">Datos Extras</div>
 
-                    <div id="menu-step-0" class="btn btn-primary d-lg-block {{ $currentStep != 5 ? 'disabled' : 'text-white' }}">Vista Resumen</div>
+                    <div id="menu-step-0" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled' : '' }}">Vista Resumen</div>
                 </div>
 
                 {{-- form --}}

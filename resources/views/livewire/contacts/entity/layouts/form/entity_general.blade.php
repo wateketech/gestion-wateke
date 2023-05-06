@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-2 form-group pr-0">
                     <label for="entity_id_types" class="form-control-label">ID *</label>
-                    <select class="@error('entity_id_type')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
+                    <select class="@error('entity_id_type')border border-danger rounded-3 is-invalid @enderror form-control" type="text" placeholder="John Snow"
                         name="entity_id_types" id="entity_id_types" wire:model="entity_id_type">
                         @foreach ($entity_id_types as $id_type)
                             <option value="{{ $id_type->id }}">{{ $id_type->label }}</option>
@@ -18,42 +18,47 @@
                         name="entity_ids" id="entity_ids" wire:model="entity_id_value">
                     @error('entity_id_value') <sub class="text-danger">{{ $message }}</sub> @enderror
                         @php
-                        $entity_id_value_valid = true;
-                        foreach (json_decode($entity_id_types->find($entity_id_type)->regEx) as $regEx){
-                            if ($entity_id_value && !preg_match($regEx, $entity_id_value)){
-                                $entity_id_value_valid = false;
-                                // print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
-                            }else{
-                                $entity_id_value_valid = true;
+                            $entity_id_value_valid = true;
+                            foreach (json_decode($entity_id_types->find($entity_id_type)->regEx) as $regEx){
+                                if ($entity_id_value && !preg_match($regEx, $entity_id_value)){
+                                    $entity_id_value_valid = false;
+                                    // print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
+                                }else{
+                                    $entity_id_value_valid = true;
+                                }
                             }
-                        }
                         @endphp
                     @if (!$entity_id_value_valid)
                         <sub class="text-warning">Tenga presente que {{ $entity_id_types->find($entity_id_type)->label }} no cumple con el formato. </sub>
+                        <script> document.getElementById('entity_ids').classList += ' is-warning';  </script>
                             {{-- {{ cleanError('entity_id_value') }} --}}
                     @endif
                 </div>
                 <div class="col-12 form-group">
                     <label for="entity_alias" class="form-control-label">Alias *</label>
-                    <input class="@error('entity_alias')border border-danger rounded-3 @enderror form-control" type="text" placeholder="HAVANATUR"
+                    <input class="@error('entity_alias')border border-danger rounded-3 is-invalid @enderror form-control" type="text" placeholder="HAVANATUR"
                         name="entity_alias" id="entity_alias" wire:model="entity_alias">
                     @error('entity_alias') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
+
+
+
+
                 <div class="col-12 form-group">
                     <label for="entity_legal_name" class="form-control-label">Nombre Fiscal *</label>
-                    <input class="@error('entity_legal_name')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
+                    <input class="@error('entity_legal_name')border border-danger rounded-3 is-invalid @enderror form-control" type="text" placeholder="John Snow"
                         name="entity_legal_name" id="entity_legal_name" wire:model="entity_legal_name">
                     @error('entity_legal_name') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
                 <div class="col-12 form-group">
                     <label for="entity_comercial_name" class="form-control-label">Nombre Comercial *</label>
-                    <input class="@error('entity_comercial_name')border border-danger rounded-3 @enderror form-control" type="text" placeholder="John Snow"
+                    <input class="@error('entity_comercial_name')border border-danger rounded-3 is-invalid @enderror form-control" type="text" placeholder="John Snow"
                         name="entity_comercial_name" id="entity_comercial_name" wire:model="entity_comercial_name">
                     @error('entity_comercial_name') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
                 <div class="col-12 form-group">
                     <label for="entity_about">Observaciones</label>
-                    <textarea class="@error('entity_about')border border-danger rounded-3 @enderror form-control" rows="3"
+                    <textarea class="@error('entity_about')border border-danger rounded-3 is-invalid @enderror form-control" rows="3"
                         name="entity_about" id="entity_about" wire:model="entity_about"></textarea>
                     @error('entity_about') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
@@ -67,7 +72,7 @@
 
                     <div class="form-group p-4">
 
-                        <div id="carouselExampleIndicators" class="carousel slide @error('entity_logos')border border-danger rounded-3 @enderror" data-ride="carousel">
+                        <div id="carouselExampleIndicators" class="carousel slide @error('entity_logos')border border-danger rounded-3 is-invalid @enderror" data-ride="carousel">
                             <ol class="carousel-indicators">
 
                                 @forelse ($entity_logos as $index => $logo)
