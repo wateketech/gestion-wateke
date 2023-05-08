@@ -19,6 +19,10 @@
                                             {{-- @endisset --}}
                                             <h6 class="text-white mt-4 mb-4 pb-2 fs-4" for="entity_bank_account_card_number">
                                                 {{-- NUMERO DE LA TARJETA --}}
+                                                @php
+                                                    $account_card = preg_replace('/\D/', '', $entity_bank_account_card_number);
+                                                    // hacer funcion para que los digitos faltantes sean #
+                                                @endphp
                                                 {!! isset($entity_bank_account_card_number) ? $entity_bank_account_card_number : '####&nbsp;&nbsp;&nbsp;####&nbsp;&nbsp;&nbsp;####&nbsp;&nbsp;&nbsp;####' !!}
                                             </h6>
                                             <div class="d-flex">
