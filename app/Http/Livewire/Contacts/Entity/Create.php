@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\Entity as Entitys;
 use App\Models\EntityType as EntityTypes;
 use App\Models\EntityIdType as EntityIdTypes;
+use App\Models\EntityBankAccountType as EntityBankAccountTypes;
 
 use Symfony\Component\Mime\Message;
 class Create extends Component
@@ -16,7 +17,7 @@ class Create extends Component
     use WithFileUploads;
     public $prueba;
     public $errorMessage;
-    public $currentStep = 'entity_type';
+    public $currentStep = 'entity_bank_accounts';
 
     protected $rules = [
 
@@ -37,7 +38,12 @@ class Create extends Component
         // --- //
 
     public $entity_bank_account_types, $entity_bank_account_type;
-    public $entity_bank_account_value, $entity_bank_account_expiration_date, $entity_bank_account_about;
+    public $entity_bank_account_card_number, $entity_bank_account_card_holder, $entity_bank_account_is_credit, $entity_bank_account_about;
+    public $entity_bank_account_expiration_date, $entity_bank_account_expiration_year, $entity_bank_account_expiration_month;
+    public $entity_bank_account_bank_name, $entity_bank_account_bank_title;
+    public $entity_bank_accounts = [];
+    public $entity_bank_account_banks = [];
+
         // --- //
 
     // -------- hoteles --------
@@ -54,6 +60,10 @@ class Create extends Component
         $this->entity_types = EntityTypes::all();
         $this->entity_id_types = EntityIdTypes::all();
         $this->entity_id_type = $this->entity_id_types->first()->id;
+        $this->entity_bank_account_types = EntityBankAccountTypes::all();
+        $this->entity_bank_account_type = $this->entity_bank_account_types->first()->id;
+        $this->entity_bank_account_expiration_year = date("Y");
+        $this->entity_bank_account_expiration_month = date("n")+4;
     }
     public function render()
     {
@@ -105,13 +115,88 @@ class Create extends Component
         ]);
 
         $this->currentStep = "entity_bank_accounts";
+        $this->entity_bank_account_card_holder = isset($this->entity_legal_name) ? $this->entity_legal_name : $this->entity_comercial_name;
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function stepSubmit_entity_bank_accounts(){
+        $this->validate([
+            'entity_logos' => 'max:5120|valid_image_mime',
+            'entity_id_type' => 'required',
+            'entity_id_value' => 'required',
+            'entity_legal_name' => 'nullable|required_without_all:entity_comercial_name',
+            'entity_comercial_name' => 'nullable|required_without_all:entity_legal_name',
+            'entity_about' => 'nullable',
+            'entity_alias' => 'nullable',
+
+        ],[
+            '*.required' => 'El campo es obligatorio',
+            'entity_legal_name.required_without_all' => 'Sin un Nombre Comercial este campo es requerido',
+            'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
+        ]);
+
         $this->currentStep = 4;
     }
 // -------------------------- STEP  --------------------------
+    // public function updatedEntityBankAccountCardNumber(){
+    //     foreach ($this->entity_bank_account_types as $type){
+    //         if (!isset($type->regEx)) {
+    //             continue;
+    //         }
+    //         foreach (json_decode($type->regEx) as $regEx){
+    //             if (!preg_match($regEx, $this->entity_bank_account_card_number)){
+    //                 // dd($type->id);
+    //                 $this->entity_bank_account_type = $type->id;
+    //             }
+    //         }
+    //     }
+    // }
+    public function addAccountCard(){
+        $this->entity_bank_account_card_number = preg_replace('/\D/', '', $this->entity_bank_account_card_number);
+        $this->entity_bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->entity_bank_account_expiration_month, 1, $this->entity_bank_account_expiration_year));
+
+        $this->validate([
+            'entity_bank_account_card_number' => 'required',
+            'entity_bank_account_card_holder' => 'required',
+            'entity_bank_account_is_credit' => 'required',
+            'entity_bank_account_expiration_date' => 'required|date',
+            'entity_bank_account_expiration_year' => 'required',
+            'entity_bank_account_expiration_month' => 'required',
+            'entity_bank_account_about' => 'nullable',
+            'entity_bank_account_bank_name' => 'required',
+            'entity_bank_account_bank_title' => 'nullable',
+        ],[
+            '*.required' => 'El campo es obligatorio',
+        ]);
+
+        // hacer en algun lado la validacion por si ya existe el banco sugerirlo
+
+        // falta otra lista para los bancos
+        $this->entity_bank_account_banks += [
+            [
+                'name' => $this->entity_bank_account_bank_name,
+                'title' => $this->entity_bank_account_bank_title,
+            ]
+        ];
+        $this->entity_bank_accounts += [
+            [
+                // 'entity_id' => ,
+                'type_id' => $this->$this->entity_bank_account_type->id,
+                // 'bank_id' => ,
+                'card_number' => $this->entity_bank_account_card_number,
+                'card_holder' => $this->entity_bank_account_card_holder,
+                'expiration_date' => $this->entity_bank_account_expiration_date,
+                'is_credit' => $this->entity_bank_account_is_credit,
+                'about' => $this->entity_bank_account_about,
+            ]
+        ];
+
+        // remont pero solo la parte de las tarjetas (una funciona aparte)
+
+    }
+
+
     public function stepSubmit_4(){
+
         $this->currentStep = 0;
     }
 

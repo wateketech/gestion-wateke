@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('entity_bank_account_types', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
-            $table->string('img')->nullable();
+            $table->string('logo')->nullable();
             $table->string('color')->nullable();
             $table->json('regEx')->nullable();
             $table->timestamps();

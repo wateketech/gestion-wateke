@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('card_holder');
             $table->date('expiration_date');
             $table->boolean('is_credit');
+            // $table->boolean('');
+            // $table->boolean('');
             $table->text('about')->nullable();
             $table->boolean('enable');
             $table->timestamps();

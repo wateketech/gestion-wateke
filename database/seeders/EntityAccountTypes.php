@@ -17,8 +17,13 @@ class EntityAccountTypes extends Seeder
     {
         EntityBankAccountTypes::createMany([
             [
+                'label' => 'Unknown',
+                'logo' => Null,
+                'color' => json_encode(['Naranja' => '#ff6400', 'Negro' => '#000000']),
+                'regEx' => Null
+            ],[
                 'label' => 'Visa',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/visa.png',
                 'color' => json_encode(['Azul oscuro' => '#1A1F71', 'Dorado' => '#FDB813']),
                 'regEx' => json_encode([
                     1 => "/^4[0-9]{12}(?:[0-9]{3})?$/",
@@ -28,7 +33,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'MasterCard',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/mastercard.png',
                 'color' => json_encode(['Rojo' => '#EB001B', 'Amarillo' => '#FFDE17']),
                 'regEx' => json_encode([
                     1 => "/^5[1-5][0-9]{14}$/",
@@ -39,7 +44,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'American Express',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/amex.png',
                 'color' => json_encode(['Azul oscuro' => '#002663', 'Verde' => '#007F3E']),
                 'regEx' => json_encode([
                     1 => "/^3[47][0-9]{13}$/",
@@ -48,7 +53,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Discover',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/discover.png',
                 'color' => json_encode(['Naranja' => '#FF6600', 'Azul claro' => '#0078D2']),
                 'regEx' => json_encode([
                     1 => "/^6(?:011|5[0-9]{2})[0-9]{12}$/",
@@ -57,7 +62,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => "Diner's Club",
-                'img' => '',
+                'logo' => '../assets/img/logos/card/diners.png',
                 'color' => json_encode(['Rojo' => '#DC143C', 'Blanco' => '#FFFFFF']),
                 'regEx' => json_encode([
                     1 => "/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/",
@@ -69,7 +74,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'JCB',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/jcb.png',
                 'color' => json_encode(['Rojo' => '#E30613', 'Azul claro' => '#0082CA']),
                 'regEx' => json_encode([
                     1 => "/^(?:2131|1800|35\d{3})\d{11}$/",
@@ -78,7 +83,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'UnionPay',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/unionpay.png',
                 'color' => json_encode(['Azul oscuro' => '#009FE3', 'Rojo' => '#E60012']),
                 'regEx' => json_encode([
                     1 => "/^(62|88)\d{14,17}$/",
@@ -86,7 +91,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Maestro',
-                'img' => '',
+                'logo' => '../assets/img/logos/card/maestro.png',
                 'color' => json_encode(['Azul oscuro' => '#0F1F2E', 'Naranja' => '#FF5F00']),
                 'regEx' => json_encode([
                     1 => "/^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$/",
@@ -94,8 +99,53 @@ class EntityAccountTypes extends Seeder
                     3 => "/^(?:5[0678]\d\d|6304|6390|67\d\d)[\s\-]?\d{4}[\s\-]?\d{4}(?:[\s\-]?\d{2,3})?$/",
                 ])
             ],[
+                'label' => 'AliPay',
+                'logo' => '../assets/img/logos/card/alipay.png',
+                'color' => json_encode(['Azul claro' => '#1C9CEA']),
+                'regEx' => json_encode([
+                    1 => "/^(62|88)\d{14,17}$/",
+                    2 => "/^(6222\d{12}(\d{3})?)$/",
+                    3 => "/^(010000\d{10})$/",
+                    4 => "/^(3|4|5|6|8)\d{15}$/",
+                ])
+            ],[
+                'label' => 'Hiper',
+                'logo' => '../assets/img/logos/card/hiper.png',
+                'color' => json_encode(['Verde oscuro' => '#0B9444']),
+                'regEx' => json_encode([
+                    1 => "/^((38|60)\d{11}(\d{2})?)?$/",
+                    2 => "/^(637|639)\d{13}$/",
+                    3 => "/^(50)\d{13}$/",
+                    4 => "/^(56)\d{14}$/",
+                    5 => "/^(34|37)\d{13}$/",
+                    6 => "/^(606282\d{10}(\d{3})?)|(3841\d{15})$/",
+                ])
+            ],[
+                'label' => 'Mir',
+                'logo' => '../assets/img/logos/card/mir.png',
+                'color' => json_encode(['Rojo oscuro' => '#9B1C31']),
+                'regEx' => json_encode([
+                    1 => "/^([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})$/",
+                ])
+            ],[
+                'label' => 'PayPal',
+                'logo' => '../assets/img/logos/card/paypal.png',
+                'color' => json_encode(['Azul oscuro' => '#003087']),
+                'regEx' => json_encode([
+                    1 => "/^(4\d{12}(?:\d{3})?)$/",
+                ])
+            ],[
+                'label' => 'Hipercard',
+                'logo' => '../assets/img/logos/card/hipercard.png',
+                'color' => json_encode(['Amarillo' => '#FEBD00']),
+                'regEx' => json_encode([
+                    1 => "/^(606282\d{10}(\d{3})?)|(3841\d{15})$/",
+                    2 => "/^(3841\d{15})|(606282\d{10}(\d{3})?)$/",
+                    3 => "/^(637|639)\d{13}$/",
+                ])
+            ],[
                 'label' => 'Credomatic',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Rojo oscuro' => '#9E0C0F', 'Dorado' => '#FFC72C']),
                 'regEx' => json_encode([
                     1 => "/^(4027|4536|4011|4312)\d{12}$/",
@@ -106,7 +156,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Banrural',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Verde oscuro' => '#008E5C', 'Dorado' => '#DAA520']),
                 'regEx' => json_encode([
                     1 => "/^(446542\d{10}(\d{3})?)|(446540\d{13})$/",
@@ -114,7 +164,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Visa BAM',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Azul oscuro' => '#1A1F71', 'Blanco' => '#FFFFFF']),
                 'regEx' => json_encode([
                     1 => "/^5[3-4][0-9]{14}$/",
@@ -122,7 +172,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'BAC San José',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Verde oscuro' => '#009245', 'Dorado' => '#FDB813']),
                 'regEx' => json_encode([
                     1 => "/^(4075|4088|4695|4911|4929)\d{12}$/"
@@ -130,15 +180,15 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'BAC Banco Nacional de Costa Rica',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Azul oscuro' => '#002663', 'Dorado' => '#FDB813']),
                 'regEx' => json_encode([
                     1 => "/^(4102|4105)\d{12}$/",
 
                 ])
             ],[
-                'label' => 'Multibanca',
-                'img' => '',
+                'label' => 'Metropolitana',
+                'logo' => Null,
                 'color' => json_encode(['Rojo oscuro' => '#B50C1F', 'Dorado' => '#FDC02F']),
                 'regEx' => json_encode([
                     1 => "/^6390\d{12}$/",
@@ -146,7 +196,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Red',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Azul oscuro' => '#1A1F71', 'Naranja' => '#FF6600']),
                 'regEx' => json_encode([
                     1 => "/^(6263|5048)\d{12}$/",
@@ -154,7 +204,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Cabal',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Rojo oscuro' => '#9E0C0F', 'Dorado' => '#FFC72C']),
                 'regEx' => json_encode([
                     1 => "/^(6042|6044)\d{12}$/",
@@ -162,7 +212,7 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'Bandec',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Verde oscuro' => '#006633', 'Dorado' => '#FFD700']),
                 'regEx' => json_encode([
                     1 => "/^(4223|4224)\d{12}$/",
@@ -170,23 +220,13 @@ class EntityAccountTypes extends Seeder
                 ])
             ],[
                 'label' => 'BPA',
-                'img' => '',
+                'logo' => Null,
                 'color' => json_encode(['Azul oscuro' => '#0F1F2E', 'Dorado' => '#FFC72C']),
                 'regEx' => json_encode([
                     1 => "/^(4368|5245)\d{12}$/",
 
                 ])
-            ],[
-                'label' => 'Unknown',
-                'img' => '',
-                'color' => json_encode(['Naranja' => '#ff6400', 'Negro' => '#000000']),
-                'regEx' => Null
-            ],
-
-
-
-
-
+            ]
         ]);
     }
 }
