@@ -20,7 +20,7 @@ class Create extends Component
     ];
     public $prueba;
     public $errorMessage;
-    public $currentStep = 'entity_bank_accounts';
+    public $currentStep = 'entity_type'; //entity_bank_accounts
 
     protected $rules = [
 
@@ -64,7 +64,6 @@ class Create extends Component
         $this->entity_id_types = EntityIdTypes::all();
         $this->entity_id_type = $this->entity_id_types->first()->id;
         $this->remount_entity_bank_accounts();
-        $this->entity_bank_accounts = [["type_id"=>2,"card_number"=>"1234123412341234","card_holder"=>"Nisi delectus quia ","expiration_date"=>"2027-11-01","is_credit"=>"false","about"=>""]];
     }
     public function render()
     {
@@ -200,7 +199,6 @@ public function remount_entity_bank_accounts(){
         $this->remount_entity_bank_accounts();
     }
     public function removeAccountCard($index){
-        // dd($index);
         array_splice($this->entity_bank_accounts, $index, 1);
     }
     public function editAccountCard(){
