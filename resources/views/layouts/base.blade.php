@@ -92,15 +92,24 @@
     <!--   Plugins CSS  -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @livewireStyles
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elements = document.querySelectorAll('[data-toggle="tooltip"]');
+            elements.forEach(function(element) {
+                var tooltip = new bootstrap.Tooltip(element);
+                tooltips[element.id] = tooltip;
+            });
+        });
+    </script>
     @yield('styles')
     @stack('styles')
 
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
-    
+
     {{ $slot }}
-    
+
     <!--   Plugins JS  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -15,6 +15,9 @@ use Symfony\Component\Mime\Message;
 class Create extends Component
 {
     use WithFileUploads;
+    protected $listeners = [
+        'removeAccountCard'
+    ];
     public $prueba;
     public $errorMessage;
     public $currentStep = 'entity_bank_accounts';
@@ -60,10 +63,8 @@ class Create extends Component
         $this->entity_types = EntityTypes::all();
         $this->entity_id_types = EntityIdTypes::all();
         $this->entity_id_type = $this->entity_id_types->first()->id;
-        $this->entity_bank_account_types = EntityBankAccountTypes::all();
-        $this->entity_bank_account_type = $this->entity_bank_account_types->first()->id;
-        $this->entity_bank_account_expiration_year = date("Y");
-        $this->entity_bank_account_expiration_month = date("n")+4;
+        $this->remount_entity_bank_accounts();
+        $this->entity_bank_accounts = [["type_id"=>2,"card_number"=>"1234123412341234","card_holder"=>"Nisi delectus quia ","expiration_date"=>"2027-11-01","is_credit"=>"false","about"=>""]];
     }
     public function render()
     {
@@ -119,24 +120,31 @@ class Create extends Component
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function stepSubmit_entity_bank_accounts(){
-        $this->validate([
-            'entity_logos' => 'max:5120|valid_image_mime',
-            'entity_id_type' => 'required',
-            'entity_id_value' => 'required',
-            'entity_legal_name' => 'nullable|required_without_all:entity_comercial_name',
-            'entity_comercial_name' => 'nullable|required_without_all:entity_legal_name',
-            'entity_about' => 'nullable',
-            'entity_alias' => 'nullable',
 
-        ],[
-            '*.required' => 'El campo es obligatorio',
-            'entity_legal_name.required_without_all' => 'Sin un Nombre Comercial este campo es requerido',
-            'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
-        ]);
+
+        dd($this->entity_bank_accounts);
+
+
 
         $this->currentStep = 4;
     }
 // -------------------------- STEP  --------------------------
+
+
+public function remount_entity_bank_accounts(){
+        $this->entity_bank_account_types = EntityBankAccountTypes::all();
+        $this->entity_bank_account_type = $this->entity_bank_account_types->first()->id;
+        $this->entity_bank_account_expiration_year = date("Y");
+        $this->entity_bank_account_expiration_month = date("n")+4;
+        $this->entity_bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->entity_bank_account_expiration_month, 1, $this->entity_bank_account_expiration_year));;
+        $this->entity_bank_account_card_number = '';
+        $this->entity_bank_account_card_holder = isset($this->entity_legal_name) ? $this->entity_legal_name : $this->entity_comercial_name ;
+        $this->entity_bank_account_is_credit = '';
+        $this->entity_bank_account_about = '';
+        $this->entity_bank_account_bank_name = '';
+        $this->entity_bank_account_bank_title = '';
+    }
+
     // public function updatedEntityBankAccountCardNumber(){
     //     foreach ($this->entity_bank_account_types as $type){
     //         if (!isset($type->regEx)) {
@@ -151,11 +159,11 @@ class Create extends Component
     //     }
     // }
     public function addAccountCard(){
-        $this->entity_bank_account_card_number = preg_replace('/\D/', '', $this->entity_bank_account_card_number);
+        $entity_bank_account_card_number = preg_replace('/\D/', '', $this->entity_bank_account_card_number);
         $this->entity_bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->entity_bank_account_expiration_month, 1, $this->entity_bank_account_expiration_year));
 
         $this->validate([
-            'entity_bank_account_card_number' => 'required',
+            'entity_bank_account_card_number' => 'required|max:25|min:25',
             'entity_bank_account_card_holder' => 'required',
             'entity_bank_account_is_credit' => 'required',
             'entity_bank_account_expiration_date' => 'required|date',
@@ -166,34 +174,38 @@ class Create extends Component
             'entity_bank_account_bank_title' => 'nullable',
         ],[
             '*.required' => 'El campo es obligatorio',
+            'entity_bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
+            'entity_bank_account_card_number.min' => 'La Numeración debe tener 16 digitos',
         ]);
 
         // hacer en algun lado la validacion por si ya existe el banco sugerirlo
 
         // falta otra lista para los bancos
-        $this->entity_bank_account_banks += [
-            [
+        array_push($this->entity_bank_account_banks, [
                 'name' => $this->entity_bank_account_bank_name,
                 'title' => $this->entity_bank_account_bank_title,
-            ]
-        ];
-        $this->entity_bank_accounts += [
-            [
+            ]);
+
+        array_push($this->entity_bank_accounts, [
                 // 'entity_id' => ,
-                'type_id' => $this->$this->entity_bank_account_type->id,
+                'type_id' => $this->entity_bank_account_type,
                 // 'bank_id' => ,
-                'card_number' => $this->entity_bank_account_card_number,
+                // 'bank_id_in_bbdd' => ,
+                'card_number' => $entity_bank_account_card_number,
                 'card_holder' => $this->entity_bank_account_card_holder,
                 'expiration_date' => $this->entity_bank_account_expiration_date,
                 'is_credit' => $this->entity_bank_account_is_credit,
                 'about' => $this->entity_bank_account_about,
-            ]
-        ];
-
-        // remont pero solo la parte de las tarjetas (una funciona aparte)
+            ]);
+        $this->remount_entity_bank_accounts();
+    }
+    public function removeAccountCard($index){
+        // dd($index);
+        array_splice($this->entity_bank_accounts, $index, 1);
+    }
+    public function editAccountCard(){
 
     }
-
 
     public function stepSubmit_4(){
 

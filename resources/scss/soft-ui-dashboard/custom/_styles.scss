@@ -10,8 +10,18 @@
 
 // iconos en general
 .icon{
+
+    &-del:hover{
+        color: #ff0000 !important;
+    }
+    &-view:hover{
+        color: #ff6400 !important;
+    }
+    &-edit:hover{
+        color: #0097e8 !important;
+    }
     &:hover{
-        color: #ff6400;
+        color: #ff6400 !important;
     }
 }
 div.btn > i:active {
