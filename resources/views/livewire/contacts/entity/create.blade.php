@@ -1,5 +1,5 @@
 <div class="main-content">
-    <div class="d-flex justify-content-center my-3 h3 text-dark">
+    <div class="d-flex justify-content-center my-3 h3 text-dark form-title">
         Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type->visual_name_p }}
     </div>
 
@@ -9,14 +9,14 @@
 
                 {{-- form steps --}}
                 <div class="col-lg-2 py-2">
-                    <div id="menu-step-entity_type" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_type' ? 'primary-btn-disabled' : '' }}">Tipo de Entidad</div>
-                    <div id="menu-step-entity_general" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_general' ? 'primary-btn-disabled' : '' }}">Datos Generales</div>
-                    <div id="menu-step-entity_bank_accounts" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_bank_accounts' ? 'primary-btn-disabled' : '' }}">Datos Bancarios</div>
-                    <div id="menu-step-4" class="d-lg-block btn btn-primary {{ $currentStep != 4 ? 'primary-btn-disabled' : '' }}">Teléfonos y Mensajería</div>
-                    <div id="menu-step-5" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled' : '' }}">RRSS y WEBS</div>
-                    <div id="menu-step-6" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled' : '' }}">Datos Extras</div>
+                    <div id="menu-step-entity_type" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_type' ? 'primary-btn-disabled-light' : '' }} {{ in_array("entity_type", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Tipo de Entidad</div>
+                    <div id="menu-step-entity_general" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_general' ? 'primary-btn-disabled-light' : '' }} {{ in_array("entity_general", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Datos Generales</div>
+                    <div id="menu-step-entity_bank_accounts" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_bank_accounts' ? 'primary-btn-disabled-light' : '' }} {{ in_array("entity_bank_accounts", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Datos Bancarios</div>
+                    <div id="menu-step-4" class="d-lg-block btn btn-primary {{ $currentStep != 4 ? 'primary-btn-disabled-light' : '' }}">Teléfonos y Mensajería</div>
+                    <div id="menu-step-5" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled-light' : '' }}">RRSS y WEBS</div>
+                    <div id="menu-step-6" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled-light' : '' }}">Datos Extras</div>
 
-                    <div id="menu-step-0" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled' : '' }}">Vista Resumen</div>
+                    <div id="menu-step-0" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled-light' : '' }}">Vista Resumen</div>
                 </div>
 
                 {{-- form --}}
@@ -25,12 +25,12 @@
                         <div class="card card-body blur shadow-blur mx-2 my-1 px-4">
                         {{-- -------------------------- STEP TYPE -------------------------- --}}
                             <div class="row {{ $currentStep != 'entity_type' ? 'd-none' : '' }}" id="step-entity_type">
-                                <div class="position-relative">
+                                {{-- <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_entity_type">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 @include("livewire.contacts.entity.layouts.form.entity_type")
 
@@ -109,6 +109,35 @@
             },
             buttonsStyling: false
         })
+
+
+        window.addEventListener('cocking-time', function($event){
+            let timerInterval
+            Swal.fire({
+                title: 'Lo estamos cocinando',
+                html: 'Esto tomará unos segundos <img class="w-25 m-auto mt-4 mb-2" src="../assets/img/logos/loading.gif">',
+                timer: $event.detail.time,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                backdropOpacity: 0.2,
+                showConfirmButton: false,
+                showCancelButton: false,
+                // allowEscapeKey: false,
+                didOpen: () => {
+                    console.log();
+                    // Swal.showLoading()
+                    // const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        // b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            })
+        });
+
+
 
         window.addEventListener('ddbb-error', function($event){
             swalWithBootstrapButtons.fire({

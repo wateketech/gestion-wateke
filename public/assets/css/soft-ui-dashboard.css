@@ -6257,7 +6257,7 @@ textarea.form-control-lg {
   margin-left: 3px;
   text-indent: -999px;
   cursor: pointer;
-  background-color: #fff;
+  background-color: #000;
   background-clip: padding-box;
   border: 0;
   border-top: 10px solid transparent;
@@ -22058,7 +22058,7 @@ pre[class*=language-] {
   color: #ff0000 !important;
 }
 .icon-view:hover {
-  color: #ff6400 !important;
+  color: #01953f !important;
 }
 .icon-edit:hover {
   color: #0097e8 !important;
@@ -22075,11 +22075,23 @@ a.nav-link.icon.active svg path {
   fill: #ffffff;
 }
 
-.primary-btn-disabled {
+.primary-btn-disabled-light {
   pointer-events: none;
-  background-color: rgb(255, 200, 120);
   opacity: 0.5;
+  background-color: rgb(255, 200, 120);
   color: black;
+}
+.primary-btn-disabled-dark {
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: #fe300f;
+  color: white;
+}
+
+.form-title {
+  font-family: "Raleway" !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
 }
 
 input.is-warning {

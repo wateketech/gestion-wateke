@@ -20,6 +20,7 @@ class Create extends Component
     ];
     public $prueba;
     public $errorMessage;
+    public $passStep = [];
     public $currentStep = 'entity_type'; //entity_bank_accounts
 
     protected $rules = [
@@ -37,7 +38,8 @@ class Create extends Component
         // --- //
     public $entity_dates_value, $entity_date_label;
         // --- //
-    public $entity_logos = [];      //  all in one
+    public $entity_main_logo;
+    public $entity_logos = [];
         // --- //
 
     public $entity_bank_account_types, $entity_bank_account_type;
@@ -82,6 +84,8 @@ class Create extends Component
         ],[
             'entity_type.required' => 'El campo es obligatorio'
         ]);
+        $this->dispatchBrowserEvent('cocking-time', ['time'=> 2000]);
+        $this->passStep[] = 'entity_type';
         $this->currentStep = 'entity_general';
     }
 // -------------------------- STEP GENERALS --------------------------
@@ -90,14 +94,19 @@ class Create extends Component
         $this->validate([
             'entity_logos' => 'required|max:5120|valid_image_mime',
         ]);
-
+        // $this->dispatchBrowserEvent('cocking-time', ['time'=> 2000]);
         foreach ($this->entity_logos as $logo) {
             $filePath = $logo->getRealPath();
             $image = Image::make($filePath);
             $image->fit(800, 800);
             $image->save($filePath);
         }
+        $this->entity_main_logo = 0;
     }
+    public function removeLogo($index){
+        array_splice($this->entity_logos, $index, 1);
+    }
+
     public function stepSubmit_entity_general(){
         $this->validate([
             'entity_logos' => 'max:5120|valid_image_mime',
@@ -114,6 +123,8 @@ class Create extends Component
             'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
         ]);
 
+        $this->dispatchBrowserEvent('cocking-time');
+        $this->passStep[] = 'entity_general';
         $this->currentStep = "entity_bank_accounts";
         $this->entity_bank_account_card_holder = isset($this->entity_legal_name) ? $this->entity_legal_name : $this->entity_comercial_name;
     }
@@ -121,10 +132,10 @@ class Create extends Component
     public function stepSubmit_entity_bank_accounts(){
 
 
-        dd($this->entity_bank_accounts);
+        // dd($this->entity_bank_accounts);
 
-
-
+        $this->dispatchBrowserEvent('cocking-time', ['time'=> 3000]);
+        $this->passStep[] = 'entity_bank_accounts';
         $this->currentStep = 4;
     }
 // -------------------------- STEP  --------------------------

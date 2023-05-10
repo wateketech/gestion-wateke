@@ -73,12 +73,15 @@
                     <div class="form-group p-4">
 
                         <div id="carouselExampleIndicators" class="carousel slide @error('entity_logos')border border-danger rounded-3 is-invalid @enderror" data-ride="carousel">
-                            <ol class="carousel-indicators">
-
+                            @if (count($entity_logos) >= 2)
+                                <ol class="carousel-indicators" style="background-color: bisque;border-radius: .7em;">
+                            @else
+                                <ol class="carousel-indicators">
+                            @endif
                                 @forelse ($entity_logos as $index => $logo)
-                                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}" class={{ $index==0 ? 'active' : '' }}></li>
+                                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}" class={{ $index==0 ? 'active' : '' }} style="background-color: #000;"></li>
                                 @empty
-                                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class='active'></li>
+                                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class='active' style="background-color: #000;" ></li>
                                 @endforelse
 
                             </ol>
@@ -89,23 +92,25 @@
                                     <div class="carousel-item {{ $index==0 ? 'active' : '' }}">
                                         <img class="d-block rounded-top" src="{{ $logo->temporaryUrl() }}" alt="...">
                                         <div class="d-flex justify-content-center">
-                                            <div class="position-absolute top-0 p-3">
-                                                <a href="" class="icon p-1"><i class="far fa-trash-alt"></i></a>
-                                                <a href="" class="icon p-1"><i class="far fa-eye"></i></a>
-                                                <a href="" class="icon p-1"><i class="far fa-star"></i></a>
+                                            <div class="position-absolute top-2 p-1 mx-1"
+                                                style="background-color: bisque;border-radius: .9em;height: 2.2em;padding: 0.25em 1.1em 0 1.1em !important;">
+                                                <span wire:click="removeLogo({{$index}})" class="icon-del p-1 text-black"><i class="far fa-trash-alt"></i></span>
+                                                <a href="{{ $logo->temporaryUrl() }}" target="_blank" class="icon-view p-1 text-black"><i class="far fa-eye"></i></a>
+                                                @if (count($entity_logos) != 1)
+                                                    <span wire:click="$set('entity_main_logo', {{$index}})" class="icon p-1 text-black">
+                                                        @if ($index == $entity_main_logo)
+                                                            <i class="fas fa-star" style="color: #ff6400 ;"></i>
+                                                        @else
+                                                            <i class="far fa-star"></i>
+                                                        @endif
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 @empty
                                     <div class="carousel-item active">
                                         <img class="d-block rounded-top" src="https://via.placeholder.com/800x800/f2f2f2/161616?text=Logo+{{ $entity_type == Null ? 'Entidad' : $entity_type->visual_name_s }}" alt="...">
-                                        <div class="d-flex justify-content-center">
-                                            <div class="position-absolute top-0 p-3">
-                                                <a href="" class="icon p-1"><i class="far fa-trash-alt"></i></a>
-                                                <a href="" class="icon p-1"><i class="far fa-eye"></i></a>
-                                                <a href="" class="icon p-1"><i class="far fa-star"></i></a>
-                                            </div>
-                                        </div>
                                     </div>
                                 @endforelse
 

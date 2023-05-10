@@ -15,7 +15,7 @@
         color: #ff0000 !important;
     }
     &-view:hover{
-        color: #ff6400 !important;
+        color: #01953f !important;
     }
     &-edit:hover{
         color: #0097e8 !important;
@@ -35,10 +35,28 @@ a.nav-link.icon.active svg path {
 
 
 .primary-btn-disabled{
-    pointer-events: none;
-    background-color: rgb(255, 200, 120);
-    opacity: .5;
-    color: black;
+
+    &-light{
+        pointer-events: none;
+        opacity: .5;
+        background-color: rgb(255, 200, 120);
+        color: black;
+    }
+    &-dark{
+        pointer-events: none;
+        opacity: .5;
+        background-color: #fe300f;
+        color: white;
+
+    }
+}
+
+.form{
+    &-title{
+        font-family: 'Raleway' !important;
+        font-weight: 500 !important;
+        text-transform: uppercase;
+    }
 }
 
 input{

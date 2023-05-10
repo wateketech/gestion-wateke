@@ -192,8 +192,8 @@
 
                             {{-- lista anadidas --}}
                             <div class="col-md-12 mb-lg-0 mb-4">
-                                <div class="card mt-4">
-                                    <div class="card-header pb-0 p-3">
+                                <div class="mt-4">
+                                    <div class="pb-0 p-3">
                                         <div class="row">
                                             <div class="col-md-6 d-flex align-items-center">
                                                 <h6 class="mb-0">{{ count($entity_bank_accounts) !=0 ? 'Cuentas Registradas' : '' }}</h6>
@@ -216,13 +216,10 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
-
-
                                         </div>
                                     </div>
-                                    <div class="card-body p-3">
+                                    <div class="p-3">
                                         <div class="row">
-                                            {{-- repetir en bucle las ya añadidas --}}
                                             @php $index = 0 @endphp
                                             @foreach ($entity_bank_accounts as $account)
 
