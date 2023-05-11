@@ -77,3 +77,19 @@ input{
         background-size: 1rem 1rem;
     }
 }
+
+
+// PLACEHOLDER DE BUSQUEDAS
+.search-input{
+    &::placeholder {
+        text-align: center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+        padding-left: 20px;
+        content: '\f002';
+        font-family: 'Font Awesome 5 Free';
+    }
+    &:focus::placeholder {
+        color: transparent;
+    }
+}

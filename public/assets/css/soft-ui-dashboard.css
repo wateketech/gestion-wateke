@@ -22109,4 +22109,16 @@ input.is-alert {
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1rem 1rem;
+}
+
+.search-input::placeholder {
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-left: 20px;
+  content: "\f002";
+  font-family: "Font Awesome 5 Free";
+}
+.search-input:focus::placeholder {
+  color: transparent;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

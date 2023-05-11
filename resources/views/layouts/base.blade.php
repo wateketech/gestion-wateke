@@ -81,6 +81,7 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-KJg6Gc3Jd8KdjyJyhx6YwL1yR1jCX7t3M8lGc7nyXKx6QCn5o4yN8QpD5H9k6tJvQ0U6I+P1HkFmsb5qkhZ4tw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1" rel="stylesheet" />
     <link href="../assets/css/app" rel="stylesheet" />
