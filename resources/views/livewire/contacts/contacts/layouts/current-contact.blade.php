@@ -17,18 +17,18 @@
 
 
             <div class="d-flex justify-content-top">
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
+                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
                     style="background-color: #00a600">
                     <i class="fas fa-phone-alt fa-lg"></i>
-                </div>
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
+                </a>
+                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
                     style="background-color: rgb(0, 153, 255)">
                     <i class="fas fa-envelope fa-lg"></i>
-                </div>
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
+                </a>
+                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
                     style="background-color: #008000">
                     <i class="fas fa-comment fa-lg"></i>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -38,102 +38,550 @@
 
     <div class="card-body px-2 pt-0">
         <div class="row">
-            <div class="col-5">
-                <div class="d-flex justify-content-start pb-4 px-4">
-                    <a href="#" class="icon icon-shape icon-xs shadow text-center border-radius-xl me-2"
-                        style="padding-top:1px; background-color: #365087">
-                            <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="#" class="icon icon-shape icon-xs shadow text-center border-radius-xl me-2"
-                        style="padding-top:1px; background-color:#ff600f ">
-                            <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="icon icon-shape icon-xs shadow text-center border-radius-xl me-2"
-                        style="padding-top:1px; background-color:#3ea1ec ">
-                            <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="icon icon-shape icon-xs shadow text-center border-radius-xl me-2"
-                        style="padding-top:1px; background-color:#2e67b2 ">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-7">
-                <div class="text-center border-radius-md me-2"
-                    style="background-color: rgb(236, 198, 25);width: 150px; color:white;">
-                    <i class="fas fa-birthday-cake"></i>
-                    &nbsp;20 septiembre
-                </div>
+            <div class="col-5 pb-4 pl-11 text-start">
 
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color: #3b5998;">
+                            <i class="fab fa-facebook-f" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#e4405f;">
+                            <i class="fab fa-instagram" style="transform:scale(1.8)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#1da1f2;">
+                            <i class="fab fa-twitter" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#0077b5;">
+                        <i class="fab fa-linkedin-in" style="transform:scale(1.5)"></i>
+                    </a>
+                    {{-- <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#000000;">
+                        <i class="fab fa-tiktok" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#dbd82c;">
+                        <i class="fab fa-snapchat-ghost" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#dd4b39;">
+                        <i class="fab fa-google-plus-g" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color: #c4302b;">
+                        <i class="fab fa-youtube" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#bd081c;">
+                        <i class="fab fa-pinterest" style="transform:scale(1.5)"></i>
+                    </a> --}}
+
+            </div>
+            <div class="col-7 pb-4 px-4 text-end">
+
+                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                    style="background-color: rgb(236, 198, 25); color:white; cursor:pointer; position:relative;"
+                        onmouseover="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;Cumpleaños';"
+                        onmouseout="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;20 septiembre';">
+                    <i class="fas fa-birthday-cake"></i>&nbsp;20 septiembre
+                </a>
+                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                    style="background-color: rgb(255, 153, 200); color:white;cursor:pointer; position:relative;"
+                    onmouseover="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;Aniversario';"
+                    onmouseout="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;12 dicimebre';">
+                    <i class="fas fa-heart"></i>&nbsp;12 dicimebre
+                </a>
+                {{-- <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                    style="background-color: rgb(73, 162, 232); color:white;cursor:pointer; position:relative;"
+                    onmouseover="this.innerHTML='<i class=&quot;fas fa-user-graduate&quot;></i>&nbsp;Graduación';"
+                    onmouseout="this.innerHTML='<i class=&quot;fas fa-user-graduate&quot;></i>&nbsp;30 octubre';">
+                    <i class="fas fa-user-graduate"></i>
+                    &nbsp;30 octubre
+                </a>
+
+                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                    style="background-color: rgb(32, 73, 126); color:white;cursor:pointer; position:relative;"
+                    onmouseover="this.innerHTML='<i class=&quot;fas fa-building&quot;></i>&nbsp;Contratado';"
+                    onmouseout="this.innerHTML='<i class=&quot;fas fa-building&quot;></i>&nbsp;29 febrero';">
+                    <i class="fas fa-building"></i>
+                    &nbsp;29 febrero
+                </a>
+                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                    style="background-color: rgb(197, 198, 198); color:white;cursor:pointer; position:relative;"
+                    onmouseover="this.innerHTML='&nbsp;Personalizado';"
+                    onmouseout="this.innerHTML='&nbsp;12 noviembre';">
+                    &nbsp;12 noviembre
+                </a> --}}
             </div>
         </div>
 
 
 
 
+
+
+            {{-- pa las direcciones: --}}
+            {{-- <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> --}}
 
         <div class="card-body px-2 pt-0">
-
-        </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-md-0 mb-4">
-                    <div
-                        class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                        <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png"
-                            alt="logo">
-                        <h6 class="mb-0">
-                            ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852
-                        </h6>
-                        <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
+            <div class="row mx-1">
+                <div class="col-md-4 mb-md-0 mb-4">
+                    <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
+                        <i class="fas fa-id-card pr-4"> CI</i> 00090120456
+                        <br/><i class="fas fa-passport pr-2"> PTE</i> M115602
+                        <br/>
+                        <br/>NO nos publica
+                        <br/>
+                        <strong>Notas: </strong>
+                            <i class="fas fa-people-arrows pl-5"></i>
+                            <i class="fas fa-briefcase px-2"></i>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div
-                        class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                        <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
+                <div class="col-md-8">
+                    <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
+                        <strong class="">Direccion: </strong>
+                        <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Casa"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
+                        <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Trabajo"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
+
+                        {{-- <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
                         <h6 class="mb-0">
                             ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
                         </h6>
                         <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i> --}}
                     </div>
                 </div>
             </div>
 
-        <div class="table-responsive p-0">
-            <table class="table align-items-center mb-0">
-                <thead>
-                    <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cuentas Bancarias</th>
-                    <th></th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="d-flex px-2 py-1">
-                                {{-- <img src="../assets/img/logos/card/visa.png" class="w-10 mb-0 me-3"> --}}
-                                <div class="d-flex flex-column justify-content-center pl-3">
-                                    <h6 class="mb-0 text-sm">John Michael</h6>
-                                    <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
-                                </div>
+
+
+
+
+            <div class="accordion mt-4 mx-2" id="accordionExample">
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Cuentas Bancarias
+                    </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body p-0">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <img src="../assets/img/logos/card/mir.png" class="w-25 mb-0 ml-3">
+
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-7">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <img src="../assets/img/logos/card/visa.png" class="w-25 mb-0 ml-3">
+
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-7">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <img src="../assets/img/logos/card/mastercard.png" class="w-25 mb-0 ml-3">
+
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-7">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </td>
-                        <td>
-                            <p class="text-xs fs-1 font-weight-bold mb-0" >
-                                ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;7852
-                            </p>
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                        </td>
+                        </div>
+                    </div>
+                </div>
 
-                </tbody>
-            </table>
+
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Teléfonos
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-home fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Casa</h6>
+                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +34 23 345 23 23
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Llamar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-fax fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Fax</h6>
+                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +34 23 345 23 23
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Llamar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-briefcase fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Trabajo</h6>
+                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +34 23 345 23 23
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Llamar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-building fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Oficina</h6>
+                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +34 23 345 23 23
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Llamar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
+                                                        <i class="fas fa-mobile-alt fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Movil</h6>
+                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +34 23 345 23 23
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Llamar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-mobile-alt fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Movil</h6>
+                                                        <p class="text-xs text-secondary mb-0">Cuba</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +53 53 54 88 65
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Llamar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Emails
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
+                                                        <i class="fas fa-briefcase fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Trabajo</h6>
+                                                        <p class="text-xs text-secondary mb-0">Gmail</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        albertolicea00@gmail.com
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Enviar mail
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-home fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Personal</h6>
+                                                        <p class="text-xs text-secondary mb-0">Microsoft</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        licea.alber56@outlook.com
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Enviar mail
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-home fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Personal</h6>
+                                                        <p class="text-xs text-secondary mb-0">Apple</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        licea.alber56@icloud.com
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Enviar mail
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-home fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Personal</h6>
+                                                        <p class="text-xs text-secondary mb-0">Yahoo</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        licea.vallejo00@yahoo.com
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Enviar mail
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+
         </div>
-
 
 
     </div>

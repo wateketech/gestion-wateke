@@ -8,11 +8,9 @@
 
 
 
-        <div class="p-0">
-            <ul class="align-items-center mb-0">
+        <div class="align-items-center mb-0 p-0">
 
                 @foreach ($entity_types as $entity)
-                    <li>
                         <div class="d-flex px-2 py-2">
                             <div class="icon icon-shape icon-sm shadow text-center border-radius-sm me-2"
                                 style="background-color: {{ $entity->color }}">
@@ -23,10 +21,7 @@
                                 {{-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> --}}
                             </div>
                         </div>
-                    </li>
                 @endforeach
-
-            </ul>
         </div>
 
 
