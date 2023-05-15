@@ -21,10 +21,11 @@ use App\Http\Livewire\Rtl;
 use App\Http\Livewire\Contacts\Contacts\AllContacts;
 use App\Http\Livewire\Contacts\Entity\AllEntity;
 
+
 use App\Http\Livewire\Contacts\Entity\Entity;
 use App\Http\Livewire\Contacts\Entity\Create as CreateEntity;
 use App\Http\Livewire\Contacts\Entity\FastCreate as CreateFastEntity;
-use App\Http\Livewire\Contacts\Agente\Agente;
+
 
 
 use Illuminate\Http\Request;
@@ -38,6 +39,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use PhpParser\Node\Stmt\Foreach_;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,12 +72,30 @@ Route::middleware('auth')->group(function () {
     // SECCION DE CUENTA
     Route::get('/profile', Profile::class)->name('profile');
 
-
     // SECCION DE CONTACTOS
     Route::get('/contactos', AllContacts::class)->name('contactos');
     Route::get('/entidades', AllEntity::class)->name('entidades');
+
+
+    foreach (App\Models\EntityType::all() as $entity_type) {
+        Route::get('/entidades/' . $entity_type->route, function () use ($entity_type) {
+            return 'Esta es la ruta de ' . $entity_type->visual_name_p ;
+        });
+    }
+
+    Route::get('/entidades/grupos-cadenas-hoteleras', function () {
+        $entity_type = App\Models\EntityType::where('route', 'cadenas-hoteleras')->orWhere('route', 'grupos-hoteleros')->get();
+        return 'Esta es la ruta de ' . $entity_type[0]->visual_name_p . ' y de ' . $entity_type[1]->visual_name_p ;
+    });
+
+
+
+
+
     Route::get('/crear-agencias-full', CreateEntity::class)->name('crear-agencia-full');
     // Route::get('/crear-agencias-basic', CreateFastEntity::class)->name('crear-agencia-basic');
+
+
 
     // Route::get('/agentes', Agente::class)->name('agente');
 

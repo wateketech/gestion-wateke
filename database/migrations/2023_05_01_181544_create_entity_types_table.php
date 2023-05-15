@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('model')->unique();
             $table->string('table')->unique();
+            $table->string('route')->unique();
             $table->string('visual_name_s');
             $table->string('visual_name_p');
             $table->string('icon');
