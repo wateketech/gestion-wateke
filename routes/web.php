@@ -18,8 +18,9 @@ use App\Http\Livewire\StaticSignUp;
 use App\Http\Livewire\Rtl;
 
 // use App\Http\Livewire\LaravelExamples\UserProfile;
-use App\Http\Livewire\Contacts\Contacts\AllContacts;
-use App\Http\Livewire\Contacts\Entity\AllEntity;
+use App\Http\Livewire\Contacts\Contacts\AllContacts as Contacts;
+use App\Http\Livewire\Contacts\Entity\AllEntity as Entitys;
+use App\Http\Livewire\Contacts\Entity\AllContacts as EntityContacts;
 
 
 use App\Http\Livewire\Contacts\Entity\Entity;
@@ -73,15 +74,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', Profile::class)->name('profile');
 
     // SECCION DE CONTACTOS
-    Route::get('/contactos', AllContacts::class)->name('contactos');
-    Route::get('/entidades', AllEntity::class)->name('entidades');
+    Route::get('/contactos', Contacts::class)->name('contactos');
+    Route::get('/entidades', Entitys::class)->name('entidades');
 
 
-    foreach (App\Models\EntityType::all() as $entity_type) {
-        Route::get('/entidades/' . $entity_type->route, function () use ($entity_type) {
-            return 'Esta es la ruta de ' . $entity_type->visual_name_p ;
-        });
-    }
+    Route::get('/entidades/{route?}', Entitys::class);
+
 
     Route::get('/entidades/grupos-cadenas-hoteleras', function () {
         $entity_type = App\Models\EntityType::where('route', 'cadenas-hoteleras')->orWhere('route', 'grupos-hoteleros')->get();
