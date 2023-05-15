@@ -471,7 +471,7 @@
                             &nbsp; EMAILS
                         </button>
                     </h2>
-                    <div id="collapseEmails" class="accordion-collapse collapse" aria-labelledby="headingEmails">
+                    <div id="collapseEmails" class="accordion-collapse" aria-labelledby="headingEmails">
                         <div class="accordion-body">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
