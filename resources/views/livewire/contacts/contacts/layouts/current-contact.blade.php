@@ -86,13 +86,13 @@
                         onmouseout="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;20 septiembre';">
                     <i class="fas fa-birthday-cake"></i>&nbsp;20 septiembre
                 </a>
-                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                {{-- <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
                     style="background-color: rgb(255, 153, 200); color:white;cursor:pointer; position:relative;"
                     onmouseover="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;Aniversario';"
                     onmouseout="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;12 dicimebre';">
                     <i class="fas fa-heart"></i>&nbsp;12 dicimebre
                 </a>
-                {{-- <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
                     style="background-color: rgb(73, 162, 232); color:white;cursor:pointer; position:relative;"
                     onmouseover="this.innerHTML='<i class=&quot;fas fa-user-graduate&quot;></i>&nbsp;Graduación';"
                     onmouseout="this.innerHTML='<i class=&quot;fas fa-user-graduate&quot;></i>&nbsp;30 octubre';">
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
-                        <strong class="">Direccion: </strong>
+                        <strong class="">Dirección: </strong>
                         <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Casa"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
                         <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Trabajo"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
 
@@ -157,104 +157,21 @@
 
 
 
-
             <div class="accordion mt-4 mx-2" id="accordionExample">
 
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Cuentas Bancarias
-                    </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body p-0">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/mir.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/visa.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/mastercard.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
 
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Teléfonos
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingPhone">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapsePhone">
+                            <i class="fas fa-phone"></i>
+                            &nbsp; TELÉFONOS
                         </button>
                     </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div id="collapsePhone" class="accordion-collapse collapse" aria-labelledby="headingPhone">
                         <div class="accordion-body">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
@@ -436,15 +353,125 @@
 
 
 
-
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Emails
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingChats">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChats" aria-expanded="false" aria-controls="collapseChats">
+                            <i class="fas fa-sms"></i>
+                            &nbsp; CHATS
                         </button>
                     </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div id="collapseChats" class="accordion-collapse collapse" aria-labelledby="headingChats">
+                        <div class="accordion-body">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
+                                                        <i class="fas fa-home fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Personal</h6>
+                                                        <p class="text-xs text-secondary mb-0">Whatsapp</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        +53 54771264
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Chatear
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-briefcase fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Trabajo</h6>
+                                                        <p class="text-xs text-secondary mb-0">Skype</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        alberto98poe@gmail.com
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Chatear
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-home fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Personal</h6>
+                                                        <p class="text-xs text-secondary mb-0">Telegram</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        albertolicea00
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Chatear
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingEmails">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails">
+                            {{-- <i class="fas fa-envelope-open-text"></i> --}}
+                            <i class="fas fa-envelope"></i>
+                            &nbsp; EMAILS
+                        </button>
+                    </h2>
+                    <div id="collapseEmails" class="accordion-collapse collapse" aria-labelledby="headingEmails">
                         <div class="accordion-body">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
@@ -560,6 +587,146 @@
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                     Enviar mail
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingBankAccounts">
+                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankAcoounts" aria-expanded="false" aria-controls="collapseBankAcoounts">
+                        {{-- <i class="fas fa-euro-sign"></i> --}}
+                        <i class="fas fa-hand-holding-usd"></i>
+                        &nbsp; CUENTAS BANCARIAS
+                    </button>
+                    </h2>
+                    <div id="collapseBankAcoounts" class="accordion-collapse collapse" aria-labelledby="headingBankAccounts">
+                        <div class="accordion-body p-0">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <img src="../assets/img/logos/card/mir.png" class="w-25 mb-0 ml-3">
+
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-7">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <img src="../assets/img/logos/card/visa.png" class="w-25 mb-0 ml-3">
+
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-7">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <img src="../assets/img/logos/card/mastercard.png" class="w-25 mb-0 ml-3">
+
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-7">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingWebs">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWebs" aria-expanded="false" aria-controls="collapseWebs">
+                            <i class="fas fa-wifi"></i>
+                            {{-- <i class="fab fa-internet-explorer"></i> --}}
+                            &nbsp; WEBS
+                        </button>
+                    </h2>
+                    <div id="collapseWebs" class="accordion-collapse collapse" aria-labelledby="headingWebs">
+                        <div class="accordion-body">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-globe fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Personal</h6>
+                                                        <p class="text-xs text-secondary mb-0">Blog</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        http://albertos-blog.com
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Visitar
                                                 </a>
                                                 <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                     Copiar
