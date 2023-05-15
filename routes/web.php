@@ -76,15 +76,7 @@ Route::middleware('auth')->group(function () {
     // SECCION DE CONTACTOS
     Route::get('/contactos', Contacts::class)->name('contactos');
     Route::get('/entidades', Entitys::class)->name('entidades');
-
-
     Route::get('/entidades/{route?}', Entitys::class);
-
-
-    Route::get('/entidades/grupos-cadenas-hoteleras', function () {
-        $entity_type = App\Models\EntityType::where('route', 'cadenas-hoteleras')->orWhere('route', 'grupos-hoteleros')->get();
-        return 'Esta es la ruta de ' . $entity_type[0]->visual_name_p . ' y de ' . $entity_type[1]->visual_name_p ;
-    });
 
 
 
