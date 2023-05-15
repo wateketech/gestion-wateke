@@ -1,4 +1,18 @@
-<div class="main-content">
+<div class="main-content p-4">
+
+
+    <div class="d-flex flex-row justify-content-start pl-4">
+        <div>
+            <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
+                <i class="fas fa-search"></i> Buscar / Filtrar
+            </a>
+            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-agencia-full') }}">
+                Crear Contacto
+            </a>
+
+        </div>
+    </div>
+
 
     {{-- <div class="card card-body blur shadow-blur mx-4">
         <div class="row gx-4">
@@ -40,14 +54,6 @@ Holaaaaaaaaaaa
 
     <div class="container-fluid py-2">
         <div class="row">
-
-
-            <div class="col-lg-12 py-2">
-                <div class="btn btn-primary">Grupos</div>
-                <div class="btn btn-primary">Buscar</div>
-                <div class="btn btn-primary">Crear</div>
-            </div>
-
 
 
             <div class="col-lg-2 py-2">

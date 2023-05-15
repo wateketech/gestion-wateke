@@ -1,12 +1,12 @@
 <div class="main-content p-4">
 
-    <div class="d-flex flex-row justify-content-end pl-4">
+    <div class="d-flex flex-row justify-content-start pl-4">
         <div>
-            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-agencia-full') }}">
-                Registrar Entidad
-            </a>
             <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search"></i> Buscar
+            </a>
+            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-agencia-full') }}">
+                Crear Nueva Entidad
             </a>
 
             {{-- <div name="btn" type="submit" class="btn txt-blanco box-azul btn-md px-3" wire:click='order("asc")' title="ordenar">
