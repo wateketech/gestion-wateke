@@ -5,13 +5,13 @@
         <div class="d-flex px-2 py-1 justify-content-between">
             <div class="d-flex">
                 <div>
-                    <img src="../assets/img/team-2.jpg" class="avatar avatar-xxl me-3">
+                    <img src="../assets/img/logo-travel-mini.png" class="avatar avatar-xxl me-3">
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-xl h5">John Alejandro Michael Alvarez</h6>
-                    <p class="text-md text-secondary pb-2 mb-0">john@creative-tim.com</p>
+                    <h6 class="mb-0 text-xl h5">Wateke Travel SSL</h6>
+                    <p class="text-md text-secondary pb-2 mb-0">info@wateke.travel</p>
                     <hr/>
-                    <p class="text-lg pt-2 mb-0">Recursos Humanos &nbsp;|&nbsp; Wateke Travel</p>
+                    <p class="text-md pt-1 mb-0">Agencia Minorista &nbsp;|&nbsp; Wateke Travel</p>
                 </div>
             </div>
 
@@ -29,6 +29,10 @@
                     style="background-color: #008000">
                     <i class="fas fa-comment fa-lg"></i>
                 </a>
+                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
+                    style="background-color: rgb(0, 122, 204)">
+                    <i class="fas fa-globe fa-lg"></i>
+            </a>
             </div>
         </div>
 
@@ -40,14 +44,14 @@
         <div class="row">
             <div class="col-5 pb-4 pl-11 text-start">
 
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                    {{-- <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color: #3b5998;">
                             <i class="fab fa-facebook-f" style="transform:scale(1.5)"></i>
                     </a>
                     <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color:#e4405f;">
                             <i class="fab fa-instagram" style="transform:scale(1.8)"></i>
-                    </a>
+                    </a> --}}
                     <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color:#1da1f2;">
                             <i class="fab fa-twitter" style="transform:scale(1.5)"></i>
@@ -56,14 +60,6 @@
                         style="background-color:#0077b5;">
                         <i class="fab fa-linkedin-in" style="transform:scale(1.5)"></i>
                     </a>
-                    {{-- <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#000000;">
-                        <i class="fab fa-tiktok" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#dbd82c;">
-                        <i class="fab fa-snapchat-ghost" style="transform:scale(1.5)"></i>
-                    </a>
                     <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color:#dd4b39;">
                         <i class="fab fa-google-plus-g" style="transform:scale(1.5)"></i>
@@ -71,6 +67,14 @@
                     <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color: #c4302b;">
                         <i class="fab fa-youtube" style="transform:scale(1.5)"></i>
+                    </a>
+                    {{-- <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#000000;">
+                        <i class="fab fa-tiktok" style="transform:scale(1.5)"></i>
+                    </a>
+                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color:#dbd82c;">
+                        <i class="fab fa-snapchat-ghost" style="transform:scale(1.5)"></i>
                     </a>
                     <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color:#bd081c;">
@@ -82,7 +86,7 @@
 
                 <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
                     style="background-color: rgb(236, 198, 25); color:white; cursor:pointer; position:relative;"
-                        onmouseover="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;Cumpleaños';"
+                        onmouseover="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;Ignaguración';"
                         onmouseout="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;20 septiembre';">
                     <i class="fas fa-birthday-cake"></i>&nbsp;20 septiembre
                 </a>
@@ -128,10 +132,12 @@
             <div class="row mx-1">
                 <div class="col-md-4 mb-md-0 mb-4">
                     <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
-                        <i class="fas fa-id-card pr-4"> CI</i> 00090120456
-                        <br/><i class="fas fa-passport pr-2"> PSP</i> M115602
+                        <i class="fas fa-id-card pr-4"> NIF</i> &nbsp;&nbsp;&nbsp; 891038741093
+                        {{-- <br/><i class="fas fa-passport pr-2"> CIF</i> 891038741093 --}}
                         <br/>
-                        <br/>NO nos publica
+                        <i class="fas fa-store"> Central</i> &nbsp; Wateke Tech
+                        <br/>
+                        <br/>SI nos Publica
                         <br/>
                         <strong>Notas: </strong>
                             <i class="fas fa-people-arrows pl-5"></i>
@@ -157,7 +163,7 @@
 
 
 
-            <div class="accordion mt-4 mx-2" id="accordionExample">
+            <div class="accordion mt-4 mx-2 mb-5" id="accordionExample">
 
 
 
@@ -708,12 +714,12 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
                                                         <i class="fas fa-globe fa-lg"></i>
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Blog</p>
+                                                        <h6 class="mb-0 text-sm">Blog</h6>
+                                                        {{-- <p class="text-xs text-secondary mb-0">Blog</p> --}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -742,11 +748,64 @@
                 </div>
 
 
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingPublishUs">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePublishUs" aria-expanded="false" aria-controls="collapsePublishUs">
+                            <i class="fas fa-bullhorn"></i>
+                            {{-- <i class="fab fa-internet-explorer"></i> --}}
+                            &nbsp; NOS PUBLICA
+                        </button>
+                    </h2>
+                    <div id="collapsePublishUs" class="accordion-collapse collapse" aria-labelledby="headingPublishUs">
+                        <div class="accordion-body">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-globe fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">Web</h6>
+                                                        {{-- <p class="text-xs text-secondary mb-0">Blog</p> --}}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        https://wateke.travel
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Visitar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
 
 
             </div>
 
 
+
+            {{-- @include('name')    en dependencia del tipo de entidad que sea  --}}
 
         </div>
 

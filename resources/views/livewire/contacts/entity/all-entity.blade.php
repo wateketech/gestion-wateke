@@ -18,7 +18,7 @@
 
 
     @if (isset($route))
-        <div class="container">
+        <div class="container-fluid">
             @include('livewire.contacts.entity.contacts')
         </div>
     @else
