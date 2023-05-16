@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TasksSeeder::class);
         $this->call(EntityTypesSeeder::class);
         $this->call(EntityIdTypesSeeder::class);
-        $this->call(EntityAccountTypes::class);
+        $this->call(ContactsBankAccountTypes::class);
 
     }
 }
