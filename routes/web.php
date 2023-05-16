@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/crear-contacto', CreateContact::class)->name('crear-contacto');
 
     Route::get('/entidades', Entitys::class)->name('entidades');
-    Route::get('/entidades/{route?}', Entitys::class);
+    Route::get('/entidades/{route?}', Entitys::class)->name('entidades');
     Route::get('/crear-entidad', CreateEntity::class)->name('crear-entidad');
 
 

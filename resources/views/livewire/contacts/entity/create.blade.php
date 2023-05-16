@@ -111,7 +111,7 @@
         })
 
 
-        window.addEventListener('cocking-time', function($event){
+        window.addEventListener('coocking-time', function($event){
             let timerInterval
             Swal.fire({
                 title: 'Lo estamos cocinando',

@@ -94,7 +94,7 @@ class Create extends Component
         $this->validate([
             'entity_logos' => 'required|max:5120|valid_image_mime',
         ]);
-        // $this->dispatchBrowserEvent('cocking-time', ['time'=> 2000]);
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         foreach ($this->entity_logos as $logo) {
             $filePath = $logo->getRealPath();
             $image = Image::make($filePath);
@@ -123,7 +123,7 @@ class Create extends Component
             'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
         ]);
 
-        $this->dispatchBrowserEvent('cocking-time');
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 3000]);
         $this->passStep[] = 'entity_general';
         $this->currentStep = "entity_bank_accounts";
         $this->entity_bank_account_card_holder = isset($this->entity_legal_name) ? $this->entity_legal_name : $this->entity_comercial_name;
@@ -134,7 +134,7 @@ class Create extends Component
 
         // dd($this->entity_bank_accounts);
 
-        $this->dispatchBrowserEvent('cocking-time', ['time'=> 3000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 3000]);
         $this->passStep[] = 'entity_bank_accounts';
         $this->currentStep = 4;
     }
