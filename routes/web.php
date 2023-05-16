@@ -11,36 +11,15 @@ use App\Http\Livewire\Dashboard\Dashboard;
 use App\Http\Livewire\Account\Profile\Profile;
 use App\Http\Livewire\Account\Management\UserManagement;
 
-use App\Http\Livewire\Billing;
-use App\Http\Livewire\Tables;
-use App\Http\Livewire\StaticSignIn;
-use App\Http\Livewire\StaticSignUp;
-use App\Http\Livewire\Rtl;
+
 
 // use App\Http\Livewire\LaravelExamples\UserProfile;
 use App\Http\Livewire\Contacts\Contacts\AllContacts as Contacts;
+use App\Http\Livewire\Contacts\Contacts\Create as CreateContact;
 use App\Http\Livewire\Contacts\Entity\AllEntity as Entitys;
-use App\Http\Livewire\Contacts\Entity\AllContacts as EntityContacts;
-
-
-use App\Http\Livewire\Contacts\Entity\Entity;
 use App\Http\Livewire\Contacts\Entity\Create as CreateEntity;
-use App\Http\Livewire\Contacts\Entity\FastCreate as CreateFastEntity;
 
 
-
-use Illuminate\Http\Request;
-
-
-
-
-
-
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
-use PhpParser\Node\Stmt\Foreach_;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,24 +44,26 @@ Route::middleware('auth')->group(function () {
 
     // RUTAS PARA GERENCIA
     Route::group(['middleware' => ['role:Gerencia|SuperAdmin']], function () {
-        // SECCION DE CUENTA
+        // SECCIÓN DE CUENTA
         Route::get('/user-management', UserManagement::class)->name('user-management');
     });
 
 
-    // SECCION DE CUENTA
+    // SECCIÓN DE CUENTA
     Route::get('/profile', Profile::class)->name('profile');
 
-    // SECCION DE CONTACTOS
+    // SECCIÓN DE CONTACTOS
     Route::get('/contactos', Contacts::class)->name('contactos');
+    Route::get('/crear-contacto', CreateContact::class)->name('crear-contacto');
+
     Route::get('/entidades', Entitys::class)->name('entidades');
     Route::get('/entidades/{route?}', Entitys::class);
+    Route::get('/crear-entidad', CreateEntity::class)->name('crear-entidad');
 
 
 
 
 
-    Route::get('/crear-agencias-full', CreateEntity::class)->name('crear-agencia-full');
     // Route::get('/crear-agencias-basic', CreateFastEntity::class)->name('crear-agencia-basic');
 
 

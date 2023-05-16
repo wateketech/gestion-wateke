@@ -5,7 +5,7 @@
             <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
                 <i class="fas fa-search"></i> Buscar
             </a>
-            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-agencia-full') }}">
+            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-entidad') }}">
                 Crear Nueva Entidad
             </a>
 
