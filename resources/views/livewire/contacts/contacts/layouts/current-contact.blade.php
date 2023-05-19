@@ -86,6 +86,12 @@
                         onmouseout="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;20 septiembre';">
                     <i class="fas fa-birthday-cake"></i>&nbsp;20 septiembre
                 </a>
+                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                    style="background-color: rgb(194, 194, 194); color:white; cursor:pointer; position:relative;"
+                        onmouseover="this.innerHTML='<i class=&quot;fas fa-pray&quot;></i>&nbsp;Santo';"
+                        onmouseout="this.innerHTML='<i class=&quot;fas fa-pray&quot;></i>&nbsp;20 enero';">
+                        <i class="fas fa-pray"></i>&nbsp;20 enero
+                </a>
                 {{-- <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
                     style="background-color: rgb(255, 153, 200); color:white;cursor:pointer; position:relative;"
                     onmouseover="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;Aniversario';"
