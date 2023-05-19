@@ -2,10 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\MassAssignmentConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactEmailType extends Model
 {
     use HasFactory;
+    use MassAssignmentConcerns;
+    protected $table='contact_email_types';
+    protected $fillable = ['label', 'enable'];
+
+    public function emails(){
+        return $this->hasMany('App\Models\ContactEmail', 'id');
+    }
+    public function contact(){
+        return $this->belongsTo('App\Models\Contact', 'id');
+    }
 }

@@ -13,4 +13,7 @@ class EntityId extends Model
     public function type(){
         return $this->belongsTo('App\Models\EntityIdType', 'id');
     }
+    public function entity(){
+        return $this->belongsTo('App\Models\Entity', 'id');
+    }
 }

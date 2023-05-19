@@ -11,7 +11,7 @@ class EntityBankAccountType extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_bank_account_types';
-    protected $fillable = ['label', 'regEx'];
+    protected $fillable = ['label', 'logo', 'color', 'regEx', 'enable'];
 
     public function accounts(){
         return $this->hasMany('App\Models\EntityBankAccount', 'id');

@@ -16,4 +16,7 @@ class EntityBankAccount extends Model
     public function bank(){
         return $this->belongsTo('App\Models\EntityBankAccountBank', 'id');
     }
+    public function entity(){
+        return $this->belongsTo('App\Models\Entity', 'id');
+    }
 }

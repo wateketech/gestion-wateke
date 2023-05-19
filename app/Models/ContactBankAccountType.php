@@ -11,7 +11,7 @@ class ContactBankAccountType extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_bank_account_types';
-    protected $fillable = ['label', 'regEx'];
+    protected $fillable = ['label', 'logo', 'color', 'regEx', 'enable'];
 
     public function accounts(){
         return $this->hasMany('App\Models\ContactBankAccount', 'id');
