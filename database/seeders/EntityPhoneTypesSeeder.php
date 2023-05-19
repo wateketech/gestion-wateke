@@ -14,6 +14,15 @@ class EntityPhoneTypesSeeder extends Seeder
      */
     public function run()
     {
-        EntityPhoneTypes::createMany([]);
+        EntityPhoneTypes::createMany([
+            ['label' => 'Principal' ],
+            ['label' => 'Atención al cliente' ],
+            ['label' => 'Soporte técnico' ],
+            ['label' => 'Compras' ],
+            ['label' => 'Ventas' ],
+            ['label' => 'Recursos humanos' ],
+            ['label' => 'Contabilidad' ],
+            ['label' => 'Marketing' ]
+        ]);
     }
 }

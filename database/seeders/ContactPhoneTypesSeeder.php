@@ -15,6 +15,13 @@ class ContactPhoneTypesSeeder extends Seeder
      */
     public function run()
     {
-        ContactPhoneTypes::createMany([]);
+        ContactPhoneTypes::createMany([
+            ['label' => 'Movil' ],
+            ['label' => 'Casa' ],
+            ['label' => 'Trabajo' ],
+            ['label' => 'Oficina' ],
+            ['label' => 'Fax' ],
+            ['label' => 'VoIP' ]
+        ]);
     }
 }
