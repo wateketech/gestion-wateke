@@ -10,8 +10,8 @@ class EntityInstantMessageType extends Model
 {
     use HasFactory;
     use MassAssignmentConcerns;
-    protected $table='Entity_instant_messages';
-    protected $fillable = ['label', 'enable'];
+    protected $table='entity_instant_message_types';
+    protected $fillable = ['label', 'regEx', 'enable'];
 
     public function instant_messages(){
         return $this->hasMany('App\Models\EntityInstantMessage', 'id');

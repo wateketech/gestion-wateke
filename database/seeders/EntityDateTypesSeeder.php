@@ -21,7 +21,6 @@ class EntityDateTypesSeeder extends Seeder
                 'label' => 'Ignaguración',
                 'color' => 'rgb(236, 198, 25)',
                 'icon' => '<i class="fas fa-birthday-cake"></i>',
-
             ]
         ]);
     }
