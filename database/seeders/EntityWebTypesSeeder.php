@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\EntityWebType as EntityWebTypes;
 
-class Entity_web_TypesSeeder extends Seeder
+class EntityWebTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

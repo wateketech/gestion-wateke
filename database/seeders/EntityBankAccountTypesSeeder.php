@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\EntityBankAccountType as EntityBankAccountType;
 
-class Entity_bank_account_TypesSeeder extends Seeder
+class EntityBankAccountTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

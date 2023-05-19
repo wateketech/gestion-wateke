@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\EntityRrssType as EntityRrssTypes;
 
-class Entity_rrss_TypesSeeder extends Seeder
+class EntityRrssTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
