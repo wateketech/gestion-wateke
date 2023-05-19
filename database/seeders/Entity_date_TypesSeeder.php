@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\EntityDateType as EntityDateTypes;
 
-class Entity_date_TypesSeeder extends Seeder
+
+class EntityDateTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +16,6 @@ class Entity_date_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        EntityDateTypes::createMany([]);
     }
 }

@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ContactPhoneType as ContactPhoneTypes;
 
-class Contact_phone_TypesSeeder extends Seeder
+class ContactPhoneTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,6 @@ class Contact_phone_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ContactPhoneTypes::createMany([]);
     }
 }

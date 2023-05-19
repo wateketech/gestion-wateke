@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\ContactIdType as ContactIdTypes;
 
-class Contact_id_TypesSeeder extends Seeder
+class ContactIdTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

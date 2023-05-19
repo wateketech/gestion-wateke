@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-class Entity_phone_TypesSeeder extends Seeder
+use App\Models\EntityPhoneType as EntityPhoneTypes;
+class EntityPhoneTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class Entity_phone_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        EntityPhoneTypes::createMany([]);
     }
 }

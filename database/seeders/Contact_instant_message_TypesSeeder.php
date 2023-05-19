@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ContactInstantMessageType as ContactInstantMessageTypes;
 
-class Contact_instant_message_TypesSeeder extends Seeder
+class ContactInstantMessageTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,6 @@ class Contact_instant_message_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ContactInstantMessageTypes::createMany([]);
     }
 }

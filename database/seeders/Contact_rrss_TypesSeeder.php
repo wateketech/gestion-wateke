@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ContactRrssType as ContactRrssTypes;
 
-class Contact_rrss_TypesSeeder extends Seeder
+class ContactRrssTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,6 @@ class Contact_rrss_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ContactRrssTypes::createMany([]);
     }
 }

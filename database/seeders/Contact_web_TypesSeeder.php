@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ContactWebType as ContactWebTypes;
 
-class Contact_web_TypesSeeder extends Seeder
+class ContactWebTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,6 @@ class Contact_web_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ContactWebTypes::createMany([]);
     }
 }

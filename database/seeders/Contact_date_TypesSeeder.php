@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ContactDateType as ContactDateTypes;
 
-class Contact_date_TypesSeeder extends Seeder
+
+class ContactDateTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +16,6 @@ class Contact_date_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ContactDateTypes::createMany([]);
     }
 }

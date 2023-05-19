@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\EntityEmailType as EntityEmailTypes;
 
-class Entity_email_TypesSeeder extends Seeder
+class EntityEmailTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,6 @@ class Entity_email_TypesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        EntityEmailTypes::createMany([]);
     }
 }
