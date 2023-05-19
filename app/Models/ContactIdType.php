@@ -11,7 +11,7 @@ class ContactIdType extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_id_types';
-    protected $fillable = ['label', 'title', 'regEx', 'enable'];
+    protected $fillable = ['label', 'title', 'icon', 'regEx', 'enable'];
 
     public function ids(){
         return $this->hasMany('App\Models\ContactId', 'id');

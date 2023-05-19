@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('contact_id_types', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
-            $table->string('title')->unique();
+            $table->string('title')->unique()->nullable();
+            $table->string('icon')->nullable();
             $table->json('regEx')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
