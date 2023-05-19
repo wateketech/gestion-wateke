@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contact_date_type', function (Blueprint $table) {
+        Schema::create('contact_date_types', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
+            $table->string('color')->nullable();
+            $table->string('icon')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact_date_type');
+        Schema::dropIfExists('contact_date_types');
     }
 };

@@ -21,17 +21,14 @@ class ContactDateTypesSeeder extends Seeder
                 'label' => 'Cumpleaños',
                 'color' => 'rgb(236, 198, 25)',
                 'icon' => '<i class="fas fa-birthday-cake"></i>',
-
-            ],[
-                'label' => 'Aniversario',
-                'color' => 'rgb(255, 153, 200)',
-                'icon' => '<i class="fas fa-heart"></i>',
-
             ],[
                 'label' => 'Santo',
                 'color' => 'rgb(194, 194, 194)',
                 'icon' => '<i class="fas fa-pray"></i>',
-
+            ],[
+                'label' => 'Aniversario',
+                'color' => 'rgb(255, 153, 200)',
+                'icon' => '<i class="fas fa-heart"></i>',
             ],[
                 'label' => 'Graduación',
                 'color' => 'rgb(73, 162, 232)',
