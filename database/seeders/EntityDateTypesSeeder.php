@@ -16,6 +16,13 @@ class EntityDateTypesSeeder extends Seeder
      */
     public function run()
     {
-        EntityDateTypes::createMany([]);
+        EntityDateTypes::createMany([
+            [
+                'label' => 'Ignaguración',
+                'color' => 'rgb(236, 198, 25)',
+                'icon' => '<i class="fas fa-birthday-cake"></i>',
+
+            ]
+        ]);
     }
 }
