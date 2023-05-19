@@ -15,6 +15,23 @@ class EntityEmailTypesSeeder extends Seeder
      */
     public function run()
     {
-        EntityEmailTypes::createMany([]);
+        EntityEmailTypes::createMany([
+            [
+                'label' => 'Microsoft',
+                'value' => 'outlook',
+            ],[
+                'label' => 'Google',
+                'value' => 'gmail',
+            ],[
+                'label' => 'Apple',
+                'value' => 'icloud',
+            ],[
+                'label' => 'Yahoo',
+                'value' => 'yahoo',
+            ],[
+                'label' => 'AOL',
+                'value' => 'aol',
+            ]
+        ]);
     }
 }

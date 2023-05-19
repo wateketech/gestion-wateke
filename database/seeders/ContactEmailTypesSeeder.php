@@ -15,6 +15,23 @@ class ContactEmailTypesSeeder extends Seeder
      */
     public function run()
     {
-        ContactEmailTypes::createMany([]);
+        ContactEmailTypes::createMany([
+            [
+                'label' => 'Microsoft',
+                'value' => 'outlook',
+            ],[
+                'label' => 'Google',
+                'value' => 'gmail',
+            ],[
+                'label' => 'Apple',
+                'value' => 'icloud',
+            ],[
+                'label' => 'Yahoo',
+                'value' => 'yahoo',
+            ],[
+                'label' => 'AOL',
+                'value' => 'aol',
+            ]
+        ]);
     }
 }

@@ -11,7 +11,7 @@ class ContactEmailType extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_email_types';
-    protected $fillable = ['label', 'enable'];
+    protected $fillable = ['label', 'value', 'enable'];
 
     public function emails(){
         return $this->hasMany('App\Models\ContactEmail', 'id');
