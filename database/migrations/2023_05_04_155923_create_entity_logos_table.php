@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('value');
             $table->string('label')->nullable();
             $table->boolean('primary')->nullable();
+            $table->boolean('enable')->default(1);
             $table->timestamps();
 
 

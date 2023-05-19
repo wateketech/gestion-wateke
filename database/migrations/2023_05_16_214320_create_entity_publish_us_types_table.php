@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('entity_publish_us_types', function (Blueprint $table) {
             $table->id();
+            $table->string('label')->nullable();
+            $table->boolean('enable')->default(1);
             $table->timestamps();
         });
     }

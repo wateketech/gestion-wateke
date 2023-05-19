@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('entity_date_types', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
+            $table->boolean('enable')->default(1);
             $table->timestamps();
         });
     }

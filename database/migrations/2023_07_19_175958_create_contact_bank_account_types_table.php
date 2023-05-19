@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entity_bank_account_banks', function (Blueprint $table) {
+        Schema::create('contact_bank_account_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('title')->nullable()->unique();
+            $table->string('label')->unique();
+            $table->string('logo')->nullable();
+            $table->string('color')->nullable();
+            $table->json('regEx')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity_bank_account_banks');
+        Schema::dropIfExists('contact_bank_account_types');
     }
 };

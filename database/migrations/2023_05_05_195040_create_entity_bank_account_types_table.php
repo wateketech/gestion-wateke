@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->string('color')->nullable();
             $table->json('regEx')->nullable();
+            $table->boolean('enable')->default(1);
             $table->timestamps();
         });
     }

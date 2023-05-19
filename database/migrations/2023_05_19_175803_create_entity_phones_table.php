@@ -13,18 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entitys', function (Blueprint $table) {
+        Schema::create('entity_phones', function (Blueprint $table) {
             $table->id();
-            $table->string('alias')->nullable();
-            $table->string('legal_name')->nullable();
-            $table->string('comercial_name')->nullable();
+            $table->unsignedBigInteger('entity_id');
+            $table->unsignedBigInteger('type_id');
+            $table->string('value');
             $table->text('about')->nullable();
-            $table->unsignedBigInteger('entity_type_id');
             $table->boolean('enable')->default(1);
             $table->timestamps();
 
 
-            $table->foreign('entity_type_id')->references('id')->on('entity_types')->constrained();
+            $table->foreign('entity_id')->references('id')->on('entitys')->constrained();
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('entity_phone_types')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });
@@ -37,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entitys');
+        Schema::dropIfExists('entity_phones');
     }
 };

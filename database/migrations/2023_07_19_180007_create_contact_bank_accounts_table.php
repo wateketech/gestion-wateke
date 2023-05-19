@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entity_bank_accounts', function (Blueprint $table) {
+        Schema::create('contact_bank_accounts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('entity_id');
+            $table->unsignedBigInteger('contact_id');
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('bank_id');
             $table->string('card_number');
@@ -24,20 +24,20 @@ return new class extends Migration
             $table->boolean('is_credit');
             // $table->boolean('');
             // $table->boolean('');
+            $table->text('about')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
 
 
-            $table->foreign('entity_id')->references('id')->on('entitys')->constrained();
+            $table->foreign('contact_id')->references('id')->on('contacts')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-            $table->foreign('type_id')->references('id')->on('entity_bank_account_types')->constrained();
+            $table->foreign('type_id')->references('id')->on('contact_bank_account_types')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-            $table->foreign('bank_id')->references('id')->on('entity_bank_account_banks')->constrained();
+            $table->foreign('bank_id')->references('id')->on('contact_bank_account_banks')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-
         });
     }
 
@@ -48,6 +48,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity_bank_accounts');
+        Schema::dropIfExists('contact_bank_accounts');
     }
 };

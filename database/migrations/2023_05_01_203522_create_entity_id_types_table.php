@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('label')->unique();
             $table->string('title')->unique();
             $table->json('regEx')->nullable();
+            $table->boolean('enable')->default(1);
             $table->timestamps();
         });
     }

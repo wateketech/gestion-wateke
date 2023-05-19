@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entitys', function (Blueprint $table) {
+        Schema::create('contact_link_user', function (Blueprint $table) {
             $table->id();
-            $table->string('alias')->nullable();
-            $table->string('legal_name')->nullable();
-            $table->string('comercial_name')->nullable();
-            $table->text('about')->nullable();
-            $table->unsignedBigInteger('entity_type_id');
+            $table->unsignedBigInteger('contact_id');
+            $table->unsignedBigInteger('user_id');
             $table->boolean('enable')->default(1);
             $table->timestamps();
 
 
-            $table->foreign('entity_type_id')->references('id')->on('entity_types')->constrained();
+            $table->foreign('contact_id')->references('id')->on('contacts')->constrained();
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entitys');
+        Schema::dropIfExists('contact_link_user');
     }
 };
