@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\EntityBankAccountType as EntityBankAccountType;
 use App\Models\ContactBankAccountType as ContactBankAccountType;
 
-class ContactsBankAccountTypes extends Seeder
+class Contact_bank_account_TypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +15,7 @@ class ContactsBankAccountTypes extends Seeder
      */
     public function run()
     {
-        $AccountTypes = [
+        ContactBankAccountType::createMany([
             [
                 'label' => 'Unknown',
                 'logo' => Null,
@@ -228,8 +227,6 @@ class ContactsBankAccountTypes extends Seeder
 
                 ])
             ]
-        ];
-        EntityBankAccountType::createMany($AccountTypes);
-        ContactBankAccountType::createMany($AccountTypes);
+        ]);
     }
 }

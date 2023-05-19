@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ContactEmailTypes extends Seeder
+class Contact_phone_TypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

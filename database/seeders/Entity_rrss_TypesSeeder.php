@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ContactWebTypes extends Seeder
+class Entity_rrss_TypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

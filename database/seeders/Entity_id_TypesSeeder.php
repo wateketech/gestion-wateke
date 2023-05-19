@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\EntityIdType as EntityIdTypes;
 
-class EntityIdTypesSeeder extends Seeder
+class Entity_id_TypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
