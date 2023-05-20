@@ -25,12 +25,59 @@ class Create extends Component
 
     ];
 
+    // GENERALS
+    public user_link_id; // si es o no un usuario ya registrado
+    public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
+    public $entity_id_types, $entity_id_type;
+    public $id_value;
+    public $ids = [];
+    public $main_profile_pic;
+    public $profile_pics = [];
 
-    // -------- general --------
-    // -------- bank-account --------
-    // -------- bank-account --------
+    // EMAILS
+    public $email_types, $email_type;
+    public $email_value, $email_is_personal, $email_about;
+    public $emails = [];
 
+    // PHONE AND CHATS
+    public $phone_types, $phone_type;
+    public $phone_value, $phone_is_personal, $phone_about;
+    public $phones = [];
+    public $instant_message_types, $instant_message_type;
+    public $instant_message_value, $instant_message_is_personal, $instant_message_about;
+    public $instant_messages = [];
 
+    // RRSS AND WEBS
+    public $rrss_types, $rrss_type;
+    public $rrss_value, $rrss_is_personal, $rrss_about;
+    public $rrss = [];
+    public $web_types, $web_type;
+    public $web_value, $web_is_personal, $web_about;
+    public $webs = [];
+
+    // ADDRESS
+
+    // BANK ACCOUNTS
+    public $bank_account_types, $bank_account_type;
+    public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about, $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
+    public $bank_account_bank_name, $entity_bank_account_bank_title;
+    public $bank_account_banks = [];
+    public $bank_accounts = [];
+
+    // OCUPATION
+
+    // MORE
+    public $entity_id_types, $entity_id_type;
+    public $id_value;
+    public $ids = [];
+    public $main_profile_pic;
+    public $profile_pics = [];
+
+    public $publish_us_types, $publish_us_type;
+    public $publish_us_value, $publish_us_about;
+    public $publish_us = [];
+    // es o no un usuario (!! crearlo !!)
+    public $user_link_name, $user_link_email, $user_link_phone, $user_link_password, $user_link_about;
 
 // ----------------------- VALIDACIONES --------------------------
     public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
@@ -46,8 +93,9 @@ class Create extends Component
     }
 
 // ----------------------- flujo STEPS --------------------------
+
 // -------------------------- STEP GENERALS --------------------------
-public function updatedEntityLogos(){
+    public function updatedEntityLogos(){
         // validar las imagenes
         /*
         $this->validate([
@@ -84,21 +132,84 @@ public function updatedEntityLogos(){
             'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
         ]);
         */
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 3000]);
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'general';
-        $this->currentStep = "bank_accounts";
+        $this->currentStep = 'emails';
+    }
+
+// -------------------------- STEP EMAILS --------------------------
+
+    public function stepSubmit_emails(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->passStep[] = 'emails';
+        $this->currentStep = 'phone_chats';
+    }
+// -------------------------- STEP PHONE AND CHATS --------------------------
+    public function stepSubmit_phone_chats(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->passStep[] = 'phone_chats';
+        $this->currentStep = 'rrss_web';
+    }
+// -------------------------- STEP RRSS AND WEBS --------------------------
+    public function stepSubmit_rrss_web(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->passStep[] = 'rrss_web';
+        $this->currentStep = 'address';
+    }
+// -------------------------- STEP ADDRESS --------------------------
+    public function stepSubmit_address(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->passStep[] = 'address';
+        $this->currentStep = 'bank_accounts';
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function stepSubmit_bank_accounts(){
-
-
-        // dd($this->entity_bank_accounts);
-
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 3000]);
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'bank_accounts';
-        $this->currentStep = 4;
+        $this->currentStep = 'ocupation';
     }
-// -------------------------- STEP  --------------------------
+// -------------------------- STEP OCUPATION --------------------------
+    public function stepSubmit_ocupation_omit(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        // $this->passStep[] = 'ocupation';
+        $this->currentStep = 'more';
+    }
+    public function stepSubmit_ocupation(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->passStep[] = 'ocupation';
+        $this->currentStep = 'more';
+    }
+// -------------------------- STEP MORE --------------------------
+    public function stepSubmit_more(){
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->passStep[] = 'more';
+        $this->currentStep = 'resumen';
+    }
+// -------------------------- STEP RESUMEN --------------------------
+    public function stepSubmit_resumen(){
+        // esto creo q no se va a usar
+    }
+// -------------------------- FINAL STEP  --------------------------
+    public function store(){
+        DB::beginTransaction();
+        try {
+
+            // .......
+
+
+            DB::commit();
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1] ,'message' => $e->errorInfo[2]]);
+        }
+    }
+
+
+
+
+
+
+// -------------------------- REVIEW  --------------------------
 
 
 public function remount_bank_accounts(){
@@ -179,25 +290,6 @@ public function remount_bank_accounts(){
 
     }
 
-    public function stepSubmit_4(){
-
-        $this->currentStep = 0;
-    }
 
 
-// -------------------------- STEP  --------------------------
-    // final step
-    public function store(){
-        DB::beginTransaction();
-        try {
-
-            // .......
-
-
-            DB::commit();
-        } catch (\Illuminate\Database\QueryException $e) {
-            DB::rollBack();
-            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1] ,'message' => $e->errorInfo[2]]);
-        }
-    }
 }
