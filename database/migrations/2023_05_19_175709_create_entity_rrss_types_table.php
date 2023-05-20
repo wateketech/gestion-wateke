@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('entity_rrss_types', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
+            $table->string('icon')->nullable();
+            $table->string('color')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });
