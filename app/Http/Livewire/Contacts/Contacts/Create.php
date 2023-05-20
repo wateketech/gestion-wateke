@@ -8,7 +8,19 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 
 
-use App\Models\EntityBankAccountType as EntityBankAccountTypes;
+use App\Models\Contact as Contacts;
+use App\Models\ContactIdType as IdTypes;
+use App\Models\ContactEmailType as EmailTypes;
+use App\Models\ContactPhoneType as PhoneTypes;
+use App\Models\ContactInstantmessageType as InstantMessageTypes;
+use App\Models\ContactRrssType as RrssTypes;
+use App\Models\ContactWebType as WebTypes;
+use App\Models\ContactBankAccountType as BankAccountTypes;
+use App\Models\ContactDateType as DateTypes;
+use App\Models\ContactPublishUsType as PublishUsTypes;
+
+
+
 
 class Create extends Component
 {
@@ -26,9 +38,9 @@ class Create extends Component
     ];
 
     // GENERALS
-    public user_link_id; // si es o no un usuario ya registrado
+    public $user_link_id; // si es o no un usuario ya registrado
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
-    public $entity_id_types, $entity_id_type;
+    public $id_types, $id_type;
     public $id_value;
     public $ids = [];
     public $main_profile_pic;
@@ -67,11 +79,9 @@ class Create extends Component
     // OCUPATION
 
     // MORE
-    public $entity_id_types, $entity_id_type;
-    public $id_value;
-    public $ids = [];
-    public $main_profile_pic;
-    public $profile_pics = [];
+    public $date_types, $date_type;
+    public $date_value;
+    public $dates = [];
 
     public $publish_us_types, $publish_us_type;
     public $publish_us_value, $publish_us_about;
@@ -81,11 +91,29 @@ class Create extends Component
 
 // ----------------------- VALIDACIONES --------------------------
     public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
-    public function cleanErrors(){   $this->resetValidation(); }
+    public function cleanErrors(){    $this->resetValidation();     }
     public function cleanError($m){   $this->resetValidation($m);   }
 // ----------------------- RENDER --------------------------
     public function mount(){
+        $this->id_types = IdTypes::all()->where('enable', true);
+        $this->email_types = EmailTypes::all()->where('enable', true);
+        $this->phone_types = PhoneTypes::all()->where('enable', true);
+        $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
+        $this->rrss_types = RrssTypes::all()->where('enable', true);
+        $this->web_types = WebTypes::all()->where('enable', true);
+        $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
+        $this->date_types = DateTypes::all()->where('enable', true);
+        $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
 
+        $this->id_type = $this->id_types->first()->id;
+        $this->email_type = $this->email_types->first()->id;
+        $this->phone_type = $this->phone_types->first()->id;
+        $this->instant_message_type = $this->instant_message_types->first()->id;
+        $this->rrss_type = $this->rrss_types->first()->id;
+        $this->web_type = $this->web_types->first()->id;
+        $this->bank_account_type = $this->bank_account_types->first()->id;
+        $this->date_type = $this->date_types->first()->id;
+        $this->publish_us_type = $this->publish_us_types->first()->id;
     }
     public function render()
     {
