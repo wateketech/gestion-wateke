@@ -15,6 +15,15 @@ class EntityWebTypesSeeder extends Seeder
      */
     public function run()
     {
-        EntityWebTypes::createMany([]);
+        EntityWebTypes::createMany([
+            ['label' => 'Web Corporativa' ],
+            ['label' => 'eCommerce' ],
+            ['label' => 'Marketplace'],
+            ['label' => 'Landing Page'],
+            ['label' => 'Blog' ],
+            ['label' => 'Foro' ],
+            ['label' => 'Comunidad' ],
+            ['label' => 'Web' ]
+        ]);
     }
 }

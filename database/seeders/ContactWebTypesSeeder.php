@@ -15,6 +15,13 @@ class ContactWebTypesSeeder extends Seeder
      */
     public function run()
     {
-        ContactWebTypes::createMany([]);
+        ContactWebTypes::createMany([
+            ['label' => 'Blog' ],
+            ['label' => 'Portafolio' ],
+            ['label' => 'Foro' ],
+            ['label' => 'Comunidad' ],
+            ['label' => 'eCommerce' ],
+            ['label' => 'Web' ]
+        ]);
     }
 }

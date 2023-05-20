@@ -15,6 +15,14 @@ class EntityPublishUsTypesSeeder extends Seeder
      */
     public function run()
     {
-        EntityPublishUsTypes::createMany([]);
+        EntityPublishUsTypes::createMany([
+            ['label' => 'Web Corporativa' ],
+            ['label' => 'eCommerce' ],
+            ['label' => 'Testimonios o Reseñas'],
+            ['label' => 'Blog' ],
+            ['label' => 'Foro' ],
+            ['label' => 'Comunidad' ],
+            ['label' => 'Web' ]
+        ]);
     }
 }

@@ -15,6 +15,14 @@ class ContactPublishUsTypesSeeder extends Seeder
      */
     public function run()
     {
-        ContactPublishUsTypes::createMany([]);
+        ContactPublishUsTypes::createMany([
+            ['label' => 'Blog' ],
+            ['label' => 'Portafolio' ],
+            ['label' => 'Foro' ],
+            ['label' => 'Comunidad' ],
+            ['label' => 'eCommerce' ],
+            ['label' => 'Testimonios o Reseñas'],
+            ['label' => 'Web' ]
+        ]);
     }
 }
