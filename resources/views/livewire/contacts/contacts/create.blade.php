@@ -102,10 +102,10 @@
                             <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-general">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 d-flex  justify-content-center ">
-                                        {{-- <button class="btn btn-primary"
+                                        <button class="btn btn-primary"
                                             wire:click="stepSubmit_ocupation">
                                             <i class="fas fa-angle-double-right"></i>
-                                        </button> --}}
+                                        </button>
                                         <button class="btn btn-secondary position-absolute" style="right: 65px;"
                                             wire:click="stepSubmit_ocupation_omit">
                                             <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
@@ -133,7 +133,7 @@
                                 <div class="position-relative">
 
                                 @include("livewire.contacts.contacts.layouts.form.resumen")
-
+                                    
                                 <div>
                                     <div class="d-flex justify-content-center mt-3">
                                         <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>

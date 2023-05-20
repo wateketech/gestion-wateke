@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Contacts\Contacts;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
@@ -38,7 +39,6 @@ class Create extends Component
     ];
 
     // GENERALS
-    public $user_link_id; // si es o no un usuario ya registrado
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
     public $id_types, $id_type;
     public $id_value;
@@ -86,8 +86,13 @@ class Create extends Component
     public $publish_us_types, $publish_us_type;
     public $publish_us_value, $publish_us_about;
     public $publish_us = [];
-    // es o no un usuario (!! crearlo !!)
-    public $user_link_name, $user_link_email, $user_link_phone, $user_link_password, $user_link_about;
+
+
+    // RESUMEN
+    public $is_user_link = false;
+    public $user_link_roles;
+    private $user_link_password;
+    public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
 
 // ----------------------- VALIDACIONES --------------------------
     public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
@@ -214,6 +219,24 @@ class Create extends Component
         $this->currentStep = 'resumen';
     }
 // -------------------------- STEP RESUMEN --------------------------
+    public function UpdatedIsUserLink(){
+        $this->user_link_roles = \Spatie\Permission\Models\Role::all(); // ->where('enable', true);
+        if($this->is_user_link){
+            $this->user_link_name = $this->name . $this->first_lastname  ;
+            $this->user_link_email =  'email primario' ;
+            $this->user_link_phone = 'telefono primario';
+            $this->user_link_role = '1';
+        }else{
+            $this->user_link_name = null;
+            $this->user_link_email = null;
+            $this->user_link_phone = null;
+            $this->user_link_about = null;
+            $this->user_link_role = null;
+            $this->user_link_password = null;
+            $this->user_link_password_public = null;
+            $this->user_link_password_check = null;
+        }
+    }
     public function stepSubmit_resumen(){
         // esto creo q no se va a usar
     }
@@ -221,6 +244,17 @@ class Create extends Component
     public function store(){
         DB::beginTransaction();
         try {
+            if($this->is_user_link){
+
+                $this->validate([
+                    'user_link_password_public' => 'required|min:6',
+                    'user_link_password_check' => 'required|same:user_link_password_public',
+                ],[
+                    '*.required' => 'El campo es obligatorio',
+                    '*.same' => 'Las contraseñas no coinciden'
+                ]);
+                $this->user_link_password = Hash::make($this->user_link_password_public);
+            }
 
             // .......
 
