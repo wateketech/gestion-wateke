@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Contacts\Contacts;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -45,6 +46,7 @@ class Create extends Component
     public $id_types, $id_type;
     public $id_value;
     public $ids = [];
+    public $id_max = 4;
     public $main_profile_pic;
     public $profile_pics = [];
 
@@ -140,57 +142,30 @@ class Create extends Component
 // ----------------------- flujo STEPS --------------------------
 
 // -------------------------- STEP GENERALS --------------------------
-
-
-
-
-    public function addId()
-    {
-        $available_types = $this->getAvailableIdTypes();
-        if (count($available_types) > 0) {
-            // $this->ids[] = ['id_type' => $available_types[0]->id, 'id_value' => ''];
-            $this->ids[] = ['id_type' => $available_types->first()->id, 'id_value' => ''];
+    public function addId($index){
+        // dd($this->ids[$index]['id_value']);
+        $this->validate([
+                'ids.'.$index.'.id_value' => ['required',
+                function ($attribute, $value, $fail) {
+                        $ids = array_column($this->ids, 'id_value');
+                        if (count($ids) != count(array_unique($ids))) {
+                            $fail('Los valores no pueden repetirse');
+                        }
+                    }
+                ]
+            ],[
+                'ids.*.id_value.required' => 'El campo es obligatorio',
+            ]);
+        if (count($this->ids) < $this->id_max) {
+            $this->ids[] = ['id_type' => $this->id_types->first()->id, 'id_value' => ''];
         }
     }
 
-    public function removeId($index)
-    {
+    public function removeId($index){
         unset($this->ids[$index]);
         $this->ids = array_values($this->ids);
     }
 
-
-
-    public function getAvailableIdTypes()
-    {
-        $used_types = collect($this->ids)->pluck('id_type')->toArray();
-        return collect($this->id_types)->reject(function ($type) use ($used_types) {
-            return in_array($type->id, $used_types);
-        });
-    }
-
-    /*
-    public function updatedIds()
-    {
-        $this->validate([
-            'ids.*.id_value' => $this->getValidationRules()
-        ]);
-    }
-
-    private function getValidationRules()
-    {
-        $rules = [];
-        foreach ($this->ids as $index => $id) {
-            $id_type = $this->id_types->find($id['id_type']);
-            $regExs = json_decode($id_type->regEx);
-            $rules["ids.{$index}.id_value"] = ['required'];
-            foreach ($regExs as $countryCode => $regEx) {
-                $rules["ids.{$index}.id_value"][] = "regex:{$regEx}";
-            }
-        }
-        return $rules;
-    }
-    */
 
 
 

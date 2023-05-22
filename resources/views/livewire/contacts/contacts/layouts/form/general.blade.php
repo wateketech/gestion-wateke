@@ -2,77 +2,24 @@
     <div class="row">
         <div class='col-lg-8'>
             <div class="row">
-                {{-- <div class="col-2 form-group pr-0">
-                    <label for="id_types" class="form-control-label">ID *</label>
-                    <select class="@error('id_type')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="id_types" id="id_types" wire:model="id_type">
-                        @foreach ($id_types as $type)
-                            <option value="{{ $type->id }}">{{ $type->label }}</option>
-                        @endforeach
-                    </select>
-                    @error('id_type') <sub class="text-danger">{{ $message }}</sub> @enderror
-                </div>
-                <div class="col-5 col-md-8 form-group">
-                    <label for="id_value" class="form-control-label">{{  $id_types->find($id_type)->title }} *</label>
-                    <input class="@error('id_value')border border-danger rounded-3 @enderror form-control" type="text"
-                        name="id_value" id="id_value" wire:model="id_value">
-                    @error('id_value') <sub class="text-danger">{{ $message }}</sub> @enderror
-                        @php
-                            $id_value_valid = true;
-                            if ($id_value) {
-                                foreach (json_decode($id_types->find($id_type)->regEx) as $regEx){
-                                    if (preg_match($regEx, $id_value)){
-                                        $id_value_valid = true;
-                                        break;
-                                    } else {
-                                        $id_value_valid = false;
-                                        print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
-                                    }
-                                }
-                            }
-                        @endphp
-                    @if (!$id_value_valid)
-                        <sub class="text-warning">Tenga presente que el {{ $id_types->find($id_type)->title }} no cumple con el formato. </sub>
-                        <script> document.getElementById('id_value').classList += ' is-warning';  </script>
-                            {{ cleanError('entity_id_value') }}
-                    @endif
-                </div>
-                <div class="col-5 col-md-2 mt-4">
-                    <button wire:click="addId" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></button>
-                    <button wire:click="removeId" class="btn btn-outline-danger px-3"><i class="fas fa-minus text-danger"></i></button>
-                </div> --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
                 @foreach ($ids as $index => $id)
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-2 form-group pr-0">
                         <label for="id_types_{{ $index }}" class="form-control-label">ID *</label>
                         <select class="@error("ids.{$index}.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
                             name="id_types_{{ $index }}" id="id_types_{{ $index }}" wire:model="ids.{{ $index }}.id_type">
-                            @php
-                                $availableIdTypes = $this->getAvailableIdTypes();
-                            @endphp
                             @foreach ($id_types as $type)
-                            {{-- <option value="">{{ $type }}</option> --}}
                                 <option value="{{ $type->id }}">
                                     {{ $type->label }}
                                 </option>
                             @endforeach
+                            <script>
+
+                            </script>
                         </select>
                         @error("ids.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror
                     </div>
-                    <div class="col-5 col-md-8 form-group">
+                    <div class="col-8 col-md-8 form-group">
                         <label for="id_value_{{ $index }}" class="form-control-label">{{ $id_types->find($id['id_type'])->title }} *</label>
                         <input class="@error("ids.{$index}.id_value")border border-danger rounded-3 @enderror form-control"
                             type="text" name="id_value_{{ $index }}" id="id_value_{{ $index }}"
@@ -99,10 +46,10 @@
                             </script>
                         @endif
                     </div>
-                    <div class="col-5 col-md-2 mt-4">
+                    <div class="col-2 col-md-2 mt-4">
                             @if ($index === count($ids) - 1)
-                                @if (count($availableIdTypes) != 0)
-                                    <button wire:click="addId" class="btn btn-outline-success px-3"><i
+                                @if (count($this->ids) < $this->id_max)
+                                    <button wire:click="addId({{ $index }})" class="btn btn-outline-success px-3"><i
                                             class="fas fa-plus text-success"></i></button>
                                 @endif
                             @else
