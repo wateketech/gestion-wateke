@@ -120,6 +120,9 @@ class Create extends Component
         $this->bank_account_type = $this->bank_account_types->first()->id;
         $this->date_type = $this->date_types->first()->id;
         $this->publish_us_type = $this->publish_us_types->first()->id;
+
+
+        $this->datos_prueba();
     }
     public function render()
     {
@@ -355,19 +358,93 @@ public function remount_bank_accounts(){
 
 
 // -------------------------- DATOS DE PRUEBA  --------------------------
-    private function(){
-        $this->alias = 'Al',
+    private function datos_prueba(){
+        $this->alias = 'Al';
         $this->name = 'Alberto';
         $this->middle_name = 'de Jesús';
         $this->first_lastname = 'Licea';
         $this->second_lastname = 'Vallejo';
         $this->about = 'Nada ';
-        $this->id_types
-        $this->id_type;
-        $this->id_value;
-        $this->ids = [];
-        $this->main_profile_pic;
-        $this->profile_pics = [];
+        // $this->id_types = '';
+        // $this->id_type = '';
+        // $this->id_value = '';
+        // $this->ids = [];
+        // $this->main_profile_pic;
+        // $this->profile_pics = [];
+
+    // EMAILS
+        // $this->email_types = '';
+        // $this->email_type = '';
+        // $this->email_value = '';
+        // $this->email_is_personal = '';
+        // $this->email_about = '';
+        // $this->emails = [];
+
+    // PHONE AND CHATS
+        // $this->phone_types = '';
+        // $this->phone_type = '';
+        // $this->phone_value = '';
+        // $this->phone_is_personal = '';
+        // $this->phone_about = '';
+        // $this->phones = '';
+        // $this->instant_message_types = '';
+        // $this->instant_message_type;
+        // $this->instant_message_value = '';
+        // $this->instant_message_is_personal = '';
+        // $this->instant_message_about = '';
+        // $this->instant_messages = '';
+
+
+        // RRSS AND WEBS
+        // $this->rrss_types = '';
+        // $this->rrss_type = '';
+        // $this->rrss_value = '';
+        // $this->rrss_is_personal = '';
+        // $this->rrss_about = '';
+        // $this->rrss = '';
+        // $this->web_types = '';
+        // $this->web_type = '';
+        // $this->web_value = '';
+        // $this->web_is_personal = '';
+        // $this->web_about = '';
+        // $this->webs = '';
+
+        // ADDRESS
+
+        // BANK ACCOUNTS
+        // $this->bank_account_types = '';
+        // $this->bank_account_type = '';
+        // $this->bank_account_card_number = '';
+        // $this->bank_account_card_holder = '';
+        // $this->bank_account_is_credit = '';
+        // $this->bank_account_about = '';
+        // $this->bank_account_expiration_date = '';
+        // $this->bank_account_expiration_year = '';
+        // $this->bank_account_expiration_month = '';
+        // $this->bank_account_bank_name = '';
+        // $this->entity_bank_account_bank_title = '';
+        // $this->bank_account_banks = '';
+        // $this->bank_accounts = '';
+
+        // OCUPATION
+
+        // MORE
+        // $this->date_types = '';
+        // $this->date_type = '';
+        // $this->date_value = '';
+        // $this->dates = '';
+
+        // $this->publish_us_types = '';
+        // $this->publish_us_type = '';
+        // $this->publish_us_value = '';
+        // $this->publish_us_about = '';
+        // $this->publish_us = '';
+
+
+
+
+
+
     }
 
 }
