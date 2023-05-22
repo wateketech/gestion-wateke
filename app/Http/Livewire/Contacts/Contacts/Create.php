@@ -29,7 +29,7 @@ class Create extends Component
     protected $listeners = [
         'removeAccountCard'
     ];
-    public $prueba;
+    public $prueba, $datos_prueba;
     public $errorMessage;
     public $passStep = [];
     public $currentStep = 'general';
@@ -110,7 +110,8 @@ class Create extends Component
         $this->date_types = DateTypes::all()->where('enable', true);
         $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
 
-        $this->id_type = $this->id_types->first()->id;
+        $this->id_type = 1;
+        // $this->id_types->first()->id;
         $this->email_type = $this->email_types->first()->id;
         $this->phone_type = $this->phone_types->first()->id;
         $this->instant_message_type = $this->instant_message_types->first()->id;
@@ -353,5 +354,20 @@ public function remount_bank_accounts(){
     }
 
 
+// -------------------------- DATOS DE PRUEBA  --------------------------
+    private function(){
+        $this->alias = 'Al',
+        $this->name = 'Alberto';
+        $this->middle_name = 'de Jesús';
+        $this->first_lastname = 'Licea';
+        $this->second_lastname = 'Vallejo';
+        $this->about = 'Nada ';
+        $this->id_types
+        $this->id_type;
+        $this->id_value;
+        $this->ids = [];
+        $this->main_profile_pic;
+        $this->profile_pics = [];
+    }
 
 }
