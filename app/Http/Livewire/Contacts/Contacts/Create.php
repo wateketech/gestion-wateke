@@ -30,7 +30,7 @@ class Create extends Component
         'removeAccountCard'
     ];
     public $prueba, $datos_prueba;
-    public $available_id_types = [];
+//    public $available_id_types = [];
 
     public $errorMessage;
     public $passStep = [];

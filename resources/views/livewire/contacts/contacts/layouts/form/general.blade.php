@@ -54,16 +54,20 @@
 
 
 
-
                 @foreach ($ids as $index => $id)
                 <div class="row mb-3">
                     <div class="col-2 form-group pr-0">
                         <label for="id_types_{{ $index }}" class="form-control-label">ID *</label>
                         <select class="@error("ids.{$index}.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
                             name="id_types_{{ $index }}" id="id_types_{{ $index }}" wire:model="ids.{{ $index }}.id_type">
-                            @php    $availableIdTypes = $this->getAvailableIdTypes();    @endphp
+                            @php
+                                $availableIdTypes = $this->getAvailableIdTypes();
+                            @endphp
                             @foreach ($id_types as $type)
-                                <option value="{{ $type->id }}">{{ $type->label }}</option>
+                            {{-- <option value="">{{ $type }}</option> --}}
+                                <option value="{{ $type->id }}">
+                                    {{ $type->label }}
+                                </option>
                             @endforeach
                         </select>
                         @error("ids.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror
@@ -96,15 +100,15 @@
                         @endif
                     </div>
                     <div class="col-5 col-md-2 mt-4">
-                        @if ($index != count($availableIdTypes))
                             @if ($index === count($ids) - 1)
-                                <button wire:click="addId" class="btn btn-outline-success px-3"><i
-                                        class="fas fa-plus text-success"></i></button>
+                                @if (count($availableIdTypes) != 0)
+                                    <button wire:click="addId" class="btn btn-outline-success px-3"><i
+                                            class="fas fa-plus text-success"></i></button>
+                                @endif
                             @else
                                 <button wire:click="removeId({{ $index }})" class="btn btn-outline-danger px-3"><i
                                         class="fas fa-minus text-danger"></i></button>
                             @endif
-                        @endif
                     </div>
                 </div>
             @endforeach
