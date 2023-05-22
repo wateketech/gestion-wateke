@@ -30,6 +30,8 @@ class Create extends Component
         'removeAccountCard'
     ];
     public $prueba, $datos_prueba;
+    public $available_id_types = [];
+
     public $errorMessage;
     public $passStep = [];
     public $currentStep = 'general';
@@ -94,6 +96,12 @@ class Create extends Component
     private $user_link_password;
     public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
 
+
+
+
+
+
+
 // ----------------------- VALIDACIONES --------------------------
     public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
     public function cleanErrors(){    $this->resetValidation();     }
@@ -110,8 +118,7 @@ class Create extends Component
         $this->date_types = DateTypes::all()->where('enable', true);
         $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
 
-        $this->id_type = 1;
-        // $this->id_types->first()->id;
+        $this->id_type = $this->id_types->first()->id;
         $this->email_type = $this->email_types->first()->id;
         $this->phone_type = $this->phone_types->first()->id;
         $this->instant_message_type = $this->instant_message_types->first()->id;
@@ -121,6 +128,7 @@ class Create extends Component
         $this->date_type = $this->date_types->first()->id;
         $this->publish_us_type = $this->publish_us_types->first()->id;
 
+        $this->ids[] = ['id_type' => $this->id_types[0]->id, 'id_value' => ''];
 
         $this->datos_prueba();
     }
@@ -132,6 +140,85 @@ class Create extends Component
 // ----------------------- flujo STEPS --------------------------
 
 // -------------------------- STEP GENERALS --------------------------
+
+
+
+
+    public function addId()
+    {
+        $available_types = $this->getAvailableIdTypes();
+        if (count($available_types) > 0) {
+            // $this->ids[] = ['id_type' => $available_types[0]->id, 'id_value' => ''];
+            $this->ids[] = ['id_type' => $available_types->first()->id, 'id_value' => ''];
+        }
+    }
+
+    public function removeId($index)
+    {
+        unset($this->ids[$index]);
+        $this->ids = array_values($this->ids);
+    }
+
+
+
+    public function getAvailableIdTypes()
+    {
+        $used_types = collect($this->ids)->pluck('id_type')->toArray();
+        return collect($this->id_types)->reject(function ($type) use ($used_types) {
+            return in_array($type->id, $used_types);
+        });
+    }
+
+    /*
+    public function updatedIds()
+    {
+        $this->validate([
+            'ids.*.id_value' => $this->getValidationRules()
+        ]);
+    }
+
+    private function getValidationRules()
+    {
+        $rules = [];
+        foreach ($this->ids as $index => $id) {
+            $id_type = $this->id_types->find($id['id_type']);
+            $regExs = json_decode($id_type->regEx);
+            $rules["ids.{$index}.id_value"] = ['required'];
+            foreach ($regExs as $countryCode => $regEx) {
+                $rules["ids.{$index}.id_value"][] = "regex:{$regEx}";
+            }
+        }
+        return $rules;
+    }
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function updatedEntityLogos(){
         // validar las imagenes
         /*
