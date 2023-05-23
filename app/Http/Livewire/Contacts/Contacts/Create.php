@@ -145,6 +145,8 @@ class Create extends Component
     public function addId($index){
         // dd($this->ids[$index]['id_value']);
         $this->validate([
+            'ids.*.id_type' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
+            'ids.*.id_value' => 'required|string',
                 'ids.'.$index.'.id_value' => ['required',
                 function ($attribute, $value, $fail) {
                         $ids = array_column($this->ids, 'id_value');
@@ -154,6 +156,7 @@ class Create extends Component
                     }
                 ]
             ],[
+                'ids.*.id_type.required' => 'El campo es obligatorio',
                 'ids.*.id_value.required' => 'El campo es obligatorio',
             ]);
         if (count($this->ids) < $this->id_max) {
@@ -165,73 +168,43 @@ class Create extends Component
         unset($this->ids[$index]);
         $this->ids = array_values($this->ids);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function updatedEntityLogos(){
-        // validar las imagenes
-        /*
+    public function updatedProfilePics(){
+        // $this->dispatchBrowserEvent('coocking-time-profile-img', ['time'=> 2000]);
         $this->validate([
-            'entity_logos' => 'required|max:5120|valid_image_mime',
+            'profile_pics' => 'required|max:5120|valid_image_mime',
         ]);
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
-        foreach ($this->entity_logos as $logo) {
-            $filePath = $logo->getRealPath();
+        if ($this->getErrorBag()->any()) {
+            $this->profile_pics = null;
+        }
+        foreach ($this->profile_pics as $pic) {
+            $filePath = $pic->getRealPath();
             $image = Image::make($filePath);
             $image->fit(800, 800);
             $image->save($filePath);
         }
-        $this->entity_main_logo = 0;
-        */
-    }
-    public function removeLogo($index){
-        // array_splice($this->entity_logos, $index, 1);
-    }
+        $this->main_profile_pic = 0;
 
+    }
     public function stepSubmit_general(){
-        /*
         $this->validate([
-            'entity_logos' => 'max:5120|valid_image_mime',
-            'entity_id_type' => 'required',
-            'entity_id_value' => 'required',
-            'entity_legal_name' => 'nullable|required_without_all:entity_comercial_name',
-            'entity_comercial_name' => 'nullable|required_without_all:entity_legal_name',
-            'entity_about' => 'nullable',
-            'entity_alias' => 'nullable',
-
+            'alias' => 'max:50',
+            'name' => 'required|max:50',
+            'middle_name' => 'max:50',
+            'first_lastname' => 'required|max:50',
+            'second_lastname' => 'max:50',
+            'about' => 'max:500',
+            'profile_pics' => 'max:5120|valid_image_mime',
+            'main_profile_pic' => ['required', 'integer', 'numeric', 'min:0', 'max:' . count($this->profile_pics)],
+            'ids' => 'required|array',
+            'ids.*.id_value' => 'required|string',
+            'ids.*.id_type' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
         ],[
             '*.required' => 'El campo es obligatorio',
-            'entity_legal_name.required_without_all' => 'Sin un Nombre Comercial este campo es requerido',
-            'entity_comercial_name.required_without_all' => 'Sin un Nombre Fiscal este campo es requerido'
+            'ids.*.id_value.required' => 'El campo es obligatorio',
+            '*.max' => 'El campo no puede tener más de :max caracteres',
+            '*.min' => 'El campo no puede menos más de :min caracteres',
         ]);
-        */
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'general';
         $this->currentStep = 'emails';
     }
@@ -430,8 +403,11 @@ public function remount_bank_accounts(){
         // $this->id_types = '';
         // $this->id_type = '';
         // $this->id_value = '';
-        // $this->ids = [];
-        // $this->main_profile_pic;
+        $this->ids = [
+            [ 'id_type' => 1, 'id_value' => '00090120123'],
+            [ 'id_type' => '2', 'id_value' => 'A1234567'],
+            ];
+        $this->main_profile_pic = 0;
         // $this->profile_pics = [];
 
     // EMAILS
