@@ -142,7 +142,7 @@
                     @endpush
                 </div>
                 <div class="card-body p-0">
-                    <input class="form-control" id="profile_pics" type="file" name="images[]" wire:model="profile_pics" accept=".jpeg,.jpg,.png,.webp" multiple onchange="coocking_time_profile_img()">
+                    <input class="form-control" id="profile_pics" type="file" name="images[]" wire:model="profile_pics" accept=".jpeg,.jpg,.png,.webp" onchange="coocking_time_profile_img()">
                     <small class="card-text"><strong>NOTA:</strong> Seleccionar la imagen de perfil con un tamaño máximo 5mg y un aspect ratio de 1x1.</small>
                     @error('profile_pics')<br/><sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
