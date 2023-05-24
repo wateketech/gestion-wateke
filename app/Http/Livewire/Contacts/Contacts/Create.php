@@ -731,13 +731,22 @@ public function remount_bank_accounts(){
         // $this->rrss_value = '';
         // $this->rrss_is_personal = '';
         // $this->rrss_about = '';
-        // $this->rrss = '';
+        $this->rrss = [
+            ['id_type' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
+            ['id_type' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
+            ['id_type' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
+            ];
+
         // $this->web_types = '';
         // $this->web_type = '';
         // $this->web_value = '';
         // $this->web_is_personal = '';
         // $this->web_about = '';
-        // $this->webs = '';
+        $this->webs = [
+            ['id_type' => 1, 'value' => 'https://albertos-blog.com',  'about' => ''],
+            ['id_type' => 2, 'value' => 'https://alberto.licea',  'about' => ''],
+            ['id_type' => 6, 'value' => 'https://wateke.travel',  'about' => ''] ,
+            ];
 
         // ADDRESS
 
