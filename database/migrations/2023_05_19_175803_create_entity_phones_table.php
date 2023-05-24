@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('entity_id');
             $table->unsignedBigInteger('type_id');
             $table->string('value');
+            $table->json('value_meta');
             $table->text('about')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();

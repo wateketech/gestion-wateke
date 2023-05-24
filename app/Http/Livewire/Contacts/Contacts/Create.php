@@ -35,7 +35,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'phone_chats' ; //'general';
+    public $currentStep = 'rrss_web' ; //'general';
 
     protected $rules = [
 
@@ -142,8 +142,12 @@ class Create extends Component
 
         $this->ids[] = ['id_type' => $this->id_types[0]->id, 'id_value' => ''];
         $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
-        $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'country' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
-        $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
+        $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->webs[] = ['id_type' => $this->web_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+
+
 
         $this->datos_prueba();
     }
@@ -307,7 +311,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'country' => '', 'value' => '', 'is_primary' => 0, 'about' => '',  ];
+            $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 0, 'about' => '',  ];
         }
     }
 
@@ -601,10 +605,10 @@ public function remount_bank_accounts(){
         // $this->phone_about = '';
         // $this->phones = '';
         $this->phones = [
-            [ 'id_type' => 2, 'country' => '', 'value' => '+53 32292629', 'is_primary' => 0, 'about' => '' ],
-            [ 'id_type' => 3, 'country' => '', 'value' => '+53 32271900', 'is_primary' => 0, 'about' => '' ],
-            [ 'id_type' => 1, 'country' => '', 'value' => '+1 56154598789', 'is_primary' => 1, 'about' => '' ],
-            [ 'id_type' => 1, 'country' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
+            [ 'id_type' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => 0, 'about' => '' ],
+            [ 'id_type' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => 0, 'about' => '' ],
+            [ 'id_type' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => 1, 'about' => '' ],
+            [ 'id_type' => 1, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
             ];
         // $this->instant_message_types = '';
         // $this->instant_message_type;
