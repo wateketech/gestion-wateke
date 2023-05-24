@@ -144,8 +144,8 @@ class Create extends Component
         $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
         $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
         $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
-        $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
-        $this->webs[] = ['id_type' => $this->web_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
+        $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
 
 
 
@@ -398,8 +398,111 @@ class Create extends Component
         $this->currentStep = 'rrss_web';
     }
 // -------------------------- STEP RRSS AND WEBS --------------------------
+    public function addWeb($index){
+        $this->validate([
+            'webs.*.id_type' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.*.about' => '',
+            'webs.' . $index . '.value' => ['required',
+                    function ($attribute, $value, $fail) {
+                        $webs = collect($this->webs);
+                        $duplicates = $webs->filter(function ($item) use ($value) {
+                                return $item['value'] == $value;
+                            })->where('id_type', $webs->pluck('id_type')->first())->count();
+
+                            if ($duplicates > 1) {
+                            $fail('Las webs no pueden repetirse con un mismo tipo');
+                        }
+                    }
+                ]
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'webs.*.*.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+        if (count($this->webs) < $this->webs_max) {
+            $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
+        }
+    }
+
+    public function removeWeb($index){
+        unset($this->webs[$index]);
+        $this->webs = array_values($this->webs);
+    }
+
+
+    public function addRrss($index){
+        $this->validate([
+            'rrss.*.id_type' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.*.about' => '',
+            'rrss.' . $index . '.value' => ['required',
+                    function ($attribute, $value, $fail) {
+                        $rrss = collect($this->rrss);
+                        $duplicates = $rrss->filter(function ($item) use ($value) {
+                                return $item['value'] == $value;
+                            })->where('id_type', $rrss->pluck('id_type')->first())->count();
+
+                            if ($duplicates > 1) {
+                            $fail('Las redes sociales no pueden repetirse con un mismo tipo');
+                        }
+                    }
+                ],
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'rrss.*.*.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+        if (count($this->rrss) < $this->rrss_max) {
+            $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
+        }
+    }
+
+    public function removeRrss($index){
+        unset($this->rrss[$index]);
+        $this->rrss = array_values($this->rrss);
+    }
+
+
     public function stepSubmit_rrss_web(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->validate([
+            'webs.*.id_type' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.*.about' => '',
+            'webs.*.value' => ['required',
+                    function ($attribute, $value, $fail) {
+                        $webs = collect($this->webs);
+                        $duplicates = $webs->filter(function ($item) use ($value) {
+                                return $item['value'] == $value;
+                            })->where('id_type', $webs->pluck('id_type')->first())->count();
+
+                            if ($duplicates > 1) {
+                            $fail('Las webs no pueden repetirse con un mismo tipo');
+                        }
+                    }
+                ],
+            'rrss.*.id_type' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.*.about' => '',
+            'rrss.*.value' => ['required',
+                    function ($attribute, $value, $fail) {
+                        $rrss = collect($this->rrss);
+                        $duplicates = $rrss->filter(function ($item) use ($value) {
+                                return $item['value'] == $value;
+                            })->where('id_type', $rrss->pluck('id_type')->first())->count();
+
+                            if ($duplicates > 1) {
+                            $fail('Las redes sociales no pueden repetirse con un mismo tipo');
+                        }
+                    }
+                ],
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'webs.*.*.required' => 'El campo es obligatorio',
+                'rrss.*.*.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'rrss_web';
         $this->currentStep = 'address';
     }
