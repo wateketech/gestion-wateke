@@ -1,9 +1,13 @@
 <div class="col-12 mb-3">
     <div class="row">
+        <div class="d-flex justify-content-start my-3 h5 text-dark form-title">
+            <span class="font-weight-bolder opacity-7"><i class="fas fa-envelope"></i> &nbsp; Emails :</span>
+        </div>
+
         @foreach ($emails as $index => $email)
-        {{-- <div class="col-1 form-check pt-4">
-            <input class="form-check-input" type="radio" id="emails.{{$index}}.is_primary" wire:model="emails.{{ $index }}.is_primary">
-        </div> --}}
+        <div class="col-1 form-check pt-4">
+            {{-- <input class="form-check-input" type="radio" id="emails.{{$index}}.is_primary" wire:model="emails.{{ $index }}.is_primary"> --}}
+        </div>
         <div class="col-2 form-group pr-0">
             <label for="email_label_{{ $index }}" class="form-control-label">Tipo *</label>
             <select class="@error("emails.{$index}.label")border border-danger rounded-3 is-invalid @enderror form-control"
