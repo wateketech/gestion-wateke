@@ -93,3 +93,25 @@ input{
         color: transparent;
     }
 }
+
+
+// areglando los
+.input-group {
+    position: relative;
+
+    .form-control {
+      padding-right: 4rem;
+    }
+
+    .input-group-append {
+      position: absolute;
+      top: 0;
+      right: 30rem;
+      height: 100%;
+
+      .input-group-text {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }

@@ -22074,4 +22074,21 @@ input.is-alert {
 }
 .search-input:focus::placeholder {
   color: transparent;
+}
+
+.input-group {
+  position: relative;
+}
+.input-group .form-control {
+  padding-right: 4rem;
+}
+.input-group .input-group-append {
+  position: absolute;
+  top: 0;
+  right: 30rem;
+  height: 100%;
+}
+.input-group .input-group-append .input-group-text {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

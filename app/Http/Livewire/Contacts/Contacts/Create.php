@@ -35,12 +35,13 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'general';
+    public $currentStep = 'emails' ; //'general';
 
     protected $rules = [
 
     ];
 
+    public $labels_type = ['Personal', 'Trabajo'];
     // GENERALS
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
     public $id_types, $id_type;
@@ -54,6 +55,7 @@ class Create extends Component
     public $email_types, $email_type;
     public $email_value, $email_is_personal, $email_about;
     public $emails = [];
+    public $emails_max = 10;
 
     // PHONE AND CHATS
     public $phone_types, $phone_type;
@@ -131,6 +133,7 @@ class Create extends Component
         $this->publish_us_type = $this->publish_us_types->first()->id;
 
         $this->ids[] = ['id_type' => $this->id_types[0]->id, 'id_value' => ''];
+        $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
 
         $this->datos_prueba();
     }
@@ -210,7 +213,32 @@ class Create extends Component
     }
 
 // -------------------------- STEP EMAILS --------------------------
+    public function addEmail($index){
+        // dd($this->ids[$index]['id_value']);
+        $this->validate([
+            'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
+            'emails.*.value' => 'required|string',
+                'emails.'.$index.'.value' => ['required',
+                function ($attribute, $value, $fail) {
+                        $emails = array_column($this->emails, 'value');
+                        if (count($emails) != count(array_unique($emails))) {
+                            $fail('Los emails no pueden repetirse');
+                        }
+                    }
+                ]
+            ],[
+                'emails.*.id_type.required' => 'El campo es obligatorio',
+                'emails.*.value.required' => 'El campo es obligatorio',
+            ]);
+        if (count($this->emails) < $this->emails_max) {
+            $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        }
+    }
 
+    public function removeEmail($index){
+        unset($this->emails[$index]);
+        $this->emails = array_values($this->emails);
+    }
     public function stepSubmit_emails(){
         // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'emails';

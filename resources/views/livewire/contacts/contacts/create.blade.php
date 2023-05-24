@@ -133,7 +133,7 @@
                                 <div class="position-relative">
 
                                 @include("livewire.contacts.contacts.layouts.form.resumen")
-                                    
+
                                 <div>
                                     <div class="d-flex justify-content-center mt-3">
                                         <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
