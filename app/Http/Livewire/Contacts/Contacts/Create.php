@@ -35,7 +35,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'emails' ; //'general';
+    public $currentStep = 'phone_chats' ; //'general';
 
     protected $rules = [
 
@@ -61,17 +61,25 @@ class Create extends Component
     public $phone_types, $phone_type;
     public $phone_value, $phone_is_personal, $phone_about;
     public $phones = [];
+    public $phones_max = 8;
+
     public $instant_message_types, $instant_message_type;
     public $instant_message_value, $instant_message_is_personal, $instant_message_about;
     public $instant_messages = [];
+    public $instant_messages_max = 8;
+
 
     // RRSS AND WEBS
     public $rrss_types, $rrss_type;
     public $rrss_value, $rrss_is_personal, $rrss_about;
     public $rrss = [];
+    public $rrss_max = 8;
+
     public $web_types, $web_type;
     public $web_value, $web_is_personal, $web_about;
     public $webs = [];
+    public $webs_max = 8;
+
 
     // ADDRESS
 
@@ -134,6 +142,8 @@ class Create extends Component
 
         $this->ids[] = ['id_type' => $this->id_types[0]->id, 'id_value' => ''];
         $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'country' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
 
         $this->datos_prueba();
     }
@@ -278,6 +288,69 @@ class Create extends Component
         $this->currentStep = 'phone_chats';
     }
 // -------------------------- STEP PHONE AND CHATS --------------------------
+    public function addPhone($index){
+        // dd($this->ids[$index]['id_value']);
+        $this->validate([
+            'phones.*.is_primary' => '',
+            'phones.*.id_type' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.*.about' => '',
+            'phones.' . $index . '.value' => ['required',
+                function ($attribute, $value, $fail) {
+                        $phones = array_column($this->phones, 'value');
+                        if (count($phones) != count(array_unique($phones))) {
+                            $fail('Los numeros de teléfonos no pueden repetirse');
+                        }
+                    }
+                ]
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'phones.*.*.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+        if (count($this->phones) < $this->phones_max) {
+            $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'country' => '', 'value' => '', 'is_primary' => 0, 'about' => '',  ];
+        }
+    }
+
+    public function removePhone($index){
+        unset($this->phones[$index]);
+        $this->phones = array_values($this->phones);
+    }
+
+
+    public function addInstantMessages($index){
+        // dd($this->ids[$index]['id_value']);
+        $this->validate([
+            'instant_messages.*.is_primary' => '',
+            'instant_messages.*.id_type' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
+            'instant_messages.*.label' => 'required',
+            'instant_messages.*.about' => '',
+            'instant_messages.' . $index . '.value' => ['required',
+                function ($attribute, $value, $fail) {
+                        $instant_messages = array_column($this->instant_messages, 'value');
+                        if (count($instant_messages) != count(array_unique($instant_messages))) {
+                            $fail('Los numeros de teléfonos no pueden repetirse');
+                        }
+                    }
+                ]
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'instant_messages.*.*.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+        if (count($this->instant_messages) < $this->instant_messages_max) {
+            $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 0, 'about' => '',  ];
+        }
+    }
+
+    public function removeInstantMessages($index){
+        unset($this->instant_messages[$index]);
+        $this->instant_messages = array_values($this->instant_messages);
+    }
+
+
     public function stepSubmit_phone_chats(){
         // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'phone_chats';
@@ -478,9 +551,9 @@ public function remount_bank_accounts(){
         // $this->email_is_personal = '';
         // $this->email_about = '';
         $this->emails = [
-            [ 'about' => '', 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com'],
-            [ 'about' => '', 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com'],
-            [ 'about' => '', 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com'],
+            [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
+            [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
+            [ 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => ''],
             ];
 
     // PHONE AND CHATS
@@ -490,13 +563,23 @@ public function remount_bank_accounts(){
         // $this->phone_is_personal = '';
         // $this->phone_about = '';
         // $this->phones = '';
+        $this->phones = [
+            [ 'id_type' => 2, 'country' => '', 'value' => '+53 32292629', 'is_primary' => 0, 'about' => '' ],
+            [ 'id_type' => 3, 'country' => '', 'value' => '+53 32271900', 'is_primary' => 0, 'about' => '' ],
+            [ 'id_type' => 1, 'country' => '', 'value' => '+1 56154598789', 'is_primary' => 1, 'about' => '' ],
+            [ 'id_type' => 1, 'country' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
+            ];
         // $this->instant_message_types = '';
         // $this->instant_message_type;
         // $this->instant_message_value = '';
         // $this->instant_message_is_personal = '';
         // $this->instant_message_about = '';
         // $this->instant_messages = '';
-
+        $this->instant_messages = [
+            ['id_type' => 2, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 1, 'about' => ''] ,
+            ['id_type' => 1, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => ''] ,
+            ['id_type' => 3, 'label' => 'Personal', 'value' => 'soporteit@wateke.travel', 'is_primary' => 0, 'about' => ''] ,
+            ];
 
         // RRSS AND WEBS
         // $this->rrss_types = '';
