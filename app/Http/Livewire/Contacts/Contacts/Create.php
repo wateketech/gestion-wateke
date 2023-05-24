@@ -231,11 +231,10 @@ class Create extends Component
 
 // -------------------------- STEP EMAILS --------------------------
     public function addEmail($index){
-        // dd($this->ids[$index]['id_value']);
         $this->validate([
             'emails.*.is_primary' => '',
             'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
-            'emails.*.label' => 'required',
+            'emails.*.label' => ['required', Rule::in($this->labels_type),],
             'emails.*.about' => '',
             'emails.' . $index . '.value' => ['required', 'email',
                 function ($attribute, $value, $fail) {
@@ -266,7 +265,7 @@ class Create extends Component
             'emails' => 'required|array',
             'emails.*.is_primary' => '',
             'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
-            'emails.*.label' => 'required',
+            'emails.*.label' => ['required', Rule::in($this->labels_type),],
             'emails.*.about' => '',
             'emails.*.value' => ['required', 'email',
                 function ($attribute, $value, $fail) {
@@ -289,7 +288,6 @@ class Create extends Component
     }
 // -------------------------- STEP PHONE AND CHATS --------------------------
     public function addPhone($index){
-        // dd($this->ids[$index]['id_value']);
         $this->validate([
             'phones.*.is_primary' => '',
             'phones.*.id_type' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
@@ -298,7 +296,7 @@ class Create extends Component
                 function ($attribute, $value, $fail) {
                         $phones = array_column($this->phones, 'value');
                         if (count($phones) != count(array_unique($phones))) {
-                            $fail('Los numeros de teléfonos no pueden repetirse');
+                            $fail('Los números de teléfonos no pueden repetirse');
                         }
                     }
                 ]
@@ -320,20 +318,23 @@ class Create extends Component
 
 
     public function addInstantMessages($index){
-        // dd($this->ids[$index]['id_value']);
         $this->validate([
             'instant_messages.*.is_primary' => '',
-            'instant_messages.*.id_type' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
-            'instant_messages.*.label' => 'required',
+            'instant_messages.*.id_type' => [ 'required', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
+            'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
             'instant_messages.' . $index . '.value' => ['required',
-                function ($attribute, $value, $fail) {
-                        $instant_messages = array_column($this->instant_messages, 'value');
-                        if (count($instant_messages) != count(array_unique($instant_messages))) {
-                            $fail('Los numeros de teléfonos no pueden repetirse');
+                    function ($attribute, $value, $fail) {
+                        $instantMessages = collect($this->instant_messages);
+                        $duplicates = $instantMessages->filter(function ($item) use ($value) {
+                                return $item['value'] == $value;
+                            })->where('id_type', $instantMessages->pluck('id_type')->first())->count();
+
+                            if ($duplicates > 1) {
+                            $fail('Las cuentas no pueden repetirse con un mismo proveedor');
                         }
                     }
-                ]
+                ],
             ],[
                 '*.required' => 'El campo es obligatorio',
                 'instant_messages.*.*.required' => 'El campo es obligatorio',
@@ -352,7 +353,43 @@ class Create extends Component
 
 
     public function stepSubmit_phone_chats(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->validate([
+            'phones.*.is_primary' => '',
+            'phones.*.id_type' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.*.about' => '',
+            'phones.*.value' => ['required',
+                function ($attribute, $value, $fail) {
+                        $phones = array_column($this->phones, 'value');
+                        if (count($phones) != count(array_unique($phones))) {
+                            $fail('Los números de teléfonos no pueden repetirse');
+                        }
+                    }
+                ],
+            'instant_messages.*.is_primary' => '',
+            'instant_messages.*.id_type' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
+            'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
+            'instant_messages.*.about' => '',
+            'instant_messages.*.value' => ['required',
+                function ($attribute, $value, $fail) {
+                    $instantMessages = collect($this->instant_messages);
+                    $duplicates = $instantMessages->filter(function ($item) use ($value) {
+                            return $item['value'] == $value;
+                        })->where('id_type', $instantMessages->pluck('id_type')->first())->count();
+
+                            if ($duplicates > 1) {
+                            $fail('Las cuentas no pueden repetirse con un mismo proveedor');
+                        }
+                    }
+                ],
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'instant_messages.*.*.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+
+
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'phone_chats';
         $this->currentStep = 'rrss_web';
     }
