@@ -22085,7 +22085,7 @@ input.is-alert {
 .input-group .input-group-append {
   position: absolute;
   top: 0;
-  right: 30rem;
+  right: 0;
   height: 100%;
 }
 .input-group .input-group-append .input-group-text {

@@ -199,7 +199,14 @@ class Create extends Component
             'profile_pics' => 'max:5120|valid_image_mime',
             'main_profile_pic' => ['required', 'integer', 'numeric', 'min:0', 'max:' . count($this->profile_pics)],
             'ids' => 'required|array',
-            'ids.*.id_value' => 'required|string',
+            'ids.*.id_value' => ['required', 'string',
+                function ($attribute, $value, $fail) {
+                        $ids = array_column($this->ids, 'id_value');
+                        if (count($ids) != count(array_unique($ids))) {
+                            $fail('Los valores no pueden repetirse');
+                        }
+                    }
+                ],
             'ids.*.id_type' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
         ],[
             '*.required' => 'El campo es obligatorio',
@@ -216,9 +223,11 @@ class Create extends Component
     public function addEmail($index){
         // dd($this->ids[$index]['id_value']);
         $this->validate([
+            'emails.*.is_primary' => '',
             'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
-            'emails.*.value' => 'required|string',
-                'emails.'.$index.'.value' => ['required',
+            'emails.*.label' => 'required',
+            'emails.*.about' => '',
+            'emails.' . $index . '.value' => ['required', 'email',
                 function ($attribute, $value, $fail) {
                         $emails = array_column($this->emails, 'value');
                         if (count($emails) != count(array_unique($emails))) {
@@ -227,11 +236,14 @@ class Create extends Component
                     }
                 ]
             ],[
-                'emails.*.id_type.required' => 'El campo es obligatorio',
-                'emails.*.value.required' => 'El campo es obligatorio',
+                '*.required' => 'El campo es obligatorio',
+                'emails.*.*.required' => 'El campo es obligatorio',
+                'emails.*.*.email' => 'El campo debe ser un email',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->emails) < $this->emails_max) {
-            $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+            $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 0, 'about' => '',  ];
         }
     }
 
@@ -240,7 +252,28 @@ class Create extends Component
         $this->emails = array_values($this->emails);
     }
     public function stepSubmit_emails(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->validate([
+            'emails' => 'required|array',
+            'emails.*.is_primary' => '',
+            'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
+            'emails.*.label' => 'required',
+            'emails.*.about' => '',
+            'emails.*.value' => ['required', 'email',
+                function ($attribute, $value, $fail) {
+                        $emails = array_column($this->emails, 'value');
+                        if (count($emails) != count(array_unique($emails))) {
+                            $fail('Los emails no pueden repetirse');
+                        }
+                    }
+                ]
+            ],[
+                '*.required' => 'El campo es obligatorio',
+                'emails.*.*.required' => 'El campo es obligatorio',
+                'emails.*.*.email' => 'El campo debe ser un email',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'emails';
         $this->currentStep = 'phone_chats';
     }
@@ -444,7 +477,11 @@ public function remount_bank_accounts(){
         // $this->email_value = '';
         // $this->email_is_personal = '';
         // $this->email_about = '';
-        // $this->emails = [];
+        $this->emails = [
+            [ 'about' => '', 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com'],
+            [ 'about' => '', 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com'],
+            [ 'about' => '', 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com'],
+            ];
 
     // PHONE AND CHATS
         // $this->phone_types = '';

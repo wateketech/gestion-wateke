@@ -95,23 +95,23 @@ input{
 }
 
 
-// areglando los
 .input-group {
     position: relative;
 
     .form-control {
-      padding-right: 4rem;
+        padding-right: 4rem;
     }
 
     .input-group-append {
-      position: absolute;
-      top: 0;
-      right: 30rem;
-      height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
 
-      .input-group-text {
+        .input-group-text {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-      }
+        }
     }
-  }
+}
+// lo que quiero es que right: 0; sea igual al tamaño de .input-group-append
