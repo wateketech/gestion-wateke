@@ -2,6 +2,9 @@
     <div class="row">
         <div class='col-lg-8 col-md-12'>
             <div class="row">
+                <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
+                    <span class="font-weight-bolder opacity-7"><i class="fas fa-id-card"></i> &nbsp; Identificaiones :</span>
+                </div>
                 <div class="col-12 mb-3">
                     <div class="row">
                         @foreach ($ids as $index => $id)
@@ -64,7 +67,9 @@
                 </div>
 
 
-
+                <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
+                    <span class="font-weight-bolder opacity-7"><i class="fas fa-signature"></i> &nbsp; Nombres :</span>
+                </div>
                 <div class="col-4 form-group">
                     <label for="name" class="form-control-label">Nombre *</label>
                     <input class="@error('name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
@@ -98,8 +103,10 @@
                 </div>
 
 
-
-                <div class="col-12 mt-3 form-group">
+                <div class="d-flex justify-content-start my-3 mx-3 mt-3 h5 text-dark form-title">
+                    <span class="font-weight-bolder opacity-7"><i class="fas fa-info"></i> &nbsp; Adicional :</span>
+                </div>
+                <div class="col-12 form-group">
                     <label for="about">Observaciones</label>
                     <textarea class="@error('about')border border-danger rounded-3 is-invalid @enderror form-control" rows="3"
                         name="about" id="about" wire:model="about"></textarea>

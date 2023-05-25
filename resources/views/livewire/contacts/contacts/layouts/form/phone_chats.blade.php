@@ -1,5 +1,5 @@
 <div class="col-12 mb-4">
-    <div class="d-flex justify-content-start my-3 h5 text-dark form-title">
+    <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
         <span class="font-weight-bolder opacity-7"><i class="fas fa-phone"></i> &nbsp; Teléfonos :</span>
     </div>
 
@@ -74,7 +74,7 @@
 </div>
 
 <div class="col-12 mb-3">
-    <div class="d-flex justify-content-start my-3 h5 text-dark form-title">
+    <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
         <span class="font-weight-bolder opacity-7"><i class="fas fa-sms"></i> &nbsp; Mensajería Instantanéa :</span>
     </div>
     <div class="row">

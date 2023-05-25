@@ -35,7 +35,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'rrss_web' ; //'general';
+    public $currentStep = 'bank_accounts' ; //'general';
 
     protected $rules = [
 
