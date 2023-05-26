@@ -228,6 +228,7 @@ class Create extends Component
                 ],
             'ids.*.id_type' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
         ],[
+            '*.array' => 'Error de Servidor : El campo debe ser un array',
             '*.required' => 'El campo es obligatorio',
             'ids.*.id_value.required' => 'El campo es obligatorio',
             '*.max' => 'El campo no puede tener más de :max caracteres',
@@ -285,6 +286,7 @@ class Create extends Component
                     }
                 ]
             ],[
+                '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'emails.*.*.required' => 'El campo es obligatorio',
                 'emails.*.*.email' => 'El campo debe ser un email',
@@ -363,6 +365,7 @@ class Create extends Component
 
     public function stepSubmit_phone_chats(){
         $this->validate([
+            'phones' => 'array',
             'phones.*.is_primary' => '',
             'phones.*.id_type' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
             'phones.*.about' => '',
@@ -374,6 +377,7 @@ class Create extends Component
                         }
                     }
                 ],
+            'instant_messages' => 'array',
             'instant_messages.*.is_primary' => '',
             'instant_messages.*.id_type' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
             'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
@@ -391,6 +395,7 @@ class Create extends Component
                     }
                 ],
             ],[
+                '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'instant_messages.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
@@ -471,6 +476,7 @@ class Create extends Component
 
     public function stepSubmit_rrss_web(){
         $this->validate([
+            'webs' => 'array',
             'webs.*.id_type' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
             'webs.*.about' => '',
             'webs.*.value' => ['required',
@@ -485,6 +491,7 @@ class Create extends Component
                         }
                     }
                 ],
+            'rrss' => 'array',
             'rrss.*.id_type' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
             'rrss.*.about' => '',
             'rrss.*.value' => ['required',
@@ -500,7 +507,7 @@ class Create extends Component
                     }
                 ],
             ],[
-                '*.required' => 'El campo es obligatorio',
+                '*.array' => 'Error de Servidor : El campo debe ser un array',
                 'webs.*.*.required' => 'El campo es obligatorio',
                 'rrss.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
@@ -613,7 +620,7 @@ class Create extends Component
 
     public function stepSubmit_more(){
         $this->validate([
-            'dates.' => '',
+            'dates' => 'array',
             'dates.*.value' => ['required', 'date',
                 // 'before_or_equal:' . Carbon::now()->subYears(1)->format('d-m-Y'),
                 // 'after_or_equal:' . Carbon::now()->subYears(118)->format('d-m-Y'),
@@ -629,7 +636,7 @@ class Create extends Component
                         }
                     }
                 ],
-            'publish_us' => '',
+            'publish_us' => 'array',
             'publish_us.*.id_type' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
             'publish_us.*.value' => [ 'required', 'url',
                     function ($attribute, $value, $fail) {
@@ -644,6 +651,7 @@ class Create extends Component
                     }
                 ]
             ],[
+                '*.array' => 'Error de Servidor : El campo debe ser un array',
                 'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
                 'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
                 'dates.*.value.date' => 'El campo debe ser una fecha válida',
