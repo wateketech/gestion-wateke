@@ -36,7 +36,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'more' ; //'general';
+    public $currentStep = 'address' ; //'general';
 
     protected $rules = [
 
@@ -83,7 +83,11 @@ class Create extends Component
 
 
     // ADDRESS
+    public $address = [];
+    public $address_max = 10;
 
+    public $address_line = [];
+    public $address_line_max = 10;
 
 
 
@@ -155,6 +159,7 @@ class Create extends Component
         $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
+        $this->address_line[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
 
         $this->remount_bank_accounts();
