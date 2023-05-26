@@ -36,7 +36,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'more' ; //'general';
+    public $currentStep = 'bank_accounts' ; //'general';
 
     protected $rules = [
 
@@ -86,8 +86,9 @@ class Create extends Component
 
     // BANK ACCOUNTS
     public $bank_account_types, $bank_account_type;
-    public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about, $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
-    public $bank_account_bank_name, $entity_bank_account_bank_title;
+    public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about;
+    public $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
+    public $bank_account_bank_name, $bank_account_bank_title;
     public $bank_account_banks = [];
     public $bank_accounts = [];
 
@@ -110,6 +111,60 @@ class Create extends Component
     public $user_link_roles;
     private $user_link_password;
     public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
+
+
+
+
+
+
+
+
+
+
+// -------------------------- REVIEW  --------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -------------------------- REVIEW  --------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -153,7 +208,7 @@ class Create extends Component
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
 
-
+        $this->remount_bank_accounts();
         $this->datos_prueba();
     }
     public function render()
@@ -525,6 +580,96 @@ class Create extends Component
         $this->currentStep = 'bank_accounts';
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
+    public function remount_bank_accounts(){
+        $this->bank_account_types = BankAccountTypes::all();
+        $this->bank_account_type = $this->bank_account_types->first()->id;
+        $this->bank_account_expiration_year = date("Y");
+        $this->bank_account_expiration_month = date("n")+4;
+        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));;
+        $this->bank_account_card_number = '';
+        $this->bank_account_card_holder = $this->name . $this->first_lastname ;
+        $this->bank_account_is_credit = '';
+        $this->bank_account_about = '';
+        $this->bank_account_bank_name = '';
+        $this->bank_account_bank_title = '';
+    }
+
+    // public function updatedBankAccountCardNumber(){
+    //     foreach ($this->bank_account_types as $type){
+    //         if (!isset($type->regEx)) {
+    //             continue;
+    //         }
+    //         foreach (json_decode($type->regEx) as $regEx){
+    //             if (!preg_match($regEx, $this->bank_account_card_number)){
+    //                 // dd($type->id);
+    //                 $this->bank_account_type = $type->id;
+    //             }
+    //         }
+    //     }
+    // }
+
+    public function addAccountCard(){
+        $bank_account_card_number = preg_replace('/\D/', '', $this->bank_account_card_number);
+        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));
+
+        $this->validate([
+            'bank_account_card_number' => 'required|max:25|min:25',
+            'bank_account_card_holder' => 'required',
+            'bank_account_is_credit' => 'required',
+            'bank_account_expiration_date' => 'required|date',
+            'bank_account_expiration_year' => 'required',
+            'bank_account_expiration_month' => 'required',
+            'bank_account_about' => 'nullable',
+            'bank_account_bank_name' => 'required',
+            'bank_account_bank_title' => 'nullable',
+        ],[
+            '*.required' => 'El campo es obligatorio',
+            'bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
+            'bank_account_card_number.min' => 'La Numeración debe tener 16 digitos',
+        ]);
+
+        // hacer en algun lado la validacion por si ya existe el banco sugerirlo
+
+        // falta otra lista para los bancos
+        array_push($this->bank_account_banks, [
+                'name' => $this->bank_account_bank_name,
+                'title' => $this->bank_account_bank_title,
+            ]);
+
+        array_push($this->bank_accounts, [
+                // 'contact_id' => ,
+                'type_id' => $this->bank_account_type,
+                // 'bank_id' => ,
+                // 'bank_id_in_bbdd' => ,
+                'card_number' => $bank_account_card_number,
+                'card_holder' => $this->bank_account_card_holder,
+                'expiration_date' => $this->bank_account_expiration_date,
+                'is_credit' => $this->bank_account_is_credit,
+                'about' => $this->bank_account_about,
+            ]);
+        $this->remount_bank_accounts();
+    }
+    public function removeAccountCard($index){
+        array_splice($this->bank_accounts, $index, 1);
+    }
+    public function editAccountCard($index){
+        $this->bank_account_types = BankAccountTypes::all();
+        $this->bank_account_type = $this->bank_accounts[$index]['type_id'];
+        $this->bank_account_expiration_year = date("Y");
+        $this->bank_account_expiration_month = date("n")+4;
+        $this->bank_account_expiration_date = $this->bank_accounts[$index]['type_id'];
+
+        $this->bank_account_card_number = trim(chunk_split(str_replace('  ', '', $this->bank_accounts[$index]['card_number']), 4, ' '));
+
+
+        $this->bank_account_card_holder = $this->bank_accounts[$index]['card_holder'];
+        $this->bank_account_is_credit = $this->bank_accounts[$index]['is_credit'];
+        $this->bank_account_about = $this->bank_accounts[$index]['about'];
+        // $this->bank_account_bank_name = $this->bank_accounts[$index]['bank_name']
+        // $this->bank_account_bank_title = $this->bank_accounts[$index]['bank_title'];
+    }
+
+
     public function stepSubmit_bank_accounts(){
         // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'bank_accounts';
@@ -715,92 +860,6 @@ class Create extends Component
     }
 
 
-
-
-
-
-// -------------------------- REVIEW  --------------------------
-
-
-public function remount_bank_accounts(){
-        /*
-        $this->bank_account_types = EntityBankAccountTypes::all();
-        $this->bank_account_type = $this->entity_bank_account_types->first()->id;
-        $this->bank_account_expiration_year = date("Y");
-        $this->bank_account_expiration_month = date("n")+4;
-        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->entity_bank_account_expiration_month, 1, $this->entity_bank_account_expiration_year));;
-        $this->bank_account_card_number = '';
-        $this->bank_account_card_holder = isset($this->entity_legal_name) ? $this->entity_legal_name : $this->entity_comercial_name ;
-        $this->bank_account_is_credit = '';
-        $this->bank_account_about = '';
-        $this->bank_account_bank_name = '';
-        $this->bank_account_bank_title = '';
-        */
-    }
-    // public function updatedEntityBankAccountCardNumber(){
-    //     foreach ($this->entity_bank_account_types as $type){
-    //         if (!isset($type->regEx)) {
-    //             continue;
-    //         }
-    //         foreach (json_decode($type->regEx) as $regEx){
-    //             if (!preg_match($regEx, $this->entity_bank_account_card_number)){
-    //                 // dd($type->id);
-    //                 $this->entity_bank_account_type = $type->id;
-    //             }
-    //         }
-    //     }
-    // }
-    public function addAccountCard(){
-        /*
-        $entity_bank_account_card_number = preg_replace('/\D/', '', $this->entity_bank_account_card_number);
-        $this->entity_bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->entity_bank_account_expiration_month, 1, $this->entity_bank_account_expiration_year));
-
-        $this->validate([
-            'entity_bank_account_card_number' => 'required|max:25|min:25',
-            'entity_bank_account_card_holder' => 'required',
-            'entity_bank_account_is_credit' => 'required',
-            'entity_bank_account_expiration_date' => 'required|date',
-            'entity_bank_account_expiration_year' => 'required',
-            'entity_bank_account_expiration_month' => 'required',
-            'entity_bank_account_about' => 'nullable',
-            'entity_bank_account_bank_name' => 'required',
-            'entity_bank_account_bank_title' => 'nullable',
-        ],[
-            '*.required' => 'El campo es obligatorio',
-            'entity_bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
-            'entity_bank_account_card_number.min' => 'La Numeración debe tener 16 digitos',
-        ]);
-
-        // hacer en algun lado la validacion por si ya existe el banco sugerirlo
-
-        // falta otra lista para los bancos
-        array_push($this->entity_bank_account_banks, [
-                'name' => $this->entity_bank_account_bank_name,
-                'title' => $this->entity_bank_account_bank_title,
-            ]);
-
-        array_push($this->entity_bank_accounts, [
-                // 'entity_id' => ,
-                'type_id' => $this->entity_bank_account_type,
-                // 'bank_id' => ,
-                // 'bank_id_in_bbdd' => ,
-                'card_number' => $entity_bank_account_card_number,
-                'card_holder' => $this->entity_bank_account_card_holder,
-                'expiration_date' => $this->entity_bank_account_expiration_date,
-                'is_credit' => $this->entity_bank_account_is_credit,
-                'about' => $this->entity_bank_account_about,
-            ]);
-        $this->remount_bank_accounts();
-        */
-    }
-    public function removeAccountCard($index){
-        // array_splice($this->entity_bank_accounts, $index, 1);
-    }
-    public function editAccountCard(){
-
-    }
-
-
 // -------------------------- DATOS DE PRUEBA  --------------------------
     private function datos_prueba(){
         $this->alias = 'Al';
@@ -892,7 +951,7 @@ public function remount_bank_accounts(){
         // $this->bank_account_expiration_year = '';
         // $this->bank_account_expiration_month = '';
         // $this->bank_account_bank_name = '';
-        // $this->entity_bank_account_bank_title = '';
+        // $this->bank_account_bank_title = '';
         // $this->bank_account_banks = '';
         // $this->bank_accounts = '';
 
