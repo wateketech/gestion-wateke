@@ -39,7 +39,7 @@
 
                             </div>
                         {{-- -------------------------- STEP EMAILS -------------------------- --}}
-                            <div class="row {{ $currentStep != 'emails' ? 'd-none' : '' }}" id="step-general">
+                            <div class="row {{ $currentStep != 'emails' ? 'd-none' : '' }}" id="step-emails">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_emails">
@@ -51,7 +51,7 @@
 
                             </div>
                         {{-- -------------------------- STEP PHONE AND CHATS -------------------------- --}}
-                            <div class="row {{ $currentStep != 'phone_chats' ? 'd-none' : '' }}" id="step-general">
+                            <div class="row {{ $currentStep != 'phone_chats' ? 'd-none' : '' }}" id="step-phone_chats">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_phone_chats">
@@ -63,7 +63,7 @@
 
                             </div>
                         {{-- -------------------------- STEP RRSS AND WEBS -------------------------- --}}
-                            <div class="row {{ $currentStep != 'rrss_web' ? 'd-none' : '' }}" id="step-general">
+                            <div class="row {{ $currentStep != 'rrss_web' ? 'd-none' : '' }}" id="step-rrss_web">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_rrss_web">
@@ -75,7 +75,7 @@
 
                             </div>
                         {{-- -------------------------- STEP ADDRESS -------------------------- --}}
-                            <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-general">
+                            <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_address">
@@ -99,7 +99,7 @@
 
                             </div>
                         {{-- -------------------------- STEP OCUPATION -------------------------- --}}
-                            <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-general">
+                            <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 d-flex  justify-content-center ">
                                         <button class="btn btn-primary"
@@ -117,7 +117,7 @@
 
                             </div>
                         {{-- -------------------------- STEP MORE -------------------------- --}}
-                            <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-general">
+                            <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-more">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_more">
@@ -129,7 +129,7 @@
 
                             </div>
                         {{-- -------------------------- STEP RESUMEN -------------------------- --}}
-                            <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-4">
+                            <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-resumen">
                                 <div class="position-relative">
 
                                 @include("livewire.contacts.contacts.layouts.form.resumen")
