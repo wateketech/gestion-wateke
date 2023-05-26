@@ -36,7 +36,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'bank_accounts' ; //'general';
+    public $currentStep = 'more' ; //'general';
 
     protected $rules = [
 
@@ -84,6 +84,13 @@ class Create extends Component
 
     // ADDRESS
 
+
+
+
+
+
+
+
     // BANK ACCOUNTS
     public $bank_account_types, $bank_account_type;
     public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about;
@@ -111,64 +118,6 @@ class Create extends Component
     public $user_link_roles;
     private $user_link_password;
     public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
-
-
-
-
-
-
-
-
-
-
-// -------------------------- REVIEW  --------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// -------------------------- REVIEW  --------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -211,12 +160,12 @@ class Create extends Component
         $this->remount_bank_accounts();
         $this->datos_prueba();
     }
-    public function render()
-    {
+    public function render(){
         return view('livewire.contacts.contacts.create');
     }
 
-// ----------------------- flujo STEPS --------------------------
+
+
 
 // -------------------------- STEP GENERALS --------------------------
     public function addId($index){
@@ -240,7 +189,6 @@ class Create extends Component
             $this->ids[] = ['id_type' => $this->id_types->first()->id, 'id_value' => ''];
         }
     }
-
     public function removeId($index){
         unset($this->ids[$index]);
         $this->ids = array_values($this->ids);
@@ -376,7 +324,6 @@ class Create extends Component
             $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 0, 'about' => '',  ];
         }
     }
-
     public function removePhone($index){
         unset($this->phones[$index]);
         $this->phones = array_values($this->phones);
@@ -411,12 +358,10 @@ class Create extends Component
             $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 0, 'about' => '',  ];
         }
     }
-
     public function removeInstantMessages($index){
         unset($this->instant_messages[$index]);
         $this->instant_messages = array_values($this->instant_messages);
     }
-
 
     public function stepSubmit_phone_chats(){
         $this->validate([
@@ -489,12 +434,10 @@ class Create extends Component
             $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         }
     }
-
     public function removeWeb($index){
         unset($this->webs[$index]);
         $this->webs = array_values($this->webs);
     }
-
 
     public function addRrss($index){
         $this->validate([
@@ -522,12 +465,10 @@ class Create extends Component
             $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
         }
     }
-
     public function removeRrss($index){
         unset($this->rrss[$index]);
         $this->rrss = array_values($this->rrss);
     }
-
 
     public function stepSubmit_rrss_web(){
         $this->validate([
@@ -669,7 +610,6 @@ class Create extends Component
         // $this->bank_account_bank_title = $this->bank_accounts[$index]['bank_title'];
     }
 
-
     public function stepSubmit_bank_accounts(){
         // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'bank_accounts';
@@ -677,8 +617,7 @@ class Create extends Component
     }
 // -------------------------- STEP OCUPATION --------------------------
     public function stepSubmit_ocupation_omit(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
-        // $this->passStep[] = 'ocupation';
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->currentStep = 'more';
     }
     public function stepSubmit_ocupation(){
@@ -830,7 +769,8 @@ class Create extends Component
             $this->user_link_password_check = null;
         }
     }
-    public function stepSubmit_resumen(){
+    public function stepSubmit_resumen()
+    {
         // esto creo q no se va a usar
     }
 // -------------------------- FINAL STEP  --------------------------
@@ -868,9 +808,6 @@ class Create extends Component
         $this->first_lastname = 'Licea';
         $this->second_lastname = 'Vallejo';
         $this->about = 'Nada ';
-        // $this->id_types = '';
-        // $this->id_type = '';
-        // $this->id_value = '';
         $this->ids = [
             [ 'id_type' => 1, 'id_value' => '00090120123'],
             [ 'id_type' => '2', 'id_value' => 'A1234567'],
@@ -879,11 +816,6 @@ class Create extends Component
         // $this->profile_pics = [];
 
     // EMAILS
-        // $this->email_types = '';
-        // $this->email_type = '';
-        // $this->email_value = '';
-        // $this->email_is_personal = '';
-        // $this->email_about = '';
         $this->emails = [
             [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
             [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
@@ -891,24 +823,12 @@ class Create extends Component
             ];
 
     // PHONE AND CHATS
-        // $this->phone_types = '';
-        // $this->phone_type = '';
-        // $this->phone_value = '';
-        // $this->phone_is_personal = '';
-        // $this->phone_about = '';
-        // $this->phones = '';
         $this->phones = [
             [ 'id_type' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => 0, 'about' => '' ],
             [ 'id_type' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => 0, 'about' => '' ],
             [ 'id_type' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => 1, 'about' => '' ],
             [ 'id_type' => 1, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
             ];
-        // $this->instant_message_types = '';
-        // $this->instant_message_type;
-        // $this->instant_message_value = '';
-        // $this->instant_message_is_personal = '';
-        // $this->instant_message_about = '';
-        // $this->instant_messages = '';
         $this->instant_messages = [
             ['id_type' => 2, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 1, 'about' => ''] ,
             ['id_type' => 1, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => ''] ,
@@ -916,22 +836,12 @@ class Create extends Component
             ];
 
         // RRSS AND WEBS
-        // $this->rrss_types = '';
-        // $this->rrss_type = '';
-        // $this->rrss_value = '';
-        // $this->rrss_is_personal = '';
-        // $this->rrss_about = '';
         $this->rrss = [
             ['id_type' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
             ['id_type' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
             ['id_type' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
             ];
 
-        // $this->web_types = '';
-        // $this->web_type = '';
-        // $this->web_value = '';
-        // $this->web_is_personal = '';
-        // $this->web_about = '';
         $this->webs = [
             ['id_type' => 1, 'value' => 'https://albertos-blog.com',  'about' => ''],
             ['id_type' => 2, 'value' => 'https://alberto.licea',  'about' => ''],
@@ -939,6 +849,10 @@ class Create extends Component
             ];
 
         // ADDRESS
+
+
+
+
 
         // BANK ACCOUNTS
         // $this->bank_account_types = '';
@@ -958,17 +872,16 @@ class Create extends Component
         // OCUPATION
 
         // MORE
-        // $this->date_types = '';
-        // $this->date_type = '';
-        // $this->date_value = '';
-        // $this->dates = '';
+        $this->dates = [
+            [ 'id_type' => '1', 'is_primary' => 0, 'value' => '2000-05-16'],
+            [ 'id_type' => '2', 'is_primary' => 0, 'value' => '2011-04-25'],
+            ];
 
-        // $this->publish_us_types = '';
-        // $this->publish_us_type = '';
-        // $this->publish_us_value = '';
-        // $this->publish_us_about = '';
-        // $this->publish_us = '';
-
+        $this->publish_us = [
+            [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'http://albertosblog.com'],
+            [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'http://tut12app.com'],
+            [ 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'http:://albertolicea00.com'],
+            ];
 
 
 
