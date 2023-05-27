@@ -36,7 +36,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'resumen' ; //'general';
+    public $currentStep = 'address' ; //'general';
 
     protected $rules = [
 
@@ -83,13 +83,14 @@ class Create extends Component
 
 
     // ADDRESS
+    public $contact_address = [];
     public $address = [];
-    public $address_max = 10;
+    public $address_max = 4;
 
     public $address_line = [];
     public $address_line_max = 10;
 
-
+    public $prueba_address_seeder = ['Cuba', 'España', 'Guatemala'];
 
 
 
@@ -161,7 +162,11 @@ class Create extends Component
         $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
-        $this->address_line[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
+
+        $this->contact_address[] = ['name' => 'Casa', 'address_id' => ''];
+        $this->address[] = ['citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
+        $this->address_line[] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
+        $this->address_line[] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
 
 
         $this->remount_bank_accounts();
