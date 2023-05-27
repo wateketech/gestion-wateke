@@ -254,7 +254,7 @@ class Create extends Component
             '*.max' => 'El campo no puede tener más de :max caracteres',
             '*.min' => 'El campo no puede menos más de :min caracteres',
         ]);
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'general';
         $this->currentStep = 'emails';
     }
@@ -313,7 +313,7 @@ class Create extends Component
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'emails';
         $this->currentStep = 'phone_chats';
     }
@@ -420,7 +420,7 @@ class Create extends Component
             ]);
 
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'phone_chats';
         $this->currentStep = 'rrss_web';
     }
@@ -527,12 +527,22 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'rrss_web';
         $this->currentStep = 'address';
     }
 // -------------------------- STEP ADDRESS --------------------------
     public function addAddress($index){
+        $this->validate([
+            'address.' . $index . '.name' => 'required',
+            'address_line.' . $index . '.*.label' => 'required',
+            'address_line.' . $index . '.*.value' => 'required',
+            // 'address_line.' . $index . $index_l . '.label' => 'required',
+            // 'address_line.' . $index . $index_l . '.value' => 'required',
+                ],[
+            'address.' . $index . '.*.required' => 'El campo es obligatorio',
+            'address_line.' . $index . '.*.*.required' => 'El campo es obligatorio',
+        ]);
         if (count($this->address) < $this->address_max) {
             $this->address[] = ['name' => '# ' . ($index + 2), 'citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
             $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
@@ -567,7 +577,17 @@ class Create extends Component
         $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
     }
     public function stepSubmit_address(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->validate([
+            'address.*.name' => 'required',
+            'address_line.*.*.label' => 'required',
+            'address_line.*.*.value' => 'required',
+        ],[
+            '*.*.*.required' => 'El campo es obligatorio',
+            'address.*.*.required' => 'El campo es obligatorio',
+            'address_line.*.*.*.required' => 'El campo es obligatorio',
+        ]);
+
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'address';
         $this->currentStep = 'bank_accounts';
     }
@@ -662,7 +682,7 @@ class Create extends Component
     }
 
     public function stepSubmit_bank_accounts(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'bank_accounts';
         $this->currentStep = 'ocupation';
     }
@@ -672,7 +692,7 @@ class Create extends Component
         $this->currentStep = 'more';
     }
     public function stepSubmit_ocupation(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'ocupation';
         $this->currentStep = 'more';
     }
@@ -797,7 +817,7 @@ class Create extends Component
                 'publish_us.*.*.required' => 'El campo es obligatorio',
             ]);
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'more';
         $this->currentStep = 'resumen';
     }

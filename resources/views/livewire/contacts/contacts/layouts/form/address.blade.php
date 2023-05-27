@@ -4,23 +4,21 @@
 
     @foreach ($address as $index_add => $add)
         <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
-            <span class="font-weight-bolder opacity-9 pt-1"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
-                <input type="text" class="font-weight-bolder opacity-8 border-0 border-bottom-1 w-40 d-inline-block"
+            <span class="font-weight-bolder opacity-9 pt-1 @error("address.{$index_add}.name") text-danger  @enderror"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
+                <input type="text" class="font-weight-bolder opacity-8 border-0 w-25 d-inline-block" style="border-bottom: 1.2px grey solid !important; @error("address.{$index_add}.name") border-bottom: 2px red dashed !important @enderror"
                 wire:model="address.{{ $index_add }}.name">:
             </span>
             @if (count($address) > 1)
-                <button wire:click="removeAddress({{ $index_add }})" class="btn btn-outline-danger px-3 mr-2">Remover direccion</button>
+            <button wire:click="removeAddress({{ $index_add }})" class="btn btn-outline-danger px-3 py-2 mr-2">Quitar direccion</button>
             @endif
         </div>
 
         <div class="row">
-            <div class="col-1 form-group pr-0 d-flex justify-content-center ">
-                <label for="geolocation_{{ $index_add }}" class="form-control-label">Geo</label>
-                <input disabled class="px-3 btn btn-outline-secondary form-control-input" name="geolocation_{{ $index_add }}"
+            <div class="col-1 form-group pr-0 d-flex justify-content-center mt-4">
+                <div disabled class="px-3 btn btn-outline-secondary form-control-input" name="geolocation_{{ $index_add }}"
                     wire:click="geolocation({{ $index_add }})">
-                    {{-- <i class="fas fa-globe-africa fa-lg"></i> --}}
-                    hh
-                {{-- </input> --}}
+                    <i class="fas fa-globe-africa fa-lg"></i>
+                </div>
             </div>
             <div class="col-2 form-group pr-0">
                 <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
@@ -54,7 +52,7 @@
                 </select>
             </div>
             <div class="col-2 form-group pr-0">
-                <label for="zip_code_{{ $index_add }}" class="form-control-label">Cod. Postal *</label>
+                <label for="zip_code_{{ $index_add }}" class="form-control-label">Cod. Postal</label>
                 <input class="@error("address.{{ $index_add }}.zip_code")border border-danger rounded-3 @enderror form-control"
                         type="text" id="zip_code_{{ $index_add }}" id="zip_code_{{ $index_add }}"  wire:model="address.{{ $index_add }}.zip_code">
                 @error("address.{{ $index_add }}.zip_code") <sub class="text-danger">{{ $message }}</sub> @enderror
