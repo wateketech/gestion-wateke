@@ -85,12 +85,16 @@ class Create extends Component
     // ADDRESS
     public $contact_address = [];
     public $address = [];
-    public $address_max = 4;
+    public $address_max = 3;
 
     public $address_line = [];
     public $address_line_max = 10;
 
-    public $prueba_address_seeder = ['Cuba', 'España', 'Guatemala'];
+    public $prueba_address_seeder = [
+        [ 'name' => 'Cuba', 'id' => 1],
+        [ 'name' => 'España', 'id' => 2],
+        [ 'name' => 'Guatemala', 'id' => 3],
+        ];
 
 
 
@@ -163,10 +167,11 @@ class Create extends Component
         $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
-        $this->contact_address[] = ['name' => 'Casa', 'address_id' => ''];
-        $this->address[] = ['citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
-        $this->address_line[] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
-        $this->address_line[] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
+
+        $this->address[] = ['name' => 'Casa', 'citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
+        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
+        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
+        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
 
 
         $this->remount_bank_accounts();
@@ -527,6 +532,38 @@ class Create extends Component
         $this->currentStep = 'address';
     }
 // -------------------------- STEP ADDRESS --------------------------
+    public function addAddress($index){
+        if (count($this->address) < $this->address_max) {
+            $this->address[] = ['name' => '# ' . ($index + 2), 'citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
+            $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
+            $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
+            $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
+        }
+    }
+    public function removeAddress($index){
+        unset($this->address_line[$index]);
+        unset($this->address[$index]);
+        $this->address_line = array_values($this->address_line);
+        $this->address = array_values($this->address);
+    }
+
+    public function addAddressLine($index_l, $index_add){
+        $this->validate([
+            'address_line.' . $index_add . '.*.label' => 'required',
+            'address_line.' . $index_add . '.*.value' => 'required',
+            // 'address_line.' . $index_add . $index_l . '.label' => 'required',
+            // 'address_line.' . $index_add . $index_l . '.value' => 'required',
+                ],[
+            'address_line.' . $index_add . '.*.*.required' => 'El campo es obligatorio',
+        ]);
+        if (count($this->address_line[$index_add]) < $this->address_line_max) {
+            $this->address_line[$index_add][] = ['address_id' => 1, 'label' => '', 'value' => ''];
+        }
+    }
+    public function removeAddressLine($index_l, $index_add){
+        unset($this->address_line[$index_add][$index_l]);
+        $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
+    }
     public function stepSubmit_address(){
         // $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
         $this->passStep[] = 'address';

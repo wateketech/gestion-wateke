@@ -2,101 +2,99 @@
 
 
 
-    @foreach ($contact_address as $index => $add)
+    @foreach ($address as $index_add => $add)
         <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
-            <span class="font-weight-bolder opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span>
+            <span class="font-weight-bolder opacity-9 pt-1"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
+                <input type="text" class="font-weight-bolder opacity-8 border-0 border-bottom-1 w-40 d-inline-block"
+                wire:model="address.{{ $index_add }}.name">:
+            </span>
+            @if (count($address) > 1)
+                <button wire:click="removeAddress({{ $index_add }})" class="btn btn-outline-danger px-3 mr-2">Remover direccion</button>
+            @endif
         </div>
+
         <div class="row">
             <div class="col-2 form-group pr-0">
-                <label for="phone_types_" class="form-control-label">Pais *</label>
-                <select class="@error("phones.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                    name="phone_types_" id="phone_types_" wire:model="phones.id_type">
-                    @foreach ($phone_types as $type)
-                        <option value="{{ $type->id }}">
-                            {{ $type->label }}
+                <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
+                <select class="form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}">
+                    @foreach ($prueba_address_seeder as $country)
+                        <option value="{{ $country['id'] }}">
+                            {{ $country['name'] }}
                         </option>
                     @endforeach
                 </select>
-                {{-- @error("phones.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror --}}
             </div>
-            <div class="col-3 form-group pr-0">
-                <label for="phone_types_" class="form-control-label">Provincia *</label>
-                <select class="@error("phones.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                    name="phone_types_" id="phone_types_" wire:model="phones.id_type">
-                    @foreach ($phone_types as $type)
-                        <option value="{{ $type->id }}">
-                            {{ $type->label }}
+            <div class="col-4 form-group pr-0">
+                <label for="states_{{ $index_add }}" class="form-control-label">Provincia *</label>
+                <select class="form-control" name="states_{{ $index_add }}" id="states_{{ $index_add }}">
+                    @foreach ($prueba_address_seeder as $state)
+                        <option value="{{ $state['id'] }}">
+                            {{ $state['name'] }}
                         </option>
                     @endforeach
                 </select>
-                {{-- @error("phones.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror --}}
             </div>
-            <div class="col-3 form-group pr-0">
-                <label for="phone_types_" class="form-control-label">Municipio *</label>
-                <select class="@error("phones.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                    name="phone_types_ id="phone_types_ wire:model="phones.id_type">
-                    @foreach ($phone_types as $type)
-                        <option value="{{ $type->id }}">
-                            {{ $type->label }}
+            <div class="col-4 form-group pr-0">
+                <label for="cities_{{ $index_add }}" class="form-control-label">Municipio *</label>
+                <select class="@error("address.{{ $index_add }}.citie_id")border border-danger rounded-3 is-invalid @enderror form-control"
+                    name="cities_{{ $index_add }}" id="cities_{{ $index_add }}" wire:model="address.{{ $index_add }}.citie_id">
+                    @foreach ($prueba_address_seeder as $citie)
+                        <option value="{{ $citie['id'] }}">
+                            {{ $citie['name'] }}
                         </option>
                     @endforeach
                 </select>
-                {{-- @error("phones.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror --}}
             </div>
             <div class="col-2 form-group pr-0">
-                <label for="phone_types" class="form-control-label">Localidad</label>
-                <select class="@error("phones.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                    name="phone_types" id="phone_types" wire:model="phone.id_type">
-                    @foreach ($phone_types as $type)
-                        <option value="{{ $type->id }}">
-                            {{ $type->label }}
-                        </option>
-                    @endforeach
-                </select>
-                {{-- @error("phones.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror --}}
-            </div>
-            <div class="col-2 form-group pr-0">
-                <label for="phone_types" class="form-control-label">Cod. Postal *</label>
-                <input class="@error("phones.value")border border-danger rounded-3 @enderror form-control"
-                        type="text" name="phone_value" id="phone_value"
-                        >
-                {{-- @error("phones.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror --}}
+                <label for="zip_code_{{ $index_add }}" class="form-control-label">Cod. Postal *</label>
+                <input class="@error("address.{{ $index_add }}.zip_code")border border-danger rounded-3 @enderror form-control"
+                        type="text" id="zip_code_{{ $index_add }}" id="zip_code_{{ $index_add }}"  wire:model="address.{{ $index_add }}.zip_code">
+                @error("address.{{ $index_add }}.zip_code") <sub class="text-danger">{{ $message }}</sub> @enderror
             </div>
 
-            @foreach ($address_line as $index => $line)
-                <div class="col-2 form-check pt-4 h5 d-flex justify-content-end">
-                    <p>Linea {{ $index + 1 }} :</p>
-                </div>
-                <div class="col-3 col-md-3 form-group pt-3">{{--  style="padding-right: 9.2em"> --}}
-                    <input class="@error("phones.{$index}.value")border border-danger rounded-3 @enderror form-control"
-                        type="tel" name="phone_value_{{ $index }}" id="phone_value_{{ $index }}"
-                        wire:model.debounce.500ms="phones.{{ $index }}.value">
+            <div class="row py-3">
+                @foreach ($address_line[$index_add] as $index_l => $line)
+                    <div class="col-2 form-check pt-2 h5 d-flex justify-content-end">
+                        <p class="font-weight-bolder opacity-8">Linea {{ $index_l + 1 }} :</p>
+                    </div>
+                    <div class="col-3 col-md-3 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
+                        <input class="@error("address_line.{$index_add}.{$index_l}.label")border border-danger rounded-3 @enderror form-control mb-0"
+                            type="tel" name="address_line_{{ $index_add }}_label_{{ $index_l }}" id="address_line_{{ $index_add }}_label_{{ $index_l }}"
+                            wire:model.debounce.500ms="address_line.{{ $index_add }}.{{ $index_l  }}.label">
 
-                    @error("address_line.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                </div>
-                <div class="col-5 col-md-5 form-group pt-3">{{--  style="padding-right: 9.2em"> --}}
-                    <input class="@error("phones.{$index}.value")border border-danger rounded-3 @enderror form-control"
-                        type="tel" name="phone_value_{{ $index }}" id="phone_value_{{ $index }}"
-                        wire:model.debounce.500ms="phones.{{ $index }}.value">
+                        @error("address_line.{$index_add}.{$index_l}.label") <sub class="text-danger">{{ $message }}</sub> @enderror
+                    </div>
+                    <div class="col-5 col-md-5 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
+                        <input class="@error("address_line.{$index_add}.{$index_l}.value")border border-danger rounded-3 @enderror form-control mb-0"
+                            type="tel" name="address_line_{{ $index_add }}_value_{{ $index_l }}" id="address_line_{{ $index_add }}_value_{{ $index_l }}"
+                            wire:model.debounce.500ms="address_line.{{ $index_add }}.{{ $index_l  }}.value">
 
-                    @error("address_line.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                </div>
+                        @error("address_line.{$index_add}.{$index_l}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
+                    </div>
 
 
-                <div class="col-2 col-md-2 mt-4">
-                    @if ($index === count($address_line) - 1)
-                        @if (count($address_line) > 1)
-                            <button wire:click="removeAddressLine({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                    <div class="col-2 col-md-2">
+                        @if ($index_l === count($address_line[$index_add]) - 1)
+                            @if (count($address_line[$index_add]) > 1)
+                                <button wire:click="removeAddressLine({{ $index_l }},{{ $index_add }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                            @endif
+                            @if (count($address_line[$index_add]) < $address_line_max)
+                                <button wire:click="addAddressLine({{ $index_l }},{{ $index_add }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></button>
+                            @endif
+                        @else
+                            <button wire:click="removeAddressLine({{ $index_l }},{{ $index_add }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
                         @endif
-                        @if (count($address_line) < $address_line_max)
-                            <button wire:click="addAddressLine({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></button>
-                        @endif
-                    @else
-                        <button wire:click="removeAddressLine({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="col-3 col-md-3">
+                @if ($index_add === count($address) - 1)
+                    @if (count($address) < $address_max)
+                        <button wire:click="addAddress({{ $index_add }})" class="btn btn-outline-success px-3">Agregar otra Direccion</button>
                     @endif
-                </div>
-            @endforeach
-
+                @endif
+            </div>
         </div>
     @endforeach
 
