@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entity_has_address', function (Blueprint $table) {
+        Schema::create('contact_has_address', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('entity_id');
+            $table->unsignedBigInteger('contact_id');
             $table->string('name');
             $table->unsignedBigInteger('city_id');
             $table->json('geolocation')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('enable')->default(1);
             $table->timestamps();
 
-            $table->foreign('entity_id')->references('id')->on('entitys')->constrained();
+            $table->foreign('contact_id')->references('id')->on('contacts')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->constrained();
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity_has_address');
+        Schema::dropIfExists('contact_has_address');
     }
 };

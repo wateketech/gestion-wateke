@@ -13,9 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contact_has_address', function (Blueprint $table) {
+        Schema::create('contact_address_lines', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('address_id');
+            $table->string('label');
+            $table->string('value');
             $table->timestamps();
+
+            $table->foreign('address_id')->references('id')->on('contact_has_address')->constrained();
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
         });
     }
 
@@ -26,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact_has_address');
+        Schema::dropIfExists('contact_address_lines');
     }
 };

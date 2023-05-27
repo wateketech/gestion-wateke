@@ -15,7 +15,14 @@ return new class extends Migration
     {
         Schema::create('states', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string("name");
+            $table->unsignedBigInteger("country_id");
+            $table->string("country_code")->nullable();
+            $table->string("country_name")->nullable();
+            $table->string("state_code")->nullable();
+            $table->string("type")->nullable();
+            $table->string("latitude")->nullable();
+            $table->string("longitude")->nullable();
         });
     }
 

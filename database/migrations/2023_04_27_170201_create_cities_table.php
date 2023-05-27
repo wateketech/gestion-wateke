@@ -15,7 +15,16 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string("name");
+            $table->unsignedBigInteger("state_id");
+            $table->string("state_code")->nullable();
+            $table->string("state_name")->nullable();
+            $table->unsignedBigInteger("country_id");
+            $table->string("country_code")->nullable();
+            $table->string("country_name")->nullable();
+            $table->string("latitude")->nullable();
+            $table->string("longitude")->nullable();
+            $table->string("wikiDataId")->nullable();
         });
     }
 
