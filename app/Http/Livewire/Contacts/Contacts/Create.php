@@ -546,7 +546,9 @@ class Create extends Component
         $this->address_line = array_values($this->address_line);
         $this->address = array_values($this->address);
     }
-
+    public function geolocation($index){
+        // procesar con API de GOOGLE
+    }
     public function addAddressLine($index_l, $index_add){
         $this->validate([
             'address_line.' . $index_add . '.*.label' => 'required',

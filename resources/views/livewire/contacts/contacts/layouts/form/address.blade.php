@@ -14,6 +14,14 @@
         </div>
 
         <div class="row">
+            <div class="col-1 form-group pr-0 d-flex justify-content-center ">
+                <label for="geolocation_{{ $index_add }}" class="form-control-label">Geo</label>
+                <input disabled class="px-3 btn btn-outline-secondary form-control-input" name="geolocation_{{ $index_add }}"
+                    wire:click="geolocation({{ $index_add }})">
+                    {{-- <i class="fas fa-globe-africa fa-lg"></i> --}}
+                    hh
+                {{-- </input> --}}
+            </div>
             <div class="col-2 form-group pr-0">
                 <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
                 <select class="form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}">
@@ -24,7 +32,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-4 form-group pr-0">
+            <div class="col-3 form-group pr-0">
                 <label for="states_{{ $index_add }}" class="form-control-label">Provincia *</label>
                 <select class="form-control" name="states_{{ $index_add }}" id="states_{{ $index_add }}">
                     @foreach ($prueba_address_seeder as $state)
