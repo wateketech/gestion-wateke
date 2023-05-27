@@ -234,9 +234,9 @@
                                                 ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp; {{  substr($account['card_number'], -4) }}
                                             </h6>
                                             <div class="ms-auto">
-                                                <a>
+                                                {{-- <a>
                                                     <i class="icon-edit fas fa-pencil-alt text-dark cursor-pointer px-2" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="editAccountCard({{ $index }})" title="Editar"></i>
-                                                </a>
+                                                </a> --}}
 
                                                 <a id="remove-account" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" data-bs-sanitize="false" data-bs-trigger="click"
                                                     title="<div id='remove-bank-account-title' class='tooltip-title'>¿ Estás seguro ? <a id='remove-bank-account' class='cursor-pointer text-decoration-underline text-danger'>Quitar</a> <a id='cancel-remove-bank-account' class='cursor-pointer'>Cancelar</a></div>">
