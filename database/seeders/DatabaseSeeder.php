@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(AddressCountriesSeeder::class);
+        $this->call(AddressStatesSeeder::class);
+        $this->call(AddressCitiesSeeder::class);
+
         $this->call(RolesSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(TasksSeeder::class);
@@ -38,6 +42,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactPublishUsTypesSeeder::class);
         $this->call(ContactRrssTypesSeeder::class);
         $this->call(ContactWebTypesSeeder::class);
+
+
 
     }
 }
