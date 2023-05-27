@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string("longitude")->nullable();
             $table->string("emoji")->nullable();
             $table->string("emojiU")->nullable();
+            $table->boolean("enable")->default(1);
         });
     }
 
