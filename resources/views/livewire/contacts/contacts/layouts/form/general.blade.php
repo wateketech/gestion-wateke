@@ -25,15 +25,15 @@
                         </div>
                         <div class="col-8 col-md-8 form-group">
                             <label for="id_value_{{ $index }}" class="form-control-label">{{ $id_types->find($id['id_type'])->title }} *</label>
-                            <input class="@error("ids.{$index}.id_value")border border-danger rounded-3 @enderror form-control"
+                            <input class="@error("ids.{$index}.value")border border-danger rounded-3 @enderror form-control"
                                 type="text" name="id_value_{{ $index }}" id="id_value_{{ $index }}"
-                                wire:model.debounce.500ms="ids.{{ $index }}.id_value">
-                            @error("ids.{$index}.id_value") <sub class="text-danger">{{ $message }}</sub> @enderror
+                                wire:model.debounce.500ms="ids.{{ $index }}.value">
+                            @error("ids.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
                             @php
                                 $id_value_valid = true;
-                                if ($id['id_value']) {
+                                if ($id['value']) {
                                     foreach (json_decode($id_types->find($id['id_type'])->regEx) as $regEx) {
-                                        if (preg_match($regEx, $id['id_value'])) {
+                                        if (preg_match($regEx, $id['value'])) {
                                             $id_value_valid = true;
                                             break;
                                         } else {

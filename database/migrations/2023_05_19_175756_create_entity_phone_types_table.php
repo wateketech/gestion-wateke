@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('entity_phone_types', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
+            $table->string('icon')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });

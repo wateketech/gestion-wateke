@@ -36,7 +36,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'address' ; //'general';
+    public $currentStep = 'resumen' ; //'general';
 
     protected $rules = [
 
@@ -104,6 +104,8 @@ class Create extends Component
     public $bank_accounts = [];
 
     // OCUPATION
+    public $ocupation_id, $ocupation_entity_id, $ocupation_about;
+
 
     // MORE
     public $date_types, $date_type;
@@ -756,12 +758,23 @@ class Create extends Component
         $this->currentStep = 'resumen';
     }
 // -------------------------- STEP RESUMEN --------------------------
+
     public function UpdatedIsUserLink(){
         $this->user_link_roles = \Spatie\Permission\Models\Role::all(); // ->where('enable', true);
+
+        $primary_emails = array_column(array_filter($this->emails, function($email) {
+                                return $email['is_primary'] == 1;
+                            }), 'value');
+        $primary_phones = array_column(array_filter($this->phones, function($phone) {
+            return $phone['is_primary'] == 1;
+        }), 'value');
+        $primary_email = reset($primary_emails);
+        $primary_phone = reset($primary_phones);
+
         if($this->is_user_link){
-            $this->user_link_name = $this->name . $this->first_lastname  ;
-            $this->user_link_email =  'email primario' ;
-            $this->user_link_phone = 'telefono primario';
+            $this->user_link_name = $this->name . ' ' . $this->first_lastname  ;
+            $this->user_link_email =  $primary_email ;
+            $this->user_link_phone = $primary_phone;
             $this->user_link_role = '1';
         }else{
             $this->user_link_name = null;
@@ -814,8 +827,8 @@ class Create extends Component
         $this->second_lastname = 'Vallejo';
         $this->about = 'Nada ';
         $this->ids = [
-            [ 'id_type' => 1, 'id_value' => '00090120123'],
-            [ 'id_type' => '2', 'id_value' => 'A1234567'],
+            [ 'id_type' => 1, 'value' => '00090120123'],
+            [ 'id_type' => '2', 'value' => 'A1234567'],
             ];
         $this->main_profile_pic = 0;
         // $this->profile_pics = [];
@@ -832,12 +845,12 @@ class Create extends Component
             [ 'id_type' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => 0, 'about' => '' ],
             [ 'id_type' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => 0, 'about' => '' ],
             [ 'id_type' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => 1, 'about' => '' ],
-            [ 'id_type' => 1, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
+            [ 'id_type' => 6, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
             ];
         $this->instant_messages = [
             ['id_type' => 2, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 1, 'about' => ''] ,
             ['id_type' => 1, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => ''] ,
-            ['id_type' => 3, 'label' => 'Personal', 'value' => 'soporteit@wateke.travel', 'is_primary' => 0, 'about' => ''] ,
+            ['id_type' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => 0, 'about' => ''] ,
             ];
 
         // RRSS AND WEBS
@@ -878,14 +891,14 @@ class Create extends Component
 
         // MORE
         $this->dates = [
-            [ 'id_type' => '1', 'is_primary' => 0, 'value' => '2000-05-16'],
-            [ 'id_type' => '2', 'is_primary' => 0, 'value' => '2011-04-25'],
+            [ 'id_type' => '1', 'value' => '2000-05-16'],
+            [ 'id_type' => '2', 'value' => '2011-04-25'],
             ];
 
         $this->publish_us = [
-            [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'http://albertosblog.com'],
-            [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'http://tut12app.com'],
-            [ 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'http:://albertolicea00.com'],
+            [ 'id_type' => '1', 'label' => 'Personal',  'value' => 'http://albertosblog.com'],
+            [ 'id_type' => '3', 'label' => 'Personal',  'value' => 'http://tut12app.com'],
+            [ 'id_type' => '2', 'label' => 'Trabajo',  'value' => 'http:://albertolicea00.com'],
             ];
 
 

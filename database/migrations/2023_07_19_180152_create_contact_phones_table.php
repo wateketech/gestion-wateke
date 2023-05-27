@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('contact_id');
             $table->unsignedBigInteger('type_id');
             $table->string('value');
+            $table->json('value_meta');
             $table->boolean('is_primary')->default(0);
             $table->text('about')->nullable();
             $table->boolean('enable')->default(1);

@@ -136,6 +136,7 @@
 
                                 <div>
                                     <div class="d-flex justify-content-center mt-3">
+                                        <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
                                         <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
                                         <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
                                     </div>
