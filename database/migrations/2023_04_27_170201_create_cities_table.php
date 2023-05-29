@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string("longitude")->nullable();
             $table->string("wikiDataId")->nullable();
             $table->boolean("enable")->default(1);
+            
         });
     }
 

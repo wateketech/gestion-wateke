@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('countries', function (Blueprint $table) {
-            $table->id();
+            $table->id('id');
             $table->string("name");
             $table->string("iso3")->nullable();
             $table->string("iso2")->nullable();
@@ -35,6 +35,7 @@ return new class extends Migration
             $table->string("emoji")->nullable();
             $table->string("emojiU")->nullable();
             $table->boolean("enable")->default(1);
+            $table->timestamps();
         });
     }
 
