@@ -125,6 +125,14 @@
                     <div wire:ignore id="profile_pics-loading" class="position-absolute top-0 start-0 h-100 w-100 bg-white d-flex justify-content-center align-items-center opacity-0">
                         <img id='loading' wire:ignore class="w-35 m-auto mt-4 mb-2" src="../assets/img/logos/loading.gif">
                     </div>
+                    {{--
+                        IMPLEMENTAR UN DROPDOWN !!!
+                    <form action="/file-upload" class="form-control dropzone" id="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
+                    <script src="../../assets/js/plugins/dropzone.min.js"></script> --}}
                     @push('scripts')
                     <script>
                         function coocking_time_profile_img(){
