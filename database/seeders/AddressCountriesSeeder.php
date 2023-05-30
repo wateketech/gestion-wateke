@@ -19,8 +19,9 @@ class AddressCountriesSeeder extends Seeder
         if (json_last_error() !== JSON_ERROR_NONE) die('Error: No se pudo decodificar el archivo JSON');
         $decoded_data = json_decode($json_string, true);
 
-        $countries = array_map(function ($country) {
-            return [
+
+        foreach($decoded_data as $country){
+            AddressCountries::create([
                 "id" => $country["id"],
                 "name" =>  $country["name"],
                 "iso3" =>  $country["iso3"],
@@ -41,15 +42,7 @@ class AddressCountriesSeeder extends Seeder
                 "longitude" => $country["longitude"],
                 "emoji" => $country["emoji"],
                 "emojiU" => $country["emojiU"],
-            ];
-        }, $decoded_data);
-
-        // dd($countries[1]);
-
-        foreach($countries as $country){
-        AddressCountries::createMany([
-            $country
             ]);
-        }
+        };
     }
 }
