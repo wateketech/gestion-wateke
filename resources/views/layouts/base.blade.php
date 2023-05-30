@@ -75,6 +75,7 @@
     </title>
     <!-- Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
     <!-- Nucleo Icons -->
     {{-- <link href="../assets/css/nucleo-icons.css" rel="stylesheet" /> --}}
     {{-- <link href="../assets/css/nucleo-svg.css" rel="stylesheet" /> --}}
@@ -93,6 +94,8 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <!--   Plugins CSS  -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    {{-- <link href="https://cdn.jsdelivr.net/npm/flag-icon-css@3.5.0/css/flag-icon.min.css" rel="stylesheet" /> --}}
+
     @livewireStyles
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -111,6 +114,7 @@
 <body class="g-sidenav-show bg-gray-100">
 
     {{ $slot }}
+
 
     <!--   Plugins JS  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

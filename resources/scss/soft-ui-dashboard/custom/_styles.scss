@@ -115,3 +115,100 @@ input{
     }
 }
 // lo que quiero es que right: 0; sea igual al tamaño de .input-group-append
+
+
+.emoji{
+    font-family: "Noto Color Emoji", sans-serif !important;
+
+    &-flag {
+        font-family: "Noto Color Emoji", sans-serif !important;
+        font-size: 12px;
+    }
+}
+
+
+.select2{
+    &-container{
+        &--default{
+            .select2-results__option{
+                &--selected {
+                    background-color: #ddd;
+                    font-weight: bold;
+                }
+                &--highlighted{
+                    &.select2-results__option--selectable {
+                        background-color: #0097e8;
+                        color: white
+                    }
+                }
+            }
+        }
+        .select2-selection{
+            &--single, &--multiple {
+                height: 3em !important;
+                display: block !important;
+                width: 100% !important;
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.875rem !important;
+                font-weight: 400 !important;
+                line-height: 1.4rem !important;
+                color: #495057 !important;
+                background-color: #fff !important;
+                background-clip: padding-box !important;
+                border: 1px solid #d2d6da !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                border-radius: 0.5rem !important;
+                transition: box-shadow 0.15s ease, border-color 0.15s ease !important;
+            }
+        }
+    }
+    &-search--dropdown .select2-search__field {
+        padding: 4px;
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0.3rem !important;
+    }
+
+    &-dropdown {
+        background-color: white;
+        border: 1px solid #d2d6da !important;
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        left: -100000px;
+        width: 100%;
+        z-index: 1051
+    }
+
+}
+// .select2-search--dropdown .select2-search__field {
+//     padding: 4px;
+//     width: 100%;
+//     box-sizing: border-box;
+//     border-radius: 0.3rem !important;
+// }
+
+// .select2-dropdown {
+//     background-color: white;
+//     border: 1px solid #d2d6da !important;
+//     border-radius: 4px;
+//     box-sizing: border-box;
+//     display: block;
+//     position: absolute;
+//     left: -100000px;
+//     width: 100%;
+//     z-index: 1051
+// }
+
+// .select2-container--default .select2-results__option--selected {
+//     background-color: #ddd;
+//         font-weight: bold;
+// }
+
+// .select2-container--default .select2-results__option{
+//     background-color: #0097e8;
+//     color: white
+// }

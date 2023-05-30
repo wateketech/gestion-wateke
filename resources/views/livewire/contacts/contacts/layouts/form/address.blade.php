@@ -1,7 +1,6 @@
 <div class="col-12 mb-4">
 
 
-
     @foreach ($address as $index_add => $add)
         <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
             <span class="font-weight-bolder opacity-9 pt-1 @error("address.{$index_add}.name") text-danger  @enderror"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
@@ -20,12 +19,25 @@
                     <i class="fas fa-globe-africa fa-lg"></i>
                 </div>
             </div>
-            <div class="col-2 form-group pr-0">
+            <div class="col-3 form-group pr-0">
                 <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
-                <select class="form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}">
-                    @foreach ($prueba_address_seeder as $country)
-                        <option value="{{ $country['id'] }}">
-                            {{ $country['name'] }}
+                <select class="Select--2 form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}"
+                    >
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            data-flag={{ $country->emoji }}
+                            >
+                            {{ property_exists(json_decode($country->translations), 'es') ? json_decode($country->translations)->es :  $country->name }}
+                            {{-- <optgroup label="América">
+                                <option value="canada">Canadá</option>
+                                <option value="usa">Estados Unidos</option>
+                                <option value="mexico">México</option>
+                              </optgroup>
+                              <optgroup label="Europa">
+                                <option value="spain">España</option>
+                                <option value="france">Francia</option>
+                                <option value="germany">Alemania</option>
+                              </optgroup> --}}
                         </option>
                     @endforeach
                 </select>
@@ -103,5 +115,29 @@
             </div>
         </div>
     @endforeach
+
+
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('select.Select--2').select2({
+                templateResult: function (data) {
+                        if (!data.id) {
+                        return data.text;
+                        }
+                        var $result = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
+                        return $result;
+                    },
+                    templateSelection: function (data) {
+                        if (!data.id) {
+                        return data.text;
+                        }
+                        var $selection = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
+                        return $selection;
+                    }
+            });
+        });
+    </script>
+    @endpush
 
 </div>

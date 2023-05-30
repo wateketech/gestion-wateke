@@ -10,7 +10,7 @@ use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 
-
+use App\Models\AddressCountry as Countries;
 use App\Models\Contact as Contacts;
 use App\Models\ContactIdType as IdTypes;
 use App\Models\ContactEmailType as EmailTypes;
@@ -83,6 +83,7 @@ class Create extends Component
 
 
     // ADDRESS
+    public $countries, $states, $cities;
     public $contact_address = [];
     public $address = [];
     public $address_max = 3;
@@ -147,6 +148,7 @@ class Create extends Component
         $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
         $this->date_types = DateTypes::all()->where('enable', true);
         $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
+        $this->countries = Countries::all()->where('enable', true);
 
         $this->id_type = $this->id_types->first()->id;
         $this->email_type = $this->email_types->first()->id;
@@ -161,14 +163,14 @@ class Create extends Component
         $this->ids[] = ['id_type' => $this->id_types[0]->id, 'id_value' => ''];
         $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
         $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
-        $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
+        $this->instant_messages[] = ['id_type' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
         $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
 
-        $this->address[] = ['name' => 'Casa', 'citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
+        $this->address[] = ['name' => 'Casa', 'citie_id' => $this->countries[0]->id, 'geolocation' => '', 'zip_code' => ''];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
