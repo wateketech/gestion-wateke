@@ -17,7 +17,7 @@ class AddressState extends Model
         return $this->belongsTo('App\Models\AddressCountry', 'id');
     }
     public function cities(){
-        return $this->hasMany('App\Models\AddressCity', 'id');
+        return $this->hasMany('App\Models\AddressCity', 'state_id');
     }
 
 }

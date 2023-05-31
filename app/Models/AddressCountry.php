@@ -14,7 +14,10 @@ class AddressCountry extends Model
     protected $fillable = ['id', 'name', 'iso3', 'iso2', 'numeric_code', 'phone_code', 'capital', 'currency', 'currency_name', 'currency_symbol', 'tld', 'native', 'region', 'subregion', 'timezones', 'translations', 'latitude', 'longitude', 'emoji', 'emojiU', 'enable'];
 
     public function states(){
-        return $this->hasMany('App\Models\ContactBankAccountType', 'id');
+        return $this->hasMany('App\Models\AddressState', 'country_id');
+    }
+    public function cities(){
+        return $this->hasMany('App\Models\AddressCity', 'country_id');
     }
 
 }
