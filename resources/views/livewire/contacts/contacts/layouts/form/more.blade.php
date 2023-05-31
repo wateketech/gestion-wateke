@@ -78,7 +78,7 @@
         <div class="col-7 col-md-7 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="publish_us_value_{{ $index }}" class="form-control-label">Enlace *</label>
             <input class="@error("publish_us.{$index}.value")border border-danger rounded-3 @enderror form-control"
-                type="url" name="publish_us_value_{{ $index }}" id="publish_us_value_{{ $index }}"
+                type="text" name="publish_us_value_{{ $index }}" id="publish_us_value_{{ $index }}"
                 wire:model.debounce.500ms="publish_us.{{ $index }}.value">
             @error("publish_us.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>

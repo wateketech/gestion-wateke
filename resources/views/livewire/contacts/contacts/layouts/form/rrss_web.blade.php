@@ -101,7 +101,7 @@
             <label for="rrss_value_{{ $index }}" class="form-control-label">Cuenta *</label>
             <div class="input-group">
                 <input class="@error("rrss.{$index}.value")border border-danger rounded-3 @enderror form-control"
-                    type="url" name="rrss_value_{{ $index }}" id="rrss_value_{{ $index }}"
+                    type="text" name="rrss_value_{{ $index }}" id="rrss_value_{{ $index }}"
                     wire:model.debounce.500ms="rrss.{{ $index }}.value">
                 {{-- <div class="input-group-append">
                   <span class="input-group-text">{{ $rrss_types->find($rrss[$index]['id_type'])->value }}.com</span>
