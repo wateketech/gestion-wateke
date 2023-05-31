@@ -1,6 +1,7 @@
 <div class="col-12 mb-4">
 
 
+
     @foreach ($address as $index_add => $add)
         <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
             <span class="font-weight-bolder opacity-9 pt-1 @error("address.{$index_add}.name") text-danger  @enderror"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
@@ -20,49 +21,58 @@
                 </div>
             </div>
             <div class="col-3 form-group pr-0">
-                <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
-                <select class="Select--2 form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}"
-                    >
-                    @foreach ($countries as $country)
-                        <option value="{{ $country->id }}"
-                            data-flag={{ $country->emoji }}
-                            >
-                            {{ property_exists(json_decode($country->translations), 'es') ? json_decode($country->translations)->es :  $country->name }}
-                            {{-- <optgroup label="América">
-                                <option value="canada">Canadá</option>
-                                <option value="usa">Estados Unidos</option>
-                                <option value="mexico">México</option>
-                              </optgroup>
-                              <optgroup label="Europa">
-                                <option value="spain">España</option>
-                                <option value="france">Francia</option>
-                                <option value="germany">Alemania</option>
-                              </optgroup> --}}
-                        </option>
-                    @endforeach
-                </select>
+                <div wire:ignore>
+                    <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
+                    <select class="Select--2 form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}"
+                    onchange="livewire.emit('updateCountry', {{ $index_add }},this.value);">
+                        <option></option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}"
+                                data-flag={{ $country->emoji }}>
+                                {{ property_exists(json_decode($country->translations), 'es') ? json_decode($country->translations)->es :  $country->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="col-3 form-group pr-0">
-                <label for="states_{{ $index_add }}" class="form-control-label">Provincia *</label>
-                <select class="form-control" name="states_{{ $index_add }}" id="states_{{ $index_add }}">
-                    @foreach ($prueba_address_seeder as $state)
-                        <option value="{{ $state['id'] }}">
-                            {{ $state['name'] }}
-                        </option>
-                    @endforeach
-                </select>
+                <div wire:ignore>
+                    <label for="states_{{ $index_add }}" class="form-control-label">Provincia *</label>
+                    <select class="Select--2 form-control" name="states_{{ $index_add }}" id="states_{{ $index_add }}"
+                    onchange="livewire.emit('updateState', {{ $index_add }},this.value);" disabled>
+                        <option value=""></option>
+                        {{-- @if (!isset($add['country_id']))
+                            <option value=""></option>
+                        @else
+                            @foreach ($countries[$add['country_id']-1]->states as $state)
+                                <option value="{{ $state['id'] }}">
+                                    {{ $state['name'] }}
+                                </option>
+                            @endforeach
+                        @endif --}}
+                    </select>
+                </div>
             </div>
             <div class="col-4 form-group pr-0">
-                <label for="cities_{{ $index_add }}" class="form-control-label">Municipio *</label>
-                <select class="@error("address.{{ $index_add }}.citie_id")border border-danger rounded-3 is-invalid @enderror form-control"
-                    name="cities_{{ $index_add }}" id="cities_{{ $index_add }}" wire:model="address.{{ $index_add }}.citie_id">
-                    @foreach ($prueba_address_seeder as $citie)
-                        <option value="{{ $citie['id'] }}">
-                            {{ $citie['name'] }}
-                        </option>
-                    @endforeach
-                </select>
+                <div wire:ignore>
+                    <label for="cities_{{ $index_add }}" class="form-control-label">Municipio *</label>
+                    <select class="Select--2 form-control @error("address.{{ $index_add }}.citie_id")border border-danger rounded-3 is-invalid @enderror"
+                        name="cities_{{ $index_add }}" id="cities_{{ $index_add }}"
+                        onchange="livewire.emit('updateCity', {{ $index_add }},this.value);" disabled>
+                        <option value=""></option>
+                        {{-- @if (!isset($add['state_id']))
+                                <option value=""></option>
+                            @else
+                                @foreach (($countries[$add['country_id']-1]->states)->find($add['state_id'])->cities as $city)
+                                    <option value="{{ $city['id'] }}">
+                                        {{ $city['name'] }}
+                                    </option>
+                                @endforeach
+                            @endif --}}
+                        </select>
+                </div>
             </div>
+
             <div class="col-2 form-group pr-0">
                 <label for="zip_code_{{ $index_add }}" class="form-control-label">Cod. Postal</label>
                 <input class="@error("address.{{ $index_add }}.zip_code")border border-danger rounded-3 @enderror form-control"
@@ -117,27 +127,50 @@
     @endforeach
 
 
-    @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('select.Select--2').select2({
-                templateResult: function (data) {
-                        if (!data.id) {
-                        return data.text;
-                        }
-                        var $result = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
-                        return $result;
-                    },
-                    templateSelection: function (data) {
-                        if (!data.id) {
-                        return data.text;
-                        }
-                        var $selection = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
-                        return $selection;
-                    }
-            });
-        });
-    </script>
-    @endpush
 
 </div>
+@push('scripts')
+<script>
+    window.addEventListener('init-select2-countries', function(event){
+        $('#countries_' + event.detail.index_add +'.Select--2').select2({
+            placeholder: 'Seleccione un país',
+            templateResult: function (data) {
+                    if (!data.id) {
+                    return data.text;
+                    }
+                    var $result = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
+                    return $result;
+                },
+                templateSelection: function (data) {
+                    if (!data.id) {
+                    return data.text;
+                    }
+                    var $selection = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
+                    return $selection;
+                }
+        });
+    });
+    window.addEventListener('init-select2-states', function(event){
+        var $select = $('#states_' + event.detail.index_add +'.Select--2');
+
+        $select.empty();
+        $select.prop('disabled', false);
+        $select.select2({
+                placeholder: 'Seleccione una provincia',
+                data: event.detail.states
+            });
+    });
+    window.addEventListener('init-select2-cities', function(event){
+        var $select = $('#cities_' + event.detail.index_add +'.Select--2');
+        console.log(event.detail.cities);
+        $select.empty();
+        $select.prop('disabled', false);
+        $select.select2({
+                placeholder: 'Seleccione un municipio',
+                data: event.detail.cities
+            });
+    });
+
+    window.dispatchEvent(new CustomEvent('init-select2-countries', { detail: { index_add: 0 } }));
+</script>
+@endpush

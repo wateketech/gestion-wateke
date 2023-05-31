@@ -11,6 +11,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 
 use App\Models\AddressCountry as Countries;
+use App\Models\AddressState as States;
 use App\Models\Contact as Contacts;
 use App\Models\ContactIdType as IdTypes;
 use App\Models\ContactEmailType as EmailTypes;
@@ -29,7 +30,8 @@ class Create extends Component
 {
     use WithFileUploads;
     protected $listeners = [
-        'removeAccountCard'
+        'updateCountry', 'updateState', 'updateCity',
+        'removeAccountCard',
     ];
     public $prueba, $datos_prueba;
 //    public $available_id_types = [];
@@ -98,7 +100,7 @@ class Create extends Component
         ];
 
 
-
+    public $aaa;
 
 
     // BANK ACCOUNTS
@@ -170,11 +172,11 @@ class Create extends Component
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
 
-        $this->address[] = ['name' => 'Casa', 'citie_id' => $this->countries[0]->id, 'geolocation' => '', 'zip_code' => ''];
+        $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => '', 'zip_code' => '',
+                'country_id' => null, 'state_id' => null ];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
-
 
         $this->remount_bank_accounts();
         $this->datos_prueba();
@@ -546,11 +548,13 @@ class Create extends Component
             'address_line.' . $index . '.*.*.required' => 'El campo es obligatorio',
         ]);
         if (count($this->address) < $this->address_max) {
-            $this->address[] = ['name' => '# ' . ($index + 2), 'citie_id' => '1', 'geolocation' => '', 'zip_code' => ''];
+            $this->address[] = ['name' => '# ' . ($index + 2), 'citie_id' => '1', 'geolocation' => '', 'zip_code' => '',
+                'country_id' => null, 'state_id' => null ];
             $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
             $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
             $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
         }
+        $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => $index + 1]);
     }
     public function removeAddress($index){
         unset($this->address_line[$index]);
@@ -561,6 +565,36 @@ class Create extends Component
     public function geolocation($index){
         // procesar con API de GOOGLE
     }
+
+    public function updateCountry($index_add ,$value){
+        $this->address[$index_add]['country_id'] = $value;
+
+        $states = Countries::where('enable', true)->find($value)->states->map(function ($state) {
+                        return ['id' => $state->id, 'text' => $state->name,];
+                    })->toArray();
+
+        $this->address[$index_add]['state_id'] = $states[0]['id'];
+        $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states ]);
+    }
+    public function updateState($index_add ,$value){
+        $this->address[$index_add]['state_id'] = $value;
+
+        $cities = Countries::find($this->address[$index_add]['country_id'])
+                    ->states->find($this->address[$index_add]['state_id'])
+                    ->cities->map(function ($city) {
+                        return ['id' => $city->id, 'text' => $city->name,];
+                    })->toArray();
+
+        $this->address[$index_add]['city_id'] = $cities[0]['id'];
+        $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'states' => $cities ]);
+    }
+    public function updateCity($index_add ,$value){
+        $this->address[$index_add]['city_id'] = $value;
+    }
+
+
+
+
     public function addAddressLine($index_l, $index_add){
         $this->validate([
             'address_line.' . $index_add . '.*.label' => 'required',
@@ -579,19 +613,20 @@ class Create extends Component
         $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
     }
     public function stepSubmit_address(){
-        $this->validate([
-            'address.*.name' => 'required',
-            'address_line.*.*.label' => 'required',
-            'address_line.*.*.value' => 'required',
-        ],[
-            '*.*.*.required' => 'El campo es obligatorio',
-            'address.*.*.required' => 'El campo es obligatorio',
-            'address_line.*.*.*.required' => 'El campo es obligatorio',
-        ]);
-
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
-        $this->passStep[] = 'address';
-        $this->currentStep = 'bank_accounts';
+        // $this->validate([
+        //     'address.*.name' => 'required',
+        //     'address_line.*.*.label' => 'required',
+        //     'address_line.*.*.value' => 'required',
+        // ],[
+        //     '*.*.*.required' => 'El campo es obligatorio',
+        //     'address.*.*.required' => 'El campo es obligatorio',
+        //     'address_line.*.*.*.required' => 'El campo es obligatorio',
+        // ]);
+//
+        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        // $this->passStep[] = 'address';
+        // $this->currentStep = 'bank_accounts';
+        $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => 0]);
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function remount_bank_accounts(){
