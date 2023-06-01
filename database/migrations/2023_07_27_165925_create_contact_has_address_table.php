@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('contact_id');
             $table->string('name');
-            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->unsignedBigInteger('country_id');
             $table->json('geolocation')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('enable')->default(1);
@@ -27,6 +29,12 @@ return new class extends Migration
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->constrained();
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->constrained();
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });
