@@ -539,6 +539,20 @@ class Create extends Component
     public function addAddress($index){
         $this->validate([
             'address.' . $index . '.name' => 'required',
+            'address.' . $index . '.country_id' => 'required',
+            'address.' . $index . '.state_id' => [
+                    function ($attribute, $value, $fail) use ($index) {
+                        $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
+                        if ($country && $country->states->count() > 0 && empty($value)) $fail('El campo es obligatorio.');
+                    }
+                ],
+            'address.' . $index . '.city_id' => [
+                    function ($attribute, $value, $fail) use ($index) {
+                        $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
+                        $state = $country ? $country->states()->find($this->address[$index]['state_id']) : null;
+                        if ($state && $state->cities->count() > 0 && empty($this->address[$index]['city_id'])) $fail('El campo es obligatorio.');
+                    }
+                ],
             'address_line.' . $index . '.*.label' => 'required',
             'address_line.' . $index . '.*.value' => 'required',
             // 'address_line.' . $index . $index_l . '.label' => 'required',
@@ -603,7 +617,6 @@ class Create extends Component
 
 
 
-
     public function addAddressLine($index_l, $index_add){
         $this->validate([
             'address_line.' . $index_add . '.*.label' => 'required',
@@ -624,6 +637,7 @@ class Create extends Component
     public function stepSubmit_address(){
         // $this->validate([
         //     'address.*.name' => 'required',
+        //     'address.*.country_id' => 'required',
         //     'address_line.*.*.label' => 'required',
         //     'address_line.*.*.value' => 'required',
         // ],[

@@ -34,6 +34,7 @@
                         @endforeach
                     </select>
                 </div>
+                @error("address.{$index_add}.country_id") <sub class="text-danger">{{ $message }}</sub> @enderror
             </div>
             <div class="col-3 form-group pr-0">
                 <div wire:ignore>
@@ -43,6 +44,7 @@
                         <option></option>
                     </select>
                 </div>
+                @error("address.{$index_add}.state_id") <sub class="text-danger">{{ $message }}</sub> @enderror
             </div>
             <div class="col-3 form-group pr-0">
                 <div wire:ignore>
@@ -53,6 +55,7 @@
                         <option></option>
                     </select>
                 </div>
+                @error("address.{$index_add}.city_id") <sub class="text-danger">{{ $message }}</sub> @enderror
             </div>
 
             <div class="col-2 form-group pr-0">
