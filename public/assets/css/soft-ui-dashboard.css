@@ -22143,4 +22143,11 @@ input.is-alert {
   left: -100000px;
   width: 100%;
   z-index: 1051;
+}
+
+.dropdown-toggle-no-caret:after {
+  content: none !important;
+}
+.dropdown-toggle-no-caret:before {
+  content: none !important;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

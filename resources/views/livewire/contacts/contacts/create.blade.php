@@ -101,12 +101,13 @@
                         {{-- -------------------------- STEP OCUPATION -------------------------- --}}
                             <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-center ">
+                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">{{-- center --}}
                                         <button class="btn btn-primary"
                                             wire:click="stepSubmit_ocupation">
                                             <i class="fas fa-angle-double-right"></i>
                                         </button>
-                                        <button class="btn btn-secondary position-absolute" style="right: 65px;"
+                                        {{-- <button class="btn btn-secondary position-absolute" style="right: 65px;" --}}
+                                        <button class="btn btn-secondary position-absolute"
                                             wire:click="stepSubmit_ocupation_omit">
                                             <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
                                         </button>

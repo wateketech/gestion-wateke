@@ -38,7 +38,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'address' ; //'general';
+    public $currentStep = 'bank_accounts' ; //'general';
 
     protected $rules = [
 
@@ -763,7 +763,8 @@ class Create extends Component
     }
 
     public function stepSubmit_bank_accounts(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'bank_accounts';
         $this->currentStep = 'ocupation';
     }
@@ -773,7 +774,7 @@ class Create extends Component
         $this->currentStep = 'more';
     }
     public function stepSubmit_ocupation(){
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'ocupation';
         $this->currentStep = 'more';
     }
@@ -1030,7 +1031,11 @@ class Create extends Component
         // $this->bank_account_bank_name = '';
         // $this->bank_account_bank_title = '';
         // $this->bank_account_banks = '';
-        // $this->bank_accounts = '';
+        $this->bank_accounts = [
+            [ 'type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => false, 'about'=>''],
+            [ 'type_id' => 3, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about'=>''],
+            [ 'type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about'=>''],
+            ];
 
         // OCUPATION
 
