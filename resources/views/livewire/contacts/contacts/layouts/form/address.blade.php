@@ -40,36 +40,18 @@
                     <label for="states_{{ $index_add }}" class="form-control-label">Provincia *</label>
                     <select class="Select--2 form-control" name="states_{{ $index_add }}" id="states_{{ $index_add }}"
                     onchange="livewire.emit('updateState', {{ $index_add }},this.value);" disabled>
-                        <option value=""></option>
-                        {{-- @if (!isset($add['country_id']))
-                            <option value=""></option>
-                        @else
-                            @foreach ($countries[$add['country_id']-1]->states as $state)
-                                <option value="{{ $state['id'] }}">
-                                    {{ $state['name'] }}
-                                </option>
-                            @endforeach
-                        @endif --}}
+                        <option></option>
                     </select>
                 </div>
             </div>
-            <div class="col-4 form-group pr-0">
+            <div class="col-3 form-group pr-0">
                 <div wire:ignore>
                     <label for="cities_{{ $index_add }}" class="form-control-label">Municipio *</label>
                     <select class="Select--2 form-control @error("address.{{ $index_add }}.citie_id")border border-danger rounded-3 is-invalid @enderror"
                         name="cities_{{ $index_add }}" id="cities_{{ $index_add }}"
                         onchange="livewire.emit('updateCity', {{ $index_add }},this.value);" disabled>
-                        <option value=""></option>
-                        {{-- @if (!isset($add['state_id']))
-                                <option value=""></option>
-                            @else
-                                @foreach (($countries[$add['country_id']-1]->states)->find($add['state_id'])->cities as $city)
-                                    <option value="{{ $city['id'] }}">
-                                        {{ $city['name'] }}
-                                    </option>
-                                @endforeach
-                            @endif --}}
-                        </select>
+                        <option></option>
+                    </select>
                 </div>
             </div>
 
@@ -150,21 +132,51 @@
                 }
         });
     });
+    window.addEventListener('init-select2-states-disabled', function(event){
+        $selectCity = $('#cities_' + event.detail.index_add +'.Select--2');
+        $selectCity.empty();
+        if ($selectCity.length && $selectCity.data('select2')) $selectCity.select2('destroy');
+        $selectCity.attr('disabled', true);
+
+        var $select = $('#states_' + event.detail.index_add +'.Select--2');
+        $select.empty();
+        $select.select2({
+            placeholder: 'No disponible',
+        });
+        $select.attr('disabled', true);
+        window.dispatchEvent(new CustomEvent('init-select2-cities-disabled', { detail: { index_add: event.detail.index_add } }));
+
+    });
     window.addEventListener('init-select2-states', function(event){
+        $selectCity = $('#cities_' + event.detail.index_add +'.Select--2');
+        $selectCity.empty();
+        if ($selectCity.length && $selectCity.data('select2')) $selectCity.select2('destroy');
+        $selectCity.attr('disabled', true);
+
         var $select = $('#states_' + event.detail.index_add +'.Select--2');
 
         $select.empty();
         $select.prop('disabled', false);
+        $select.append($('<option>', { value: '', text: '' }));
         $select.select2({
                 placeholder: 'Seleccione una provincia',
                 data: event.detail.states
             });
     });
+
+    window.addEventListener('init-select2-cities-disabled', function(event){
+        var $select = $('#cities_' + event.detail.index_add +'.Select--2');
+        $select.empty();
+        $select.select2({
+            placeholder: 'No disponible',
+        });
+        $select.attr('disabled', true);
+    });
     window.addEventListener('init-select2-cities', function(event){
         var $select = $('#cities_' + event.detail.index_add +'.Select--2');
-        console.log(event.detail.cities);
         $select.empty();
         $select.prop('disabled', false);
+        $select.append($('<option>', { value: '', text: '' }));
         $select.select2({
                 placeholder: 'Seleccione un municipio',
                 data: event.detail.cities

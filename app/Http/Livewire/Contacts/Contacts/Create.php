@@ -568,16 +568,22 @@ class Create extends Component
 
     public function updateCountry($index_add ,$value){
         $this->address[$index_add]['country_id'] = $value;
+        $this->address[$index_add]['state_id'] = null;
+        $this->address[$index_add]['city_id'] = null;
 
         $states = Countries::where('enable', true)->find($value)->states->map(function ($state) {
                         return ['id' => $state->id, 'text' => $state->name,];
                     })->toArray();
 
-        $this->address[$index_add]['state_id'] = $states[0]['id'];
-        $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states ]);
+        if (count($states) == 0){
+            $this->dispatchBrowserEvent('init-select2-states-disabled', ['index_add' => $index_add]);
+        }else{
+            $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states ]);
+        }
     }
     public function updateState($index_add ,$value){
         $this->address[$index_add]['state_id'] = $value;
+        $this->address[$index_add]['city_id'] = null;
 
         $cities = Countries::find($this->address[$index_add]['country_id'])
                     ->states->find($this->address[$index_add]['state_id'])
@@ -585,8 +591,11 @@ class Create extends Component
                         return ['id' => $city->id, 'text' => $city->name,];
                     })->toArray();
 
-        $this->address[$index_add]['city_id'] = $cities[0]['id'];
-        $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'states' => $cities ]);
+        if (count($cities) == 0){
+            $this->dispatchBrowserEvent('init-select2-cities-disabled', ['index_add' => $index_add]);
+        }else{
+            $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'cities' => $cities ]);
+        }
     }
     public function updateCity($index_add ,$value){
         $this->address[$index_add]['city_id'] = $value;
