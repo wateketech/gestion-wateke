@@ -38,17 +38,18 @@
             </div>
             <div class="col-3 form-group pr-0">
                 <div wire:ignore>
-                    <label for="states_{{ $index_add }}" class="form-control-label">Provincia *</label>
+                    <label for="states_{{ $index_add }}" class="form-control-label">Provincia / Estado *</label>
                     <select class="Select--2 form-control" name="states_{{ $index_add }}" id="states_{{ $index_add }}"
                     onchange="livewire.emit('updateState', {{ $index_add }},this.value);" disabled>
                         <option></option>
                     </select>
                 </div>
-                @error("address.{$index_add}.state_id") <sub class="text-danger">{{ $message }}</sub> @enderror
+                @error("address.{$index_add}.state_id") <sub class="{{ $message == 'El campo es requerido si está disponible' ? 'text-warning' : 'text-danger' }}">{{ $message }}</sub> @enderror
+
             </div>
             <div class="col-3 form-group pr-0">
                 <div wire:ignore>
-                    <label for="cities_{{ $index_add }}" class="form-control-label">Municipio *</label>
+                    <label for="cities_{{ $index_add }}" class="form-control-label">Municipio / Ciudad *</label>
                     <select class="Select--2 form-control @error("address.{{ $index_add }}.citie_id")border border-danger rounded-3 is-invalid @enderror"
                         name="cities_{{ $index_add }}" id="cities_{{ $index_add }}"
                         onchange="livewire.emit('updateCity', {{ $index_add }},this.value);" disabled>
@@ -68,7 +69,7 @@
             <div class="row py-3">
                 @foreach ($address_line[$index_add] as $index_l => $line)
                     <div class="col-2 form-check pt-2 h5 d-flex justify-content-end">
-                        <p class="font-weight-bolder opacity-8">Linea {{ $index_l + 1 }} :</p>
+                        <p class="font-weight-bolder opacity-8">Línea {{ $index_l + 1 }} :</p>
                     </div>
                     <div class="col-3 col-md-3 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
                         <input class="@error("address_line.{$index_add}.{$index_l}.label")border border-danger rounded-3 @enderror form-control mb-0"
@@ -104,7 +105,7 @@
             <div class="col-3 col-md-3">
                 @if ($index_add === count($address) - 1)
                     @if (count($address) < $address_max)
-                        <button wire:click="addAddress({{ $index_add }})" class="btn btn-outline-success px-3">Agregar otra Direccion</button>
+                        <button wire:click="addAddress({{ $index_add }})" class="btn btn-outline-success px-3">Agregar otra Dirección</button>
                     @endif
                 @endif
             </div>
@@ -162,7 +163,7 @@
         $select.prop('disabled', false);
         $select.append($('<option>', { value: '', text: '' }));
         $select.select2({
-                placeholder: 'Seleccione una provincia',
+                placeholder: 'Seleccione',
                 data: event.detail.states
             });
     });
@@ -181,7 +182,7 @@
         $select.prop('disabled', false);
         $select.append($('<option>', { value: '', text: '' }));
         $select.select2({
-                placeholder: 'Seleccione un municipio',
+                placeholder: 'Seleccione',
                 data: event.detail.cities
             });
     });

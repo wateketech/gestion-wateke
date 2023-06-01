@@ -175,7 +175,7 @@ class Create extends Component
         $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => '', 'zip_code' => '',
                 'country_id' => null, 'state_id' => null ];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
-        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
+        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Número', 'value' => ''];
         $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
 
         $this->remount_bank_accounts();
@@ -635,20 +635,41 @@ class Create extends Component
         $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
     }
     public function stepSubmit_address(){
-        // $this->validate([
-        //     'address.*.name' => 'required',
-        //     'address.*.country_id' => 'required',
-        //     'address_line.*.*.label' => 'required',
-        //     'address_line.*.*.value' => 'required',
-        // ],[
-        //     '*.*.*.required' => 'El campo es obligatorio',
-        //     'address.*.*.required' => 'El campo es obligatorio',
-        //     'address_line.*.*.*.required' => 'El campo es obligatorio',
-        // ]);
-//
-        // $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
-        // $this->passStep[] = 'address';
-        // $this->currentStep = 'bank_accounts';
+        $this->validate([
+            'address.*.name' => 'required',
+            'address.*.country_id' => 'required',
+            'address.*.state_id' => [
+                    function ($attribute, $value, $fail){
+                        foreach ($this->address as $index => $address) {
+                            $country = Countries::where('enable', true)->find($address['country_id']);
+                            if ($country && $country->states->count() > 0 && empty($value)){
+                                $fail('El campo es requerido si está disponible');
+                            }
+                        }
+                    }
+                ],
+            'address.*.city_id' => [
+                    function ($attribute, $value, $fail) {
+                        foreach ($this->address as $index => $address) {
+                            $country = Countries::where('enable', true)->find($address['country_id']);
+                            $state = $country ? $country->states()->find($address['state_id']) : null;
+                            if ($state && $state->cities->count() > 0 && empty($address['city_id'])){
+                                $fail('El campo es requerido si está disponible');
+                            }
+                        }
+                    }
+                ],
+            'address_line.*.*.label' => 'required',
+            'address_line.*.*.value' => 'required',
+        ],[
+            '*.*.*.required' => 'El campo es obligatorio',
+            'address.*.*.required' => 'El campo es obligatorio',
+            'address_line.*.*.*.required' => 'El campo es obligatorio',
+        ]);
+
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->passStep[] = 'address';
+        $this->currentStep = 'bank_accounts';
         $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => 0]);
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
