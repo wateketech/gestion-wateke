@@ -10,8 +10,8 @@
                         @foreach ($ids as $index => $id)
                         <div class="col-2 form-group pr-0">
                             <label for="id_types_{{ $index }}" class="form-control-label">ID *</label>
-                            <select class="@error("ids.{$index}.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                                name="id_types_{{ $index }}" id="id_types_{{ $index }}" wire:model="ids.{{ $index }}.id_type">
+                            <select class="@error("ids.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
+                                name="id_types_{{ $index }}" id="id_types_{{ $index }}" wire:model="ids.{{ $index }}.type_id">
                                 @foreach ($id_types as $type)
                                     <option value="{{ $type->id }}">
                                         {{ $type->label }}
@@ -21,18 +21,18 @@
 
                                 </script>
                             </select>
-                            @error("ids.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror
+                            @error("ids.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
                         </div>
                         <div class="col-8 col-md-8 form-group">
-                            <label for="id_value_{{ $index }}" class="form-control-label">{{ $id_types->find($id['id_type'])->title }} *</label>
+                            <label for="id_value_{{ $index }}" class="form-control-label">{{ $id_types->find($ids[$index]['type_id'])->title }} *</label>
                             <input class="@error("ids.{$index}.value")border border-danger rounded-3 @enderror form-control"
                                 type="text" name="id_value_{{ $index }}" id="id_value_{{ $index }}"
                                 wire:model.debounce.500ms="ids.{{ $index }}.value">
                             @error("ids.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                            @php
+                            {{-- @php
                                 $id_value_valid = true;
-                                if ($id['value']) {
-                                    foreach (json_decode($id_types->find($id['id_type'])->regEx) as $regEx) {
+                                if ($id[$index]['value']) {
+                                    foreach (json_decode($id_types->find($id[$index]['type_id'])->regEx) as $regEx) {
                                         if (preg_match($regEx, $id['value'])) {
                                             $id_value_valid = true;
                                             break;
@@ -44,22 +44,22 @@
                                 }
                             @endphp
                             @if (!$id_value_valid)
-                                <sub class="text-warning">Tenga presente que el {{ $id_types->find($id['id_type'])->title }} no cumple con el formato. </sub>
+                                <sub class="text-warning">Tenga presente que el {{ $id_types->find($id[$index]['type_id'])->title }} no cumple con el formato. </sub>
                                 <script>
                                     document.getElementById('id_value_{{ $index }}').classList += ' is-warning';
                                 </script>
-                            @endif
+                            @endif --}}
                         </div>
                         <div class="col-2 col-md-2 mt-4">
                             @if ($index === count($ids) - 1)
                                 @if (count($ids) > 1)
-                                    <button wire:click="removeId({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                                    <div wire:click="removeId({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
                                 @endif
                                 @if (count($ids) < $id_max)
-                                    <button wire:click="addId({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></button>
+                                    <div wire:click="addId({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
                                 @endif
                             @else
-                                <button wire:click="removeId({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                                <div wire:click="removeId({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
                             @endif
                         </div>
                         @endforeach
