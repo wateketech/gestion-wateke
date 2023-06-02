@@ -9,7 +9,7 @@
                     <div class="card bg-transparent shadow-xl">
                         <div class="overflow-hidden position-relative border-radius-xl"
                             style="background-image: url('../assets/img/curved-images/curved14.jpg');">
-                                {{-- <span class="mask bg-gradient-dark"></span> --}}
+                                <span class="mask bg-gradient-dark"></span>
                             <div class="card-body position-relative z-index-1 p-3">
                                 <h6 class="d-flex justify-content-between text-white" for="bank_account_bank_name">
                                     <i class="fas fa-sim-card fa-rotate-90"></i>
@@ -17,7 +17,7 @@
                                 </h6>
                                 {{-- @isset($bank_account_is_credit)
                                 @endisset --}}
-                                <h6 class="text-white mt-4 mb-4 pb-2 fs-4" for="bank_account_card_number">
+                                <h6 class="text-white mt-4 mb-4 pb-2 fs-4" for="bank_account_card_number" style="font-family: cursive;">
                                     {{-- NUMERO DE LA TARJETA --}}
                                     @php
                                         $account_card = preg_replace('/\D/', '', $bank_account_card_number);
@@ -42,7 +42,7 @@
                                     <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
                                         {{-- TIPO DE TARJETA --}}
                                         @if ($bank_account_types->find($bank_account_type)->label != 'Unknown')
-                                            <img class="w-100 mt-1" src="{{ $bank_account_types->find($bank_account_type)->logo }}" alt="{{ $bank_account_types->find($bank_account_type)->label }}">
+                                            <img class="w-100 mt-n4" src="{{ $bank_account_types->find($bank_account_type)->logo }}" alt="{{ $bank_account_types->find($bank_account_type)->label }}">
                                         @endif
                                     </div>
                                 </div>
@@ -78,17 +78,19 @@
 
                         <div class="col-8">
                             <div class="form-group mb-2">
-                                <label for="bank_account_bank_name" class="form-control-label">Nombre del Banco *</label>
-                                <input class="@error('bank_account_bank_name')border border-danger rounded-3 @enderror form-control" type="text" placeholder="Banco Popular de Ahorro"
-                                    name="bank_account_bank_name" id="bank_account_bank_name" wire:model="bank_account_bank_name">
+                                <label for="bank_account_bank_name" class="form-control-label opacity-4">Nombre del Banco *</label>
+                                <input class="@error('bank_account_bank_name')border border-danger rounded-3 @enderror form-control disabled" type="text" placeholder="SECCIÓN EN CONSTRUCCIÓN"  style="text-align: center;"
+                                    name="bank_account_bank_name" id="bank_account_bank_name" disabled>
+                                    {{-- wire:model="bank_account_bank_name"> --}}
                                 @error('bank_account_bank_name') <sub class="text-danger">{{ $message }}</sub> @enderror
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group mb-2">
-                                <label for="bank_account_bank_title" class="form-control-label">Alias del Banco</label>
-                                <input class="@error('bank_account_bank_title')border border-danger rounded-3 @enderror form-control" type="text" placeholder="BPA"
-                                    name="bank_account_bank_title" id="bank_account_bank_title" wire:model="bank_account_bank_title">
+                                <label for="bank_account_bank_title" class="form-control-label opacity-4">Alias del Banco</label>
+                                <input class="@error('bank_account_bank_title')border border-danger rounded-3 @enderror form-control disabled" type="text" placeholder="EN BREVE"  style="text-align: center;"
+                                    name="bank_account_bank_title" id="bank_account_bank_title" disabled>
+                                    {{-- wire:model="bank_account_bank_title"> --}}
                                 @error('bank_account_bank_title') <sub class="text-danger">{{ $message }}</sub> @enderror
                             </div>
                         </div>
@@ -120,6 +122,7 @@
                             <label for="bank_account_card_number" class="form-control-label">Numeración *</label>
                             <input class="@error('bank_account_card_number')border border-danger rounded-3 @enderror form-control" type="text" placeholder="####   ####   ####   ####"
                             name="bank_account_card_number" id="bank_account_card_number" wire:model="bank_account_card_number" maxlength="25"
+                            style="font-family: cursive;"
                             oninput="function formatCardNumber(event) {
                                 const input = event.target.value.replace(/\D/g, '').substring(0, 16);
                                 const cardNumber = input !== '' ? input.match(/.{1,4}/g).join('&nbsp;&nbsp;&nbsp;') : '';
@@ -196,7 +199,7 @@
                         <div class="pb-0 p-3">
                             <div class="row">
                                 <div class="col-md-6 d-flex align-items-center">
-                                    <h6 class="mb-0">{{ count($bank_accounts) !=0 ? 'Cuentas Registradas' : '' }}</h6>
+                                    <strong class="mb-n3 p-3 h5 text-dark form-title">{{ count($bank_accounts) !=0 ? 'Cuentas Registradas' : '' }}</strong>
                                 </div>
                                 {{-- <div class="col-md-6 d-flex align-items-center "> --}}
                                 <div class="col-md-6 d-xl-none text-right px-4">
@@ -224,7 +227,7 @@
                                 @foreach ($bank_accounts as $account)
 
                                     <div class="col-sm-12 col-lg-6 col-md-6 col-xl-4 mb-md-0 pb-3">
-                                        <div class="card card-body border border-2 card-plain border-radius-lg d-flex align-items-between flex-row py-3 px-2">
+                                        <div class="card card-body border border-2 card-plain border-radius-lg d-flex align-items-between flex-row py-3 px-2" style="min-height:5.2em">
                                             @if ($bank_account_types->find($account['type_id'])->label != 'Unknown')
                                                 <img style="max-width: 100%; height: 50px;" src="{{ $bank_account_types->find($account['type_id'])->logo }}" alt="{{ $bank_account_types->find($account['type_id'])->label }}">
                                             @else

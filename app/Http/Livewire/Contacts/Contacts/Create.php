@@ -108,6 +108,7 @@ class Create extends Component
     public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about;
     public $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
     public $bank_account_bank_name, $bank_account_bank_title;
+    public $bank_id_in_bbdd;
     public $bank_account_banks = [];
     public $bank_accounts = [];
 
@@ -680,11 +681,12 @@ class Create extends Component
         $this->bank_account_expiration_month = date("n")+4;
         $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));;
         $this->bank_account_card_number = '';
-        $this->bank_account_card_holder = $this->name . $this->first_lastname ;
-        $this->bank_account_is_credit = '';
+        $this->bank_account_card_holder = $this->name . ' ' .$this->first_lastname ;
+        $this->bank_account_is_credit = 'true';
         $this->bank_account_about = '';
         $this->bank_account_bank_name = '';
         $this->bank_account_bank_title = '';
+        $this->bank_id_in_bbdd = null;
     }
 
     // public function updatedBankAccountCardNumber(){
@@ -713,8 +715,8 @@ class Create extends Component
             'bank_account_expiration_year' => 'required',
             'bank_account_expiration_month' => 'required',
             'bank_account_about' => 'nullable',
-            'bank_account_bank_name' => 'required',
-            'bank_account_bank_title' => 'nullable',
+            // 'bank_account_bank_name' => 'required',
+            // 'bank_account_bank_title' => 'nullable',
         ],[
             '*.required' => 'El campo es obligatorio',
             'bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
@@ -724,16 +726,15 @@ class Create extends Component
         // hacer en algun lado la validacion por si ya existe el banco sugerirlo
 
         // falta otra lista para los bancos
-        array_push($this->bank_account_banks, [
-                'name' => $this->bank_account_bank_name,
-                'title' => $this->bank_account_bank_title,
-            ]);
+        // array_push($this->bank_account_banks, [
+        //         'name' => $this->bank_account_bank_name,
+        //         'title' => $this->bank_account_bank_title,
+        //     ]);
 
         array_push($this->bank_accounts, [
                 // 'contact_id' => ,
                 'type_id' => $this->bank_account_type,
-                // 'bank_id' => ,
-                // 'bank_id_in_bbdd' => ,
+                // 'bank_id_in_bbdd' => isset($this->bank_id_in_bbdd) ? $this->bank_id_in_bbdd : null,
                 'card_number' => $bank_account_card_number,
                 'card_holder' => $this->bank_account_card_holder,
                 'expiration_date' => $this->bank_account_expiration_date,
@@ -744,22 +745,10 @@ class Create extends Component
     }
     public function removeAccountCard($index){
         array_splice($this->bank_accounts, $index, 1);
+        // array_splice($this->bank_account_banks, $index, 1);
     }
     public function editAccountCard($index){
-        $this->bank_account_types = BankAccountTypes::all();
-        $this->bank_account_type = $this->bank_accounts[$index]['type_id'];
-        $this->bank_account_expiration_year = date("Y");
-        $this->bank_account_expiration_month = date("n")+4;
-        $this->bank_account_expiration_date = $this->bank_accounts[$index]['type_id'];
-
-        $this->bank_account_card_number = trim(chunk_split(str_replace('  ', '', $this->bank_accounts[$index]['card_number']), 4, ' '));
-
-
-        $this->bank_account_card_holder = $this->bank_accounts[$index]['card_holder'];
-        $this->bank_account_is_credit = $this->bank_accounts[$index]['is_credit'];
-        $this->bank_account_about = $this->bank_accounts[$index]['about'];
-        // $this->bank_account_bank_name = $this->bank_accounts[$index]['bank_name']
-        // $this->bank_account_bank_title = $this->bank_accounts[$index]['bank_title'];
+        // NO DISPONIBLE
     }
 
     public function stepSubmit_bank_accounts(){
