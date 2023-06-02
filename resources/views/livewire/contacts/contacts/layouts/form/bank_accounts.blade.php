@@ -223,32 +223,24 @@
                                 @php $index = 0 @endphp
                                 @foreach ($bank_accounts as $account)
 
-                                    <div class="col-md-6 mb-md-0 pb-3">
-                                        <div class="card card-body border card-plain border-radius-lg d-flex align-items-between flex-row">
+                                    <div class="col-sm-12 col-lg-6 col-md-6 col-xl-4 mb-md-0 pb-3">
+                                        <div class="card card-body border border-2 card-plain border-radius-lg d-flex align-items-between flex-row py-3 px-2">
                                             @if ($bank_account_types->find($account['type_id'])->label != 'Unknown')
-                                                <img class="w-10 me-3 mb-0 pr-3" src="{{ $bank_account_types->find($account['type_id'])->logo }}" alt="{{ $bank_account_types->find($account['type_id'])->label }}">
+                                                <img style="max-width: 100%; height: 50px;" src="{{ $bank_account_types->find($account['type_id'])->logo }}" alt="{{ $bank_account_types->find($account['type_id'])->label }}">
                                             @else
                                                 {{-- <img class="w-10 me-3 mb-0" src="{{ $bank_account_types->find($account['type_id'])->logo }}" alt="{{ $bank_account_types->find($account['type_id'])->label }}"> --}}
                                             @endif
-                                            <h6 class="mb-0 pl-2">
-                                                {{-- ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp; {{  substr($account['card_number'], -4) }} --}}
-                                                {!! implode('&nbsp; &nbsp;', str_split($account['card_number'], 4)) !!}
+                                            <h6 class="ms-auto d-flex align-items-center flex-row" style="font-family: monospace, cursive;">
+                                                <span>{!! implode('&nbsp;', str_split($account['card_number'], 4)) !!}</span>
                                             </h6>
-                                            <div class="ms-auto">
-                                                {{-- <a>
-                                                    <i class="icon-edit fas fa-pencil-alt text-dark cursor-pointer px-2" data-bs-toggle="tooltip" data-bs-placement="top"  title="Editar"></i>
-                                                </a> --}}
-                                                {{-- <a>
-                                                    <i class="icon-view fas fa-eye text-dark cursor-pointer px-2" wire:click="viewAccountCard({{ $index }})" title="Ver"></i>
-                                                </a> --}}
-                                                {{-- <a wire:ignore id="remove-account">
-                                                </a> --}}
+                                            <div class="ms-auto d-flex align-items-center flex-row">
+                                                {{-- <a> <i class="icon-edit fas fa-pencil-alt text-dark cursor-pointer px-2" data-bs-toggle="tooltip" data-bs-placement="top"  title="Editar"></i> </a> --}}
+                                                {{-- <a> <i class="icon-view fas fa-eye text-dark cursor-pointer px-2" wire:click="viewAccountCard({{ $index }})" title="Ver"></i></a> --}}
                                             <div class="dropup">
                                                 <a type="button" class="dropdown-toggle dropdown-toggle-split dropdown-toggle-no-caret" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{-- <span class="visually-hidden">Toggle Dropdown</span>--}}
                                                     <i class="icon-del fas fa-trash-alt text-dark cursor-pointer"></i>
                                                 </a>
-                                                <div class="dropdown-menu px-2 py-1" style="background-color: #212529;    min-width: 18em;">
+                                                <div class="dropdown-menu px-2 py-1 mx-n8" style="background-color: #212529;    min-width: 18em;">
                                                     <span class="cursor-default text-bold text-white">
                                                         ¿ Estás seguro ?
                                                          &nbsp;
@@ -256,36 +248,9 @@
                                                          &nbsp;
                                                         <a class='cursor-pointer text-white'>Cancelar</a>
                                                     </span>
-                                                    {{-- <h6 class="dropdown-header text-bold h6">¿ Estás seguro ?</h6>
-                                                    <a class="dropdown-item text-bold text-danger" wire:click="removeAccountCard({{ $index }})">Quitar</a>
-                                                    <a class="dropdown-item text-bold ">Cancelar</a> --}}
                                                 </div>
                                             </div>
-{{--
-                                                <a wire:ignore id="remove-account" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" data-bs-sanitize="false" data-bs-trigger="click"
-                                                    title="<div id='remove-bank-account-title' class='tooltip-title'>¿ Estás seguro ? <a id='remove-bank-account' class='cursor-pointer text-decoration-underline text-danger'>Quitar</a> <a id='cancel-remove-bank-account' class='cursor-pointer'>Cancelar</a></div>">
-                                                    <i class="icon-del fas fa-trash-alt text-dark cursor-pointer"></i>
-                                                </a>
 
-                                             @push('scripts')
-                                            <script >
-                                                document.getElementById('remove-account').addEventListener('click', function() {
-                                                    var removeBankAccount = document.getElementById('remove-bank-account');
-                                                    var cancel_removeBankAccount = document.getElementById('cancel-remove-bank-account');
-                                                    document.getElementById(removeBankAccount.parentNode.parentNode.parentNode.id).classList.remove("d-none");
-                                                    removeBankAccount.addEventListener('click', function() {
-                                                        Livewire.emit('removeAccountCard', {{ $index }});
-                                                        close_removeBankAccount_tooltip();
-                                                    });
-                                                    cancel_removeBankAccount.addEventListener('click', close_removeBankAccount_tooltip );
-                                                    function close_removeBankAccount_tooltip(){
-                                                        var tooltip  = removeBankAccount.parentNode.parentNode.parentNode.id;
-                                                        document.getElementById(tooltip).classList.add("d-none");
-                                                    }
-                                                });
-                                            </script>
-                                            @endpush
---}}
                                             </div>
                                         </div>
                                     </div>
