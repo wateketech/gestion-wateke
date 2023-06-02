@@ -38,7 +38,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'address' ; //'general';
+    public $currentStep = 'emails' ; //'general';
 
     protected $rules = [
 
@@ -47,16 +47,14 @@ class Create extends Component
     public $labels_type = ['Personal', 'Trabajo'];
     // GENERALS
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
-    public $id_types, $id_type;
-    public $id_value;
+    public $id_types;
     public $ids = [];
     public $id_max = 4;
     public $main_profile_pic;
     public $profile_pics = [];
 
     // EMAILS
-    public $email_types, $email_type;
-    public $email_value, $email_is_personal, $email_about;
+    public $email_types;
     public $emails = [];
     public $emails_max = 10;
 
@@ -66,8 +64,7 @@ class Create extends Component
     public $phones = [];
     public $phones_max = 8;
 
-    public $instant_message_types, $instant_message_type;
-    public $instant_message_value, $instant_message_is_personal, $instant_message_about;
+    public $instant_message_types;
     public $instant_messages = [];
     public $instant_messages_max = 8;
 
@@ -153,18 +150,9 @@ class Create extends Component
         $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
         $this->countries = Countries::all()->where('enable', true);
 
-        $this->id_type = $this->id_types->first()->id;
-        $this->email_type = $this->email_types->first()->id;
-        $this->phone_type = $this->phone_types->first()->id;
-        $this->instant_message_type = $this->instant_message_types->first()->id;
-        $this->rrss_type = $this->rrss_types->first()->id;
-        $this->web_type = $this->web_types->first()->id;
-        $this->bank_account_type = $this->bank_account_types->first()->id;
-        $this->date_type = $this->date_types->first()->id;
-        $this->publish_us_type = $this->publish_us_types->first()->id;
 
-        $this->ids[] = ['id_type' => $this->id_types[0]->id, 'id_value' => ''];
-        $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => ''];
+        $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 'true', 'about' => '',  ];
         $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
         $this->instant_messages[] = ['id_type' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
         $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
@@ -191,24 +179,23 @@ class Create extends Component
 
 // -------------------------- STEP GENERALS --------------------------
     public function addId($index){
-        // dd($this->ids[$index]['id_value']);
         $this->validate([
-            'ids.*.id_type' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
-            'ids.*.id_value' => 'required|string',
-                'ids.'.$index.'.id_value' => ['required',
-                function ($attribute, $value, $fail) {
-                        $ids = array_column($this->ids, 'id_value');
-                        if (count($ids) != count(array_unique($ids))) {
-                            $fail('Los valores no pueden repetirse');
-                        }
+            'ids.*.type_id' => [ 'required', Rule::in($this->id_types->pluck('id')->toArray()),],
+            'ids.*.value' => 'required|string',
+            'ids.'.$index.'.value' => ['required',
+            function ($attribute, $value, $fail) {
+                    $ids = array_column($this->ids, 'value');
+                    if (count($ids) != count(array_unique($ids))) {
+                        $fail('Los valores no pueden repetirse');
                     }
-                ]
+                }
+            ]
             ],[
-                'ids.*.id_type.required' => 'El campo es obligatorio',
-                'ids.*.id_value.required' => 'El campo es obligatorio',
+                'ids.*.type_id.required' => 'El campo es obligatorio',
+                'ids.*.value.required' => 'El campo es obligatorio',
             ]);
         if (count($this->ids) < $this->id_max) {
-            $this->ids[] = ['id_type' => $this->id_types->first()->id, 'id_value' => ''];
+            $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => ''];
         }
     }
     public function removeId($index){
@@ -241,21 +228,21 @@ class Create extends Component
             'second_lastname' => 'max:50',
             'about' => 'max:500',
             'profile_pics' => 'max:5120|valid_image_mime',
-            'main_profile_pic' => ['required', 'integer', 'numeric', 'min:0', 'max:' . count($this->profile_pics)],
-            'ids' => 'required|array',
-            'ids.*.id_value' => ['required', 'string',
+            // 'main_profile_pic' => ['required', 'integer', 'numeric', 'min:0', 'max:' . count($this->profile_pics)],
+            'ids' => 'required',
+            'ids.*.value' => ['required', 'string',
                 function ($attribute, $value, $fail) {
-                        $ids = array_column($this->ids, 'id_value');
+                        $ids = array_column($this->ids, 'value');
                         if (count($ids) != count(array_unique($ids))) {
                             $fail('Los valores no pueden repetirse');
                         }
                     }
                 ],
-            'ids.*.id_type' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
+            'ids.*.type_id' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
         ],[
-            '*.array' => 'Error de Servidor : El campo debe ser un array',
+            // '*.array' => 'Error de Servidor : El campo debe ser un array',
             '*.required' => 'El campo es obligatorio',
-            'ids.*.id_value.required' => 'El campo es obligatorio',
+            'ids.*.value.required' => 'El campo es obligatorio',
             '*.max' => 'El campo no puede tener más de :max caracteres',
             '*.min' => 'El campo no puede menos más de :min caracteres',
         ]);
@@ -265,10 +252,19 @@ class Create extends Component
     }
 
 // -------------------------- STEP EMAILS --------------------------
+
+    public function updatedEmailIsPrimary($index){
+        $this->emails = array_map(function ($email) {
+            $email['is_primary'] = true;
+            return $email;
+        }, $this->emails);
+
+        $this->emails[$index]['is_primary'] = 'true';
+    }
     public function addEmail($index){
         $this->validate([
             'emails.*.is_primary' => '',
-            'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
+            'emails.*.type_id' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
             'emails.*.label' => ['required', Rule::in($this->labels_type),],
             'emails.*.about' => '',
             'emails.' . $index . '.value' => ['required', 'email',
@@ -287,7 +283,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->emails) < $this->emails_max) {
-            $this->emails[] = ['id_type' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 0, 'about' => '',  ];
+            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 'false', 'about' => '',  ];
         }
     }
 
@@ -297,9 +293,9 @@ class Create extends Component
     }
     public function stepSubmit_emails(){
         $this->validate([
-            'emails' => 'required|array',
+            'emails' => 'required',
             'emails.*.is_primary' => '',
-            'emails.*.id_type' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
+            'emails.*.type_id' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
             'emails.*.label' => ['required', Rule::in($this->labels_type),],
             'emails.*.about' => '',
             'emails.*.value' => ['required', 'email',
@@ -311,7 +307,7 @@ class Create extends Component
                     }
                 ]
             ],[
-                '*.array' => 'Error de Servidor : El campo debe ser un array',
+                // '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'emails.*.*.required' => 'El campo es obligatorio',
                 'emails.*.*.email' => 'El campo debe ser un email',
@@ -965,25 +961,26 @@ class Create extends Component
 
 // -------------------------- DATOS DE PRUEBA  --------------------------
     private function datos_prueba(){
-        $this->alias = 'Al';
-        $this->name = 'Alberto';
-        $this->middle_name = 'de Jesús';
-        $this->first_lastname = 'Licea';
-        $this->second_lastname = 'Vallejo';
-        $this->about = 'Nada ';
-        $this->ids = [
-            [ 'id_type' => 1, 'value' => '00090120123'],
-            [ 'id_type' => '2', 'value' => 'A1234567'],
-            ];
-        $this->main_profile_pic = 0;
+    // GENERALS
+        // $this->alias = 'Al';
+        // $this->name = 'Alberto';
+        // $this->middle_name = 'de Jesús';
+        // $this->first_lastname = 'Licea';
+        // $this->second_lastname = 'Vallejo';
+        // $this->about = 'Nada ';
+        // $this->ids = [
+        //     [ 'type_id' => 1, 'value' => '00090120123'],
+        //     [ 'type_id' => '2', 'value' => 'A1234567'],
+        //     ];
+        // $this->main_profile_pic = 0;
         // $this->profile_pics = [];
 
     // EMAILS
-        $this->emails = [
-            [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
-            [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
-            [ 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => ''],
-            ];
+        //$this->emails = [
+        //    [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
+        //    [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
+        //    [ 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => ''],
+        //    ];
 
     // PHONE AND CHATS
         $this->phones = [

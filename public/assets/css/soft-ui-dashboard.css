@@ -22150,4 +22150,35 @@ input.is-alert {
 }
 .dropdown-toggle-no-caret:before {
   content: none !important;
+}
+
+/* Estilos para los radio buttons primario o no en formularios */
+.star-primary {
+  display: inline-block;
+  font-size: 0;
+  white-space: nowrap;
+  color: #545454;
+}
+
+.star-primary input {
+  display: none;
+}
+
+.star-primary input + label {
+  text-indent: -9999px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23545454' d='M12.3,17.7l4.3,2.5c0.7,0.4,1.6-0.1,1.5-0.9l-0.8-5.1l3.5-3.8c0.6-0.7,0.3-1.8-0.6-1.9l-5-0.8L13.2,3   c-0.3-0.7-1.4-0.7-1.7,0l-2.2,4.8l-5,0.8c-0.9,0.1-1.2,1.2-0.6,1.9l3.5,3.8l-0.8,5.1C10.7,17.6,11.6,18.1,12.3,17.7z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #545454;
+}
+
+.star-primary input:checked + label {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FF6400' d='M12.3,17.7l4.3,2.5c0.7,0.4,1.6-0.1,1.5-0.9l-0.8-5.1l3.5-3.8c0.6-0.7,0.3-1.8-0.6-1.9l-5-0.8L13.2,3   c-0.3-0.7-1.4-0.7-1.7,0l-2.2,4.8l-5,0.8c-0.9,0.1-1.2,1.2-0.6,1.9l3.5,3.8l-0.8,5.1C10.7,17.6,11.6,18.1,12.3,17.7z'%3E%3C/path%3E%3C/svg%3E");
+  color: #ff6400;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

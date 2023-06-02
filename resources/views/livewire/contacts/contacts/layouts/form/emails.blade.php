@@ -5,8 +5,23 @@
         </div>
 
         @foreach ($emails as $index => $email)
-        <div class="col-1 form-check pt-4">
-            {{-- <input class="form-check-input" type="radio" id="emails.{{$index}}.is_primary" wire:model="emails.{{ $index }}.is_primary"> --}}
+        <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary">
+            <input id="star-fav-{{ $index }}" type="radio" name="is_primary" wire:model="emails.{{ $index }}.is_primary">
+
+            {{--
+
+
+                ANALISAR COMO SE ENVIA EL TRUE Y EL FALSE DEL RADIO BUTTON
+
+                IDEAL ES UN CLICK Y PARA EL CONTROLADOR
+
+
+
+                --}}
+
+
+
+            <label for="star-fav-{{ $index }}"></label>
         </div>
         <div class="col-2 form-group pr-0">
             <label for="email_label_{{ $index }}" class="form-control-label">Tipo *</label>
@@ -21,34 +36,33 @@
         </div>
         <div class="col-2 form-group pr-0">
             <label for="email_types_{{ $index }}" class="form-control-label">Proveedor *</label>
-            <select class="@error("emails.{$index}.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                name="email_types_{{ $index }}" id="email_types_{{ $index }}" wire:model="emails.{{ $index }}.id_type">
+            <select class="@error("emails.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
+                name="email_types_{{ $index }}" id="email_types_{{ $index }}" wire:model="emails.{{ $index }}.type_id">
                 @foreach ($email_types as $type)
                     <option value="{{ $type->id }}">
                         {{ $type->label }}
                     </option>
                 @endforeach
-                <script>
+                {{-- <script>
 
-                </script>
+                </script> --}}
             </select>
-            @error("emails.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror
+            @error("emails.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
         <div class="col-5 col-md-5 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="email_value_{{ $index }}" class="form-control-label">Email *</label>
             <div class="input-group">
                 <input class="@error("emails.{$index}.value")border border-danger rounded-3 @enderror form-control"
                     type="email" name="email_value_{{ $index }}" id="email_value_{{ $index }}"
-                    wire:model.debounce.500ms="emails.{{ $index }}.value">
-                {{-- <div class="input-group-append">
-                  <span class="input-group-text">{{ $email_types->find($emails[$index]['id_type'])->value }}.com</span>
-                </div> --}}
+                    wire:model.debounce.500ms="emails.{{ $index }}.value"
+                    placeholder="@ {!! html_entity_decode($email_types->find($emails[$index]['type_id'])->value ) !!}"
+                    style=' letter-spacing: 0; word-spacing: -4px;'>
               </div>
             @error("emails.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
             {{-- @php
                 $email_value_valid = true;
                 if (strlen($emails[$index]['value']) > 0) {
-                    $value = $email_types->find($emails[$index]['id_type'])->value;
+                    $value = $email_types->find($emails[$index]['type_id'])->value;
                     $regEx = '/^[\w.-]+@' . $value . '\.[a-zA-Z]{2,}$/';
                     if (preg_match($regEx, $emails[$index]['value'])) {
                         $email_value_valid = true;
@@ -60,7 +74,7 @@
                 }
             @endphp
             @if (!$email_value_valid)
-                <sub class="text-warning">Tenga presente que el email no cumple con el formato de {{ $email_types->find($emails[$index]['id_type'])->label }}. </sub>
+                <sub class="text-warning">Tenga presente que el email no cumple con el formato de {{ $email_types->find($emails[$index]['type_id'])->label }}. </sub>
                 <script>
                     document.getElementById('email_value_{{ $index }}').classList += ' is-warning';
                 </script>
@@ -71,13 +85,13 @@
         <div class="col-2 col-md-2 mt-4">
             @if ($index === count($emails) - 1)
                 @if (count($emails) > 1)
-                    <button wire:click="removeEmail({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                    <div wire:click="removeEmail({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
                 @endif
                 @if (count($emails) < $emails_max)
-                    <button wire:click="addEmail({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></button>
+                    <div wire:click="addEmail({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
                 @endif
             @else
-                <button wire:click="removeEmail({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></button>
+                <div wire:click="removeEmail({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
             @endif
         </div>
         @endforeach
