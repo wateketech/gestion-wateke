@@ -89,11 +89,27 @@
                         {{-- -------------------------- STEP BANK ACCOUNTS -------------------------- --}}
                             <div class="row {{ $currentStep != 'bank_accounts' ? 'd-none' : '' }}" id="step-bank_accounts">
                                 <div class="position-relative">
+                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">{{-- center --}}
+                                        <div class="btn btn-primary"
+                                            wire:click="stepSubmit_bank_accounts">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </div>
+                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
+                                            wire:click="stepSubmit_bank_accounts_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_bank_accounts">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
-                                </div>
+                                </div> --}}
+
+
+
 
                                 @include("livewire.contacts.contacts.layouts.form.bank_accounts")
 
@@ -102,15 +118,15 @@
                             <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">{{-- center --}}
-                                        <button class="btn btn-primary"
+                                        <div class="btn btn-primary"
                                             wire:click="stepSubmit_ocupation">
                                             <i class="fas fa-angle-double-right"></i>
-                                        </button>
-                                        {{-- <button class="btn btn-secondary position-absolute" style="right: 65px;" --}}
-                                        <button class="btn btn-secondary position-absolute"
+                                        </div>
+                                        {{-- <div class="btn btn-secondary position-absolute" style="right: 65px;" --}}
+                                        <div class="btn btn-secondary position-absolute"
                                             wire:click="stepSubmit_ocupation_omit">
                                             <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </button>
+                                        </div>
                                     </div>
                                 </div>
 

@@ -38,7 +38,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'bank_accounts' ; //'general';
+    public $currentStep = 'address' ; //'general';
 
     protected $rules = [
 
@@ -672,6 +672,7 @@ class Create extends Component
         $this->passStep[] = 'address';
         $this->currentStep = 'bank_accounts';
         $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => 0]);
+        $this->remount_bank_accounts();
     }
 // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function remount_bank_accounts(){
@@ -724,8 +725,6 @@ class Create extends Component
         ]);
 
         // hacer en algun lado la validacion por si ya existe el banco sugerirlo
-
-        // falta otra lista para los bancos
         // array_push($this->bank_account_banks, [
         //         'name' => $this->bank_account_bank_name,
         //         'title' => $this->bank_account_bank_title,
@@ -752,9 +751,20 @@ class Create extends Component
     }
 
     public function stepSubmit_bank_accounts(){
+        $this->validate([
+            'bank_accounts' => 'required'
+        ],[
+            '*.required' => 'Necesita añadir almenos una cuenta bancaria, caso contrario omita la sección.',
+        ]);
+
 
         $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'bank_accounts';
+        $this->currentStep = 'ocupation';
+    }
+    public function stepSubmit_bank_accounts_omit(){
+        $this->bank_accounts = [];
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->currentStep = 'ocupation';
     }
 // -------------------------- STEP OCUPATION --------------------------
@@ -1002,7 +1012,17 @@ class Create extends Component
             ];
 
         // ADDRESS
-
+        $this->address = [
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => "", 'name' => "Casa", 'state_id' => "286", 'zip_code' => "70100" ],
+            ];
+        $this->address_line = [
+            [
+                [ 'address_id' => 1, 'label' => "Número", 'value' => "364"],
+                [ 'address_id' => 1, 'label' => "Calle", 'value' => "Bembeta"],
+                [ 'address_id' => 1, 'label' => "entre", 'value' => "Cielo"],
+                [ 'address_id' => 1, 'label' => "y", 'value' => "20 de Mayo"],
+            ]
+            ];
 
 
 

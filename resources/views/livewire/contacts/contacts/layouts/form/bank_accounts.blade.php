@@ -1,6 +1,6 @@
 <div class="container-fluid mt-4">
+    @error('bank_accounts') <p class="ms-auto pb-2 pt-0 mt-0 text-danger">{{ $message }}</p> @enderror
     <div class="row">
-
         <div class="col-lg-12">
             <div class="row">
 
@@ -50,6 +50,7 @@
                         </div>
                     </div>
 
+
                     <div class="col-12 d-none d-xl-flex justify-content-end mt-3 h3 px-4">
                         <button class="btn btn-success mx-1" wire:click="addAccountCard">agregar tarjeta</button>
 
@@ -86,8 +87,8 @@
                             </div>
                         </div>
                         <div class="col-3">
-                            <div class="form-group mb-2">
-                                <label for="bank_account_bank_title" class="form-control-label opacity-4">Alias del Banco</label>
+                            <div class="form-group mb-2 mt-4">
+                                {{-- <label for="bank_account_bank_title" class="form-control-label opacity-4">Alias del Banco</label> --}}
                                 <input class="@error('bank_account_bank_title')border border-danger rounded-3 @enderror form-control disabled" type="text" placeholder="EN BREVE"  style="text-align: center;"
                                     name="bank_account_bank_title" id="bank_account_bank_title" disabled>
                                     {{-- wire:model="bank_account_bank_title"> --}}
