@@ -95,6 +95,7 @@
     <!--   Plugins CSS  -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <link href="https://cdn.jsdelivr.net/npm/flag-icon-css@3.5.0/css/flag-icon.min.css" rel="stylesheet" /> --}}
+    <link rel="stylesheet" href="./assets/js/plugins/intl-tel-input/css/intlTelInput.css">
 
     @livewireStyles
     <script>

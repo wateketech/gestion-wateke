@@ -6,8 +6,8 @@
 
         @foreach ($emails as $index => $email)
         <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary">
-            <input id="star-fav-{{ $index }}" type="radio" name="is_primary" wire:click="selectEmailIsPrimary({{ $index }})" {{ $emails[$index]['is_primary'] ? 'checked' : '' }} >
-            <label for="star-fav-{{ $index }}"></label>
+            <input id="email-star-fav-{{ $index }}" type="radio" name="email-is_primary" wire:click="selectEmailIsPrimary({{ $index }})" {{ $emails[$index]['is_primary'] ? 'checked' : '' }} >
+            <label for="email-star-fav-{{ $index }}"></label>
         </div>
         <div class="col-2 form-group pr-0">
             <label for="email_label_{{ $index }}" class="form-control-label">Tipo *</label>

@@ -30,6 +30,8 @@ class Create extends Component
 {
     use WithFileUploads;
     protected $listeners = [
+        'prueba',
+        'updatePhoneNumber',
         'updateCountry', 'updateState', 'updateCity',
         'removeAccountCard',
     ];
@@ -38,13 +40,13 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'emails' ; //'general';
+    public $currentStep = 'phone_chats' ; //'general';
 
     protected $rules = [
 
     ];
 
-    public $labels_type = ['Personal', 'Trabajo'];
+    public $labels_type = ['Personal', 'Trabajo', 'Otro'];
     // GENERALS
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
     public $id_types;
@@ -59,8 +61,7 @@ class Create extends Component
     public $emails_max = 10;
 
     // PHONE AND CHATS
-    public $phone_types, $phone_type;
-    public $phone_value, $phone_is_personal, $phone_about;
+    public $phone_types;
     public $phones = [];
     public $phones_max = 8;
 
@@ -153,8 +154,8 @@ class Create extends Component
 
         $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => ''];
         $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '',  ];
-        $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => true, 'about' => '',  ];
-        $this->instant_messages[] = ['id_type' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
+        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => true, 'about' => '',  ];
+        $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '',  ];
         $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
@@ -323,10 +324,25 @@ class Create extends Component
         $this->currentStep = 'phone_chats';
     }
 // -------------------------- STEP PHONE AND CHATS --------------------------
+
+    public function updatePhoneNumber($index, $value, $value_meta)
+    {
+        $this->phones[$index]['value'] = $value;
+        $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
+    }
+
+    public function selectPhoneIsPrimary($index){
+        $this->phones = array_map(function ($phone) {
+            $phone['is_primary'] = false;
+            return $phone;
+        }, $this->phones);
+
+        $this->phones[$index]['is_primary'] = true;
+    }
     public function addPhone($index){
         $this->validate([
             'phones.*.is_primary' => '',
-            'phones.*.id_type' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.*.type_id' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
             'phones.*.about' => '',
             'phones.' . $index . '.value' => ['required',
                 function ($attribute, $value, $fail) {
@@ -343,19 +359,32 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 0, 'about' => '',  ];
+            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => false, 'about' => '',  ];
         }
+        $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
     }
     public function removePhone($index){
+        $remove_primary = false;
+        if ($this->phones[$index]['is_primary']) $remove_primary = true ;
+
         unset($this->phones[$index]);
         $this->phones = array_values($this->phones);
+        if ($remove_primary) $this->selectPhoneIsPrimary(0);
     }
 
 
+    public function selectInstantMessageIsPrimary($index){
+        $this->instant_messages = array_map(function ($instant_message) {
+            $instant_message['is_primary'] = false;
+            return $instant_message;
+        }, $this->instant_messages);
+
+        $this->instant_messages[$index]['is_primary'] = true;
+    }
     public function addInstantMessages($index){
         $this->validate([
             'instant_messages.*.is_primary' => '',
-            'instant_messages.*.id_type' => [ 'required', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
+            'instant_messages.*.type_id' => [ 'required', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
             'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
             'instant_messages.' . $index . '.value' => ['required',
@@ -363,7 +392,7 @@ class Create extends Component
                         $instantMessages = collect($this->instant_messages);
                         $duplicates = $instantMessages->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $instantMessages->pluck('id_type')->first())->count();
+                            })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las cuentas no pueden repetirse con un mismo proveedor');
@@ -377,19 +406,24 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->instant_messages) < $this->instant_messages_max) {
-            $this->instant_messages[] = ['id_type' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 0, 'about' => '',  ];
+            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',  ];
         }
     }
     public function removeInstantMessages($index){
+        $remove_primary = false;
+        if ($this->instant_messages[$index]['is_primary']) $remove_primary = true ;
+
         unset($this->instant_messages[$index]);
         $this->instant_messages = array_values($this->instant_messages);
+        if ($remove_primary) $this->selectInstantMessageIsPrimary(0);
     }
+
 
     public function stepSubmit_phone_chats(){
         $this->validate([
             'phones' => 'array',
             'phones.*.is_primary' => '',
-            'phones.*.id_type' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.*.type_id' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
             'phones.*.about' => '',
             'phones.*.value' => ['required',
                 function ($attribute, $value, $fail) {
@@ -401,7 +435,7 @@ class Create extends Component
                 ],
             'instant_messages' => 'array',
             'instant_messages.*.is_primary' => '',
-            'instant_messages.*.id_type' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
+            'instant_messages.*.type_id' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
             'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
             'instant_messages.*.value' => ['required',
@@ -409,7 +443,7 @@ class Create extends Component
                     $instantMessages = collect($this->instant_messages);
                     $duplicates = $instantMessages->filter(function ($item) use ($value) {
                             return $item['value'] == $value;
-                        })->where('id_type', $instantMessages->pluck('id_type')->first())->count();
+                        })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las cuentas no pueden repetirse con un mismo proveedor');
@@ -432,14 +466,14 @@ class Create extends Component
 // -------------------------- STEP RRSS AND WEBS --------------------------
     public function addWeb($index){
         $this->validate([
-            'webs.*.id_type' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.*.type_id' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
             'webs.*.about' => '',
             'webs.' . $index . '.value' => ['required',
                     function ($attribute, $value, $fail) {
                         $webs = collect($this->webs);
                         $duplicates = $webs->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $webs->pluck('id_type')->first())->count();
+                            })->where('type_id', $webs->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las webs no pueden repetirse con un mismo tipo');
@@ -453,7 +487,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->webs) < $this->webs_max) {
-            $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
+            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         }
     }
     public function removeWeb($index){
@@ -966,37 +1000,37 @@ class Create extends Component
 // -------------------------- DATOS DE PRUEBA  --------------------------
     private function datos_prueba(){
     // GENERALS
-        // $this->alias = 'Al';
-        // $this->name = 'Alberto';
-        // $this->middle_name = 'de Jesús';
-        // $this->first_lastname = 'Licea';
-        // $this->second_lastname = 'Vallejo';
-        // $this->about = 'Nada ';
-        // $this->ids = [
-        //     [ 'type_id' => 1, 'value' => '00090120123'],
-        //     [ 'type_id' => '2', 'value' => 'A1234567'],
-        //     ];
+        $this->alias = 'El bebe';
+        $this->name = 'Alberto';
+        $this->middle_name = 'de Jesús';
+        $this->first_lastname = 'Licea';
+        $this->second_lastname = 'Vallejo';
+        $this->about = 'Nada ';
+        $this->ids = [
+            [ 'type_id' => 1, 'value' => '00090120123'],
+            [ 'type_id' => '2', 'value' => 'A1234567'],
+            ];
         // $this->main_profile_pic = 0;
         // $this->profile_pics = [];
 
     // EMAILS
-        //$this->emails = [
-        //    [ 'id_type' => '1', 'is_primary' => 0, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
-        //    [ 'id_type' => '3', 'is_primary' => 1, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
-        //    [ 'id_type' => '2', 'is_primary' => 0, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => ''],
-        //    ];
+        $this->emails = [
+            [ 'type_id' => '1', 'is_primary' => false, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
+            [ 'type_id' => '3', 'is_primary' => true, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
+            [ 'type_id' => '2', 'is_primary' => false, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => ''],
+            ];
 
     // PHONE AND CHATS
         $this->phones = [
-            [ 'id_type' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => 0, 'about' => '' ],
-            [ 'id_type' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => 0, 'about' => '' ],
-            [ 'id_type' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => 1, 'about' => '' ],
-            [ 'id_type' => 6, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => '' ],
+            [ 'type_id' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => false, 'about' => '' ],
+            [ 'type_id' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => false, 'about' => '' ],
+            [ 'type_id' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => true, 'about' => '' ],
+            [ 'type_id' => 6, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => false, 'about' => '' ],
             ];
         $this->instant_messages = [
-            ['id_type' => 2, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 1, 'about' => ''] ,
-            ['id_type' => 1, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => 0, 'about' => ''] ,
-            ['id_type' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => 0, 'about' => ''] ,
+            ['type_id' => 2, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => true, 'about' => ''] ,
+            ['type_id' => 1, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => false, 'about' => ''] ,
+            ['type_id' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => ''] ,
             ];
 
         // RRSS AND WEBS

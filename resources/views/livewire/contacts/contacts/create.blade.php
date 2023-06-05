@@ -23,7 +23,8 @@
 
                 {{-- form --}}
                 <div class="col-lg-10 py-2">
-                    <form wire:submit.prevent="store" action="#" method="POST">
+                    <form wire:submit.prevent="store" action='#' method="POST">
+                        @csrf
                         <div class="card card-body blur shadow-blur mx-2 my-1 px-4" style="min-height: 35em;">
 
                         {{-- -------------------------- STEP GENERALS -------------------------- --}}
