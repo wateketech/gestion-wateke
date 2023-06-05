@@ -6,21 +6,7 @@
 
         @foreach ($emails as $index => $email)
         <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary">
-            <input id="star-fav-{{ $index }}" type="radio" name="is_primary" wire:model="emails.{{ $index }}.is_primary">
-
-            {{--
-
-
-                ANALISAR COMO SE ENVIA EL TRUE Y EL FALSE DEL RADIO BUTTON
-
-                IDEAL ES UN CLICK Y PARA EL CONTROLADOR
-
-
-
-                --}}
-
-
-
+            <input id="star-fav-{{ $index }}" type="radio" name="is_primary" wire:click="selectEmailIsPrimary({{ $index }})" {{ $emails[$index]['is_primary'] ? 'checked' : '' }} >
             <label for="star-fav-{{ $index }}"></label>
         </div>
         <div class="col-2 form-group pr-0">

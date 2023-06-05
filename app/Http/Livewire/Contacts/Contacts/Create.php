@@ -152,8 +152,8 @@ class Create extends Component
 
 
         $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => ''];
-        $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 'true', 'about' => '',  ];
-        $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => 1, 'about' => '',  ];
+        $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '',  ];
+        $this->phones[] = ['id_type' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => true, 'about' => '',  ];
         $this->instant_messages[] = ['id_type' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'about' => '',  ];
         $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
@@ -253,13 +253,13 @@ class Create extends Component
 
 // -------------------------- STEP EMAILS --------------------------
 
-    public function updatedEmailIsPrimary($index){
+    public function selectEmailIsPrimary($index){
         $this->emails = array_map(function ($email) {
-            $email['is_primary'] = true;
+            $email['is_primary'] = false;
             return $email;
         }, $this->emails);
 
-        $this->emails[$index]['is_primary'] = 'true';
+        $this->emails[$index]['is_primary'] = true;
     }
     public function addEmail($index){
         $this->validate([
@@ -283,13 +283,17 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->emails) < $this->emails_max) {
-            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => 'false', 'about' => '',  ];
+            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',  ];
         }
     }
 
     public function removeEmail($index){
+        $remove_primary = false;
+        if ($this->emails[$index]['is_primary']) $remove_primary = true ;
+
         unset($this->emails[$index]);
         $this->emails = array_values($this->emails);
+        if ($remove_primary) $this->selectEmailIsPrimary(0);
     }
     public function stepSubmit_emails(){
         $this->validate([
