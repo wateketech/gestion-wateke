@@ -100,9 +100,11 @@
         <div class="col-6 col-md-6 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="rrss_value_{{ $index }}" class="form-control-label">Cuenta *</label>
             <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">@</span>
                 <input class="@error("rrss.{$index}.value")border border-danger rounded-3 @enderror form-control"
                     type="text" name="rrss_value_{{ $index }}" id="rrss_value_{{ $index }}"
-                    wire:model.debounce.500ms="rrss.{{ $index }}.value">
+                    wire:model.debounce.500ms="rrss.{{ $index }}.value"
+                    style='padding-left: 40px !important;'>
                 {{-- <div class="input-group-append">
                   <span class="input-group-text">{{ $rrss_types->find($rrss[$index]['id_type'])->value }}.com</span>
                 </div> --}}

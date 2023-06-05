@@ -82,43 +82,20 @@
                         {{ $type->label }}
                     </option>
                 @endforeach
-                <script>
+                {{-- <script>
 
-                </script>
+                </script> --}}
             </select>
             @error("instant_messages.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
-        <div class="col-5 col-md-5 form-group">{{--  style="padding-right: 9.2em"> --}}
+        <div class="col-5 col-md-5 form-group">
             <label for="instant_messages_value_{{ $index }}" class="form-control-label">Mensajería *</label>
-            <div class="input-group">
-                <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control"
-                    type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
-                    wire:model.debounce.500ms="instant_messages.{{ $index }}.value">
-                {{-- <div class="input-group-append">
-                  <span class="input-group-text">{{ $instant_message_types->find($instant_messages[$index]['type_id'])->value }}.com</span>
-                </div> --}}
-              </div>
+            <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control"
+            type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
+            wire:model.debounce.500ms="instant_messages.{{ $index }}.value">
             @error("instant_messages.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            {{-- @php
-                $instant_messages_value_valid = true;
-                if (strlen($instant_messages[$index]['value']) > 0) {
-                    $value = $instant_messages_types->find($instant_messages[$index]['type_id'])->value;
-                    $regEx = '/^[\w.-]+@' . $value . '\.[a-zA-Z]{2,}$/';
-                    if (preg_match($regEx, $instant_messages[$index]['value'])) {
-                        $instant_messages_value_valid = true;
-                        break;
-                    } else {
-                        $instant_messages_value_valid = false;
-                        print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
-                    }
-                }
-            @endphp
-            @if (!$instant_messages_value_valid)
-                <sub class="text-warning">Tenga presente que el teléfono no cumple con el formato. </sub>
-                <script>
-                    document.getElementById('instant_messages_value_{{ $index }}').classList += ' is-warning';
-                </script>
-            @endif --}}
+
+            <sub class='ml-3 mt-n2'> {{ $instant_message_types[ $instant_messages[$index]['type_id']]->about ? 'Nota' : '' }} {{ $instant_message_types[ $instant_messages[$index]['type_id']]->about }} </sub>
         </div>
 
 

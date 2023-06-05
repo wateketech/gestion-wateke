@@ -1034,17 +1034,17 @@ class Create extends Component
             ];
 
         // RRSS AND WEBS
-        $this->rrss = [
-            ['id_type' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
-            ['id_type' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
-            ['id_type' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
-            ];
-
-        $this->webs = [
-            ['id_type' => 1, 'value' => 'https://albertos-blog.com',  'about' => ''],
-            ['id_type' => 2, 'value' => 'https://alberto.licea',  'about' => ''],
-            ['id_type' => 6, 'value' => 'https://wateke.travel',  'about' => ''] ,
-            ];
+        //$this->rrss = [
+        //    ['id_type' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
+        //    ['id_type' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
+        //    ['id_type' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
+        //    ];
+//
+        //$this->webs = [
+        //    ['id_type' => 1, 'value' => 'https://albertos-blog.com',  'about' => ''],
+        //    ['id_type' => 2, 'value' => 'https://alberto.licea',  'about' => ''],
+        //    ['id_type' => 6, 'value' => 'https://wateke.travel',  'about' => ''] ,
+        //    ];
 
         // ADDRESS
         $this->address = [

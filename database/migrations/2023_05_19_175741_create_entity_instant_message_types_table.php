@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('label')->unique();
             $table->string('regEx')->nullable()->unique();
+            $table->string('about')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });
