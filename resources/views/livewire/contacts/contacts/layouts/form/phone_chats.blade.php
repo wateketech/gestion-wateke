@@ -90,16 +90,17 @@
         </div>
         <div class="col-5 col-md-5 form-group">
             <label for="instant_messages_value_{{ $index }}" class="form-control-label">Usuario *</label>
-            <sub class='ml-3 mb-2'style='font-size:11px'>{{ $instant_message_types[ $instant_messages[$index]['type_id']]->about ? 'Nota' : '' }} {{ $instant_message_types->find($instant_messages[$index]['type_id'])->about }}</sub>
+            <sub class='ml-3 mb-2'style='font-size:11px'>{{ $instant_message_types->find($instant_messages[$index]['type_id'])->about ? 'NOTA : ' : '' }} {{ $instant_message_types->find($instant_messages[$index]['type_id'])->about }}</sub>
             <div class="input-group">
                 <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control"
                     type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
                     wire:model.debounce.500ms="instant_messages.{{ $index }}.value">
-                <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank"
-                    href='{{ $instant_message_types->find($instant_messages[$index]["type_id"])->url . $instant_messages[$index]["value"] }}'>
-                    {{-- {!! html_entity_decode($instant_message_types->find($instant_messages[$index]['type_id'])->icon) !!} --}}
-                    <i class="far fa-comment-dots fa-lg"></i>
-                </a>
+                @if ($instant_message_types->find($instant_messages[$index]["type_id"])->url)
+                    <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank"
+                        href='{{ $instant_message_types->find($instant_messages[$index]["type_id"])->url . $instant_messages[$index]["value"] }}'>
+                        {!! html_entity_decode($instant_message_types->find($instant_messages[$index]['type_id'])->icon) !!}
+                    </a>
+                @endif
             </div>
             @error("instant_messages.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
