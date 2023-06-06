@@ -20,9 +20,9 @@
                     <i class="fas fa-globe-africa fa-lg"></i>
                 </div>
             </div>
-            <div class="col-3 form-group pr-0">
+            <div class="col-3 form-group pr-0 pb-0">
+                <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
                 <div wire:ignore>
-                    <label for="countries_{{ $index_add }}" class="form-control-label">Pais *</label>
                     <select class="Select--2 form-control" name="countries_{{ $index_add }}" id="countries_{{ $index_add }}"
                     onchange="livewire.emit('updateCountry', {{ $index_add }},this.value);">
                         <option></option>

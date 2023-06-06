@@ -22101,6 +22101,10 @@ input.is-alert {
   font-size: 12px;
 }
 
+span.select2.select2-container.select2-container--default.select2-container--below {
+  width: 100% !important;
+}
+
 .select2-container--default .select2-results__option--selected {
   background-color: #ddd;
   font-weight: bold;
