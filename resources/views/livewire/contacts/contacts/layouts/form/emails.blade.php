@@ -43,7 +43,10 @@
                     wire:model.debounce.500ms="emails.{{ $index }}.value"
                     placeholder="@ {!! html_entity_decode($email_types->find($emails[$index]['type_id'])->value ) !!}"
                     style=' letter-spacing: 0; word-spacing: -4px;'>
-              </div>
+                <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank" href='mailto:{{ $emails[$index]["value"] }}'>
+                    <i class="fas fa-paper-plane"></i>
+                </a>
+            </div>
             @error("emails.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
 

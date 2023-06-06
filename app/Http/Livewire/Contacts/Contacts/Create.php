@@ -40,7 +40,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'rrss_web' ; //'general';
+    public $currentStep = 'phone_chats' ; //'general';
 
     protected $rules = [
 
@@ -152,7 +152,7 @@ class Create extends Component
 
         $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => ''];
         $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '',  ];
-        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => true, 'about' => '',  ];
+        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',  ];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '',  ];
         $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
@@ -356,7 +356,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => false, 'about' => '',  ];
+            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => false, 'about' => '',  ];
         }
         $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
     }
@@ -1036,15 +1036,15 @@ class Create extends Component
             ];
 
     // PHONE AND CHATS
-        $this->phones = [
-            [ 'type_id' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => false, 'about' => '' ],
-            [ 'type_id' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => false, 'about' => '' ],
-            [ 'type_id' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => true, 'about' => '' ],
-            [ 'type_id' => 6, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => false, 'about' => '' ],
-            ];
+        //$this->phones = [
+        //    [ 'type_id' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => false, 'about' => '' ],
+        //    [ 'type_id' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => false, 'about' => '' ],
+        //    [ 'type_id' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => true, 'about' => '' ],
+        //    [ 'type_id' => 6, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => false, 'about' => '' ],
+        //    ];
         $this->instant_messages = [
-            ['type_id' => 2, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => true, 'about' => ''] ,
-            ['type_id' => 1, 'label' => 'Personal', 'value' => '+53 54771264', 'is_primary' => false, 'about' => ''] ,
+            ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => ''] ,
+            ['type_id' => 1, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => false, 'about' => ''] ,
             ['type_id' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => ''] ,
             ];
 

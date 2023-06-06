@@ -26,11 +26,14 @@
         </div>
         <div class="col-7 col-md-7 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="phone_value_{{ $index }}" class="form-control-label">Teléfono *</label>
-            <div class="input-group" wire:ignore >
+            <div class="input-group intl-tel" wire:ignore>
                 <input class="form-control @error("phones.{$index}.value")border border-danger rounded-3 @enderror"
                     type="tel" name="phone_value_{{ $index }}" id="intl-tel-input-{{ $index }}"
                     data-index={{ $index }}>
-              </div>
+                <a id="phone_call-test-{{$index}}" class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank" href='tel:'>
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
             <sub wire:ignore id='phone_value_warning-{{$index}}' class="text-warning" hidden>El número no cumple con el formato.</sub>
             @error("phones.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
@@ -82,20 +85,23 @@
                         {{ $type->label }}
                     </option>
                 @endforeach
-                {{-- <script>
-
-                </script> --}}
             </select>
             @error("instant_messages.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
         <div class="col-5 col-md-5 form-group">
-            <label for="instant_messages_value_{{ $index }}" class="form-control-label">Mensajería *</label>
-            <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control"
-            type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
-            wire:model.debounce.500ms="instant_messages.{{ $index }}.value">
+            <label for="instant_messages_value_{{ $index }}" class="form-control-label">Usuario *</label>
+            <sub class='ml-3 mb-2'style='font-size:11px'>{{ $instant_message_types[ $instant_messages[$index]['type_id']]->about ? 'Nota' : '' }} {{ $instant_message_types->find($instant_messages[$index]['type_id'])->about }}</sub>
+            <div class="input-group">
+                <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control"
+                    type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
+                    wire:model.debounce.500ms="instant_messages.{{ $index }}.value">
+                <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank"
+                    href='{{ $instant_message_types->find($instant_messages[$index]["type_id"])->url . $instant_messages[$index]["value"] }}'>
+                    {{-- {!! html_entity_decode($instant_message_types->find($instant_messages[$index]['type_id'])->icon) !!} --}}
+                    <i class="far fa-comment-dots fa-lg"></i>
+                </a>
+            </div>
             @error("instant_messages.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-
-            <sub class='ml-3 mt-n2'> {{ $instant_message_types[ $instant_messages[$index]['type_id']]->about ? 'Nota' : '' }} {{ $instant_message_types[ $instant_messages[$index]['type_id']]->about }} </sub>
         </div>
 
 
@@ -139,7 +145,6 @@
                 warningMessage.hidden = false;
             }
 
-
             let cleanNumber = iti.getNumber().replace(/\D/g, '');
             let countryCode = iti.getSelectedCountryData().dialCode;
             cleanNumber = cleanNumber.replace(countryCode, '');
@@ -159,6 +164,8 @@
                 obj[key] = (typeof value_meta[key] === "undefined") ? null : value_meta[key];
                 return obj;
             }, {});
+
+            document.getElementById('phone_call-test-' + index).href = 'tel:' + value_meta['call_number']
 
             livewire.emit('updatePhoneNumber', index , tel.value, value_meta );
         });
