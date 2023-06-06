@@ -45,26 +45,6 @@
                     style=' letter-spacing: 0; word-spacing: -4px;'>
               </div>
             @error("emails.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            {{-- @php
-                $email_value_valid = true;
-                if (strlen($emails[$index]['value']) > 0) {
-                    $value = $email_types->find($emails[$index]['type_id'])->value;
-                    $regEx = '/^[\w.-]+@' . $value . '\.[a-zA-Z]{2,}$/';
-                    if (preg_match($regEx, $emails[$index]['value'])) {
-                        $email_value_valid = true;
-                        break;
-                    } else {
-                        $email_value_valid = false;
-                        print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
-                    }
-                }
-            @endphp
-            @if (!$email_value_valid)
-                <sub class="text-warning">Tenga presente que el email no cumple con el formato de {{ $email_types->find($emails[$index]['type_id'])->label }}. </sub>
-                <script>
-                    document.getElementById('email_value_{{ $index }}').classList += ' is-warning';
-                </script>
-            @endif --}}
         </div>
 
 

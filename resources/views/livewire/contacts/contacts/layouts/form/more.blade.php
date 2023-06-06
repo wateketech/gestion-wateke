@@ -7,8 +7,8 @@
         @forelse ($dates as $index => $date)
         <div class="col-2 form-group pr-0">
             <label for="date_types_{{ $index }}" class="form-control-label">Tipo *</label>
-            <select class="@error("dates.{$index}.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                name="date_types_{{ $index }}" id="date_types_{{ $index }}" wire:model="dates.{{ $index }}.id_type">
+            <select class="@error("dates.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
+                name="date_types_{{ $index }}" id="date_types_{{ $index }}" wire:model="dates.{{ $index }}.type_id">
                 @foreach ($date_types as $type)
                     <option value="{{ $type->id }}">
                         {{ $type->label }}
@@ -18,7 +18,7 @@
 
                 </script>
             </select>
-            @error("dates.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror
+            @error("dates.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
         <div class="col-7 col-md-7 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="dates_value_{{ $index }}" class="form-control-label">Enlace *</label>
@@ -62,8 +62,8 @@
         @forelse ($publish_us as $index => $date)
         <div class="col-2 form-group pr-0">
             <label for="publish_us_types_{{ $index }}" class="form-control-label">Tipo *</label>
-            <select class="@error("publish_us.{$index}.id_type")border border-danger rounded-3 is-invalid @enderror form-control"
-                name="publish_us_types_{{ $index }}" id="publish_us_types_{{ $index }}" wire:model="publish_us.{{ $index }}.id_type">
+            <select class="@error("publish_us.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
+                name="publish_us_types_{{ $index }}" id="publish_us_types_{{ $index }}" wire:model="publish_us.{{ $index }}.type_id">
                 @foreach ($publish_us_types as $type)
                     <option value="{{ $type->id }}">
                         {{ $type->label }}
@@ -73,7 +73,7 @@
 
                 </script>
             </select>
-            @error("publish_us.{$index}.id_type") <sub class="text-danger">{{ $message }}</sub> @enderror
+            @error("publish_us.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
         <div class="col-7 col-md-7 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="publish_us_value_{{ $index }}" class="form-control-label">Enlace *</label>
