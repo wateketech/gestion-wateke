@@ -40,7 +40,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'bank_accounts' ; //'general';
+    public $currentStep = 'phone_chats' ; //'general';
 
     protected $rules = [
 
@@ -252,6 +252,9 @@ class Create extends Component
 
 // -------------------------- STEP EMAILS --------------------------
 
+    public function existEmail($index){
+        // NO DISPONIBLE POR EL MOMENTO
+    }
     public function selectEmailIsPrimary($index){
         $this->emails = array_map(function ($email) {
             $email['is_primary'] = false;
@@ -323,6 +326,9 @@ class Create extends Component
     }
 // -------------------------- STEP PHONE AND CHATS --------------------------
 
+    public function existPhoneNumber($index){
+        // NO DISPONIBLE POR EL MOMENTO
+    }
     public function updatePhoneNumber($index, $value, $value_meta){
         $this->phones[$index]['value'] = $value;
         $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
@@ -370,6 +376,9 @@ class Create extends Component
     }
 
 
+    public function existInstantMessage($index){
+        // NO DISPONIBLE POR EL MOMENTO
+    }
     public function selectInstantMessageIsPrimary($index){
         $this->instant_messages = array_map(function ($instant_message) {
             $instant_message['is_primary'] = false;
@@ -462,6 +471,10 @@ class Create extends Component
         $this->currentStep = 'rrss_web';
     }
 // -------------------------- STEP RRSS AND WEBS --------------------------
+
+    public function existWeb($index){
+        // NO DISPONIBLE POR EL MOMENTO
+    }
     public function updateWebValue($index, $value){
         if (substr($value, 0, 2) === "//") $value = substr($value, 2);
         else if (substr($value, 0, 3) === "://") $value = substr($value, 3);
@@ -504,6 +517,10 @@ class Create extends Component
         $this->webs = array_values($this->webs);
     }
 
+
+    public function existRrss($index){
+        // NO DISPONIBLE POR EL MOMENTO
+    }
     public function updateRrssValue($index, $value, $value_meta){
         // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)
     }
@@ -628,8 +645,13 @@ class Create extends Component
     }
     public function geolocation($index){
         // procesar con API de GOOGLE
+            // if (ya existe una geolocation){
+            //      mostrar en la ubicacion  
+            // } else{
+            //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
+            // }
     }
-
+    
     public function updateCountry($index_add ,$value){
         $this->address[$index_add]['country_id'] = $value;
         $this->address[$index_add]['state_id'] = null;
@@ -870,6 +892,10 @@ class Create extends Component
         $this->dates = array_values($this->dates);
     }
 
+    
+    public function existPublisUs($index){
+        // NO DISPONIBLE POR EL MOMENTO
+    }
     public function addPublishUs($index){
         if (count($this->publish_us) >= 1 ) {
         $this->validate([
