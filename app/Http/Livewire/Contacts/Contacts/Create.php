@@ -40,7 +40,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'phone_chats' ; //'general';
+    public $currentStep = 'bank_accounts' ; //'general';
 
     protected $rules = [
 
@@ -451,6 +451,7 @@ class Create extends Component
                 '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'instant_messages.*.*.required' => 'El campo es obligatorio',
+                'phones.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
@@ -504,8 +505,7 @@ class Create extends Component
     }
 
     public function updateRrssValue($index, $value, $value_meta){
-        $this->phones[$index]['value'] = $value;
-        $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
+        // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)
     }
     public function selectRrssIsPrimary($index){
         // NO DISPONIBLE PARA CONTACTOS
