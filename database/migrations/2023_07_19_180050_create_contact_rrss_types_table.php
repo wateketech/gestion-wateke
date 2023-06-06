@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('label')->unique();
             $table->string('icon')->nullable();
             $table->string('color')->nullable();
+            $table->string('url')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });
