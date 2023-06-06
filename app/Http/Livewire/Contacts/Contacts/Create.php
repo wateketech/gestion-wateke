@@ -31,7 +31,7 @@ class Create extends Component
     use WithFileUploads;
     protected $listeners = [
         'prueba',
-        'updatePhoneNumber',
+        'updatePhoneNumber', 'updateWebValue', 'updateRrssValue',
         'updateCountry', 'updateState', 'updateCity',
         'removeAccountCard',
     ];
@@ -40,7 +40,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'phone_chats' ; //'general';
+    public $currentStep = 'rrss_web' ; //'general';
 
     protected $rules = [
 
@@ -71,13 +71,11 @@ class Create extends Component
 
 
     // RRSS AND WEBS
-    public $rrss_types, $rrss_type;
-    public $rrss_value, $rrss_is_personal, $rrss_about;
+    public $rrss_types;
     public $rrss = [];
     public $rrss_max = 8;
 
-    public $web_types, $web_type;
-    public $web_value, $web_is_personal, $web_about;
+    public $web_types;
     public $webs = [];
     public $webs_max = 8;
 
@@ -156,8 +154,8 @@ class Create extends Component
         $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '',  ];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '', 'value' => '', 'is_primary' => true, 'about' => '',  ];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '',  ];
-        $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
-        $this->webs[] = ['id_type' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
+        $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
+        $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
         $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
@@ -325,8 +323,7 @@ class Create extends Component
     }
 // -------------------------- STEP PHONE AND CHATS --------------------------
 
-    public function updatePhoneNumber($index, $value, $value_meta)
-    {
+    public function updatePhoneNumber($index, $value, $value_meta){
         $this->phones[$index]['value'] = $value;
         $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
     }
@@ -464,6 +461,17 @@ class Create extends Component
         $this->currentStep = 'rrss_web';
     }
 // -------------------------- STEP RRSS AND WEBS --------------------------
+    public function updateWebValue($index, $value){
+        if (substr($value, 0, 2) === "//") $value = substr($value, 2);
+        else if (substr($value, 0, 3) === "://") $value = substr($value, 3);
+        else if (substr($value, 0, 7) === "http://") $value = substr($value, 7);
+        else if (substr($value, 0, 8) === "https://") $value = substr($value, 8);
+
+        $this->webs[$index]['value'] = $value;
+    }
+    public function selectWebIsPrimary($index){
+        // NO DISPONIBLE PARA CONTACTOS
+    }
     public function addWeb($index){
         $this->validate([
             'webs.*.type_id' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
@@ -495,16 +503,23 @@ class Create extends Component
         $this->webs = array_values($this->webs);
     }
 
+    public function updateRrssValue($index, $value, $value_meta){
+        $this->phones[$index]['value'] = $value;
+        $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
+    }
+    public function selectRrssIsPrimary($index){
+        // NO DISPONIBLE PARA CONTACTOS
+    }
     public function addRrss($index){
         $this->validate([
-            'rrss.*.id_type' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.*.type_id' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
             'rrss.*.about' => '',
             'rrss.' . $index . '.value' => ['required',
                     function ($attribute, $value, $fail) {
                         $rrss = collect($this->rrss);
                         $duplicates = $rrss->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $rrss->pluck('id_type')->first())->count();
+                            })->where('type_id', $rrss->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las redes sociales no pueden repetirse con un mismo tipo');
@@ -518,7 +533,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->rrss) < $this->rrss_max) {
-            $this->rrss[] = ['id_type' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
+            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
         }
     }
     public function removeRrss($index){
@@ -529,14 +544,14 @@ class Create extends Component
     public function stepSubmit_rrss_web(){
         $this->validate([
             'webs' => 'array',
-            'webs.*.id_type' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.*.type_id' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
             'webs.*.about' => '',
             'webs.*.value' => ['required',
                     function ($attribute, $value, $fail) {
                         $webs = collect($this->webs);
                         $duplicates = $webs->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $webs->pluck('id_type')->first())->count();
+                            })->where('id_type', $webs->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las webs no pueden repetirse con un mismo tipo');
@@ -544,14 +559,14 @@ class Create extends Component
                     }
                 ],
             'rrss' => 'array',
-            'rrss.*.id_type' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.*.type_id' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
             'rrss.*.about' => '',
             'rrss.*.value' => ['required',
                     function ($attribute, $value, $fail) {
                         $rrss = collect($this->rrss);
                         $duplicates = $rrss->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $rrss->pluck('id_type')->first())->count();
+                            })->where('type_id', $rrss->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las redes sociales no pueden repetirse con un mismo tipo');
@@ -819,20 +834,20 @@ class Create extends Component
                 // 'before_or_equal:' . Carbon::now()->subYears(1)->format('Y-m-d'),
                 // 'after_or_equal:' . Carbon::now()->subYears(118)->format('Y-m-d'),
             ],
-            'dates.' . $index . '.id_type' => [ 'required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+            'dates.' . $index . '.type_id' => [ 'required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
                     function ($attribute, $value, $fail) {
-                        // Obtener los valores de id_type de todos los elementos de dates
-                        $id_types = array_column($this->dates, 'id_type');
+                        // Obtener los valores de type_id de todos los elementos de dates
+                        $types_id = array_column($this->dates, 'type_id');
 
                         // Obtener el índice del elemento actual que se está validando
                         $index = str_replace('dates.', '', $attribute);
-                        $index = str_replace('.id_type', '', $index);
+                        $index = str_replace('.type_id', '', $index);
 
-                        // Eliminar el elemento actual de la matriz de id_type
-                        unset($id_types[$index]);
+                        // Eliminar el elemento actual de la matriz de type_id
+                        unset($types_id[$index]);
 
-                        // Verificar si el valor de id_type se repite en la matriz de id_type restante
-                        if (in_array($value, $id_types)) {
+                        // Verificar si el valor de type_id se repite en la matriz de type_id restante
+                        if (in_array($value, $types_id)) {
                             $fail('El motivo de la fecha no puede repetirse.');
                         }
                     }
@@ -846,7 +861,7 @@ class Create extends Component
             ]);
         }
         if (count($this->dates) < $this->dates_max) {
-            $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', ];
+            $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', ];
         }
     }
 
@@ -858,13 +873,13 @@ class Create extends Component
     public function addPublishUs($index){
         if (count($this->publish_us) >= 1 ) {
         $this->validate([
-            'publish_us.' . $index . '.id_type' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
+            'publish_us.' . $index . '.type_id' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
             'publish_us.' . $index . '.value' => [ 'required', 'url',
                     function ($attribute, $value, $fail) {
                         $url = collect($this->publish_us);
                         $duplicates = $url->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $url->pluck('id_type')->first())->count();
+                            })->where('id_type', $url->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las url no pueden repetirse con un mismo tipo');
@@ -878,7 +893,7 @@ class Create extends Component
             ]);
         }
         if (count($this->publish_us) < $this->publish_us_max) {
-            $this->publish_us[] = ['id_type' => $this->publish_us_types[0]->id, 'value' => '', ];
+            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '', ];
         }
     }
 
@@ -895,25 +910,25 @@ class Create extends Component
                 // 'before_or_equal:' . Carbon::now()->subYears(1)->format('d-m-Y'),
                 // 'after_or_equal:' . Carbon::now()->subYears(118)->format('d-m-Y'),
                 ],
-            'dates.*.id_type' => [ 'required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+            'dates.*.type_id' => [ 'required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
                     function ($attribute, $value, $fail) {
-                        $id_types = array_column($this->dates, 'id_type');
+                        $types_id = array_column($this->dates, 'type_id');
                         $index = str_replace('dates.', '', $attribute);
-                        $index = str_replace('.id_type', '', $index);
-                        unset($id_types[$index]);
-                        if (in_array($value, $id_types)) {
+                        $index = str_replace('.type_id', '', $index);
+                        unset($types_id[$index]);
+                        if (in_array($value, $types_id)) {
                             $fail('El motivo de la fecha no puede repetirse.');
                         }
                     }
                 ],
             'publish_us' => 'array',
-            'publish_us.*.id_type' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
+            'publish_us.*.type_id' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
             'publish_us.*.value' => [ 'required', 'url',
                     function ($attribute, $value, $fail) {
                         $url = collect($this->publish_us);
                         $duplicates = $url->filter(function ($item) use ($value) {
                                 return $item['value'] == $value;
-                            })->where('id_type', $url->pluck('id_type')->first())->count();
+                            })->where('type_id', $url->pluck('type_id')->first())->count();
 
                             if ($duplicates > 1) {
                             $fail('Las url no pueden repetirse con un mismo tipo');
@@ -1034,17 +1049,17 @@ class Create extends Component
             ];
 
         // RRSS AND WEBS
-        //$this->rrss = [
-        //    ['id_type' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
-        //    ['id_type' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
-        //    ['id_type' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
-        //    ];
-//
-        //$this->webs = [
-        //    ['id_type' => 1, 'value' => 'https://albertos-blog.com',  'about' => ''],
-        //    ['id_type' => 2, 'value' => 'https://alberto.licea',  'about' => ''],
-        //    ['id_type' => 6, 'value' => 'https://wateke.travel',  'about' => ''] ,
-        //    ];
+        $this->webs = [
+            ['type_id' => 1, 'value' => 'albertos-blog.com',  'about' => ''],
+            ['type_id' => 2, 'value' => 'alberto.licea',  'about' => ''],
+            ['type_id' => 6, 'value' => 'wateke.travel',  'about' => ''] ,
+            ];
+        $this->rrss = [
+            ['type_id' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
+            ['type_id' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
+            ['type_id' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
+            ];
+
 
         // ADDRESS
         $this->address = [
@@ -1085,14 +1100,13 @@ class Create extends Component
 
         // MORE
         $this->dates = [
-            [ 'id_type' => '1', 'value' => '2000-05-16'],
-            [ 'id_type' => '2', 'value' => '2011-04-25'],
+            [ 'type_id' => '1', 'value' => '2000-05-16'],
+            [ 'type_id' => '2', 'value' => '2011-04-25'],
             ];
-
         $this->publish_us = [
-            [ 'id_type' => '1', 'label' => 'Personal',  'value' => 'http://albertosblog.com'],
-            [ 'id_type' => '3', 'label' => 'Personal',  'value' => 'http://tut12app.com'],
-            [ 'id_type' => '2', 'label' => 'Trabajo',  'value' => 'http:://albertolicea00.com'],
+            [ 'type_id' => '1', 'label' => 'Personal',  'value' => 'http://albertosblog.com'],
+            [ 'type_id' => '3', 'label' => 'Personal',  'value' => 'http://tut12app.com'],
+            [ 'type_id' => '2', 'label' => 'Trabajo',  'value' => 'http://albertolicea00.com'],
             ];
 
 
