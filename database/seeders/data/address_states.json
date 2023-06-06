@@ -9736,7 +9736,7 @@
     },
     {
         "id": 283,
-        "name": "Artemisa Province",
+        "name": "Artemisa",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9747,7 +9747,7 @@
     },
     {
         "id": 286,
-        "name": "Camagüey Province",
+        "name": "Camagüey",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9758,7 +9758,7 @@
     },
     {
         "id": 282,
-        "name": "Ciego de Ávila Province",
+        "name": "Ciego de Ávila",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9769,7 +9769,7 @@
     },
     {
         "id": 287,
-        "name": "Cienfuegos Province",
+        "name": "Cienfuegos",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9780,7 +9780,7 @@
     },
     {
         "id": 275,
-        "name": "Granma Province",
+        "name": "Granma",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9791,7 +9791,7 @@
     },
     {
         "id": 285,
-        "name": "Guantánamo Province",
+        "name": "Guantánamo",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9802,7 +9802,7 @@
     },
     {
         "id": 272,
-        "name": "Havana Province",
+        "name": "Habana",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9813,7 +9813,7 @@
     },
     {
         "id": 279,
-        "name": "Holguín Province",
+        "name": "Holguín",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9835,7 +9835,7 @@
     },
     {
         "id": 281,
-        "name": "Las Tunas Province",
+        "name": "Las Tunas",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9846,7 +9846,7 @@
     },
     {
         "id": 284,
-        "name": "Matanzas Province",
+        "name": "Matanzas",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9857,7 +9857,7 @@
     },
     {
         "id": 276,
-        "name": "Mayabeque Province",
+        "name": "Mayabeque",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9868,7 +9868,7 @@
     },
     {
         "id": 277,
-        "name": "Pinar del Río Province",
+        "name": "Pinar del Río",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9879,7 +9879,7 @@
     },
     {
         "id": 274,
-        "name": "Sancti Spíritus Province",
+        "name": "Sancti Spíritus",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9890,7 +9890,7 @@
     },
     {
         "id": 273,
-        "name": "Santiago de Cuba Province",
+        "name": "Santiago de Cuba",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
@@ -9901,7 +9901,7 @@
     },
     {
         "id": 280,
-        "name": "Villa Clara Province",
+        "name": "Villa Clara",
         "country_id": 56,
         "country_code": "CU",
         "country_name": "Cuba",
