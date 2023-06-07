@@ -30,6 +30,7 @@ class Create extends Component
 {
     use WithFileUploads;
     protected $listeners = [
+        'existEmail', 'existPhoneNumber', 'existInstantMessage', 'existWeb', 'existRrss', 'existPublisUs',
         'prueba',
         'updatePhoneNumber', 'updateWebValue', 'updateRrssValue',
         'updateCountry', 'updateState', 'updateCity',
@@ -40,7 +41,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'phone_chats' ; //'general';
+    public $currentStep = 'bank_accounts' ; //'general';
 
     protected $rules = [
 
