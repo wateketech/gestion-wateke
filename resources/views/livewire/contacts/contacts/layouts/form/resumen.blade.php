@@ -3,10 +3,11 @@
         <div class="d-flex px-1 py-2 justify-content-between">
             <div class="d-flex">
                 <div>
-                    <img src="../assets/img/team-2.jpg" class="avatar avatar-xxl me-3">
+                    <img id='profile_pics' class="avatar avatar-xxl me-3" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : 'https://via.placeholder.com/300x300/f2f2f2/161616?text=Foto+Perfil' }}" alt="Imagen de Perfil">
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-xl h5">{{$name . ' ' . $middle_name . ' ' . $first_lastname . ' ' . $second_lastname}}</h6>
+                    {{ $alias ? '(' . $alias . ')': '' }}
                     <p class="text-md text-secondary pb-2 mb-0">
                         @php
                             $primary_emails = array_column(array_filter($this->emails, function($email) {
@@ -46,8 +47,8 @@
             <div class="col-5 pb-4 pl-11 text-start">
                 @forelse ($rrss as $index => $rs)
                     <a href="/{{ $rs['value'] }}" target="_blank" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color: {{ $rrss_types->find($rs['id_type'])->color }}">
-                        {!! html_entity_decode($rrss_types->find($rs['id_type'])->icon) !!}
+                        style="background-color: {{ $rrss_types->find($rs['type_id'])->color }}">
+                        {!! html_entity_decode($rrss_types->find($rs['type_id'])->icon) !!}
                     </a>
                 @empty
                     Este contacto no tienen redes sociales
@@ -56,25 +57,16 @@
             <div class="col-7 pb-4 px-4 text-end">
                 @forelse ($dates as $index => $date)
                     <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                        style="background-color: {{ $date_types->find($date['id_type'])->color }}; color:white; cursor:pointer; position:relative;"
-                            onmouseover="this.innerHTML='{!! htmlspecialchars($date_types->find($date['id_type'])->icon, ENT_QUOTES) !!}&nbsp;{{ $date_types->find($date['id_type'])->label }}';"
-                            onmouseout="this.innerHTML='{!! htmlspecialchars($date_types->find($date['id_type'])->icon, ENT_QUOTES) !!}&nbsp;{{ $date['value'] }}';">
-                        {!! html_entity_decode($date_types->find($date['id_type'])->icon) !!}&nbsp;{{ $date['value'] }}
+                        style="background-color: {{ $date_types->find($date['type_id'])->color }}; color:white; cursor:pointer; position:relative;"
+                            onmouseover="this.innerHTML='{!! htmlspecialchars($date_types->find($date['type_id'])->icon, ENT_QUOTES) !!}&nbsp;{{ $date_types->find($date['type_id'])->label }}';"
+                            onmouseout="this.innerHTML='{!! htmlspecialchars($date_types->find($date['type_id'])->icon, ENT_QUOTES) !!}&nbsp;{{ $date['value'] }}';">
+                        {!! html_entity_decode($date_types->find($date['type_id'])->icon) !!}&nbsp;{{ $date['value'] }}
                     </a>
                 @empty
 
                 @endforelse
             </div>
         </div>
-
-
-
-
-
-
-            {{-- pa las direcciones: --}}
-            {{-- <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> --}}
-
 
 
 
@@ -85,27 +77,55 @@
             <div class="col-md-4 mb-md-0 mb-4">
                 <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
                     @foreach ($ids as $id)
-                        <p class="p-0 m-0">{!! html_entity_decode($id_types->find($id['id_type'])->icon) !!} {{ $id['value'] }}</p>
+                        <p class="p-0 m-0">{!! html_entity_decode($id_types->find($id['type_id'])->icon) !!} {{ $id['value'] }}</p>
                     @endforeach
                     <p class="pt-3 p-0 m-0">{{ count($publish_us) == 0 ? 'NO nos publica' : '' }}</p>
 
-                    <strong>Notas: </strong>
-                        <i class="fas fa-people-arrows pl-5"></i>
-                        <i class="fas fa-briefcase px-2"></i>
+                    <strong class='pr-3'>Notas: </strong>
+                    <small>{{ (isset($about) && strlen($about)!=0) ? '' : 'No dispone' }}</small>{{-- agregar tambien condicion para el about laboral --}}
+                    @if (isset($about) && strlen($about)!=0)
+                        <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-people-arrows px-0"></i>
+                        </div>
+                        <div class="dropdown-menu about">
+                            {{ $about}}
+                        </div>
+                    @endif
+                    {{-- @if ()
+                        <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-briefcase px-0"></i>
+                        </div>
+                        <div class="dropdown-menu about">
+
+                        </div>
+                    @endif --}}
+
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
-                    <strong class="">Dirección: </strong>
-                    <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Casa"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
-                    <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Trabajo"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
-
-                    {{-- <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
-                    <h6 class="mb-0">
-                        ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
-                    </h6>
-                    <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer"
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i> --}}
+                    @forelse ($address as $index_add => $add)
+                        <strong class="">Dirección {{ $add['name'] }}:</strong>
+                            <p class="card-text fs-6 {{ ($add['geolocation'] || strlen($add['geolocation'])!=0) ? 'cursor-pointer' : '' }}">
+                                <i class="fas fa-map-marker-alt pl-3 pr-1 {{ ($add['geolocation'] || strlen($add['geolocation'])!=0 ) ? 'text-primary' : '' }}"></i>
+                                    @php $localidad = null; @endphp
+                                @foreach ($address_line[$index_add] as $index_l => $line)
+                                    @if ($line['label'] != 'Localidad')
+                                        {{ ($line['label']=='Número' ) || ($line['label']=='Calle' ) ? '' : $line['label'] }}
+                                        {{ $line['value'] }}
+                                    @else
+                                        @php $localidad = $line['value']; @endphp
+                                    @endif
+                                @endforeach
+                                    {{ $localidad ? ', ' . $localidad : '' }},
+                                    {{ $countries->find($add['country_id'])->states->find($add['state_id'])->name }},
+                                    {{ $countries->find($add['country_id'])->cities->find($add['city_id'])->name }},
+                                    {{-- , {{ $countries->find($add['country_id'])->name }} --}}
+                                    {{ $countries->find($add['country_id'])->name }} <span class="emoji">{{ $countries->find($add['country_id'])->emoji }}</span>
+                            </p>
+                    @empty
+                        No dispone
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -137,10 +157,10 @@
                                             <td>
                                                 <div class="d-flex px-0 py-1">
                                                     <div class="d-flex flex-column justify-content-center pl-3 {{ $phone['is_primary'] == true ? 'text-primary' : '' }}">
-                                                        {!!  html_entity_decode($phone_types->find($phone['id_type'])->icon) !!}
+                                                        {!!  html_entity_decode($phone_types->find($phone['type_id'])->icon) !!}
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">{{ $phone_types->find($phone['id_type'])->label }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $phone_types->find($phone['type_id'])->label }}</h6>
                                                         <p class="text-xs text-secondary mb-0">España</p>
                                                     </div>
                                                 </div>
@@ -153,9 +173,14 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                {{-- <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                     Quitar
-                                                </a>
+                                                </a> --}}
+                                                @if (isset(json_decode($phone['value_meta'])->is_valid))
+                                                    {!! json_decode($phone['value_meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                @else
+                                                    <i class="fas fa-question"></i>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
@@ -198,7 +223,7 @@
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
                                                         <h6 class="mb-0 text-sm">{{ $instant_message['label'] }}</h6>
-                                                        <p class="text-xs text-secondary mb-0">{{ $instant_message_types->find($instant_message['id_type'])->label }}</p>
+                                                        <p class="text-xs text-secondary mb-0">{{ $instant_message_types->find($instant_message['type_id'])->label }}</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -210,9 +235,14 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                {{-- <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                     Quitar
-                                                </a>
+                                                </a> --}}
+                                                @if (isset(json_decode($instant_message['meta'])->is_valid))
+                                                    {!! json_decode($instant_message['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                @else
+                                                    <i class="fas fa-question"></i>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -255,7 +285,7 @@
                                                         </div>
                                                         <div class="d-flex flex-column justify-content-center pl-3">
                                                             <h6 class="mb-0 text-sm">{{ $email['label'] }}</h6>
-                                                            <p class="text-xs text-secondary mb-0">{{ $email_types->find($email['id_type'])->label }}</p>
+                                                            <p class="text-xs text-secondary mb-0">{{ $email_types->find($email['type_id'])->label }}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -267,9 +297,14 @@
                                                     </div>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    {{-- <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                         Quitar
-                                                    </a>
+                                                    </a> --}}
+                                                    {{-- @if (isset(json_decode($email['meta'])->is_valid))
+                                                        {!! json_decode($email['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                    @else
+                                                        <i class="fas fa-question"></i>
+                                                    @endif --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -281,7 +316,7 @@
                 </div>
             @endif
 
-            @if (count($webs) != 0)
+            @if (count($bank_accounts) != 0)
                 <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                     <h2 class="accordion-header" id="headingBankAccounts">
                     <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankAcoounts" aria-expanded="false" aria-controls="collapseBankAcoounts">
@@ -295,72 +330,36 @@
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/mir.png" class="w-25 mb-0 ml-3">
+                                        @foreach ($bank_accounts as $index => $account)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-0 py-1">
+                                                        @if ($bank_account_types->find($account['type_id'])->label != 'Unknown')
+                                                            <img style="max-width: 100%; height: 40px;" src="{{ $bank_account_types->find($account['type_id'])->logo }}" alt="{{ $bank_account_types->find($account['type_id'])->label }}">
+                                                        @else
+                                                            <img style="max-width: 100%; height: 40px;" src="../assets/img/blank.png">
+                                                        @endif
 
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                        <div class="d-flex flex-column justify-content-center pl-3">
+                                                            <h6 class="mb-0 text-sm">{{ $account['card_holder'] }}</h6>
+                                                            <p class="text-xs text-secondary mb-0">
+                                                                {{ $account['is_credit'] ? 'Cérdito' : 'Débito' }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/visa.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex flex-column justify-content-center px-7">
+                                                        <p class="text-md font-weight-bold mb-0" style="font-family: monospace, cursive;">
+                                                            {!! implode('&nbsp;', str_split($account['card_number'], 4)) !!}
+                                                        </p>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/mastercard.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <span class="text-secondary text-xs ">Vence: <strong>{{ date('m/Y', strtotime($account['expiration_date'])) }}    </strong></span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -390,7 +389,7 @@
                                                         <i class="fas fa-globe fa-lg"></i>
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">{{ $web_types->find($web['id_type'])->label }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $web_types->find($web['type_id'])->label }}</h6>
                                                         <p class="text-xs text-secondary mb-0">Personal</p>
                                                     </div>
                                                 </div>
@@ -403,9 +402,14 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                {{-- <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                     Quitar
-                                                </a>
+                                                </a> --}}
+                                                @if (isset(json_decode($web['meta'])->is_valid))
+                                                    {!! json_decode($web['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                @else
+                                                    <i class="fas fa-question"></i>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -438,7 +442,7 @@
                                                         <i class="fas fa-globe fa-lg"></i>
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">{{ $web_types->find($web['id_type'])->label }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $web_types->find($web['type_id'])->label }}</h6>
                                                         {{-- <p class="text-xs text-secondary mb-0">Personal</p> --}}
                                                     </div>
                                                 </div>
@@ -451,9 +455,14 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                {{-- <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
                                                     Quitar
-                                                </a>
+                                                </a> --}}
+                                                @if (isset(json_decode($web['meta'])->is_valid))
+                                                    {!! json_decode($web['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                @else
+                                                    <i class="fas fa-question"></i>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

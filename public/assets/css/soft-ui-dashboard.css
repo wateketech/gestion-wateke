@@ -22214,4 +22214,10 @@ span.select2.select2-container.select2-container--default.select2-container--bel
   height: 100% !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+
+.dropdown-menu.about {
+  background-color: #96a4c1 !important;
+  color: aliceblue !important;
+  padding: 0.5em !important;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

@@ -47,7 +47,7 @@ class Create extends Component
 
     ];
 
-    public $labels_type = ['Personal', 'Trabajo'];
+    public $labels_type = ['Personal', 'Trabajo', 'Otro'];
     // GENERALS
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
     public $id_types;
@@ -161,11 +161,11 @@ class Create extends Component
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
 
 
-        $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => '', 'zip_code' => '',
+        $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => null, 'zip_code' => '',
                 'country_id' => null, 'state_id' => null ];
-        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
-        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Número', 'value' => ''];
-        $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
+                $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
+                $this->address_line[0][] = ['address_id' => 1, 'label' => 'Número', 'value' => ''];
+                $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
 
         $this->remount_bank_accounts();
         $this->datos_prueba();
@@ -752,7 +752,7 @@ class Create extends Component
         $this->bank_account_type = $this->bank_account_types->first()->id;
         $this->bank_account_expiration_year = date("Y");
         $this->bank_account_expiration_month = date("n")+4;
-        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));;
+        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));
         $this->bank_account_card_number = '';
         $this->bank_account_card_holder = $this->name . ' ' .$this->first_lastname ;
         $this->bank_account_is_credit = 'true';
@@ -1055,53 +1055,56 @@ class Create extends Component
         $this->middle_name = 'de Jesús';
         $this->first_lastname = 'Licea';
         $this->second_lastname = 'Vallejo';
-        $this->about = 'Nada ';
+        $this->about = 'Una pequeña descripción del contacto en cuestión.';
         $this->ids = [
             [ 'type_id' => 1, 'value' => '00090120123'],
-            [ 'type_id' => '2', 'value' => 'A1234567'],
+            [ 'type_id' => 2, 'value' => 'A1234567'],
             ];
         // $this->main_profile_pic = 0;
         // $this->profile_pics = [];
 
     // EMAILS
         $this->emails = [
-            [ 'type_id' => '1', 'is_primary' => false, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => ''],
-            [ 'type_id' => '3', 'is_primary' => true, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => ''],
-            [ 'type_id' => '2', 'is_primary' => false, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => ''],
-            ];
+            [ 'type_id' => '1', 'is_primary' => false, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            [ 'type_id' => '3', 'is_primary' => true, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            [ 'type_id' => '2', 'is_primary' => false, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => '', 'meta' => "{\"is_valid\":false}"],
+        ];
 
     // PHONE AND CHATS
         $this->phones = [
             [ 'type_id' => 2, 'value' => '+53 32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
             [ 'type_id' => 3, 'value' => '+53 32271900', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
             [ 'type_id' => 1, 'value' => '+1 5615459878', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
-            [ 'type_id' => 6, 'value' => '+53 54771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 6, 'value' => '+53 354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
             ];
         $this->instant_messages = [
-            ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => ''] ,
-            ['type_id' => 1, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => false, 'about' => ''] ,
-            ['type_id' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => ''] ,
+            ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 1, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"],
+            ['type_id' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => 1, 'label' => 'Ventas', 'value' => '+54771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":true}"],
             ];
+
 
         // RRSS AND WEBS
         $this->webs = [
-            ['type_id' => 1, 'value' => 'albertos-blog.com',  'about' => ''],
-            ['type_id' => 2, 'value' => 'alberto.licea',  'about' => ''],
-            ['type_id' => 6, 'value' => 'wateke.travel',  'about' => ''] ,
+            ['type_id' => 1, 'value' => 'albertos-blog.com',  'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 2, 'value' => 'alberto.licea',  'about' => '', 'meta' => "{\"is_valid\":null}"],
+            ['type_id' => 6, 'value' => 'wateke.travel',  'about' => '', 'meta' => "{\"is_valid\":true}"],
             ];
         $this->rrss = [
-            ['type_id' => 4, 'value' => 'albertolicea00', 'about' => ''] ,
-            ['type_id' => 1, 'value' => 'albertolicea00', 'about' => ''] ,
-            ['type_id' => 2, 'value' => 'albertolicea00', 'about' => ''] ,
+            ['type_id' => 4, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => 1, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 2, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
             ];
 
 
         // ADDRESS
         $this->address = [
-            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => "", 'name' => "Casa", 'state_id' => "286", 'zip_code' => "70100" ],
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa", 'state_id' => "286", 'zip_code' => "70100" ],
             ];
         $this->address_line = [
             [
+                [ 'address_id' => 1, 'label' => "Localidad", 'value' => "Centro"],
                 [ 'address_id' => 1, 'label' => "Número", 'value' => "364"],
                 [ 'address_id' => 1, 'label' => "Calle", 'value' => "Bembeta"],
                 [ 'address_id' => 1, 'label' => "entre", 'value' => "Cielo"],
@@ -1126,9 +1129,9 @@ class Create extends Component
         // $this->bank_account_bank_title = '';
         // $this->bank_account_banks = '';
         $this->bank_accounts = [
-            [ 'type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => false, 'about'=>''],
-            [ 'type_id' => 3, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about'=>''],
-            [ 'type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about'=>''],
+            [ 'type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => true, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year))],
+            [ 'type_id' => 1, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year))],
+            [ 'type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year))],
             ];
 
         // OCUPATION
@@ -1139,9 +1142,9 @@ class Create extends Component
             [ 'type_id' => '2', 'value' => '2011-04-25'],
             ];
         $this->publish_us = [
-            [ 'type_id' => '1', 'label' => 'Personal',  'value' => 'albertosblog.com'],
-            [ 'type_id' => '3', 'label' => 'Personal',  'value' => 'tut12app.com'],
-            [ 'type_id' => '2', 'label' => 'Trabajo',   'value' => 'albertolicea00.com'],
+            [ 'type_id' => '1', 'label' => 'Personal',  'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
+            [ 'type_id' => '3', 'label' => 'Personal',  'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
+            [ 'type_id' => '2', 'label' => 'Trabajo',   'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
             ];
 
 

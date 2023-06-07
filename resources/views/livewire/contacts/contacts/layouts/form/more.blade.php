@@ -29,7 +29,7 @@
                 <input class="@error("dates.{$index}.value")border border-danger rounded-3 @enderror form-control"
                     type="date" name="dates_value_{{ $index }}" id="dates_value_{{ $index }}"
                     wire:model.debounce.500ms="dates.{{ $index }}.value"
-                    data-date-format="dd/MM/yyyy" {{-- implementar datapicker o moment.js (pluggin js parecido) para que coja este formato --}}
+                    data-date-format="dd/MM/yyyy" {{-- implementar datapicker, flatpickr o moment.js (pluggin js parecido) para que coja este formato --}}
                     min="{{ date('Y-m-d', strtotime('-118 years')) }}"
                     max="{{ date('Y-m-d', strtotime('-1 years')) }}"
                     style='padding-right: 1em !important;padding-left: 63px !important;'>
