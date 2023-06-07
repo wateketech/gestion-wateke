@@ -77,6 +77,25 @@ input{
         background-size: 1rem 1rem;
     }
 }
+// estilos texto en inputs
+.text-nospace {
+    white-space: nowrap;
+}
+.text-upper {
+    text-transform: uppercase;
+    &-nospace {
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+}
+.text-lower {
+    text-transform: lowercase;
+    &-nospace {
+        text-transform: lowercase;
+        white-space: nowrap;
+    }
+}
+
 
 
 // PLACEHOLDER DE BUSQUEDAS

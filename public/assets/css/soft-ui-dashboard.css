@@ -22052,6 +22052,26 @@ input.is-alert {
   background-size: 1rem 1rem;
 }
 
+.text-nospace {
+  white-space: nowrap;
+}
+
+.text-upper {
+  text-transform: uppercase;
+}
+.text-upper-nospace {
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.text-lower {
+  text-transform: lowercase;
+}
+.text-lower-nospace {
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
 .search-input::-moz-placeholder {
   text-align: center;
   background-repeat: no-repeat;

@@ -80,7 +80,7 @@
                         <div class="col-8">
                             <div class="form-group mb-2">
                                 <label for="bank_account_bank_name" class="form-control-label opacity-4">Nombre del Banco *</label>
-                                <input class="@error('bank_account_bank_name')border border-danger rounded-3 @enderror form-control disabled" type="text" placeholder="SECCIÓN EN CONSTRUCCIÓN"  style="text-align: center;"
+                                <input class="@error('bank_account_bank_name')border border-danger rounded-3 @enderror form-control text-upper disabled" type="text" placeholder="SECCIÓN EN CONSTRUCCIÓN"  style="text-align: center;"
                                     name="bank_account_bank_name" id="bank_account_bank_name" disabled>
                                     {{-- wire:model="bank_account_bank_name"> --}}
                                 @error('bank_account_bank_name') <sub class="text-danger">{{ $message }}</sub> @enderror
@@ -89,7 +89,7 @@
                         <div class="col-3">
                             <div class="form-group mb-2 mt-4">
                                 {{-- <label for="bank_account_bank_title" class="form-control-label opacity-4">Alias del Banco</label> --}}
-                                <input class="@error('bank_account_bank_title')border border-danger rounded-3 @enderror form-control disabled" type="text" placeholder="EN BREVE"  style="text-align: center;"
+                                <input class="@error('bank_account_bank_title')border border-danger rounded-3 @enderror form-control text-upper disabled" type="text" placeholder="EN BREVE"  style="text-align: center;"
                                     name="bank_account_bank_title" id="bank_account_bank_title" disabled>
                                     {{-- wire:model="bank_account_bank_title"> --}}
                                 @error('bank_account_bank_title') <sub class="text-danger">{{ $message }}</sub> @enderror
@@ -100,7 +100,7 @@
                         <div class="col-8">
                             <div class="form-group mb-2">
                                 <label for="bank_account_card_holder" class="form-control-label">Titular de la cuenta *</label>
-                                <input class="@error('bank_account_card_holder')border border-danger rounded-3 @enderror form-control" type="text"
+                                <input class="@error('bank_account_card_holder')border border-danger rounded-3 @enderror form-control text-upper" type="text"
                                     name="bank_account_card_holder" id="bank_account_card_holder" wire:model="bank_account_card_holder">
                                 @error('bank_account_card_holder') <sub class="text-danger">{{ $message }}</sub> @enderror
                             </div>

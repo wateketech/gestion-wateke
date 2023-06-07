@@ -27,7 +27,7 @@
                 <label for="webs_value_{{ $index }}" class="form-control-label">Enlace *</label>
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1" style='padding-right: 0px !important;'>https://</span>
-                    <input class="@error("webs.{$index}.value")border border-danger rounded-3 @enderror form-control"
+                    <input class="@error("webs.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
                         type="text" name="webs_value_{{ $index }}" id="webs_value_{{ $index }}"
                         wire:model.debounce.500ms="webs.{{ $index }}.value"
                         style='padding-left: 63px !important;'
@@ -87,7 +87,7 @@
             <label for="rrss_value_{{ $index }}" class="form-control-label">Usuario *</label>
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">@</span>
-                <input class="@error("rrss.{$index}.value")border border-danger rounded-3 @enderror form-control"
+                <input class="@error("rrss.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
                     type="text" name="rrss_value_{{ $index }}" id="rrss_value_{{ $index }}"
                     wire:model.debounce.500ms="rrss.{{ $index }}.value"
                     style='padding-left: 40px !important;'>

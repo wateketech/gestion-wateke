@@ -90,7 +90,7 @@
             <label for="instant_messages_value_{{ $index }}" class="form-control-label">Usuario *</label>
             <sub class='ml-3 mb-2'style='font-size:11px'>{{ $instant_message_types->find($instant_messages[$index]['type_id'])->about ? 'NOTA : ' : '' }} {{ $instant_message_types->find($instant_messages[$index]['type_id'])->about }}</sub>
             <div class="input-group">
-                <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control"
+                <input class="@error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
                     type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
                     wire:model.debounce.500ms="instant_messages.{{ $index }}.value">
                 @if ($instant_message_types->find($instant_messages[$index]["type_id"])->url)

@@ -38,7 +38,7 @@
         <div class="col-5 col-md-5 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="email_value_{{ $index }}" class="form-control-label">Email *</label>
             <div class="input-group">
-                <input class="@error("emails.{$index}.value")border border-danger rounded-3 @enderror form-control"
+                <input class="@error("emails.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
                     type="email" name="email_value_{{ $index }}" id="email_value_{{ $index }}"
                     wire:model.debounce.500ms="emails.{{ $index }}.value"
                     placeholder="@ {!! html_entity_decode($email_types->find($emails[$index]['type_id'])->value ) !!}"
