@@ -46,7 +46,7 @@ class Create extends Component
 
     ];
 
-    public $labels_type = ['Personal', 'Trabajo', 'Otro'];
+    public $labels_type = ['Personal', 'Trabajo'];
     // GENERALS
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
     public $id_types;
@@ -646,12 +646,12 @@ class Create extends Component
     public function geolocation($index){
         // procesar con API de GOOGLE
             // if (ya existe una geolocation){
-            //      mostrar en la ubicacion  
+            //      mostrar en la ubicacion
             // } else{
             //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
             // }
     }
-    
+
     public function updateCountry($index_add ,$value){
         $this->address[$index_add]['country_id'] = $value;
         $this->address[$index_add]['state_id'] = null;
@@ -892,7 +892,7 @@ class Create extends Component
         $this->dates = array_values($this->dates);
     }
 
-    
+
     public function existPublisUs($index){
         // NO DISPONIBLE POR EL MOMENTO
     }
@@ -1062,12 +1062,12 @@ class Create extends Component
             ];
 
     // PHONE AND CHATS
-        //$this->phones = [
-        //    [ 'type_id' => 2, 'value_meta' => '', 'value' => '+53 32292629', 'is_primary' => false, 'about' => '' ],
-        //    [ 'type_id' => 3, 'value_meta' => '', 'value' => '+53 32271900', 'is_primary' => false, 'about' => '' ],
-        //    [ 'type_id' => 1, 'value_meta' => '', 'value' => '+1 56154598789', 'is_primary' => true, 'about' => '' ],
-        //    [ 'type_id' => 6, 'value_meta' => '', 'value' => '+53 54771264', 'is_primary' => false, 'about' => '' ],
-        //    ];
+        $this->phones = [
+            [ 'type_id' => 2, 'value' => '+53 32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 3, 'value' => '+53 32271900', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 1, 'value' => '+1 5615459878', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
+            [ 'type_id' => 6, 'value' => '+53 54771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            ];
         $this->instant_messages = [
             ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => ''] ,
             ['type_id' => 1, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => false, 'about' => ''] ,

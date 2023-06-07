@@ -18,9 +18,6 @@
                         {{ $type->label }}
                     </option>
                 @endforeach
-                <script>
-
-                </script>
             </select>
             @error("phones.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
@@ -72,6 +69,7 @@
                     @foreach ($labels_type as $type)
                         <option value="{{ $type }}">{{ $type }}</option>
                     @endforeach
+                    <option value="" data-new-label="true">Escriba aquí</option>
             </select>
             @error("instant_messages.{$index}.label") <sub class="text-danger">{{ $message }}</sub> @enderror
 
@@ -138,7 +136,7 @@
             utilsScript: "../assets/js/plugins/intl-tel-input/js/utils.js",
         });
 
-        tel.addEventListener('change', function(event) {
+        tel.addEventListener('blur', function(event) {
             let warningMessage = document.getElementById('phone_value_warning-' + index)
             if (iti.isValidNumber()){
                 warningMessage.hidden = true;

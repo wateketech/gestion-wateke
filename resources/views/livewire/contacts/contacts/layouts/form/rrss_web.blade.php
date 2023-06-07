@@ -31,7 +31,7 @@
                         type="text" name="webs_value_{{ $index }}" id="webs_value_{{ $index }}"
                         wire:model.debounce.500ms="webs.{{ $index }}.value"
                         style='padding-left: 63px !important;'
-                        wire:change="updateWebValue({{ $index }}, $event.target.value);">
+                        wire:blur="updateWebValue({{ $index }}, $event.target.value);">
                     <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank" href='//{{ $webs[$index]["value"] }}'>
                         <i class="fas fa-location-arrow"></i>
                     </a>
