@@ -41,7 +41,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'more' ; //'general';
+    public $currentStep = 'resumen' ; //'general';
 
     protected $rules = [
 
@@ -897,11 +897,19 @@ class Create extends Component
     public function existPublisUs($index){
         // NO DISPONIBLE POR EL MOMENTO
     }
+    public function updatePublishUsValue($index, $value){
+        if (substr($value, 0, 2) === "//") $value = substr($value, 2);
+        else if (substr($value, 0, 3) === "://") $value = substr($value, 3);
+        else if (substr($value, 0, 7) === "http://") $value = substr($value, 7);
+        else if (substr($value, 0, 8) === "https://") $value = substr($value, 8);
+
+        $this->publish_us[$index]['value'] = $value;
+    }
     public function addPublishUs($index){
         if (count($this->publish_us) >= 1 ) {
         $this->validate([
             'publish_us.' . $index . '.type_id' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-            'publish_us.' . $index . '.value' => [ 'required', 'url',
+            'publish_us.' . $index . '.value' => [ 'required', // 'url',
                     function ($attribute, $value, $fail) {
                         $url = collect($this->publish_us);
                         $duplicates = $url->filter(function ($item) use ($value) {
@@ -950,7 +958,7 @@ class Create extends Component
                 ],
             'publish_us' => 'array',
             'publish_us.*.type_id' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-            'publish_us.*.value' => [ 'required', 'url',
+            'publish_us.*.value' => [ 'required', // 'url',
                     function ($attribute, $value, $fail) {
                         $url = collect($this->publish_us);
                         $duplicates = $url->filter(function ($item) use ($value) {
@@ -1131,9 +1139,9 @@ class Create extends Component
             [ 'type_id' => '2', 'value' => '2011-04-25'],
             ];
         $this->publish_us = [
-            [ 'type_id' => '1', 'label' => 'Personal',  'value' => 'http://albertosblog.com'],
-            [ 'type_id' => '3', 'label' => 'Personal',  'value' => 'http://tut12app.com'],
-            [ 'type_id' => '2', 'label' => 'Trabajo',  'value' => 'http://albertolicea00.com'],
+            [ 'type_id' => '1', 'label' => 'Personal',  'value' => 'albertosblog.com'],
+            [ 'type_id' => '3', 'label' => 'Personal',  'value' => 'tut12app.com'],
+            [ 'type_id' => '2', 'label' => 'Trabajo',   'value' => 'albertolicea00.com'],
             ];
 
 

@@ -66,7 +66,24 @@
                 @error("address.{{ $index_add }}.zip_code") <sub class="text-danger">{{ $message }}</sub> @enderror
             </div>
 
-            <div class="row py-3">
+            <div class="row">
+
+                    <div class="col-2 form-check pt-2 h5 d-flex justify-content-end">
+                    </div>
+                    <div class="col-3 col-md-3 form-group text-start p-0 my-0">
+                        <label class="form-control-label pl-6 opacity-7">Etiqueta </label>
+                    </div>
+                    <div class="col-5 col-md-5 form-group text-start p-0 my-0">
+                        <label class="form-control-label pl-6 opacity-7">Valores </label>
+                </div>
+
+
+                    <div class="col-2 col-md-2">
+                    </div>
+
+            </div>
+
+            <div class="row pb-3">
                 @foreach ($address_line[$index_add] as $index_l => $line)
                     <div class="col-2 form-check pt-2 h5 d-flex justify-content-end">
                         <p class="font-weight-bolder opacity-8">Línea {{ $index_l + 1 }} :</p>

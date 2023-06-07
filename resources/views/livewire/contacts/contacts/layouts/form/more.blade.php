@@ -5,7 +5,7 @@
     </div>
     <div class="row mx-3">
         @forelse ($dates as $index => $date)
-        <div class="col-2 form-group pr-0">
+        <div class="col-3 form-group pr-0">
             <label for="date_types_{{ $index }}" class="form-control-label">Tipo *</label>
             <select class="@error("dates.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
                 name="date_types_{{ $index }}" id="date_types_{{ $index }}" wire:model="dates.{{ $index }}.type_id">
@@ -20,13 +20,23 @@
             </select>
             @error("dates.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
-        <div class="col-7 col-md-7 form-group">{{--  style="padding-right: 9.2em"> --}}
-            <label for="dates_value_{{ $index }}" class="form-control-label">Enlace *</label>
-            <input class="@error("dates.{$index}.value")border border-danger rounded-3 @enderror form-control"
-                type="date" name="dates_value_{{ $index }}" id="dates_value_{{ $index }}"
-                wire:model.debounce.500ms="dates.{{ $index }}.value">
+        <div class="col-6 col-md-6 form-group">{{--  style="padding-right: 9.2em"> --}}
+            <label for="dates_value_{{ $index }}" class="form-control-label">Fecha *</label>
+            <div class="input-group" >
+                <span class="input-group-text" id="basic-addon1" style='padding-left: 1em !important;'>
+                    {!! html_entity_decode($date_types->find($dates[$index]['type_id'])->icon) !!}
+                </span>
+                <input class="@error("dates.{$index}.value")border border-danger rounded-3 @enderror form-control"
+                    type="date" name="dates_value_{{ $index }}" id="dates_value_{{ $index }}"
+                    wire:model.debounce.500ms="dates.{{ $index }}.value"
+                    data-date-format="dd/MM/yyyy" {{-- implementar datapicker o moment.js (pluggin js parecido) para que coja este formato --}}
+                    min="{{ date('Y-m-d', strtotime('-118 years')) }}"
+                    max="{{ date('Y-m-d', strtotime('-1 years')) }}"
+                    style='padding-right: 1em !important;padding-left: 63px !important;'>
+            </div>
             @error("dates.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
+
 
 
         <div class="col-2 col-md-2 mt-4">
@@ -60,7 +70,7 @@
     </div>
     <div class="row mx-3">
         @forelse ($publish_us as $index => $date)
-        <div class="col-2 form-group pr-0">
+        <div class="col-3 form-group pr-0">
             <label for="publish_us_types_{{ $index }}" class="form-control-label">Tipo *</label>
             <select class="@error("publish_us.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
                 name="publish_us_types_{{ $index }}" id="publish_us_types_{{ $index }}" wire:model="publish_us.{{ $index }}.type_id">
@@ -75,11 +85,20 @@
             </select>
             @error("publish_us.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
-        <div class="col-7 col-md-7 form-group">{{--  style="padding-right: 9.2em"> --}}
+        <div class="col-6 col-md-6 form-group">{{--  style="padding-right: 9.2em"> --}}
             <label for="publish_us_value_{{ $index }}" class="form-control-label">Enlace *</label>
-            <input class="@error("publish_us.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
-                type="text" name="publish_us_value_{{ $index }}" id="publish_us_value_{{ $index }}"
-                wire:model.debounce.500ms="publish_us.{{ $index }}.value">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1" style='padding-right: 0px !important;'>https://</span>
+                <input class="@error("publish_us.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
+                    type="text" name="publish_us_value_{{ $index }}" id="publish_us_value_{{ $index }}"
+                    wire:model.debounce.500ms="publish_us.{{ $index }}.value"
+                    style='padding-left: 63px !important;'
+                    wire:blur="updatePublishUsValue({{ $index }}, $event.target.value);">
+                <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank" href='//{{ $publish_us[$index]["value"] }}'>
+                    <i class="fas fa-location-arrow"></i>
+                </a>
+            </div>
+
             @error("publish_us.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
 

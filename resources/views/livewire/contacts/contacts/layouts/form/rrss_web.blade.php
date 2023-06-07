@@ -4,11 +4,11 @@
     </div>
     <div class="row">
         @foreach ($webs as $index => $web)
-            <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary">
+            {{-- <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary"> --}}
                 {{-- <input id="web-star-fav-{{ $index }}" type="radio" name="web-is_primary" wire:click="selectWebIsPrimary({{ $index }})" {{ $webs[$index]['is_primary'] ? 'checked' : '' }} >
                 <label for="web-star-fav-{{ $index }}"></label> --}}
-            </div>
-            <div class="col-2 form-group pr-0">
+            {{-- </div> --}}
+            <div class="col-3 form-group pr-0">
                 <label for="webs_types_{{ $index }}" class="form-control-label">Tipo *</label>
                 <select class="@error("webs.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
                     name="webs_types_{{ $index }}" id="webs_types_{{ $index }}" wire:model="webs.{{ $index }}.type_id">
@@ -64,11 +64,11 @@
     </div>
     <div class="row">
         @foreach ($rrss as $index => $rs)
-        <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary">
+        {{-- <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary"> --}}
             {{-- <input id="rrss-star-fav-{{ $index }}" type="radio" name="rrss-is_primary" wire:click="selectRrssIsPrimary({{ $index }})" {{ $rrss[$index]['is_primary'] ? 'checked' : '' }} >
             <label for="rrss-star-fav-{{ $index }}"></label> --}}
-        </div>
-        <div class="col-2 form-group pr-0">
+        {{-- </div> --}}
+        <div class="col-3 form-group pr-0">
             <label for="rrss_types_{{ $index }}" class="form-control-label">RRSS *</label>
             <select class="@error("rrss.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
                 name="rrss_types_{{ $index }}" id="rrss_types_{{ $index }}" wire:model="rrss.{{ $index }}.type_id">

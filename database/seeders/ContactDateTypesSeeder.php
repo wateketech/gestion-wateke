@@ -32,7 +32,7 @@ class ContactDateTypesSeeder extends Seeder
             ],[
                 'label' => 'Graduación',
                 'color' => 'rgb(73, 162, 232)',
-                'icon' => '<i class="fas fa-user-graduate">',
+                'icon' => '<i class="fas fa-user-graduate"></i>',
             ]
         ]);
 
