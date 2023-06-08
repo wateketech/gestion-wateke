@@ -397,7 +397,7 @@ class Create extends Component
         $this->validate([
             'instant_messages.*.is_primary' => '',
             'instant_messages.*.type_id' => [ 'required', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
-            'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
+            'instant_messages.*.label' => ['required',],// Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
             'instant_messages.' . $index . '.value' => ['required',
                     function ($attribute, $value, $fail) {
@@ -448,7 +448,7 @@ class Create extends Component
             'instant_messages' => 'array',
             'instant_messages.*.is_primary' => '',
             'instant_messages.*.type_id' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
-            'instant_messages.*.label' => ['required', Rule::in($this->labels_type),],
+            'instant_messages.*.label' => ['required', ],//Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
             'instant_messages.*.value' => ['required',
                 function ($attribute, $value, $fail) {
@@ -528,6 +528,7 @@ class Create extends Component
     public function existRrss($index){
         // NO DISPONIBLE POR EL MOMENTO
         // $this->rrss[$index]['meta']['is_valid'] =
+        
     }
     public function updateRrssValue($index, $value, $value_meta){
         // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)

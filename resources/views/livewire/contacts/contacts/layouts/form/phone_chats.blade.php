@@ -69,7 +69,7 @@
                     @foreach ($labels_type as $type)
                         <option value="{{ $type }}">{{ $type }}</option>
                     @endforeach
-                    <option value="" data-new-label="true">Escriba aquí</option>
+                    {{-- <option value="" data-new-label="true">Escriba aquí</option> --}}
             </select>
             @error("instant_messages.{$index}.label") <sub class="text-danger">{{ $message }}</sub> @enderror
 
