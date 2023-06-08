@@ -22,7 +22,7 @@ use App\Models\ContactWebType as WebTypes;
 use App\Models\ContactBankAccountType as BankAccountTypes;
 use App\Models\ContactDateType as DateTypes;
 use App\Models\ContactPublishUsType as PublishUsTypes;
-
+use App\Models\ContactHasAddress as Address;
 
 
 
