@@ -331,6 +331,7 @@ class Create extends Component
 
     public function existPhoneNumber($index){
         // NO DISPONIBLE POR EL MOMENTO
+        // $this->emails[$index]['meta']['exist'] =
     }
     public function updatePhoneNumber($index, $value, $value_meta){
         $this->phones[$index]['value'] = $value;
@@ -382,6 +383,7 @@ class Create extends Component
 
     public function existInstantMessage($index){
         // NO DISPONIBLE POR EL MOMENTO
+        // $this->instant_messages[$index]['meta']['is_valid'] =
     }
     public function selectInstantMessageIsPrimary($index){
         $this->instant_messages = array_map(function ($instant_message) {
@@ -478,6 +480,7 @@ class Create extends Component
 
     public function existWeb($index){
         // NO DISPONIBLE POR EL MOMENTO
+        // $this->webs[$index]['meta']['is_valid'] =
     }
     public function updateWebValue($index, $value){
         if (substr($value, 0, 2) === "//") $value = substr($value, 2);
@@ -524,6 +527,7 @@ class Create extends Component
 
     public function existRrss($index){
         // NO DISPONIBLE POR EL MOMENTO
+        // $this->rrss[$index]['meta']['is_valid'] =
     }
     public function updateRrssValue($index, $value, $value_meta){
         // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)
@@ -653,6 +657,7 @@ class Create extends Component
             //      mostrar en la ubicacion
             // } else{
             //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
+            // $this->address[$index]['geolocation'] =
             // }
     }
 
@@ -902,6 +907,7 @@ class Create extends Component
 
     public function existPublisUs($index){
         // NO DISPONIBLE POR EL MOMENTO
+        // $this->publish_us[$index]['meta']['is_valid'] =
     }
     public function updatePublishUsValue($index, $value){
         if (substr($value, 0, 2) === "//") $value = substr($value, 2);
