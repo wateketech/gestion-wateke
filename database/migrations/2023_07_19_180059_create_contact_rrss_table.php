@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('type_id');
             $table->string('label')->nullable();
             $table->string('value');
+            $table->json('meta')->nullable();
             $table->text('about')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();

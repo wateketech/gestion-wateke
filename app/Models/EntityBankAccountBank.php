@@ -9,7 +9,7 @@ class EntityBankAccountBank extends Model
 {
     use HasFactory;
     protected $table='entity_bank_account_banks';
-    protected $fillable = ['name', 'title', 'enable'];
+    protected $fillable = ['name', 'title', 'meta', 'enable'];
 
     public function accounts(){
         return $this->hasMany('App\Models\EntityBankAccount', 'id');

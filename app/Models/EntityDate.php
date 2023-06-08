@@ -11,7 +11,7 @@ class EntityDate extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_dates';
-    protected $fillable = ['entity_id', 'type_id', 'value'];
+    protected $fillable = ['entity_id', 'type_id', 'meta', 'value'];
 
     public function type(){
         return $this->belongsTo('App\Models\EntityDateType', 'id');

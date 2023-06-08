@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('contact_id');
             $table->string('value');
+            $table->json('meta')->nullable();
             $table->string('label')->nullable();
             $table->boolean('primary')->nullable();
             $table->boolean('enable')->default(1);

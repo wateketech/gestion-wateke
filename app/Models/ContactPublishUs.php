@@ -11,7 +11,7 @@ class ContactPublishUs extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_publish_us';
-    protected $fillable = ['contact_id', 'type_id', 'value', 'about', 'enable'];
+    protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'about', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\ContactPublishUsType', 'id');

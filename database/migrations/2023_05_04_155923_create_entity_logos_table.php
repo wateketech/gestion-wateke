@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('entity_id');
             $table->date('value');
+            $table->json('meta')->nullable();
             $table->string('label')->nullable();
             $table->boolean('primary')->nullable();
             $table->boolean('enable')->default(1);

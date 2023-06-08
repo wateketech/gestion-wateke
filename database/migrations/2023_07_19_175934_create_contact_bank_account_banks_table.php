@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('title')->nullable()->unique();
+            $table->json('meta')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
         });

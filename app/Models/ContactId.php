@@ -10,7 +10,7 @@ class ContactId extends Model
 {
     use MassAssignmentConcerns;
     protected $table='contact_ids';
-    protected $fillable = ['contact_id', 'type_id', 'value', 'enable'];
+    protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\ContactIdType', 'id');

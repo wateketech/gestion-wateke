@@ -9,7 +9,7 @@ class EntityBankAccount extends Model
 {
     use HasFactory;
     protected $table='entity_bank_accounts';
-    protected $fillable = ['entity_id', 'type_id', 'bank_id', 'card_number', 'card_holder', 'expiration_date', 'is_credit', 'about', 'enable'];
+    protected $fillable = ['entity_id', 'type_id', 'bank_id', 'card_number', 'card_holder', 'expiration_date', 'is_credit', 'meta', 'about', 'enable'];
     public function type(){
         return $this->belongsTo('App\Models\EntityBankAccountType', 'id');
     }

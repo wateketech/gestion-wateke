@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('about')->nullable();
             $table->unsignedBigInteger('entity_type_id');
             $table->boolean('enable')->default(1);
+            $table->json('meta')->nullable();
             $table->timestamps();
 
 

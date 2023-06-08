@@ -11,7 +11,7 @@ class ContactDate extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_dates';
-    protected $fillable = ['contact_id', 'type_id', 'value', 'enable'];
+    protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\ContactDateType', 'id');

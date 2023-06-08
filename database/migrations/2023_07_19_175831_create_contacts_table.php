@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('second_lastname')->nullable();
             $table->text('about')->nullable();
             $table->boolean('enable')->default(1);
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
     }

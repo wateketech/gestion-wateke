@@ -11,7 +11,7 @@ class Contact extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contacts';
-    protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'about', 'enable'];
+    protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'about', 'meta', 'enable'];
 
     public function bank_accounts(){
         return $this->hasMany('App\Models\ContactBankAccount', 'contact_id');

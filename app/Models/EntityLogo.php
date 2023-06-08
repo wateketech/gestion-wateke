@@ -11,7 +11,7 @@ class EntityLogo extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_logos';
-    protected $fillable = ['entity_id', 'value', 'label', 'primary'];
+    protected $fillable = ['entity_id', 'value', 'meta', 'label', 'primary'];
     public function entity(){
         return $this->belongsTo('App\Models\Entity', 'id');
     }

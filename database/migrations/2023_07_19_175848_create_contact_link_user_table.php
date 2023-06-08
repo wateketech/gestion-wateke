@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('contact_id');
             $table->unsignedBigInteger('user_id');
+            $table->json('meta')->nullable();
             $table->boolean('enable')->default(1);
             $table->timestamps();
 

@@ -11,7 +11,7 @@ class ContactLinkUser extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_link_user';
-    protected $fillable = ['contact_id', 'user_id', 'enable'];
+    protected $fillable = ['contact_id', 'user_id', 'enable', 'meta',];
 
     public function contact(){
         return $this->hasOne('App\Models\Contact', 'id');

@@ -11,7 +11,7 @@ class EntityPhone extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_phones';
-    protected $fillable = ['entity_id', 'type_id', 'value', 'about', 'enable'];
+    protected $fillable = ['entity_id', 'type_id', 'value', 'value_meta', 'about', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\EntityPhoneType', 'id');

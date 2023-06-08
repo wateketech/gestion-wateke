@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EntityId extends Model
 {
     protected $table='entity_ids';
-    protected $fillable = ['entity_id', 'type_id', 'value'];
+    protected $fillable = ['entity_id', 'type_id', 'value', 'meta',];
 
     public function type(){
         return $this->belongsTo('App\Models\EntityIdType', 'id');

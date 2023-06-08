@@ -11,7 +11,7 @@ class EntityInstantMessage extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_instant_messages';
-    protected $fillable = ['entity_id', 'type_id', 'value', 'about', 'enable'];
+    protected $fillable = ['entity_id', 'type_id', 'meta', 'value', 'about', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\EntityInstantMessageType', 'id');

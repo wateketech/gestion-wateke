@@ -11,7 +11,7 @@ class ContactInstantMessage extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_instant_messages';
-    protected $fillable = ['contact_id', 'type_id', 'value', 'is_personal', 'about', 'enable'];
+    protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'is_personal', 'about', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\ContactInstantMessageType', 'id');

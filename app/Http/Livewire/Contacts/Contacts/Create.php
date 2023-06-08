@@ -41,7 +41,7 @@ class Create extends Component
 
     public $errorMessage;
     public $passStep = [];
-    public $currentStep = 'resumen' ; //'general';
+    public $currentStep = 'general' ; //'general';
 
     protected $rules = [
 
@@ -89,21 +89,22 @@ class Create extends Component
 
     public $address_line = [];
     public $address_line_max = 10;
-
-    public $prueba_address_seeder = [
-        [ 'name' => 'Cuba', 'id' => 1],
-        [ 'name' => 'España', 'id' => 2],
-        [ 'name' => 'Guatemala', 'id' => 3],
-        ];
-
-
-    public $aaa;
-
+//
+    //public $prueba_address_seeder = [
+    //    [ 'name' => 'Cuba', 'id' => 1],
+    //    [ 'name' => 'España', 'id' => 2],
+    //    [ 'name' => 'Guatemala', 'id' => 3],
+    //    ];
+//
+//
+    //public $aaa;
+//
 
     // BANK ACCOUNTS
     public $bank_account_types, $bank_account_type;
-    public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about;
+    public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about, $bank_account_meta;
     public $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
+
     public $bank_account_bank_name, $bank_account_bank_title;
     public $bank_id_in_bbdd;
     public $bank_account_banks = [];
@@ -111,7 +112,7 @@ class Create extends Component
 
     // OCUPATION
     public $ocupation_id, $ocupation_entity_id, $ocupation_about;
-
+    // EN CONSTRUCCIÓN
 
     // MORE
     public $date_types, $date_type;
@@ -151,14 +152,14 @@ class Create extends Component
         $this->countries = Countries::all()->where('enable', true);
 
 
-        $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => ''];
-        $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '',  ];
+        $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',  ];
-        $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '',  ];
-        $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
-        $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
-        $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
-        // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => ''];
+        $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
         $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => null, 'zip_code' => '',
@@ -195,7 +196,7 @@ class Create extends Component
                 'ids.*.value.required' => 'El campo es obligatorio',
             ]);
         if (count($this->ids) < $this->id_max) {
-            $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => ''];
+            $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
     public function removeId($index){
@@ -255,6 +256,7 @@ class Create extends Component
 
     public function existEmail($index){
         // NO DISPONIBLE POR EL MOMENTO
+        // $this->emails[$index]['meta']['is_valid'] =
     }
     public function selectEmailIsPrimary($index){
         $this->emails = array_map(function ($email) {
@@ -286,7 +288,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->emails) < $this->emails_max) {
-            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',  ];
+            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',  'meta' => "{\"is_valid\":null}"];
         }
     }
 
@@ -363,7 +365,8 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => false, 'about' => '',  ];
+            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => false, 'about' => '',  'meta' => "{\"is_valid\":null}"];
+
         }
         $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
     }
@@ -413,7 +416,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->instant_messages) < $this->instant_messages_max) {
-            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',  ];
+            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',   'meta' => "{\"is_valid\":null}"];;
         }
     }
     public function removeInstantMessages($index){
@@ -510,7 +513,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->webs) < $this->webs_max) {
-            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',  ];
+            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',   'meta' => "{\"is_valid\":null}"];
         }
     }
     public function removeWeb($index){
@@ -551,7 +554,7 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->rrss) < $this->rrss_max) {
-            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',  ];
+            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',   'meta' => "{\"is_valid\":null}"];
         }
     }
     public function removeRrss($index){
@@ -757,6 +760,8 @@ class Create extends Component
         $this->bank_account_card_holder = $this->name . ' ' .$this->first_lastname ;
         $this->bank_account_is_credit = 'true';
         $this->bank_account_about = '';
+        $this->bank_account_meta = "{\"is_valid\":null}";
+
         $this->bank_account_bank_name = '';
         $this->bank_account_bank_title = '';
         $this->bank_id_in_bbdd = null;
@@ -811,6 +816,7 @@ class Create extends Component
                 'expiration_date' => $this->bank_account_expiration_date,
                 'is_credit' => $this->bank_account_is_credit,
                 'about' => $this->bank_account_about,
+                'meta' => $this->bank_account_meta,
             ]);
         $this->remount_bank_accounts();
     }
@@ -884,7 +890,7 @@ class Create extends Component
             ]);
         }
         if (count($this->dates) < $this->dates_max) {
-            $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', ];
+            $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
 
@@ -928,7 +934,7 @@ class Create extends Component
             ]);
         }
         if (count($this->publish_us) < $this->publish_us_max) {
-            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '', ];
+            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '',  'meta' => "{\"is_valid\":null}"];
         }
     }
 
