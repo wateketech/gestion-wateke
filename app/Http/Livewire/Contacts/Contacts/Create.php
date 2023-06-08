@@ -430,7 +430,12 @@ class Create extends Component
         if ($remove_primary) $this->selectInstantMessageIsPrimary(0);
     }
 
-
+    public function stepSubmit_phone_chats_omit(){
+        $this->phones = [];
+        $this->instant_messages = [];
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->currentStep = 'rrss_web';
+    }
     public function stepSubmit_phone_chats(){
         $this->validate([
             'phones' => 'array',
@@ -528,7 +533,7 @@ class Create extends Component
     public function existRrss($index){
         // NO DISPONIBLE POR EL MOMENTO
         // $this->rrss[$index]['meta']['is_valid'] =
-        
+
     }
     public function updateRrssValue($index, $value, $value_meta){
         // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)
@@ -567,6 +572,13 @@ class Create extends Component
         $this->rrss = array_values($this->rrss);
     }
 
+
+    public function stepSubmit_rrss_web_omit(){
+        $this->rrss = [];
+        $this->webs = [];
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->currentStep = 'address';
+    }
     public function stepSubmit_rrss_web(){
         $this->validate([
             'webs' => 'array',
@@ -716,6 +728,14 @@ class Create extends Component
         unset($this->address_line[$index_add][$index_l]);
         $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
     }
+
+
+    public function stepSubmit_address_omit(){
+        $this->address = [];
+        $this->address_line = [];
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->currentStep = 'bank_accounts';
+    }
     public function stepSubmit_address(){
         $this->validate([
             'address.*.name' => 'required',
@@ -755,6 +775,7 @@ class Create extends Component
         $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => 0]);
         $this->remount_bank_accounts();
     }
+
 // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function remount_bank_accounts(){
         $this->bank_account_types = BankAccountTypes::all();
@@ -852,13 +873,13 @@ class Create extends Component
         $this->currentStep = 'ocupation';
     }
 // -------------------------- STEP OCUPATION --------------------------
-    public function stepSubmit_ocupation_omit(){
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 1500]);
-        $this->currentStep = 'more';
-    }
     public function stepSubmit_ocupation(){
         $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'ocupation';
+        $this->currentStep = 'more';
+    }
+    public function stepSubmit_ocupation_omit(){
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->currentStep = 'more';
     }
 // -------------------------- STEP MORE --------------------------
@@ -951,6 +972,12 @@ class Create extends Component
     }
 
 
+    public function stepSubmit_more_omit(){
+        $this->dates = [];
+        $this->publish_us = [];
+        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->currentStep = 'resumen';
+    }
     public function stepSubmit_more(){
         $this->validate([
             'dates' => 'array',

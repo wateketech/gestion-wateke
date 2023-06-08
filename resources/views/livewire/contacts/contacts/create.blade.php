@@ -54,9 +54,15 @@
                         {{-- -------------------------- STEP PHONE AND CHATS -------------------------- --}}
                             <div class="row {{ $currentStep != 'phone_chats' ? 'd-none' : '' }}" id="step-phone_chats">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_phone_chats">
-                                        <i class="fas fa-angle-double-right"></i>
+                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">{{-- center --}}
+                                        <div class="btn btn-primary"
+                                            wire:click="stepSubmit_phone_chats">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </div>
+                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
+                                            wire:click="stepSubmit_phone_chats_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -66,9 +72,15 @@
                         {{-- -------------------------- STEP RRSS AND WEBS -------------------------- --}}
                             <div class="row {{ $currentStep != 'rrss_web' ? 'd-none' : '' }}" id="step-rrss_web">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_rrss_web">
-                                        <i class="fas fa-angle-double-right"></i>
+                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">{{-- center --}}
+                                        <div class="btn btn-primary"
+                                            wire:click="stepSubmit_rrss_web">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </div>
+                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
+                                            wire:click="stepSubmit_rrss_web_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -78,9 +90,15 @@
                         {{-- -------------------------- STEP ADDRESS -------------------------- --}}
                             <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
                                 <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_address">
-                                        <i class="fas fa-angle-double-right"></i>
+                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">{{-- center --}}
+                                        <div class="btn btn-primary"
+                                            wire:click="stepSubmit_address">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </div>
+                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
+                                            wire:click="stepSubmit_address_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </div>
                                     </div>
                                 </div>
 
