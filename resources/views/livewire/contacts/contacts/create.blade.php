@@ -177,6 +177,11 @@
                                         <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
                                     </div>
                                 </div>
+                                <div class='px-4 fs-5'>
+                                    <sub>
+                                        <strong>Nota: </strong>Eventualmente podrá recibir notificaciones a implementaciones y/o actualizaciones de campos nuevos o faltantes al completar la información de contacto.
+                                    </sub>
+                                </div>
 
                             </div>
                         {{-- -------------------------- END - STEPS -------------------------- --}}

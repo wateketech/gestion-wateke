@@ -40,6 +40,7 @@ class Create extends Component
 //    public $available_id_types = [];
 
     public $errorMessage;
+    public $allStep = ['general','emails','phone_chats','rrss_web','address','bank_accounts','ocupation','more','resumen'];
     public $passStep = [];
     public $currentStep = 'general' ; //'general';
 
@@ -89,16 +90,6 @@ class Create extends Component
 
     public $address_line = [];
     public $address_line_max = 10;
-//
-    //public $prueba_address_seeder = [
-    //    [ 'name' => 'Cuba', 'id' => 1],
-    //    [ 'name' => 'España', 'id' => 2],
-    //    [ 'name' => 'Guatemala', 'id' => 3],
-    //    ];
-//
-//
-    //public $aaa;
-//
 
     // BANK ACCOUNTS
     public $bank_account_types, $bank_account_type;

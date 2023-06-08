@@ -161,14 +161,15 @@
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
                                                         <h6 class="mb-0 text-sm">{{ $phone_types->find($phone['type_id'])->label }}</h6>
-                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                        <p class="text-xs text-secondary mb-0">{{ json_decode($phone['value_meta'])->country_name }}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
                                                     <p class="text-md font-weight-bold mb-0" >
-                                                        {{ $phone['value'] }}
+                                                        {{-- {{ $phone['value'] }} --}}
+                                                        {!! '+' . json_decode($phone['value_meta'])->country_dial_code . ' ' . json_decode($phone['value_meta'])->clean_number !!}
                                                     </p>
                                                 </div>
                                             </td>
