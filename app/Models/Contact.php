@@ -28,7 +28,7 @@ class Contact extends Model
     public function instant_messages(){
         return $this->hasMany('App\Models\ContactInstantMessage', 'contact_id');
     }
-    public function user(){
+    public function linkUser(){
         return $this->hasOne('App\Models\ContactLinkUser', 'contact_id');
     }
     public function phones(){

@@ -248,7 +248,28 @@
                 text: "Hubo un error al procesar sus datos!",
                 footer: "<code> " + $event.detail.code + " : " + $event.detail.message + "</code>"
             }).then(() => {
-                window.location.href = "entidades";
+                window.location.href = "contactos";
+            })
+        });
+
+        window.addEventListener('show-created-success', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: 'Creado',
+                html: "¡Contacto creado exitosamente!",
+                icon: 'success',
+                timer: 5000
+            }).then(() => {
+                window.location.href = "contactos";
+            })
+        });
+        window.addEventListener('error-user-exist', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: '¡Ya existen usuarios con los emails!',
+                html: "Posteriormente puede crear un usuario y enlazarlo a este contacto manualmente",
+                icon: 'warning',
+                timer: 10000
             })
         });
 

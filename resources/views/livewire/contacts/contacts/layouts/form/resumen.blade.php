@@ -517,5 +517,6 @@
                 </div>
             </div>
         @endif
+        @error('is_user_link') <sub class="text-danger">{{ $message }}</sub> @enderror
     </div>
 

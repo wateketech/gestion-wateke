@@ -10,9 +10,11 @@ use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 
+use App\Models\ContactLinkUser;
+use App\Models\User as Users;
+use App\Models\Contact as Contacts;
 use App\Models\AddressCountry as Countries;
 use App\Models\AddressState as States;
-use App\Models\Contact as Contacts;
 use App\Models\ContactIdType as IdTypes;
 use App\Models\ContactEmailType as EmailTypes;
 use App\Models\ContactPhoneType as PhoneTypes;
@@ -23,7 +25,6 @@ use App\Models\ContactBankAccountType as BankAccountTypes;
 use App\Models\ContactDateType as DateTypes;
 use App\Models\ContactPublishUsType as PublishUsTypes;
 use App\Models\ContactHasAddress as Address;
-
 
 
 class Create extends Component
@@ -42,7 +43,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = ['general','emails','phone_chats','rrss_web','address','bank_accounts','ocupation','more','resumen'];
     public $passStep = [];
-    public $currentStep = 'general' ; //'general';
+    public $currentStep = 'resumen' ; //'general';
 
     protected $rules = [
 
@@ -50,7 +51,7 @@ class Create extends Component
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
     // GENERALS
-    public $alias, $name, $middle_name, $first_lastname, $second_lastname, $about;
+    public $alias, $name, $middle_name, $first_lastname, $second_lastname, $meta, $about;
     public $id_types;
     public $ids = [];
     public $id_max = 4;
@@ -1020,21 +1021,41 @@ class Create extends Component
 // -------------------------- STEP RESUMEN --------------------------
 
     public function UpdatedIsUserLink(){
-        $this->user_link_roles = \Spatie\Permission\Models\Role::all(); // ->where('enable', true);
+        $primary_email = null;
+        $existing_emails = DB::table('users')->select('email')->get()->pluck('email')->toArray();
+        foreach ($this->emails as $email) {
+            if ($email['is_primary'] == 1) {
+                $email_value = $email['value'];
+                if (!in_array($email_value, $existing_emails)) {
+                    $primary_email = $email_value;
+                    break;
+                }
+                foreach ($this->emails as $next_email) {
+                    if ($next_email['value'] != $email_value && !in_array($next_email['value'], $existing_emails)) {
+                        $primary_email = $next_email['value'];
+                        break 2;
+                    }
+                }
+            }
+        }
+        if(!$primary_email){
+            $this->dispatchBrowserEvent('error-user-exist');
+            $this->is_user_link = false;
+        }
 
-        $primary_emails = array_column(array_filter($this->emails, function($email) {
-                                return $email['is_primary'] == 1;
-                            }), 'value');
-        $primary_phones = array_column(array_filter($this->phones, function($phone) {
+        $this->user_link_roles = \Spatie\Permission\Models\Role::all(); // ->where('enable', true);
+        // Validar en dependencia del rol que cree el contacto sera los roles que este pueda establecer al contacto
+
+
+        $primary_phone = array_column(array_filter($this->phones, function($phone) {
             return $phone['is_primary'] == 1;
         }), 'value');
-        $primary_email = reset($primary_emails);
-        $primary_phone = reset($primary_phones);
+
 
         if($this->is_user_link){
             $this->user_link_name = $this->name . ' ' . $this->first_lastname  ;
             $this->user_link_email =  $primary_email ;
-            $this->user_link_phone = $primary_phone;
+            $this->user_link_phone = reset($primary_phone);
             $this->user_link_role = '1';
         }else{
             $this->user_link_name = null;
@@ -1056,7 +1077,6 @@ class Create extends Component
         DB::beginTransaction();
         try {
             if($this->is_user_link){
-
                 $this->validate([
                     'user_link_password_public' => 'required|min:6',
                     'user_link_password_check' => 'required|same:user_link_password_public',
@@ -1067,10 +1087,41 @@ class Create extends Component
                 $this->user_link_password = Hash::make($this->user_link_password_public);
             }
 
-            // .......
 
+            // CREATE CONTACT
+            $contact = Contacts::create([
+                'alias' => $this->alias,
+                'name' => $this->name,
+                'middle_name' => $this->middle_name,
+                'first_lastname' => $this->first_lastname,
+                'second_lastname' => $this->second_lastname,
+                'meta' => $this->meta,
+                'about' => $this->about,
+            ]);
+
+            // CREATE AND LINK USER ACCOUNT
+            if($this->is_user_link){
+
+                $user = Users::factory()->create([
+                    'name' =>$this->user_link_name,
+                    'email' =>$this-> user_link_email,
+                    'password' => $this->user_link_password,
+                    'phone' => $this->user_link_phone,
+                    'about' =>$this-> user_link_about,
+                    'enable' => true
+                ])->assignRole($this->user_link_role);
+
+            // LINK USER CONTACT
+            //dd($contcat)
+            ContactLinkUser::create([
+                'contact_id' => $contact->id,
+                'user_id' => $user->id,
+                ]);
+            }
 
             DB::commit();
+            $this->dispatchBrowserEvent('show-created-success');
+
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1] ,'message' => $e->errorInfo[2]]);
@@ -1103,10 +1154,10 @@ class Create extends Component
 
     // PHONE AND CHATS
         $this->phones = [
-            [ 'type_id' => 2, 'value' => '+53 32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            [ 'type_id' => 3, 'value' => '+53 32271900', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            [ 'type_id' => 1, 'value' => '+1 5615459878', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
-            [ 'type_id' => 6, 'value' => '+53 354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 2, 'value' => '32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 3, 'value' => '32271900', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 1, 'value' => '5615459878', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
+            [ 'type_id' => 6, 'value' => '354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
             ];
         $this->instant_messages = [
             ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":true}"],
