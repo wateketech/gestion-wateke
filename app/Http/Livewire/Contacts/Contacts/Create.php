@@ -10,6 +10,7 @@ use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 
+use App\Models\Gender as Genders;
 use App\Models\ContactLinkUser;
 use App\Models\User as Users;
 use App\Models\Contact as Contacts;
@@ -43,7 +44,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = ['general','emails','phone_chats','rrss_web','address','bank_accounts','ocupation','more','resumen'];
     public $passStep = [];
-    public $currentStep = 'resumen' ; //'general';
+    public $currentStep = 'general' ; //'general';
 
     protected $rules = [
 
@@ -51,7 +52,9 @@ class Create extends Component
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
     // GENERALS
+    public $genders, $prefixs;
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $meta, $about;
+    public $gender, $prefix;
     public $id_types;
     public $ids = [];
     public $id_max = 4;
@@ -132,6 +135,10 @@ class Create extends Component
     public function cleanError($m){   $this->resetValidation($m);   }
 // ----------------------- RENDER --------------------------
     public function mount(){
+        $this->genders = Genders::all()->where('enable', true);
+        $this->gender = $this->genders->first()->id;
+        $this->updatedGender();
+
         $this->id_types = IdTypes::all()->where('enable', true);
         $this->email_types = EmailTypes::all()->where('enable', true);
         $this->phone_types = PhoneTypes::all()->where('enable', true);
@@ -142,6 +149,7 @@ class Create extends Component
         $this->date_types = DateTypes::all()->where('enable', true);
         $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
         $this->countries = Countries::all()->where('enable', true);
+
 
 
         $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
@@ -171,6 +179,10 @@ class Create extends Component
 
 
 // -------------------------- STEP GENERALS --------------------------
+    public function updatedGender(){
+        $this->prefixs = $this->genders->find($this->gender)->prefixs->where('enable', true);
+        $this->prefix = $this->prefixs->first()->id;
+    }
     public function addId($index){
         $this->validate([
             'ids.*.type_id' => [ 'required', Rule::in($this->id_types->pluck('id')->toArray()),],

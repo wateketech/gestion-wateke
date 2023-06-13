@@ -11,7 +11,7 @@ class Contact extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contacts';
-    protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'about', 'meta', 'enable'];
+    protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'prefix_id', 'gender_id', 'about', 'meta', 'enable'];
 
     public function bank_accounts(){
         return $this->hasMany('App\Models\ContactBankAccount', 'contact_id');
@@ -45,5 +45,15 @@ class Contact extends Model
     }
     public function webs(){
         return $this->hasMany('App\Models\ContactWeb', 'contact_id');
+    }
+
+
+
+    public function prefix(){
+        return $this->hasMany('App\Models\Prefix', 'id');
+    }
+
+    public function gender(){
+        return $this->hasMany('App\Models\Gender', 'id');
     }
 }

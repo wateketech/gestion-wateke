@@ -70,41 +70,90 @@
                 <div class="d-flex justify-content-start my-3 mx-3 h5 text-dark form-title">
                     <span class="font-weight-bolder opacity-7"><i class="fas fa-signature"></i> &nbsp; Nombres :</span>
                 </div>
-                <div class="col-4 form-group">
-                    <label for="name" class="form-control-label">Nombre *</label>
-                    <input class="@error('name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="name" id="name" wire:model="name">
-                    @error('name') <sub class="text-danger">{{ $message }}</sub> @enderror
+
+
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            {{-- Para 2 generos --}}
+                            <label for="gender" class="form-control-label mb-2">Sexo *</label>
+                            <div class="form-check m-0 mb-2">
+                                @foreach ($genders as $gender)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="gender_{{ $gender->id }}" value="{{ $gender->id }}" wire:model="gender"
+                                            style="transform: scale(0.8);">
+                                        <label class="form-check-label" for="gender_{{ $gender->id }}" title="{{$gender->label }}">{!! html_entity_decode($gender->icon) !!}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            {{-- Para +2 generos --}}
+                            {{-- <label for="gender" class="form-control-label">Sexo *</label>
+                            <select class="@error("gender")border border-danger rounded-3 is-invalid @enderror form-control"
+                                name="gender" id="gender" wire:model="gender">
+                                @foreach ($genders as $gender)
+                                    <option value="{{ $gender->id }}">
+                                        {{ $gender->label }}
+                                    </option>
+                                @endforeach
+                            </select> --}}
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="prefix" class="form-control-label">Prefijo *</label>
+                            <select class="@error("prefix")border border-danger rounded-3 is-invalid @enderror form-control"
+                                name="prefix" id="prefix" wire:model="prefix">
+                                @foreach ($prefixs as $prefix)
+                                    <option value="{{ $prefix->id }}">
+                                        {!! json_decode($prefix->label)->abb !!}.
+                                        &nbsp;&nbsp;
+                                        ({!! json_decode($prefix->label)->exp !!})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('prefix') <sub class="text-danger">{{ $message }}</sub> @enderror
+                        </div>
+                    </div>
+
                 </div>
-                <div class="col-4 form-group">
-                    <label for="middle_name" class="form-control-label">Segundo Nombre</label>
-                    <input class="@error('middle_name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="middle_name" id="middle_name" wire:model="middle_name">
-                    @error('middle_name') <sub class="text-danger">{{ $message }}</sub> @enderror
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label for="name" class="form-control-label">Nombre *</label>
+                            <input class="@error('name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
+                                name="name" id="name" wire:model="name">
+                            @error('name') <sub class="text-danger">{{ $message }}</sub> @enderror
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="middle_name" class="form-control-label">Segundo Nombre</label>
+                            <input class="@error('middle_name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
+                                name="middle_name" id="middle_name" wire:model="middle_name">
+                            @error('middle_name') <sub class="text-danger">{{ $message }}</sub> @enderror
+                        </div>
+
+
+                        <div class="col-6 form-group">
+                            <label for="first_lastname" class="form-control-label">Primer Apellido *</label>
+                            <input class="@error('first_lastname')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
+                                name="first_lastname" id="first_lastname" wire:model="first_lastname">
+                            @error('first_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="second_lastname" class="form-control-label">Segundo Apellido</label>
+                            <input class="@error('second_lastname')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
+                                name="second_lastname" id="second_lastname" wire:model="second_lastname">
+                            @error('second_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="d-flex justify-content-start my-3 mx-3 mt-3 h5 text-dark form-title">
+                    <span class="font-weight-bolder opacity-7"><i class="fas fa-info"></i> &nbsp; Adicional :</span>
                 </div>
                 <div class="col-4 form-group">
                     <label for="alias" class="form-control-label">Alias</label>
                     <input class="@error('alias')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
                         name="alias" id="alias" wire:model="alias">
                     @error('alias') <sub class="text-danger">{{ $message }}</sub> @enderror
-                </div>
-
-                <div class="col-6 form-group">
-                    <label for="first_lastname" class="form-control-label">Primer Apellido *</label>
-                    <input class="@error('first_lastname')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="first_lastname" id="first_lastname" wire:model="first_lastname">
-                    @error('first_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
-                </div>
-                <div class="col-6 form-group">
-                    <label for="second_lastname" class="form-control-label">Segundo Apellido</label>
-                    <input class="@error('second_lastname')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="second_lastname" id="second_lastname" wire:model="second_lastname">
-                    @error('second_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
-                </div>
-
-
-                <div class="d-flex justify-content-start my-3 mx-3 mt-3 h5 text-dark form-title">
-                    <span class="font-weight-bolder opacity-7"><i class="fas fa-info"></i> &nbsp; Adicional :</span>
                 </div>
                 <div class="col-12 form-group">
                     <label for="about">Observaciones</label>
