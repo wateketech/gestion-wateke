@@ -1086,6 +1086,17 @@ class Create extends Component
     }
 // -------------------------- FINAL STEP  --------------------------
     public function store(){
+
+
+
+
+
+
+
+
+
+
+
         DB::beginTransaction();
         try {
             if($this->is_user_link){
@@ -1107,6 +1118,8 @@ class Create extends Component
                 'middle_name' => $this->middle_name,
                 'first_lastname' => $this->first_lastname,
                 'second_lastname' => $this->second_lastname,
+                'gender' => $this->gender,
+                'prefix' => $this->prefix,
                 'meta' => $this->meta,
                 'about' => $this->about,
             ]);
@@ -1124,12 +1137,56 @@ class Create extends Component
                 ])->assignRole($this->user_link_role);
 
             // LINK USER CONTACT
-            //dd($contcat)
             ContactLinkUser::create([
                 'contact_id' => $contact->id,
                 'user_id' => $user->id,
                 ]);
             }
+
+
+
+            // CREATE N ASSIGN RELATIONALS TABLES
+            // $contact->bank_accounts()->createMany($this->bank_accounts)
+            // $contact->dates()->createMany($this->dates)
+            // $contact->emails()->createMany($this->emails)
+            // $contact->ids()->createMany($this->ids)
+            // $contact->instant_messages()->createMany($this->instant_messages)
+            // $contact->linkUser()->createMany($this->linkUser)
+            // $contact->phones()->createMany($this->phones)
+            // $contact->pics()->createMany($this->pics)
+            // $contact->publish_us()->createMany($this->publish_us)
+            // $contact->rrss()->createMany($this->rrss)
+            // $contact->webs()->createMany($this->webs)
+
+
+
+            $contact->ids()->createMany($this->ids);
+            $contact->emails()->createMany($this->emails);
+
+
+
+
+            //// CREATE ID
+            //$id = \App\Models\EntityId::create([
+            //    'type_id' => $this->entity_id_type,
+            //    'entity_id' => $entity->id,
+            //    'value' => $this->entity_id_value,
+            //]);
+
+
+            //$entity->entity_id()->save($id);
+
+            // Countries
+            // IdTypes
+            // EmailTypes
+            // PhoneTypes
+            // InstantMessageTypes
+            // RrssTypes
+            // WebTypes
+            // BankAccountTypes
+            // DateTypes
+            // PublishUsTypes
+
 
             DB::commit();
             $this->dispatchBrowserEvent('show-created-success');

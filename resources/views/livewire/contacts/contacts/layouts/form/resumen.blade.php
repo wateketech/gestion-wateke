@@ -6,7 +6,10 @@
                     <img id='profile_pics' class="avatar avatar-xxl me-3" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : 'https://via.placeholder.com/300x300/f2f2f2/161616?text=Foto+Perfil' }}" alt="Imagen de Perfil">
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-xl h5">{{$name . ' ' . $middle_name . ' ' . $first_lastname . ' ' . $second_lastname}}</h6>
+                    <h6 class="mb-0 text-xl h5">
+                        {!! json_decode($prefixs->find($prefix)->label)->abb !!}.
+                        {{$name . ' ' . $middle_name . ' ' . $first_lastname . ' ' . $second_lastname}}
+                    </h6>
                     {{ $alias ? '(' . $alias . ')': '' }}
                     <p class="text-md text-secondary pb-2 mb-0">
                         @php
