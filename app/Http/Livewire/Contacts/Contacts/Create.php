@@ -44,7 +44,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = ['general','emails','phone_chats','rrss_web','address','bank_accounts','ocupation','more','resumen'];
     public $passStep = [];
-    public $currentStep = 'general' ; //'general';
+    public $currentStep = 'resumen' ; //'general';
 
     protected $rules = [
 
@@ -1150,6 +1150,8 @@ class Create extends Component
         $this->first_lastname = 'Licea';
         $this->second_lastname = 'Vallejo';
         $this->about = 'Una pequeña descripción del contacto en cuestión.';
+        $this->gender = 1;
+        $this->prefix = 5;
         $this->ids = [
             [ 'type_id' => 1, 'value' => '00090120123'],
             [ 'type_id' => 2, 'value' => 'A1234567'],

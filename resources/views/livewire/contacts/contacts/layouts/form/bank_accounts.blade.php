@@ -52,9 +52,9 @@
 
 
                     <div class="col-12 d-none d-xl-flex justify-content-end mt-3 h3 px-4">
-                        <button class="btn btn-success mx-1" wire:click="addAccountCard">agregar tarjeta</button>
+                        <button class="btn btn-outline-success mx-1" wire:click="addAccountCard">agregar tarjeta</button>
 
-                        <button type="button" class="btn btn-secondary mx-1 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-outline-secondary mx-1 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="visually-hidden">Toggle Dropdown</span> tipo
                         </button>
                         <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
@@ -204,9 +204,9 @@
                                 </div>
                                 {{-- <div class="col-md-6 d-flex align-items-center "> --}}
                                 <div class="col-md-6 d-xl-none text-right px-4">
-                                    <button class="btn btn-success mx-1" wire:click="addAccountCard">agregar tarjeta</button>
+                                    <button class="btn btn-outline-success mx-1" wire:click="addAccountCard">agregar tarjeta</button>
 
-                                    <button type="button" class="btn btn-secondary mx-1 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-outline-secondary mx-1 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span class="visually-hidden">Toggle Dropdown</span> tipo
                                     </button>
                                     <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
