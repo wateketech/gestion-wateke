@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('contact_id');
             $table->unsignedBigInteger('type_id');
+            $table->string('label')->nullable();
             $table->string('value');
             $table->json('meta')->nullable();
-            $table->string('is_personal')->nullable();
             $table->boolean('is_primary')->default(0);
             $table->text('about')->nullable();
             $table->boolean('enable')->default(1);

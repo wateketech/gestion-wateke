@@ -56,4 +56,11 @@ class Contact extends Model
     public function gender(){
         return $this->hasOne('App\Models\Gender', 'id');
     }
+
+
+
+    public function address(){
+        return $this->hasMany('App\Models\ContactHasAddress', 'contact_id');
+    }
+
 }

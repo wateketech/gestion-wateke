@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('contact_id');
             $table->unsignedBigInteger('type_id');
-            $table->unsignedBigInteger('bank_id');
+            $table->unsignedBigInteger('bank_id')->nullable();  // implementar mas tarde
             $table->string('card_number');
             $table->string('card_holder');
             $table->date('expiration_date');

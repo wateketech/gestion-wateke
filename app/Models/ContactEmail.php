@@ -11,7 +11,7 @@ class ContactEmail extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_emails';
-    protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'is_personal', 'about', 'enable'];
+    protected $fillable = ['contact_id', 'type_id', 'label', 'value', 'meta', 'is_primary', 'about', 'enable'];
 
     public function type(){
         return $this->belongsTo('App\Models\ContactEmailType', 'id');
