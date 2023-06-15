@@ -1086,17 +1086,6 @@ class Create extends Component
     }
 // -------------------------- FINAL STEP  --------------------------
     public function store(){
-
-
-
-
-
-
-
-
-
-
-
         DB::beginTransaction();
         try {
             if($this->is_user_link){
@@ -1118,8 +1107,8 @@ class Create extends Component
                 'middle_name' => $this->middle_name,
                 'first_lastname' => $this->first_lastname,
                 'second_lastname' => $this->second_lastname,
-                'gender' => $this->gender,
-                'prefix' => $this->prefix,
+                'gender_id' => $this->gender,
+                'prefix_id' => $this->prefix,
                 'meta' => $this->meta,
                 'about' => $this->about,
             ]);
@@ -1146,46 +1135,31 @@ class Create extends Component
 
 
             // CREATE N ASSIGN RELATIONALS TABLES
-            // $contact->bank_accounts()->createMany($this->bank_accounts)
-            // $contact->dates()->createMany($this->dates)
-            // $contact->emails()->createMany($this->emails)
-            // $contact->ids()->createMany($this->ids)
-            // $contact->instant_messages()->createMany($this->instant_messages)
-            // $contact->linkUser()->createMany($this->linkUser)
-            // $contact->phones()->createMany($this->phones)
-            // $contact->pics()->createMany($this->pics)
-            // $contact->publish_us()->createMany($this->publish_us)
-            // $contact->rrss()->createMany($this->rrss)
-            // $contact->webs()->createMany($this->webs)
-
-
-
             $contact->ids()->createMany($this->ids);
+
+            // hacer algo especial con las fotos YA QUE HAY QUE ALMACENARLAS    $contact->pics()->createMany($this->pics);
+
             $contact->emails()->createMany($this->emails);
+            $contact->phones()->createMany($this->phones);
+            $contact->instant_messages()->createMany($this->instant_messages);
+            $contact->webs()->createMany($this->webs);
+            $contact->rrss()->createMany($this->rrss);
+            $contact->dates()->createMany($this->dates);
+            $contact->publish_us()->createMany($this->publish_us);
 
 
+            // hacer algo especial con las DIRECCIONES YA QUE HAY VARIAS TABLAS
+            $address = $contact->address()->createMany($this->address);
+            // dd($address);
+            
+
+            // PROXIMAMENTE ANALSAR COMO SE ALMACENARAN LOS BANCOS Y SU RELACION CON LAS CUENTAS BANCARIAS (ya que abrían bancos que no serian entidad y otros q si )
+            $contact->bank_accounts()->createMany($this->bank_accounts);
 
 
-            //// CREATE ID
-            //$id = \App\Models\EntityId::create([
-            //    'type_id' => $this->entity_id_type,
-            //    'entity_id' => $entity->id,
-            //    'value' => $this->entity_id_value,
-            //]);
+            // implementar datos laborales
 
 
-            //$entity->entity_id()->save($id);
-
-            // Countries
-            // IdTypes
-            // EmailTypes
-            // PhoneTypes
-            // InstantMessageTypes
-            // RrssTypes
-            // WebTypes
-            // BankAccountTypes
-            // DateTypes
-            // PublishUsTypes
 
 
             DB::commit();
@@ -1226,8 +1200,8 @@ class Create extends Component
     // PHONE AND CHATS
         $this->phones = [
             [ 'type_id' => 2, 'value' => '32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            [ 'type_id' => 3, 'value' => '32271900', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            [ 'type_id' => 1, 'value' => '5615459878', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
+            [ 'type_id' => 3, 'value' => '32271900', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            [ 'type_id' => 1, 'value' => '5615459878', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
             [ 'type_id' => 6, 'value' => '354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
             ];
         $this->instant_messages = [
@@ -1253,12 +1227,20 @@ class Create extends Component
 
         // ADDRESS
         $this->address = [
-            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa", 'state_id' => "286", 'zip_code' => "70100" ],
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100" ],
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100" ],
             ];
         $this->address_line = [
             [
                 [ 'address_id' => 1, 'label' => "Localidad", 'value' => "Centro"],
                 [ 'address_id' => 1, 'label' => "Número", 'value' => "364"],
+                [ 'address_id' => 1, 'label' => "Calle", 'value' => "Bembeta"],
+                [ 'address_id' => 1, 'label' => "entre", 'value' => "Cielo"],
+                [ 'address_id' => 1, 'label' => "y", 'value' => "20 de Mayo"],
+            ],
+            [
+                [ 'address_id' => 1, 'label' => "Localidad", 'value' => "Centro"],
+                [ 'address_id' => 1, 'label' => "Número", 'value' => "568"],
                 [ 'address_id' => 1, 'label' => "Calle", 'value' => "Bembeta"],
                 [ 'address_id' => 1, 'label' => "entre", 'value' => "Cielo"],
                 [ 'address_id' => 1, 'label' => "y", 'value' => "20 de Mayo"],
@@ -1282,9 +1264,9 @@ class Create extends Component
         // $this->bank_account_bank_title = '';
         // $this->bank_account_banks = '';
         $this->bank_accounts = [
-            [ 'type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => true, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year))],
-            [ 'type_id' => 1, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year))],
-            [ 'type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year))],
+            [ 'type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => true, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 11, 1, 24))],
+            [ 'type_id' => 1, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 7, 1,25))],
+            [ 'type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 3, 1, 24))],
             ];
 
         // OCUPATION
@@ -1295,9 +1277,9 @@ class Create extends Component
             [ 'type_id' => '2', 'value' => '2011-04-25'],
             ];
         $this->publish_us = [
-            [ 'type_id' => '1', 'label' => 'Personal',  'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
-            [ 'type_id' => '3', 'label' => 'Personal',  'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
-            [ 'type_id' => '2', 'label' => 'Trabajo',   'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
+            [ 'type_id' => '1', 'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
+            [ 'type_id' => '3', 'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
+            [ 'type_id' => '2', 'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
             ];
 
 
