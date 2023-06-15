@@ -1151,11 +1151,11 @@ class Create extends Component
             // hacer algo especial con las DIRECCIONES YA QUE HAY VARIAS TABLAS
             $address = $contact->address()->createMany($this->address);
             // dd($address);
-            
+
 
             // PROXIMAMENTE ANALSAR COMO SE ALMACENARAN LOS BANCOS Y SU RELACION CON LAS CUENTAS BANCARIAS (ya que abrían bancos que no serian entidad y otros q si )
             $contact->bank_accounts()->createMany($this->bank_accounts);
-
+            // recorrer en bucle las direcciones y asignarle las lines (CREAR MODELO Y RELACIONES : LINEAS)
 
             // implementar datos laborales
 
