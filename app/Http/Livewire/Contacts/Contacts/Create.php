@@ -25,7 +25,7 @@ use App\Models\ContactWebType as WebTypes;
 use App\Models\ContactBankAccountType as BankAccountTypes;
 use App\Models\ContactDateType as DateTypes;
 use App\Models\ContactPublishUsType as PublishUsTypes;
-use App\Models\ContactHasAddress as Address;
+use App\Models\ContactAddress as Address;
 
 
 class Create extends Component
@@ -164,9 +164,9 @@ class Create extends Component
 
         $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => null, 'zip_code' => '',
                 'country_id' => null, 'state_id' => null ];
-                $this->address_line[0][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
-                $this->address_line[0][] = ['address_id' => 1, 'label' => 'Número', 'value' => ''];
-                $this->address_line[0][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
+                $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+                $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+                $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 
         $this->remount_bank_accounts();
         $this->datos_prueba();
@@ -656,9 +656,9 @@ class Create extends Component
         if (count($this->address) < $this->address_max) {
             $this->address[] = ['name' => '# ' . ($index + 2), 'citie_id' => '1', 'geolocation' => '', 'zip_code' => '',
                 'country_id' => null, 'state_id' => null ];
-            $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Localidad', 'value' => ''];
-            $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Numero', 'value' => ''];
-            $this->address_line[$index + 1][] = ['address_id' => 1, 'label' => 'Calle', 'value' => ''];
+            $this->address_line[$index + 1][] = ['label' => 'Localidad', 'value' => ''];
+            $this->address_line[$index + 1][] = ['label' => 'Numero', 'value' => ''];
+            $this->address_line[$index + 1][] = ['label' => 'Calle', 'value' => ''];
         }
         $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => $index + 1]);
     }
@@ -725,7 +725,7 @@ class Create extends Component
             'address_line.' . $index_add . '.*.*.required' => 'El campo es obligatorio',
         ]);
         if (count($this->address_line[$index_add]) < $this->address_line_max) {
-            $this->address_line[$index_add][] = ['address_id' => 1, 'label' => '', 'value' => ''];
+            $this->address_line[$index_add][] = ['label' => '', 'value' => ''];
         }
     }
     public function removeAddressLine($index_l, $index_add){
@@ -1147,18 +1147,15 @@ class Create extends Component
             $contact->dates()->createMany($this->dates);
             $contact->publish_us()->createMany($this->publish_us);
 
-
-            // hacer algo especial con las DIRECCIONES YA QUE HAY VARIAS TABLAS
             $address = $contact->address()->createMany($this->address);
-            // dd($address);
-
+            for ($i = 0; $i < count($address); $i++) {
+                $address[$i]->lines()->createMany($this->address_line[$i]);
+            }
 
             // PROXIMAMENTE ANALSAR COMO SE ALMACENARAN LOS BANCOS Y SU RELACION CON LAS CUENTAS BANCARIAS (ya que abrían bancos que no serian entidad y otros q si )
             $contact->bank_accounts()->createMany($this->bank_accounts);
-            // recorrer en bucle las direcciones y asignarle las lines (CREAR MODELO Y RELACIONES : LINEAS)
 
             // implementar datos laborales
-
 
 
 
@@ -1232,18 +1229,18 @@ class Create extends Component
             ];
         $this->address_line = [
             [
-                [ 'address_id' => 1, 'label' => "Localidad", 'value' => "Centro"],
-                [ 'address_id' => 1, 'label' => "Número", 'value' => "364"],
-                [ 'address_id' => 1, 'label' => "Calle", 'value' => "Bembeta"],
-                [ 'address_id' => 1, 'label' => "entre", 'value' => "Cielo"],
-                [ 'address_id' => 1, 'label' => "y", 'value' => "20 de Mayo"],
+                [ 'label' => "Localidad", 'value' => "Centro"],
+                [ 'label' => "Número", 'value' => "364"],
+                [ 'label' => "Calle", 'value' => "Bembeta"],
+                [ 'label' => "entre", 'value' => "Cielo"],
+                [ 'label' => "y", 'value' => "20 de Mayo"],
             ],
             [
-                [ 'address_id' => 1, 'label' => "Localidad", 'value' => "Centro"],
-                [ 'address_id' => 1, 'label' => "Número", 'value' => "568"],
-                [ 'address_id' => 1, 'label' => "Calle", 'value' => "Bembeta"],
-                [ 'address_id' => 1, 'label' => "entre", 'value' => "Cielo"],
-                [ 'address_id' => 1, 'label' => "y", 'value' => "20 de Mayo"],
+                [ 'label' => "Localidad", 'value' => "Centro"],
+                [ 'label' => "Número", 'value' => "568"],
+                [ 'label' => "Calle", 'value' => "Bembeta"],
+                [ 'label' => "entre", 'value' => "Cielo"],
+                [ 'label' => "y", 'value' => "20 de Mayo"],
             ]
             ];
 
