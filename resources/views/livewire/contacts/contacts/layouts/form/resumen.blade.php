@@ -77,8 +77,8 @@
 
     <div class="card-body px-0 pt-0">
         <div class="row mx-1">
-            <div class="col-md-4 mb-md-0 mb-4">
-                <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
+            <div class="col-md-3 mb-md-0 mb-3 card card-body border card-plain border-radius-lg mx-3 px-3 py-3 min-height-120">
+                {{-- <div class=""> --}}
                     @foreach ($ids as $id)
                         <p class="p-0 m-0">{!! html_entity_decode($id_types->find($id['type_id'])->icon) !!} {{ $id['value'] }}</p>
                     @endforeach
@@ -88,7 +88,7 @@
                     <small>{{ (isset($about) && strlen($about)!=0) ? '' : 'No dispone' }}</small>{{-- agregar tambien condicion para el about laboral --}}
                     @if (isset($about) && strlen($about)!=0)
                         <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-people-arrows px-0"></i>
+                            <i class="fas fa-file-alt px-0"></i>
                         </div>
                         <div class="dropdown-menu about">
                             {{ $about}}
@@ -96,21 +96,21 @@
                     @endif
                     {{-- @if ()
                         <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-briefcase px-0"></i>
+                            <i class="fas fa-file-alt px-0"></i>
                         </div>
                         <div class="dropdown-menu about">
 
                         </div>
                     @endif --}}
 
-                </div>
+                {{-- </div> --}}
             </div>
-            <div class="col-md-8">
-                <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
+            <div class="col-md-7 card card-body border card-plain border-radius-lg mx-3 px-3 py-3 pt-0 min-height-120">
+                {{-- <div class=""> --}}
                     @forelse ($address as $index_add => $add)
-                        <strong class="">Dirección {{ $add['name'] }}:</strong>
-                            <p class="card-text fs-6 {{ ($add['geolocation'] || strlen($add['geolocation'])!=0) ? 'cursor-pointer' : '' }}">
-                                <i class="fas fa-map-marker-alt pl-3 pr-1 {{ ($add['geolocation'] || strlen($add['geolocation'])!=0 ) ? 'text-primary' : '' }}"></i>
+                        <strong class="mt-3">Dirección {{ $add['name'] }}:</strong>
+                        <p class="card-text fs-6 {{ ($add['geolocation'] || strlen($add['geolocation'])!=0) ? 'cursor-pointer' : '' }}">
+                            <i class="fas fa-map-marker-alt pl-3 pr-1 {{ ($add['geolocation'] || strlen($add['geolocation'])!=0 ) ? 'text-primary' : '' }}"></i>
                                     @php $localidad = null; @endphp
                                 @foreach ($address_line[$index_add] as $index_l => $line)
                                     @if ($line['label'] != 'Localidad')
@@ -129,7 +129,7 @@
                     @empty
                         No dispone
                     @endforelse
-                </div>
+                {{-- </div> --}}
             </div>
         </div>
 
