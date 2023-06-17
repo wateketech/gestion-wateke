@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('contact_profile_pics', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('contact_id');
-            $table->string('value');
+            $table->string('label')->nullable();
+            $table->string('name');
+            $table->string('store');
             $table->json('meta')->nullable();
             $table->string('label')->nullable();
-            $table->boolean('primary')->nullable();
+            $table->boolean('is_primary')->default(0);
             $table->boolean('enable')->default(1);
             $table->timestamps();
-
 
             $table->foreign('contact_id')->references('id')->on('contacts')->constrained();
             // ->onUpdate('cascade')

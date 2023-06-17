@@ -258,6 +258,29 @@
             })
         });
 
+        window.addEventListener('pics-error', function($event){
+            swalWithBootstrapButtons.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                timer: 4000,
+                text: "Hubo un error al procesar la imagen!",
+                footer: "Luego, podrás actualizarla."
+                // confirmButtonText: 'Continuar igualmente',
+                // cancelButtonText: 'No, cancelar',
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
+            //         swalWithBootstrapButtons.fire(
+            //         'Deleted!',
+            //         'Your file has been deleted.',
+            //         'success'
+            //         )
+            //     } else if ( result.dismiss === Swal.DismissReason.cancel){
+            //         window.location.href = "crear-contactos";
+            //     }
+
+            })
+        });
+
         window.addEventListener('show-created-success', function(){
             swalWithBootstrapButtons.fire({
                 position: 'center' ,

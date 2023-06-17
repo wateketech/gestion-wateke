@@ -32,19 +32,28 @@ class Create extends Component
 {
     use WithFileUploads;
     protected $listeners = [
-        'existEmail', 'existPhoneNumber', 'existInstantMessage', 'existWeb', 'existRrss', 'existPublisUs',
+        'existEmail',
+        'existPhoneNumber',
+        'existInstantMessage',
+        'existWeb',
+        'existRrss',
+        'existPublisUs',
         'prueba',
-        'updatePhoneNumber', 'updateWebValue', 'updateRrssValue',
-        'updateCountry', 'updateState', 'updateCity',
+        'updatePhoneNumber',
+        'updateWebValue',
+        'updateRrssValue',
+        'updateCountry',
+        'updateState',
+        'updateCity',
         'removeAccountCard',
     ];
     public $prueba, $datos_prueba;
-//    public $available_id_types = [];
+    //    public $available_id_types = [];
 
     public $errorMessage;
-    public $allStep = ['general','emails','phone_chats','rrss_web','address','bank_accounts','ocupation','more','resumen'];
+    public $allStep = ['general', 'emails', 'phone_chats', 'rrss_web', 'address', 'bank_accounts', 'ocupation', 'more', 'resumen'];
     public $passStep = [];
-    public $currentStep = 'general' ; //'general';
+    public $currentStep = 'general'; //'general';
 
     protected $rules = [
 
@@ -129,12 +138,22 @@ class Create extends Component
 
 
 
-// ----------------------- VALIDACIONES --------------------------
-    public function skip_validation($attribute, $value, $parameters, $validator) { return true; }
-    public function cleanErrors(){    $this->resetValidation();     }
-    public function cleanError($m){   $this->resetValidation($m);   }
-// ----------------------- RENDER --------------------------
-    public function mount(){
+    // ----------------------- VALIDACIONES --------------------------
+    public function skip_validation($attribute, $value, $parameters, $validator)
+    {
+        return true;
+    }
+    public function cleanErrors()
+    {
+        $this->resetValidation();
+    }
+    public function cleanError($m)
+    {
+        $this->resetValidation($m);
+    }
+    // ----------------------- RENDER --------------------------
+    public function mount()
+    {
         $this->genders = Genders::all()->where('enable', true);
         $this->gender = $this->genders->first()->id;
         $this->updatedGender();
@@ -154,7 +173,7 @@ class Create extends Component
 
         $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',  ];
+        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -162,40 +181,51 @@ class Create extends Component
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
-        $this->address[] = ['name' => 'Casa', 'city_id' => '', 'geolocation' => null, 'zip_code' => '',
-                'country_id' => null, 'state_id' => null ];
-                $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
-                $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
-                $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
+        $this->address[] = [
+            'name' => 'Casa',
+            'city_id' => '',
+            'geolocation' => null,
+            'zip_code' => '',
+            'country_id' => null,
+            'state_id' => null
+        ];
+        $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+        $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+        $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 
         $this->remount_bank_accounts();
         $this->datos_prueba();
     }
-    public function render(){
+    public function render()
+    {
         return view('livewire.contacts.contacts.create');
     }
 
 
 
 
-// -------------------------- STEP GENERALS --------------------------
-    public function updatedGender(){
+    // -------------------------- STEP GENERALS --------------------------
+    public function updatedGender()
+    {
         $this->prefixs = $this->genders->find($this->gender)->prefixs->where('enable', true);
         $this->prefix = $this->prefixs->first()->id;
     }
-    public function addId($index){
+    public function addId($index)
+    {
         $this->validate([
-            'ids.*.type_id' => [ 'required', Rule::in($this->id_types->pluck('id')->toArray()),],
+            'ids.*.type_id' => ['required', Rule::in($this->id_types->pluck('id')->toArray()),
+            ],
             'ids.*.value' => 'required|string',
-            'ids.'.$index.'.value' => ['required',
-            function ($attribute, $value, $fail) {
+            'ids.' . $index . '.value' => [
+                'required',
+                function ($attribute, $value, $fail) {
                     $ids = array_column($this->ids, 'value');
                     if (count($ids) != count(array_unique($ids))) {
                         $fail('Los valores no pueden repetirse');
                     }
                 }
             ]
-            ],[
+        ], [
                 'ids.*.type_id.required' => 'El campo es obligatorio',
                 'ids.*.value.required' => 'El campo es obligatorio',
             ]);
@@ -203,11 +233,13 @@ class Create extends Component
             $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
-    public function removeId($index){
+    public function removeId($index)
+    {
         unset($this->ids[$index]);
         $this->ids = array_values($this->ids);
     }
-    public function updatedProfilePics(){
+    public function updatedProfilePics()
+    {
         // $this->dispatchBrowserEvent('coocking-time-profile-img', ['time'=> 2000]);
         $this->validate([
             'profile_pics' => 'required|max:5120|valid_image_mime',
@@ -224,7 +256,8 @@ class Create extends Component
         $this->main_profile_pic = 0;
 
     }
-    public function stepSubmit_general(){
+    public function stepSubmit_general()
+    {
         $this->validate([
             'alias' => 'max:50',
             'name' => 'required|max:50',
@@ -235,34 +268,39 @@ class Create extends Component
             'profile_pics' => 'max:5120|valid_image_mime',
             // 'main_profile_pic' => ['required', 'integer', 'numeric', 'min:0', 'max:' . count($this->profile_pics)],
             'ids' => 'required',
-            'ids.*.value' => ['required', 'string',
+            'ids.*.value' => [
+                'required',
+                'string',
                 function ($attribute, $value, $fail) {
-                        $ids = array_column($this->ids, 'value');
-                        if (count($ids) != count(array_unique($ids))) {
-                            $fail('Los valores no pueden repetirse');
-                        }
+                    $ids = array_column($this->ids, 'value');
+                    if (count($ids) != count(array_unique($ids))) {
+                        $fail('Los valores no pueden repetirse');
                     }
-                ],
-            'ids.*.type_id' => [ 'required','integer', Rule::in($this->id_types->pluck('id')->toArray()),],
-        ],[
-            // '*.array' => 'Error de Servidor : El campo debe ser un array',
-            '*.required' => 'El campo es obligatorio',
-            'ids.*.value.required' => 'El campo es obligatorio',
-            '*.max' => 'El campo no puede tener más de :max caracteres',
-            '*.min' => 'El campo no puede menos más de :min caracteres',
-        ]);
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+                }
+            ],
+            'ids.*.type_id' => ['required', 'integer', Rule::in($this->id_types->pluck('id')->toArray()),
+            ],
+        ], [
+                // '*.array' => 'Error de Servidor : El campo debe ser un array',
+                '*.required' => 'El campo es obligatorio',
+                'ids.*.value.required' => 'El campo es obligatorio',
+                '*.max' => 'El campo no puede tener más de :max caracteres',
+                '*.min' => 'El campo no puede menos más de :min caracteres',
+            ]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'general';
         $this->currentStep = 'resumen';
     }
 
-// -------------------------- STEP EMAILS --------------------------
+    // -------------------------- STEP EMAILS --------------------------
 
-    public function existEmail($index){
+    public function existEmail($index)
+    {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->emails[$index]['meta']['is_valid'] =
     }
-    public function selectEmailIsPrimary($index){
+    public function selectEmailIsPrimary($index)
+    {
         $this->emails = array_map(function ($email) {
             $email['is_primary'] = false;
             return $email;
@@ -270,21 +308,26 @@ class Create extends Component
 
         $this->emails[$index]['is_primary'] = true;
     }
-    public function addEmail($index){
+    public function addEmail($index)
+    {
         $this->validate([
             'emails.*.is_primary' => '',
-            'emails.*.type_id' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
-            'emails.*.label' => ['required', Rule::in($this->labels_type),],
+            'emails.*.type_id' => ['required', 'integer', Rule::in($this->email_types->pluck('id')->toArray()),
+            ],
+            'emails.*.label' => ['required', Rule::in($this->labels_type),
+            ],
             'emails.*.about' => '',
-            'emails.' . $index . '.value' => ['required', 'email',
+            'emails.' . $index . '.value' => [
+                'required',
+                'email',
                 function ($attribute, $value, $fail) {
-                        $emails = array_column($this->emails, 'value');
-                        if (count($emails) != count(array_unique($emails))) {
-                            $fail('Los emails no pueden repetirse');
-                        }
+                    $emails = array_column($this->emails, 'value');
+                    if (count($emails) != count(array_unique($emails))) {
+                        $fail('Los emails no pueden repetirse');
                     }
-                ]
-            ],[
+                }
+            ]
+        ], [
                 '*.required' => 'El campo es obligatorio',
                 'emails.*.*.required' => 'El campo es obligatorio',
                 'emails.*.*.email' => 'El campo debe ser un email',
@@ -292,34 +335,42 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->emails) < $this->emails_max) {
-            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',  'meta' => "{\"is_valid\":null}"];
+            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
 
-    public function removeEmail($index){
+    public function removeEmail($index)
+    {
         $remove_primary = false;
-        if ($this->emails[$index]['is_primary']) $remove_primary = true ;
+        if ($this->emails[$index]['is_primary'])
+            $remove_primary = true;
 
         unset($this->emails[$index]);
         $this->emails = array_values($this->emails);
-        if ($remove_primary) $this->selectEmailIsPrimary(0);
+        if ($remove_primary)
+            $this->selectEmailIsPrimary(0);
     }
-    public function stepSubmit_emails(){
+    public function stepSubmit_emails()
+    {
         $this->validate([
             'emails' => 'required',
             'emails.*.is_primary' => '',
-            'emails.*.type_id' => [ 'required','integer', Rule::in($this->email_types->pluck('id')->toArray()),],
-            'emails.*.label' => ['required', Rule::in($this->labels_type),],
+            'emails.*.type_id' => ['required', 'integer', Rule::in($this->email_types->pluck('id')->toArray()),
+            ],
+            'emails.*.label' => ['required', Rule::in($this->labels_type),
+            ],
             'emails.*.about' => '',
-            'emails.*.value' => ['required', 'email',
+            'emails.*.value' => [
+                'required',
+                'email',
                 function ($attribute, $value, $fail) {
-                        $emails = array_column($this->emails, 'value');
-                        if (count($emails) != count(array_unique($emails))) {
-                            $fail('Los emails no pueden repetirse');
-                        }
+                    $emails = array_column($this->emails, 'value');
+                    if (count($emails) != count(array_unique($emails))) {
+                        $fail('Los emails no pueden repetirse');
                     }
-                ]
-            ],[
+                }
+            ]
+        ], [
                 // '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'emails.*.*.required' => 'El campo es obligatorio',
@@ -327,22 +378,25 @@ class Create extends Component
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'emails';
         $this->currentStep = 'phone_chats';
     }
-// -------------------------- STEP PHONE AND CHATS --------------------------
+    // -------------------------- STEP PHONE AND CHATS --------------------------
 
-    public function existPhoneNumber($index){
+    public function existPhoneNumber($index)
+    {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->emails[$index]['meta']['exist'] =
     }
-    public function updatePhoneNumber($index, $value, $value_meta){
+    public function updatePhoneNumber($index, $value, $value_meta)
+    {
         $this->phones[$index]['value'] = $value;
         $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
     }
 
-    public function selectPhoneIsPrimary($index){
+    public function selectPhoneIsPrimary($index)
+    {
         $this->phones = array_map(function ($phone) {
             $phone['is_primary'] = false;
             return $phone;
@@ -350,46 +404,54 @@ class Create extends Component
 
         $this->phones[$index]['is_primary'] = true;
     }
-    public function addPhone($index){
+    public function addPhone($index)
+    {
         $this->validate([
             'phones.*.is_primary' => '',
-            'phones.*.type_id' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.*.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+            ],
             'phones.*.about' => '',
-            'phones.' . $index . '.value' => ['required',
+            'phones.' . $index . '.value' => [
+                'required',
                 function ($attribute, $value, $fail) {
-                        $phones = array_column($this->phones, 'value');
-                        if (count($phones) != count(array_unique($phones))) {
-                            $fail('Los números de teléfonos no pueden repetirse');
-                        }
+                    $phones = array_column($this->phones, 'value');
+                    if (count($phones) != count(array_unique($phones))) {
+                        $fail('Los números de teléfonos no pueden repetirse');
                     }
-                ]
-            ],[
+                }
+            ]
+        ], [
                 '*.required' => 'El campo es obligatorio',
                 'phones.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => false, 'about' => '',  'meta' => "{\"is_valid\":null}"];
+            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
 
         }
         $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
     }
-    public function removePhone($index){
+    public function removePhone($index)
+    {
         $remove_primary = false;
-        if ($this->phones[$index]['is_primary']) $remove_primary = true ;
+        if ($this->phones[$index]['is_primary'])
+            $remove_primary = true;
 
         unset($this->phones[$index]);
         $this->phones = array_values($this->phones);
-        if ($remove_primary) $this->selectPhoneIsPrimary(0);
+        if ($remove_primary)
+            $this->selectPhoneIsPrimary(0);
     }
 
 
-    public function existInstantMessage($index){
+    public function existInstantMessage($index)
+    {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->instant_messages[$index]['meta']['is_valid'] =
     }
-    public function selectInstantMessageIsPrimary($index){
+    public function selectInstantMessageIsPrimary($index)
+    {
         $this->instant_messages = array_map(function ($instant_message) {
             $instant_message['is_primary'] = false;
             return $instant_message;
@@ -397,81 +459,96 @@ class Create extends Component
 
         $this->instant_messages[$index]['is_primary'] = true;
     }
-    public function addInstantMessages($index){
+    public function addInstantMessages($index)
+    {
         $this->validate([
             'instant_messages.*.is_primary' => '',
-            'instant_messages.*.type_id' => [ 'required', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
-            'instant_messages.*.label' => ['required',],// Rule::in($this->labels_type),],
+            'instant_messages.*.type_id' => ['required', Rule::in($this->instant_message_types->pluck('id')->toArray()),
+            ],
+            'instant_messages.*.label' => ['required',
+            ], // Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
-            'instant_messages.' . $index . '.value' => ['required',
-                    function ($attribute, $value, $fail) {
-                        $instantMessages = collect($this->instant_messages);
-                        $duplicates = $instantMessages->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
+            'instant_messages.' . $index . '.value' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $instantMessages = collect($this->instant_messages);
+                    $duplicates = $instantMessages->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las cuentas no pueden repetirse con un mismo proveedor');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las cuentas no pueden repetirse con un mismo proveedor');
                     }
-                ],
-            ],[
+                }
+            ],
+        ], [
                 '*.required' => 'El campo es obligatorio',
                 'instant_messages.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->instant_messages) < $this->instant_messages_max) {
-            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '',   'meta' => "{\"is_valid\":null}"];;
+            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            ;
         }
     }
-    public function removeInstantMessages($index){
+    public function removeInstantMessages($index)
+    {
         $remove_primary = false;
-        if ($this->instant_messages[$index]['is_primary']) $remove_primary = true ;
+        if ($this->instant_messages[$index]['is_primary'])
+            $remove_primary = true;
 
         unset($this->instant_messages[$index]);
         $this->instant_messages = array_values($this->instant_messages);
-        if ($remove_primary) $this->selectInstantMessageIsPrimary(0);
+        if ($remove_primary)
+            $this->selectInstantMessageIsPrimary(0);
     }
 
-    public function stepSubmit_phone_chats_omit(){
+    public function stepSubmit_phone_chats_omit()
+    {
         $this->phones = [];
         $this->instant_messages = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'rrss_web';
     }
-    public function stepSubmit_phone_chats(){
+    public function stepSubmit_phone_chats()
+    {
         $this->validate([
             'phones' => 'array',
             'phones.*.is_primary' => '',
-            'phones.*.type_id' => [ 'required','integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.*.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+            ],
             'phones.*.about' => '',
-            'phones.*.value' => ['required',
+            'phones.*.value' => [
+                'required',
                 function ($attribute, $value, $fail) {
-                        $phones = array_column($this->phones, 'value');
-                        if (count($phones) != count(array_unique($phones))) {
-                            $fail('Los números de teléfonos no pueden repetirse');
-                        }
+                    $phones = array_column($this->phones, 'value');
+                    if (count($phones) != count(array_unique($phones))) {
+                        $fail('Los números de teléfonos no pueden repetirse');
                     }
-                ],
+                }
+            ],
             'instant_messages' => 'array',
             'instant_messages.*.is_primary' => '',
-            'instant_messages.*.type_id' => [ 'required','integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
-            'instant_messages.*.label' => ['required', ],//Rule::in($this->labels_type),],
+            'instant_messages.*.type_id' => ['required', 'integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),
+            ],
+            'instant_messages.*.label' => ['required',
+            ], //Rule::in($this->labels_type),],
             'instant_messages.*.about' => '',
-            'instant_messages.*.value' => ['required',
+            'instant_messages.*.value' => [
+                'required',
                 function ($attribute, $value, $fail) {
                     $instantMessages = collect($this->instant_messages);
                     $duplicates = $instantMessages->filter(function ($item) use ($value) {
-                            return $item['value'] == $value;
-                        })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
+                        return $item['value'] == $value;
+                    })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las cuentas no pueden repetirse con un mismo proveedor');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las cuentas no pueden repetirse con un mismo proveedor');
                     }
-                ],
-            ],[
+                }
+            ],
+        ], [
                 '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'instant_messages.*.*.required' => 'El campo es obligatorio',
@@ -481,141 +558,165 @@ class Create extends Component
             ]);
 
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'phone_chats';
         $this->currentStep = 'rrss_web';
     }
-// -------------------------- STEP RRSS AND WEBS --------------------------
+    // -------------------------- STEP RRSS AND WEBS --------------------------
 
-    public function existWeb($index){
+    public function existWeb($index)
+    {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->webs[$index]['meta']['is_valid'] =
     }
-    public function updateWebValue($index, $value){
-        if (substr($value, 0, 2) === "//") $value = substr($value, 2);
-        else if (substr($value, 0, 3) === "://") $value = substr($value, 3);
-        else if (substr($value, 0, 7) === "http://") $value = substr($value, 7);
-        else if (substr($value, 0, 8) === "https://") $value = substr($value, 8);
+    public function updateWebValue($index, $value)
+    {
+        if (substr($value, 0, 2) === "//")
+            $value = substr($value, 2);
+        else if (substr($value, 0, 3) === "://")
+            $value = substr($value, 3);
+        else if (substr($value, 0, 7) === "http://")
+            $value = substr($value, 7);
+        else if (substr($value, 0, 8) === "https://")
+            $value = substr($value, 8);
 
         $this->webs[$index]['value'] = $value;
     }
-    public function selectWebIsPrimary($index){
+    public function selectWebIsPrimary($index)
+    {
         // NO DISPONIBLE PARA CONTACTOS
     }
-    public function addWeb($index){
+    public function addWeb($index)
+    {
         $this->validate([
-            'webs.*.type_id' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.*.type_id' => ['required', 'integer', Rule::in($this->web_types->pluck('id')->toArray()),
+            ],
             'webs.*.about' => '',
-            'webs.' . $index . '.value' => ['required',
-                    function ($attribute, $value, $fail) {
-                        $webs = collect($this->webs);
-                        $duplicates = $webs->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('type_id', $webs->pluck('type_id')->first())->count();
+            'webs.' . $index . '.value' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $webs = collect($this->webs);
+                    $duplicates = $webs->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $webs->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las webs no pueden repetirse con un mismo tipo');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las webs no pueden repetirse con un mismo tipo');
                     }
-                ]
-            ],[
+                }
+            ]
+        ], [
                 '*.required' => 'El campo es obligatorio',
                 'webs.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->webs) < $this->webs_max) {
-            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '',   'meta' => "{\"is_valid\":null}"];
+            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
-    public function removeWeb($index){
+    public function removeWeb($index)
+    {
         unset($this->webs[$index]);
         $this->webs = array_values($this->webs);
     }
 
 
-    public function existRrss($index){
+    public function existRrss($index)
+    {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->rrss[$index]['meta']['is_valid'] =
 
     }
-    public function updateRrssValue($index, $value, $value_meta){
+    public function updateRrssValue($index, $value, $value_meta)
+    {
         // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)
     }
-    public function selectRrssIsPrimary($index){
+    public function selectRrssIsPrimary($index)
+    {
         // NO DISPONIBLE PARA CONTACTOS
     }
-    public function addRrss($index){
+    public function addRrss($index)
+    {
         $this->validate([
-            'rrss.*.type_id' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.*.type_id' => ['required', Rule::in($this->rrss_types->pluck('id')->toArray()),
+            ],
             'rrss.*.about' => '',
-            'rrss.' . $index . '.value' => ['required',
-                    function ($attribute, $value, $fail) {
-                        $rrss = collect($this->rrss);
-                        $duplicates = $rrss->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('type_id', $rrss->pluck('type_id')->first())->count();
+            'rrss.' . $index . '.value' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $rrss = collect($this->rrss);
+                    $duplicates = $rrss->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $rrss->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las redes sociales no pueden repetirse con un mismo tipo');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las redes sociales no pueden repetirse con un mismo tipo');
                     }
-                ],
-            ],[
+                }
+            ],
+        ], [
                 '*.required' => 'El campo es obligatorio',
                 'rrss.*.*.required' => 'El campo es obligatorio',
                 '*.max' => 'El campo no puede tener más de :max caracteres',
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
         if (count($this->rrss) < $this->rrss_max) {
-            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '',   'meta' => "{\"is_valid\":null}"];
+            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
-    public function removeRrss($index){
+    public function removeRrss($index)
+    {
         unset($this->rrss[$index]);
         $this->rrss = array_values($this->rrss);
     }
 
 
-    public function stepSubmit_rrss_web_omit(){
+    public function stepSubmit_rrss_web_omit()
+    {
         $this->rrss = [];
         $this->webs = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'address';
     }
-    public function stepSubmit_rrss_web(){
+    public function stepSubmit_rrss_web()
+    {
         $this->validate([
             'webs' => 'array',
-            'webs.*.type_id' => [ 'required','integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.*.type_id' => ['required', 'integer', Rule::in($this->web_types->pluck('id')->toArray()),
+            ],
             'webs.*.about' => '',
-            'webs.*.value' => ['required',
-                    function ($attribute, $value, $fail) {
-                        $webs = collect($this->webs);
-                        $duplicates = $webs->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('id_type', $webs->pluck('type_id')->first())->count();
+            'webs.*.value' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $webs = collect($this->webs);
+                    $duplicates = $webs->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('id_type', $webs->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las webs no pueden repetirse con un mismo tipo');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las webs no pueden repetirse con un mismo tipo');
                     }
-                ],
+                }
+            ],
             'rrss' => 'array',
-            'rrss.*.type_id' => [ 'required', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.*.type_id' => ['required', Rule::in($this->rrss_types->pluck('id')->toArray()),
+            ],
             'rrss.*.about' => '',
-            'rrss.*.value' => ['required',
-                    function ($attribute, $value, $fail) {
-                        $rrss = collect($this->rrss);
-                        $duplicates = $rrss->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('type_id', $rrss->pluck('type_id')->first())->count();
+            'rrss.*.value' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $rrss = collect($this->rrss);
+                    $duplicates = $rrss->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $rrss->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las redes sociales no pueden repetirse con un mismo tipo');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las redes sociales no pueden repetirse con un mismo tipo');
                     }
-                ],
-            ],[
+                }
+            ],
+        ], [
                 '*.array' => 'Error de Servidor : El campo debe ser un array',
                 'webs.*.*.required' => 'El campo es obligatorio',
                 'rrss.*.*.required' => 'El campo es obligatorio',
@@ -623,172 +724,191 @@ class Create extends Component
                 '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'rrss_web';
         $this->currentStep = 'address';
     }
-// -------------------------- STEP ADDRESS --------------------------
-    public function addAddress($index){
+    // -------------------------- STEP ADDRESS --------------------------
+    public function addAddress($index)
+    {
         $this->validate([
             'address.' . $index . '.name' => 'required',
             'address.' . $index . '.country_id' => 'required',
             'address.' . $index . '.state_id' => [
-                    function ($attribute, $value, $fail) use ($index) {
-                        $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
-                        if ($country && $country->states->count() > 0 && empty($value)) $fail('El campo es obligatorio.');
-                    }
-                ],
+                function ($attribute, $value, $fail) use ($index) {
+                    $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
+                    if ($country && $country->states->count() > 0 && empty($value))
+                        $fail('El campo es obligatorio.');
+                }
+            ],
             'address.' . $index . '.city_id' => [
-                    function ($attribute, $value, $fail) use ($index) {
-                        $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
-                        $state = $country ? $country->states()->find($this->address[$index]['state_id']) : null;
-                        if ($state && $state->cities->count() > 0 && empty($this->address[$index]['city_id'])) $fail('El campo es obligatorio.');
-                    }
-                ],
+                function ($attribute, $value, $fail) use ($index) {
+                    $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
+                    $state = $country ? $country->states()->find($this->address[$index]['state_id']) : null;
+                    if ($state && $state->cities->count() > 0 && empty($this->address[$index]['city_id']))
+                        $fail('El campo es obligatorio.');
+                }
+            ],
             'address_line.' . $index . '.*.label' => 'required',
             'address_line.' . $index . '.*.value' => 'required',
             // 'address_line.' . $index . $index_l . '.label' => 'required',
             // 'address_line.' . $index . $index_l . '.value' => 'required',
-                ],[
-            'address.' . $index . '.*.required' => 'El campo es obligatorio',
-            'address_line.' . $index . '.*.*.required' => 'El campo es obligatorio',
-        ]);
+        ], [
+                'address.' . $index . '.*.required' => 'El campo es obligatorio',
+                'address_line.' . $index . '.*.*.required' => 'El campo es obligatorio',
+            ]);
         if (count($this->address) < $this->address_max) {
-            $this->address[] = ['name' => '# ' . ($index + 2), 'citie_id' => '1', 'geolocation' => '', 'zip_code' => '',
-                'country_id' => null, 'state_id' => null ];
+            $this->address[] = [
+                'name' => '# ' . ($index + 2),
+                'citie_id' => '1',
+                'geolocation' => '',
+                'zip_code' => '',
+                'country_id' => null,
+                'state_id' => null
+            ];
             $this->address_line[$index + 1][] = ['label' => 'Localidad', 'value' => ''];
             $this->address_line[$index + 1][] = ['label' => 'Numero', 'value' => ''];
             $this->address_line[$index + 1][] = ['label' => 'Calle', 'value' => ''];
         }
         $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => $index + 1]);
     }
-    public function removeAddress($index){
+    public function removeAddress($index)
+    {
         unset($this->address_line[$index]);
         unset($this->address[$index]);
         $this->address_line = array_values($this->address_line);
         $this->address = array_values($this->address);
     }
-    public function geolocation($index){
+    public function geolocation($index)
+    {
         // procesar con API de GOOGLE
-            // if (ya existe una geolocation){
-            //      mostrar en la ubicacion
-            // } else{
-            //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
-            // $this->address[$index]['geolocation'] =
-            // }
+        // if (ya existe una geolocation){
+        //      mostrar en la ubicacion
+        // } else{
+        //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
+        // $this->address[$index]['geolocation'] =
+        // }
     }
 
-    public function updateCountry($index_add ,$value){
+    public function updateCountry($index_add, $value)
+    {
         $this->address[$index_add]['country_id'] = $value;
         $this->address[$index_add]['state_id'] = null;
         $this->address[$index_add]['city_id'] = null;
 
         $states = Countries::where('enable', true)->find($value)->states->map(function ($state) {
-                        return ['id' => $state->id, 'text' => $state->name,];
-                    })->toArray();
+            return ['id' => $state->id, 'text' => $state->name,];
+        })->toArray();
 
-        if (count($states) == 0){
+        if (count($states) == 0) {
             $this->dispatchBrowserEvent('init-select2-states-disabled', ['index_add' => $index_add]);
-        }else{
-            $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states ]);
+        } else {
+            $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states]);
         }
     }
-    public function updateState($index_add ,$value){
+    public function updateState($index_add, $value)
+    {
         $this->address[$index_add]['state_id'] = $value;
         $this->address[$index_add]['city_id'] = null;
 
         $cities = Countries::find($this->address[$index_add]['country_id'])
-                    ->states->find($this->address[$index_add]['state_id'])
-                    ->cities->map(function ($city) {
-                        return ['id' => $city->id, 'text' => $city->name,];
-                    })->toArray();
+            ->states->find($this->address[$index_add]['state_id'])
+            ->cities->map(function ($city) {
+                return ['id' => $city->id, 'text' => $city->name,];
+            })->toArray();
 
-        if (count($cities) == 0){
+        if (count($cities) == 0) {
             $this->dispatchBrowserEvent('init-select2-cities-disabled', ['index_add' => $index_add]);
-        }else{
-            $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'cities' => $cities ]);
+        } else {
+            $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'cities' => $cities]);
         }
     }
-    public function updateCity($index_add ,$value){
+    public function updateCity($index_add, $value)
+    {
         $this->address[$index_add]['city_id'] = $value;
     }
 
 
 
-    public function addAddressLine($index_l, $index_add){
+    public function addAddressLine($index_l, $index_add)
+    {
         $this->validate([
             'address_line.' . $index_add . '.*.label' => 'required',
             'address_line.' . $index_add . '.*.value' => 'required',
             // 'address_line.' . $index_add . $index_l . '.label' => 'required',
             // 'address_line.' . $index_add . $index_l . '.value' => 'required',
-                ],[
-            'address_line.' . $index_add . '.*.*.required' => 'El campo es obligatorio',
-        ]);
+        ], [
+                'address_line.' . $index_add . '.*.*.required' => 'El campo es obligatorio',
+            ]);
         if (count($this->address_line[$index_add]) < $this->address_line_max) {
             $this->address_line[$index_add][] = ['label' => '', 'value' => ''];
         }
     }
-    public function removeAddressLine($index_l, $index_add){
+    public function removeAddressLine($index_l, $index_add)
+    {
         unset($this->address_line[$index_add][$index_l]);
         $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
     }
 
 
-    public function stepSubmit_address_omit(){
+    public function stepSubmit_address_omit()
+    {
         $this->address = [];
         $this->address_line = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'bank_accounts';
     }
-    public function stepSubmit_address(){
+    public function stepSubmit_address()
+    {
         $this->validate([
             'address.*.name' => 'required',
             'address.*.country_id' => 'required',
             'address.*.state_id' => [
-                    function ($attribute, $value, $fail){
-                        foreach ($this->address as $index => $address) {
-                            $country = Countries::where('enable', true)->find($address['country_id']);
-                            if ($country && $country->states->count() > 0 && empty($value)){
-                                $fail('El campo es requerido si está disponible');
-                            }
+                function ($attribute, $value, $fail) {
+                    foreach ($this->address as $index => $address) {
+                        $country = Countries::where('enable', true)->find($address['country_id']);
+                        if ($country && $country->states->count() > 0 && empty($value)) {
+                            $fail('El campo es requerido si está disponible');
                         }
                     }
-                ],
+                }
+            ],
             'address.*.city_id' => [
-                    function ($attribute, $value, $fail) {
-                        foreach ($this->address as $index => $address) {
-                            $country = Countries::where('enable', true)->find($address['country_id']);
-                            $state = $country ? $country->states()->find($address['state_id']) : null;
-                            if ($state && $state->cities->count() > 0 && empty($address['city_id'])){
-                                $fail('El campo es requerido si está disponible');
-                            }
+                function ($attribute, $value, $fail) {
+                    foreach ($this->address as $index => $address) {
+                        $country = Countries::where('enable', true)->find($address['country_id']);
+                        $state = $country ? $country->states()->find($address['state_id']) : null;
+                        if ($state && $state->cities->count() > 0 && empty($address['city_id'])) {
+                            $fail('El campo es requerido si está disponible');
                         }
                     }
-                ],
+                }
+            ],
             'address_line.*.*.label' => 'required',
             'address_line.*.*.value' => 'required',
-        ],[
-            '*.*.*.required' => 'El campo es obligatorio',
-            'address.*.*.required' => 'El campo es obligatorio',
-            'address_line.*.*.*.required' => 'El campo es obligatorio',
-        ]);
+        ], [
+                '*.*.*.required' => 'El campo es obligatorio',
+                'address.*.*.required' => 'El campo es obligatorio',
+                'address_line.*.*.*.required' => 'El campo es obligatorio',
+            ]);
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'address';
         $this->currentStep = 'bank_accounts';
         $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => 0]);
         $this->remount_bank_accounts();
     }
 
-// -------------------------- STEP BANK ACCOUNTS --------------------------
-    public function remount_bank_accounts(){
+    // -------------------------- STEP BANK ACCOUNTS --------------------------
+    public function remount_bank_accounts()
+    {
         $this->bank_account_types = BankAccountTypes::all();
         $this->bank_account_type = $this->bank_account_types->first()->id;
         $this->bank_account_expiration_year = date("Y");
-        $this->bank_account_expiration_month = date("n")+4;
+        $this->bank_account_expiration_month = date("n") + 4;
         $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));
         $this->bank_account_card_number = '';
-        $this->bank_account_card_holder = $this->name . ' ' .$this->first_lastname ;
+        $this->bank_account_card_holder = $this->name . ' ' . $this->first_lastname;
         $this->bank_account_is_credit = 'true';
         $this->bank_account_about = '';
         $this->bank_account_meta = "{\"is_valid\":null}";
@@ -812,7 +932,8 @@ class Create extends Component
     //     }
     // }
 
-    public function addAccountCard(){
+    public function addAccountCard()
+    {
         $bank_account_card_number = preg_replace('/\D/', '', $this->bank_account_card_number);
         $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));
 
@@ -826,11 +947,11 @@ class Create extends Component
             'bank_account_about' => 'nullable',
             // 'bank_account_bank_name' => 'required',
             // 'bank_account_bank_title' => 'nullable',
-        ],[
-            '*.required' => 'El campo es obligatorio',
-            'bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
-            'bank_account_card_number.min' => 'La Numeración debe tener 16 digitos',
-        ]);
+        ], [
+                '*.required' => 'El campo es obligatorio',
+                'bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
+                'bank_account_card_number.min' => 'La Numeración debe tener 16 digitos',
+            ]);
 
         // hacer en algun lado la validacion por si ya existe el banco sugerirlo
         // array_push($this->bank_account_banks, [
@@ -839,62 +960,73 @@ class Create extends Component
         //     ]);
 
         array_push($this->bank_accounts, [
-                // 'contact_id' => ,
-                'type_id' => $this->bank_account_type,
-                // 'bank_id_in_bbdd' => isset($this->bank_id_in_bbdd) ? $this->bank_id_in_bbdd : null,
-                'card_number' => $bank_account_card_number,
-                'card_holder' => $this->bank_account_card_holder,
-                'expiration_date' => $this->bank_account_expiration_date,
-                'is_credit' => $this->bank_account_is_credit,
-                'about' => $this->bank_account_about,
-                'meta' => $this->bank_account_meta,
-            ]);
+            // 'contact_id' => ,
+            'type_id' => $this->bank_account_type,
+            // 'bank_id_in_bbdd' => isset($this->bank_id_in_bbdd) ? $this->bank_id_in_bbdd : null,
+            'card_number' => $bank_account_card_number,
+            'card_holder' => $this->bank_account_card_holder,
+            'expiration_date' => $this->bank_account_expiration_date,
+            'is_credit' => $this->bank_account_is_credit,
+            'about' => $this->bank_account_about,
+            'meta' => $this->bank_account_meta,
+        ]);
         $this->remount_bank_accounts();
     }
-    public function removeAccountCard($index){
+    public function removeAccountCard($index)
+    {
         array_splice($this->bank_accounts, $index, 1);
         // array_splice($this->bank_account_banks, $index, 1);
     }
-    public function editAccountCard($index){
+    public function editAccountCard($index)
+    {
         // NO DISPONIBLE
     }
 
-    public function stepSubmit_bank_accounts(){
+    public function stepSubmit_bank_accounts()
+    {
         $this->validate([
             'bank_accounts' => 'required'
-        ],[
-            '*.required' => 'Necesita añadir almenos una cuenta bancaria, caso contrario omita la sección.',
-        ]);
+        ], [
+                '*.required' => 'Necesita añadir almenos una cuenta bancaria, caso contrario omita la sección.',
+            ]);
 
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'bank_accounts';
         $this->currentStep = 'ocupation';
     }
-    public function stepSubmit_bank_accounts_omit(){
+    public function stepSubmit_bank_accounts_omit()
+    {
         $this->bank_accounts = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'ocupation';
     }
-// -------------------------- STEP OCUPATION --------------------------
-    public function stepSubmit_ocupation(){
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+    // -------------------------- STEP OCUPATION --------------------------
+    public function stepSubmit_ocupation()
+    {
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'ocupation';
         $this->currentStep = 'more';
     }
-    public function stepSubmit_ocupation_omit(){
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+    public function stepSubmit_ocupation_omit()
+    {
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'more';
     }
-// -------------------------- STEP MORE --------------------------
-    public function addDate($index){
-        if (count($this->dates) >= 1 ) {
-        $this->validate([
-            'dates.' . $index . '.value' => ['required', 'date',
-                // 'before_or_equal:' . Carbon::now()->subYears(1)->format('Y-m-d'),
-                // 'after_or_equal:' . Carbon::now()->subYears(118)->format('Y-m-d'),
-            ],
-            'dates.' . $index . '.type_id' => [ 'required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+    // -------------------------- STEP MORE --------------------------
+    public function addDate($index)
+    {
+        if (count($this->dates) >= 1) {
+            $this->validate([
+                'dates.' . $index . '.value' => [
+                    'required',
+                    'date',
+                    // 'before_or_equal:' . Carbon::now()->subYears(1)->format('Y-m-d'),
+                    // 'after_or_equal:' . Carbon::now()->subYears(118)->format('Y-m-d'),
+                ],
+                'dates.' . $index . '.type_id' => [
+                    'required',
+                    'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
                     function ($attribute, $value, $fail) {
                         // Obtener los valores de type_id de todos los elementos de dates
                         $types_id = array_column($this->dates, 'type_id');
@@ -912,109 +1044,128 @@ class Create extends Component
                         }
                     }
                 ],
-            ],[
-                'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
-                'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
-                'dates.*.value.date' => 'El campo debe ser una fecha válida',
-                '*.required' => 'El campo es obligatorio',
-                'dates.*.*.required' => 'El campo es obligatorio',
-            ]);
+            ], [
+                    'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
+                    'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
+                    'dates.*.value.date' => 'El campo debe ser una fecha válida',
+                    '*.required' => 'El campo es obligatorio',
+                    'dates.*.*.required' => 'El campo es obligatorio',
+                ]);
         }
         if (count($this->dates) < $this->dates_max) {
             $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
 
-    public function removeDate($index){
+    public function removeDate($index)
+    {
         unset($this->dates[$index]);
         $this->dates = array_values($this->dates);
     }
 
 
-    public function existPublisUs($index){
+    public function existPublisUs($index)
+    {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->publish_us[$index]['meta']['is_valid'] =
     }
-    public function updatePublishUsValue($index, $value){
-        if (substr($value, 0, 2) === "//") $value = substr($value, 2);
-        else if (substr($value, 0, 3) === "://") $value = substr($value, 3);
-        else if (substr($value, 0, 7) === "http://") $value = substr($value, 7);
-        else if (substr($value, 0, 8) === "https://") $value = substr($value, 8);
+    public function updatePublishUsValue($index, $value)
+    {
+        if (substr($value, 0, 2) === "//")
+            $value = substr($value, 2);
+        else if (substr($value, 0, 3) === "://")
+            $value = substr($value, 3);
+        else if (substr($value, 0, 7) === "http://")
+            $value = substr($value, 7);
+        else if (substr($value, 0, 8) === "https://")
+            $value = substr($value, 8);
 
         $this->publish_us[$index]['value'] = $value;
     }
-    public function addPublishUs($index){
-        if (count($this->publish_us) >= 1 ) {
-        $this->validate([
-            'publish_us.' . $index . '.type_id' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-            'publish_us.' . $index . '.value' => [ 'required', // 'url',
+    public function addPublishUs($index)
+    {
+        if (count($this->publish_us) >= 1) {
+            $this->validate([
+                'publish_us.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
+                'publish_us.' . $index . '.value' => [
+                    'required',
+                    // 'url',
                     function ($attribute, $value, $fail) {
                         $url = collect($this->publish_us);
                         $duplicates = $url->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('id_type', $url->pluck('type_id')->first())->count();
+                            return $item['value'] == $value;
+                        })->where('id_type', $url->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
+                        if ($duplicates > 1) {
                             $fail('Las url no pueden repetirse con un mismo tipo');
                         }
                     }
                 ]
-            ],[
-                'publish_us.*.value.url' => 'El campo debe ser una url válida',
-                '*.required' => 'El campo es obligatorio',
-                'publish_us.*.*.required' => 'El campo es obligatorio',
-            ]);
+            ], [
+                    'publish_us.*.value.url' => 'El campo debe ser una url válida',
+                    '*.required' => 'El campo es obligatorio',
+                    'publish_us.*.*.required' => 'El campo es obligatorio',
+                ]);
         }
         if (count($this->publish_us) < $this->publish_us_max) {
-            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '',  'meta' => "{\"is_valid\":null}"];
+            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
 
-    public function removePublishUs($index){
+    public function removePublishUs($index)
+    {
         unset($this->publish_us[$index]);
         $this->publish_us = array_values($this->publish_us);
     }
 
 
-    public function stepSubmit_more_omit(){
+    public function stepSubmit_more_omit()
+    {
         $this->dates = [];
         $this->publish_us = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'resumen';
     }
-    public function stepSubmit_more(){
+    public function stepSubmit_more()
+    {
         $this->validate([
             'dates' => 'array',
-            'dates.*.value' => ['required', 'date',
+            'dates.*.value' => [
+                'required',
+                'date',
                 // 'before_or_equal:' . Carbon::now()->subYears(1)->format('d-m-Y'),
                 // 'after_or_equal:' . Carbon::now()->subYears(118)->format('d-m-Y'),
-                ],
-            'dates.*.type_id' => [ 'required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
-                    function ($attribute, $value, $fail) {
-                        $types_id = array_column($this->dates, 'type_id');
-                        $index = str_replace('dates.', '', $attribute);
-                        $index = str_replace('.type_id', '', $index);
-                        unset($types_id[$index]);
-                        if (in_array($value, $types_id)) {
-                            $fail('El motivo de la fecha no puede repetirse.');
-                        }
+            ],
+            'dates.*.type_id' => [
+                'required',
+                'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+                function ($attribute, $value, $fail) {
+                    $types_id = array_column($this->dates, 'type_id');
+                    $index = str_replace('dates.', '', $attribute);
+                    $index = str_replace('.type_id', '', $index);
+                    unset($types_id[$index]);
+                    if (in_array($value, $types_id)) {
+                        $fail('El motivo de la fecha no puede repetirse.');
                     }
-                ],
+                }
+            ],
             'publish_us' => 'array',
-            'publish_us.*.type_id' => [ 'required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-            'publish_us.*.value' => [ 'required', // 'url',
-                    function ($attribute, $value, $fail) {
-                        $url = collect($this->publish_us);
-                        $duplicates = $url->filter(function ($item) use ($value) {
-                                return $item['value'] == $value;
-                            })->where('type_id', $url->pluck('type_id')->first())->count();
+            'publish_us.*.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
+            'publish_us.*.value' => [
+                'required',
+                // 'url',
+                function ($attribute, $value, $fail) {
+                    $url = collect($this->publish_us);
+                    $duplicates = $url->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $url->pluck('type_id')->first())->count();
 
-                            if ($duplicates > 1) {
-                            $fail('Las url no pueden repetirse con un mismo tipo');
-                        }
+                    if ($duplicates > 1) {
+                        $fail('Las url no pueden repetirse con un mismo tipo');
                     }
-                ]
-            ],[
+                }
+            ]
+        ], [
                 '*.array' => 'Error de Servidor : El campo debe ser un array',
                 'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
                 'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
@@ -1026,13 +1177,14 @@ class Create extends Component
                 'publish_us.*.*.required' => 'El campo es obligatorio',
             ]);
 
-        $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'more';
         $this->currentStep = 'resumen';
     }
-// -------------------------- STEP RESUMEN --------------------------
+    // -------------------------- STEP RESUMEN --------------------------
 
-    public function UpdatedIsUserLink(){
+    public function UpdatedIsUserLink()
+    {
         $primary_email = null;
         $existing_emails = DB::table('users')->select('email')->get()->pluck('email')->toArray();
         foreach ($this->emails as $email) {
@@ -1050,7 +1202,7 @@ class Create extends Component
                 }
             }
         }
-        if(!$primary_email){
+        if (!$primary_email) {
             $this->dispatchBrowserEvent('error-user-exist');
             $this->is_user_link = false;
         }
@@ -1059,17 +1211,17 @@ class Create extends Component
         // Validar en dependencia del rol que cree el contacto sera los roles que este pueda establecer al contacto
 
 
-        $primary_phone = array_column(array_filter($this->phones, function($phone) {
+        $primary_phone = array_column(array_filter($this->phones, function ($phone) {
             return $phone['is_primary'] == 1;
         }), 'value');
 
 
-        if($this->is_user_link){
-            $this->user_link_name = $this->name . ' ' . $this->first_lastname  ;
-            $this->user_link_email =  $primary_email ;
+        if ($this->is_user_link) {
+            $this->user_link_name = $this->name . ' ' . $this->first_lastname;
+            $this->user_link_email = $primary_email;
             $this->user_link_phone = reset($primary_phone);
             $this->user_link_role = '1';
-        }else{
+        } else {
             $this->user_link_name = null;
             $this->user_link_email = null;
             $this->user_link_phone = null;
@@ -1084,18 +1236,19 @@ class Create extends Component
     {
         // esto creo q no se va a usar
     }
-// -------------------------- FINAL STEP  --------------------------
-    public function store(){
+    // -------------------------- FINAL STEP  --------------------------
+    public function store()
+    {
         DB::beginTransaction();
         try {
-            if($this->is_user_link){
+            if ($this->is_user_link) {
                 $this->validate([
                     'user_link_password_public' => 'required|min:6',
                     'user_link_password_check' => 'required|same:user_link_password_public',
-                ],[
-                    '*.required' => 'El campo es obligatorio',
-                    '*.same' => 'Las contraseñas no coinciden'
-                ]);
+                ], [
+                        '*.required' => 'El campo es obligatorio',
+                        '*.same' => 'Las contraseñas no coinciden'
+                    ]);
                 $this->user_link_password = Hash::make($this->user_link_password_public);
             }
 
@@ -1114,21 +1267,21 @@ class Create extends Component
             ]);
 
             // CREATE AND LINK USER ACCOUNT
-            if($this->is_user_link){
+            if ($this->is_user_link) {
 
                 $user = Users::factory()->create([
-                    'name' =>$this->user_link_name,
-                    'email' =>$this-> user_link_email,
+                    'name' => $this->user_link_name,
+                    'email' => $this->user_link_email,
                     'password' => $this->user_link_password,
                     'phone' => $this->user_link_phone,
-                    'about' =>$this-> user_link_about,
+                    'about' => $this->user_link_about,
                     'enable' => true
                 ])->assignRole($this->user_link_role);
 
-            // LINK USER CONTACT
-            ContactLinkUser::create([
-                'contact_id' => $contact->id,
-                'user_id' => $user->id,
+                // LINK USER CONTACT
+                ContactLinkUser::create([
+                    'contact_id' => $contact->id,
+                    'user_id' => $user->id,
                 ]);
             }
 
@@ -1136,18 +1289,6 @@ class Create extends Component
 
             // CREATE N ASSIGN RELATIONALS TABLES
             $contact->ids()->createMany($this->ids);
-
-            // hacer algo especial con las fotos YA QUE HAY QUE ALMACENARLAS
-            $profile_pics = [];
-            foreach ($this->profile_pics as $pic) {
-                $filename = str_replace(' ', '', now()) . "_" . $contact->id . "_" . md5($pic . microtime()) . '.' . $pic->extension();
-                dd($filename);
-                $profile_pics[] = ['value' => '', 'label' => '', 'is_primary' => '', 'meta' => ''];
-
-            }
-            $contact->pics()->createMany($profile_pics);
-
-
             $contact->emails()->createMany($this->emails);
             $contact->phones()->createMany($this->phones);
             $contact->instant_messages()->createMany($this->instant_messages);
@@ -1167,20 +1308,58 @@ class Create extends Component
             // implementar datos laborales
 
 
+            DB::beginTransaction();
+            try {
+                foreach ($this->profile_pics as $pic) {
+                    $timestamp = str_replace(array(' ', ':', '-'), '', now());
+                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->filename;
+
+                    $imageSize = getimagesize($pic->path());
+                    $link_pic = $contact->pics()->create([
+                        'label' => '',
+                        'name' => $filename,
+                        'store' => 'app/public/images/contacts_profile_pics/',
+                        'is_primary' => '',
+                        'meta' => json_encode([
+                            'width' => $imageSize[0],
+                            'height' => $imageSize[1],
+                            'mime_type' => $pic->getMimeType(),
+                            'size' => $pic->getSize()
+                        ])
+                    ]);
+
+                    $pic->save(storage_path($link_pic->store . $link_pic->name));
+                    $pic->storeAs($link_pic->store, $link_pic->name);
+                    DB::commit();
+                }
+            } catch (\Exception $e) {
+                DB::rollBack();
+                $this->dispatchBrowserEvent('pics-error');
+                // throw $e;            hacer que la transaccion completa se vea afectada
+                return; // !!!
+            }
+
 
             DB::commit();
             $this->dispatchBrowserEvent('show-created-success');
 
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1] ,'message' => $e->errorInfo[2]]);
+            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2]]);
         }
+
+
+
+
+
+
     }
 
 
-// -------------------------- DATOS DE PRUEBA  --------------------------
-    private function datos_prueba(){
-    // GENERALS
+    // -------------------------- DATOS DE PRUEBA  --------------------------
+    private function datos_prueba()
+    {
+        // GENERALS
         $this->alias = 'El bebe';
         $this->name = 'Alberto';
         $this->middle_name = 'de Jesús';
@@ -1190,68 +1369,68 @@ class Create extends Component
         $this->gender = 1;
         $this->prefix = 5;
         $this->ids = [
-            [ 'type_id' => 1, 'value' => '00090120123'],
-            [ 'type_id' => 2, 'value' => 'A1234567'],
-            ];
+            ['type_id' => 1, 'value' => '00090120123'],
+            ['type_id' => 2, 'value' => 'A1234567'],
+        ];
         // $this->main_profile_pic = 0;
         // $this->profile_pics = [];
 
-    // EMAILS
+        // EMAILS
         $this->emails = [
-            [ 'type_id' => '1', 'is_primary' => false, 'label' => 'Personal',  'value' => 'albertolicea00@outlook.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            [ 'type_id' => '3', 'is_primary' => true, 'label' => 'Personal',  'value' => 'albertolicea00@icloud.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            [ 'type_id' => '2', 'is_primary' => false, 'label' => 'Trabajo',  'value' => 'albertolicea00@gmail.com', 'about' => '', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => '1', 'is_primary' => false, 'label' => 'Personal', 'value' => 'albertolicea00@outlook.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => '3', 'is_primary' => true, 'label' => 'Personal', 'value' => 'albertolicea00@icloud.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => '2', 'is_primary' => false, 'label' => 'Trabajo', 'value' => 'albertolicea00@gmail.com', 'about' => '', 'meta' => "{\"is_valid\":false}"],
         ];
 
-    // PHONE AND CHATS
+        // PHONE AND CHATS
         $this->phones = [
-            [ 'type_id' => 2, 'value' => '32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            [ 'type_id' => 3, 'value' => '32271900', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            [ 'type_id' => 1, 'value' => '5615459878', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
-            [ 'type_id' => 6, 'value' => '354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            ];
+            ['type_id' => 2, 'value' => '32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            ['type_id' => 3, 'value' => '32271900', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            ['type_id' => 1, 'value' => '5615459878', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
+            ['type_id' => 6, 'value' => '354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+        ];
         $this->instant_messages = [
             ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":true}"],
             ['type_id' => 1, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"],
             ['type_id' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":false}"],
             ['type_id' => 1, 'label' => 'Ventas', 'value' => '+54771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ];
+        ];
 
 
         // RRSS AND WEBS
         $this->webs = [
-            ['type_id' => 1, 'value' => 'albertos-blog.com',  'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => 2, 'value' => 'alberto.licea',  'about' => '', 'meta' => "{\"is_valid\":null}"],
-            ['type_id' => 6, 'value' => 'wateke.travel',  'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ];
+            ['type_id' => 1, 'value' => 'albertos-blog.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 2, 'value' => 'alberto.licea', 'about' => '', 'meta' => "{\"is_valid\":null}"],
+            ['type_id' => 6, 'value' => 'wateke.travel', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+        ];
         $this->rrss = [
             ['type_id' => 4, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":false}"],
             ['type_id' => 1, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
             ['type_id' => 2, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ];
+        ];
 
 
         // ADDRESS
         $this->address = [
-            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100" ],
-            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100" ],
-            ];
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100"],
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100"],
+        ];
         $this->address_line = [
             [
-                [ 'label' => "Localidad", 'value' => "Centro"],
-                [ 'label' => "Número", 'value' => "364"],
-                [ 'label' => "Calle", 'value' => "Bembeta"],
-                [ 'label' => "entre", 'value' => "Cielo"],
-                [ 'label' => "y", 'value' => "20 de Mayo"],
+                ['label' => "Localidad", 'value' => "Centro"],
+                ['label' => "Número", 'value' => "364"],
+                ['label' => "Calle", 'value' => "Bembeta"],
+                ['label' => "entre", 'value' => "Cielo"],
+                ['label' => "y", 'value' => "20 de Mayo"],
             ],
             [
-                [ 'label' => "Localidad", 'value' => "Centro"],
-                [ 'label' => "Número", 'value' => "568"],
-                [ 'label' => "Calle", 'value' => "Bembeta"],
-                [ 'label' => "entre", 'value' => "Cielo"],
-                [ 'label' => "y", 'value' => "20 de Mayo"],
+                ['label' => "Localidad", 'value' => "Centro"],
+                ['label' => "Número", 'value' => "568"],
+                ['label' => "Calle", 'value' => "Bembeta"],
+                ['label' => "entre", 'value' => "Cielo"],
+                ['label' => "y", 'value' => "20 de Mayo"],
             ]
-            ];
+        ];
 
 
 
@@ -1270,23 +1449,23 @@ class Create extends Component
         // $this->bank_account_bank_title = '';
         // $this->bank_account_banks = '';
         $this->bank_accounts = [
-            [ 'type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => true, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 11, 1, 24))],
-            [ 'type_id' => 1, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 7, 1,25))],
-            [ 'type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about'=>'', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 3, 1, 24))],
-            ];
+            ['type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => true, 'about' => '', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 11, 1, 24))],
+            ['type_id' => 1, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about' => '', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 7, 1, 25))],
+            ['type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about' => '', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 3, 1, 24))],
+        ];
 
         // OCUPATION
 
         // MORE
         $this->dates = [
-            [ 'type_id' => '1', 'value' => '2000-05-16'],
-            [ 'type_id' => '2', 'value' => '2011-04-25'],
-            ];
+            ['type_id' => '1', 'value' => '2000-05-16'],
+            ['type_id' => '2', 'value' => '2011-04-25'],
+        ];
         $this->publish_us = [
-            [ 'type_id' => '1', 'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
-            [ 'type_id' => '3', 'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
-            [ 'type_id' => '2', 'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
-            ];
+            ['type_id' => '1', 'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => '3', 'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => '2', 'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
+        ];
 
 
 

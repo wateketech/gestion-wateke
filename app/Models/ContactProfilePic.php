@@ -11,7 +11,7 @@ class ContactProfilePic extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_profile_pics';
-    protected $fillable = ['contact_id', 'value', 'meta', 'label', 'primary', 'enable'];
+    protected $fillable = ['contact_id', 'label', 'name', 'store', 'meta', 'label', 'is_primary', 'enable'];
     public function contact(){
         return $this->belongsTo('App\Models\Contact', 'id');
     }
