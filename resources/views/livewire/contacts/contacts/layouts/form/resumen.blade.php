@@ -3,7 +3,7 @@
         <div class="d-flex px-1 py-2 justify-content-between">
             <div class="d-flex">
                 <div>
-                    <img id='profile_pics' class="avatar avatar-xxl me-3" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : 'https://via.placeholder.com/300x300/f2f2f2/161616?text=Foto+Perfil' }}" alt="Imagen de Perfil">
+                    <img id='profile_pics' class="avatar avatar-xxl me-3" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : '../assets/img/illustrations/contact-profile-1.png' }}" alt="Imagen de Perfil">
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-xl h5">

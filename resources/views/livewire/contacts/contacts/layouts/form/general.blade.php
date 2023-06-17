@@ -170,7 +170,7 @@
             <div class="col-sm-5 col-md-5 col-lg-12 col-xl-11 col-xxl-11"> --}}
             <div class='col-lg-4 pt-4 m-xxl-auto m-lg-0' style="width: 20rem;">
                 <div class="position-relative">
-                    <img id='profile_pics' class="card-img-top" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : 'https://via.placeholder.com/800x800/f2f2f2/161616?text=Perfil' }}" alt="Imagen de Perfil">
+                    <img id='profile_pics' class="card-img-top" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : '../assets/img/illustrations/contact-profile-1.png' }}" alt="Imagen de Perfil">
                     <div wire:ignore id="profile_pics-loading" class="position-absolute top-0 start-0 h-100 w-100 bg-white d-flex justify-content-center align-items-center opacity-0">
                         <img id='loading' wire:ignore class="w-35 m-auto mt-4 mb-2" src="../assets/img/logos/loading.gif">
                     </div>

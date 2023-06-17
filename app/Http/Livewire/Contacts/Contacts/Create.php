@@ -44,7 +44,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = ['general','emails','phone_chats','rrss_web','address','bank_accounts','ocupation','more','resumen'];
     public $passStep = [];
-    public $currentStep = 'resumen' ; //'general';
+    public $currentStep = 'general' ; //'general';
 
     protected $rules = [
 
@@ -253,7 +253,7 @@ class Create extends Component
         ]);
         $this->dispatchBrowserEvent('coocking-time', ['time'=> 2000]);
         $this->passStep[] = 'general';
-        $this->currentStep = 'emails';
+        $this->currentStep = 'resumen';
     }
 
 // -------------------------- STEP EMAILS --------------------------
@@ -1137,7 +1137,16 @@ class Create extends Component
             // CREATE N ASSIGN RELATIONALS TABLES
             $contact->ids()->createMany($this->ids);
 
-            // hacer algo especial con las fotos YA QUE HAY QUE ALMACENARLAS    $contact->pics()->createMany($this->pics);
+            // hacer algo especial con las fotos YA QUE HAY QUE ALMACENARLAS
+            $profile_pics = [];
+            foreach ($this->profile_pics as $pic) {
+                $filename = str_replace(' ', '', now()) . "_" . $contact->id . "_" . md5($pic . microtime()) . '.' . $pic->extension();
+                dd($filename);
+                $profile_pics[] = ['value' => '', 'label' => '', 'is_primary' => '', 'meta' => ''];
+
+            }
+            $contact->pics()->createMany($profile_pics);
+
 
             $contact->emails()->createMany($this->emails);
             $contact->phones()->createMany($this->phones);
