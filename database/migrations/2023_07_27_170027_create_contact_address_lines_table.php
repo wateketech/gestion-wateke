@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('value');
             $table->timestamps();
 
-            $table->foreign('address_id')->references('id')->on('contact_has_address')->constrained();
+            $table->foreign('address_id')->references('id')->on('contact_address')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });

@@ -60,7 +60,7 @@ class Contact extends Model
 
 
     public function address(){
-        return $this->hasMany('App\Models\ContactHasAddress', 'contact_id');
+        return $this->hasMany('App\Models\ContactAddress', 'contact_id');
     }
 
 }

@@ -6,12 +6,12 @@ use App\Traits\MassAssignmentConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ContactHasAddress extends Model
+class EntityAddress extends Model
 {
     use HasFactory;
     use MassAssignmentConcerns;
-    protected $table='contact_has_address';
-    protected $fillable = ['contact_id', 'name', 'city_id', 'state_id', 'country_id', 'geolocation', 'zip_code', 'enable'];
+    protected $table='entity_address';
+    protected $fillable = ['entity_id', 'name', 'city_id', 'state_id', 'country_id', 'geolocation', 'zip_code', 'enable'];
 
     public function country(){
         return $this->belongsTo('App\Models\AddressCountry', 'id');
@@ -22,7 +22,12 @@ class ContactHasAddress extends Model
     public function city(){
         return $this->belongsTo('App\Models\AddressCity', 'id');
     }
-    public function contacts(){
-        return $this->belongsTo('App\Models\Contacts', 'id'); // or HasMany
+    public function lines(){
+        return $this->belongsTo('App\Models\EntityAddressLine', 'address_id');
     }
+
+    public function entitys(){
+        return $this->belongsTo('App\Models\Entitys', 'id'); // or HasMany
+    }
+
 }
