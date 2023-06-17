@@ -268,16 +268,17 @@
                 // confirmButtonText: 'Continuar igualmente',
                 // cancelButtonText: 'No, cancelar',
             // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         swalWithBootstrapButtons.fire(
-            //         'Deleted!',
-            //         'Your file has been deleted.',
-            //         'success'
-            //         )
-            //     } else if ( result.dismiss === Swal.DismissReason.cancel){
-            //         window.location.href = "crear-contactos";
-            //     }
-
+                //     if (result.isConfirmed) {
+                //         swalWithBootstrapButtons.fire(
+                //         'Deleted!',
+                //         'Your file has been deleted.',
+                //         'success'
+                //         )
+                //     } else if ( result.dismiss === Swal.DismissReason.cancel){
+                //         window.location.href = "crear-contactos";
+                //     }
+            }).then((result) => {
+                window.dispatchEvent(new CustomEvent('show-created-warning'));
             })
         });
 
@@ -287,6 +288,18 @@
                 title: 'Creado',
                 html: "¡Contacto creado exitosamente!",
                 icon: 'success',
+                timer: 5000
+            }).then(() => {
+                window.location.href = "contactos";
+            })
+        });
+        window.addEventListener('show-created-warning', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: 'Creado',
+                html: "¡Contacto creado exitosamente!",
+                // footer: "Algunos datos no han sido procesados del todo, luego podrás actualizarlos",
+                icon: 'warning',
                 timer: 5000
             }).then(() => {
                 window.location.href = "contactos";

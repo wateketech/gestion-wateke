@@ -67,7 +67,7 @@ class Create extends Component
     public $id_types;
     public $ids = [];
     public $id_max = 4;
-    public $main_profile_pic;
+    public $main_profile_pic = 0;
     public $profile_pics = [];
 
     // EMAILS
@@ -250,7 +250,7 @@ class Create extends Component
         foreach ($this->profile_pics as $pic) {
             $filePath = $pic->getRealPath();
             $image = Image::make($filePath);
-            $image->fit(800, 800);
+            $image->fit(500, 500);
             $image->save($filePath);
         }
         $this->main_profile_pic = 0;
@@ -1239,6 +1239,9 @@ class Create extends Component
     // -------------------------- FINAL STEP  --------------------------
     public function store()
     {
+        $picsError = false;
+        $linkUserError = false;
+
         DB::beginTransaction();
         try {
             if ($this->is_user_link) {
@@ -1310,38 +1313,50 @@ class Create extends Component
 
             DB::beginTransaction();
             try {
-                foreach ($this->profile_pics as $pic) {
+                foreach ($this->profile_pics as $index => $pic) {
                     $timestamp = str_replace(array(' ', ':', '-'), '', now());
-                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->filename;
+                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
 
                     $imageSize = getimagesize($pic->path());
                     $link_pic = $contact->pics()->create([
-                        'label' => '',
+                        'label' => null,
                         'name' => $filename,
-                        'store' => 'app/public/images/contacts_profile_pics/',
-                        'is_primary' => '',
+                        'store' => 'public/images/contacts_profile_pics/',
+                        'is_primary' => ($this->main_profile_pic == $index ? 1 : 0),
                         'meta' => json_encode([
                             'width' => $imageSize[0],
                             'height' => $imageSize[1],
                             'mime_type' => $pic->getMimeType(),
-                            'size' => $pic->getSize()
-                        ])
-                    ]);
+                            'size' => $pic->getSize(),
+                            'client_original_name' => $pic->getClientOriginalName(),
+                            'client_mime_type' => $pic->getClientMimeType(),
+                            'client_original_extension' => $pic->getClientOriginalExtension(),
+                            'error' => $pic->getError(),
+                            'is_valid' => $pic->isValid(),
+                            'is_file' => $pic->isFile(),
+                            'is_readable' => $pic->isReadable(),
+                            'is_writable' => $pic->isWritable(),
+                            'file_info' => $pic->getFileInfo()
+                            ])
+                        ]);
 
-                    $pic->save(storage_path($link_pic->store . $link_pic->name));
+                    // if link in bbdd fail eliminate file
+                    // if temp-file do not existe (time exceded) message ...
                     $pic->storeAs($link_pic->store, $link_pic->name);
-                    DB::commit();
+                    // catch when fail storage and eliminate the bbdd link
                 }
+                DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
-                $this->dispatchBrowserEvent('pics-error');
+                $picsError = true;
                 // throw $e;            hacer que la transaccion completa se vea afectada
-                return; // !!!
             }
 
-
             DB::commit();
-            $this->dispatchBrowserEvent('show-created-success');
+
+            // if ($linkUserError) $this->dispatchBrowserEvent('pics-error');
+            if ($picsError) $this->dispatchBrowserEvent('pics-error');
+            else $this->dispatchBrowserEvent('show-created-success');
 
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
