@@ -14,7 +14,7 @@ class ContactEmail extends Model
     protected $fillable = ['contact_id', 'type_id', 'label', 'value', 'meta', 'is_primary', 'about', 'enable'];
 
     public function type(){
-        return $this->belongsTo('App\Models\ContactEmailType', 'id');
+        return $this->hasOne('App\Models\ContactEmailType', 'id', 'type_id');
     }
     public function contact(){
         return $this->belongsTo('App\Models\Contact', 'id');

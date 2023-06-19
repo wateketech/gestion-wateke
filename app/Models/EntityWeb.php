@@ -14,6 +14,6 @@ class EntityWeb extends Model
     protected $fillable = ['entity_id', 'type_id', 'value', 'meta', 'about', 'enable'];
 
     public function type(){
-        return $this->belongsTo('App\Models\EntityWebType', 'id');
+        return $this->hasOne('App\Models\EntityWebType', 'id', 'type_id');
     }
 }

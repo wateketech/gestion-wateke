@@ -14,7 +14,7 @@ class EntityInstantMessage extends Model
     protected $fillable = ['entity_id', 'type_id', 'meta', 'value', 'about', 'enable'];
 
     public function type(){
-        return $this->belongsTo('App\Models\EntityInstantMessageType', 'id');
+        return $this->hasOne('App\Models\EntityInstantMessageType', 'id', 'type_id');
     }
     public function entity(){
         return $this->belongsTo('App\Models\Entity', 'id');

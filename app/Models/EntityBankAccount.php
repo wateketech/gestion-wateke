@@ -17,6 +17,6 @@ class EntityBankAccount extends Model
         return $this->belongsTo('App\Models\EntityBankAccountBank', 'id');
     }
     public function entity(){
-        return $this->belongsTo('App\Models\Entity', 'id');
+        return $this->hasOne('App\Models\Entity', 'id', 'type_id');
     }
 }

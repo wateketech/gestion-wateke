@@ -50,11 +50,11 @@ class Contact extends Model
 
 
     public function prefix(){
-        return $this->hasOne('App\Models\Prefix', 'id');
+        return $this->hasOne('App\Models\Prefix', 'id', 'prefix_id');
     }
 
     public function gender(){
-        return $this->hasOne('App\Models\Gender', 'id');
+        return $this->hasOne('App\Models\Gender', 'id', 'gender_id');
     }
 
 

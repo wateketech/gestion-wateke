@@ -14,7 +14,7 @@ class EntityDate extends Model
     protected $fillable = ['entity_id', 'type_id', 'meta', 'value'];
 
     public function type(){
-        return $this->belongsTo('App\Models\EntityDateType', 'id');
+        return $this->hasOne('App\Models\EntityDateType', 'id', 'type_id');
     }
     public function entity(){
         return $this->belongsTo('App\Models\Entity', 'id');

@@ -16,7 +16,4 @@ class ContactEmailType extends Model
     public function emails(){
         return $this->hasMany('App\Models\ContactEmail', 'id');
     }
-    public function contact(){
-        return $this->belongsTo('App\Models\Contact', 'id');
-    }
 }

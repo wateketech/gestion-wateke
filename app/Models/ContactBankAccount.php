@@ -19,6 +19,6 @@ class ContactBankAccount extends Model
         return $this->belongsTo('App\Models\ContactBankAccountBank', 'id');
     }
     public function contact(){
-        return $this->belongsTo('App\Models\Contact', 'id');
+        return $this->hasOne('App\Models\Contact', 'id', 'type_id');
     }
 }

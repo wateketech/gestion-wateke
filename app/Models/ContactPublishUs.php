@@ -14,7 +14,7 @@ class ContactPublishUs extends Model
     protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'about', 'enable'];
 
     public function type(){
-        return $this->belongsTo('App\Models\ContactPublishUsType', 'id');
+        return $this->hasOne('App\Models\ContactPublishUsType', 'id', 'type_id');
     }
     public function contact(){
         return $this->belongsTo('App\Models\Contact', 'id');
