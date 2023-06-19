@@ -140,10 +140,8 @@ class Create extends Component
 
 
     // ----------------------- VALIDACIONES --------------------------
-    public function skip_validation($attribute, $value, $parameters, $validator)
-    {
-        return true;
-    }
+    public function skip_validation($attribute, $value, $parameters, $validator){ return true; }
+
     public function cleanErrors()
     {
         $this->resetValidation();
@@ -1314,7 +1312,7 @@ class Create extends Component
 
             DB::beginTransaction();
             $link_pics = [];
-            $storename = 'public/images/contacts_profile_pics/';
+            $storename = 'app/public/images/contacts_profile_pics/';
             try {
                 foreach ($this->profile_pics as $index => $pic) {
                     $timestamp = str_replace(array(' ', ':', '-'), '', now());
@@ -1362,7 +1360,7 @@ class Create extends Component
                 foreach ($this->profile_pics as $index => $pic) {
                     $timestamp = str_replace(array(' ', ':', '-'), '', now());
                     $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
-                    $path = 'public/images/contacts_profile_pics/' . $filename;
+                    $path = 'app/public/images/contacts_profile_pics/' . $filename;
                     if (Storage::exists($path)) Storage::delete($path);
                 }
                 if (count($link_pics) != 0){
