@@ -56,17 +56,14 @@ Holaaaaaaaaaaa
         <div class="row">
 
 
-            <div class="col-lg-2 py-2">
-                {{-- informacion del perfil --}}
-                @include('livewire.contacts.contacts.layouts.groups-contacts')
-            </div>
+            {{-- <div class="col-lg-2 py-2"> --}}
+                {{-- @include('livewire.contacts.contacts.layouts.groups-contacts') --}}
+            {{-- </div> --}}
 
-            <div class="col-lg-4 py-2">
-                {{-- grafica de metricas --}}
+            <div class="col-lg-5 py-2">
                 @include('livewire.contacts.contacts.layouts.list-contacts')
             </div>
-            <div class="col-lg-6 py-2">
-                {{-- grafica de metricas --}}
+            <div class="col-lg-7 py-2">
                 @include('livewire.contacts.contacts.layouts.current-contact')
             </div>
 

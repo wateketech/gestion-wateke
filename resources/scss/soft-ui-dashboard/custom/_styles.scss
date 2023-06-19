@@ -23,6 +23,17 @@
     &:hover{
         color: #ff6400 !important;
     }
+
+
+    &-call:hover{
+        color: #00a600 !important;
+    }
+    &-text:hover{
+        color: #008000 !important;
+    }
+    &-mail:hover{
+        color: rgb(0, 153, 255) !important;
+    }
 }
 div.btn > i:active {
     color: #ff6400;
