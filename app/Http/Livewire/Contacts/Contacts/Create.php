@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
@@ -1312,16 +1313,19 @@ class Create extends Component
 
 
             DB::beginTransaction();
+            $link_pics = [];
+            $storename = 'public/images/contacts_profile_pics/';
             try {
                 foreach ($this->profile_pics as $index => $pic) {
                     $timestamp = str_replace(array(' ', ':', '-'), '', now());
                     $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
-
                     $imageSize = getimagesize($pic->path());
-                    $link_pic = $contact->pics()->create([
+
+                    $pic->storeAs($storename, $filename);
+                    $link_pics[] = $contact->pics()->create([
                         'label' => null,
                         'name' => $filename,
-                        'store' => 'public/images/contacts_profile_pics/',
+                        'store' => $storename,
                         'is_primary' => ($this->main_profile_pic == $index ? 1 : 0),
                         'meta' => json_encode([
                             'width' => $imageSize[0],
@@ -1340,22 +1344,36 @@ class Create extends Component
                             ])
                         ]);
 
-                    // if link in bbdd fail eliminate file
-                    // if temp-file do not existe (time exceded) message ...
-                    $pic->storeAs($link_pic->store, $link_pic->name);
-                    // catch when fail storage and eliminate the bbdd link
+
                 }
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+
                 $picsError = true;
                 // throw $e;            hacer que la transaccion completa se vea afectada
             }
 
             DB::commit();
 
+
+            if ($picsError){
+                // If there was an error creating the database record, delete the image from the file system
+                foreach ($this->profile_pics as $index => $pic) {
+                    $timestamp = str_replace(array(' ', ':', '-'), '', now());
+                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
+                    $path = 'public/images/contacts_profile_pics/' . $filename;
+                    if (Storage::exists($path)) Storage::delete($path);
+                }
+                if (count($link_pics) != 0){
+                    foreach ($this->link_pics as $pic) {
+                        $path = $pic->store . $pic->name;
+                        if (Storage::exists($path)) Storage::delete($path);
+                    }
+                }
+                $this->dispatchBrowserEvent('pics-error');
+            }
             // if ($linkUserError) $this->dispatchBrowserEvent('pics-error');
-            if ($picsError) $this->dispatchBrowserEvent('pics-error');
             else $this->dispatchBrowserEvent('show-created-success');
 
         } catch (\Illuminate\Database\QueryException $e) {
