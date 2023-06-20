@@ -1,6 +1,7 @@
 <div class="card h-100">
     <div class="card-header pb-0 p-3">
-        <input type="text" class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
+        <input type="text" wire:model='search'
+            class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
     </div>
     <div class="card-body p-3">
 
