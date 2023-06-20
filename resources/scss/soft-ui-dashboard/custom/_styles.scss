@@ -122,9 +122,17 @@ input{
     &:focus::placeholder {
         color: transparent;
     }
+
+}
+.input-group > input.search-input + .form-control:focus, .input-group > .form-select:focus {
+    z-index: 1 !important;
 }
 
 
+
+
+
+// inputs con botones dentro
 .input-group {
     position: relative;
 

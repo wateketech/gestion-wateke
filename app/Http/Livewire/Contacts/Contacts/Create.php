@@ -288,7 +288,7 @@ class Create extends Component
             ]);
         $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->passStep[] = 'general';
-        $this->currentStep = 'resumen';
+        $this->currentStep = 'emails';
     }
 
     // -------------------------- STEP EMAILS --------------------------

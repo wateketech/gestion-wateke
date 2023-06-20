@@ -22007,6 +22007,15 @@ pre[class*=language-] {
 .icon:hover {
   color: #ff6400 !important;
 }
+.icon-call:hover {
+  color: #00a600 !important;
+}
+.icon-text:hover {
+  color: #008000 !important;
+}
+.icon-mail:hover {
+  color: rgb(0, 153, 255) !important;
+}
 
 div.btn > i:active {
   color: #ff6400;
@@ -22094,6 +22103,10 @@ input.is-alert {
 }
 .search-input:focus::placeholder {
   color: transparent;
+}
+
+.input-group > input.search-input + .form-control:focus, .input-group > .form-select:focus {
+  z-index: 1 !important;
 }
 
 .input-group {

@@ -1,6 +1,42 @@
+@push('style')
+{{-- <style>
+    .input-group > .form-control:focus, .input-group > .form-select:focus {
+        z-index: 1 !important;
+    }
+</style> --}}
+@endpush
 <div class="card h-100">
     <div class="card-header pb-0 p-3">
-        <input type="text" wire:model='search'
+
+
+        {{-- <div class="card-header pb-0 p-3 position-relative">
+            <div class="input-group">
+              <input type="text"  class="form-control search-input" placeholder="BUSQUEDA">
+              <div class="input-group-append">
+                <button class="py-2 px-1" type="button"><i class="fas fa-id-card fa-xs" aria-hidden="true"></i></button>
+                <button class="py-2 px-1" type="button"><i class="fas fa-signature fa-xs" aria-hidden="true"></i></button>
+                <button class="py-2 px-1" type="button"><i class="fas fa-envelope fa-xs" aria-hidden="true"></i></button>
+                <button class="py-2 px-1" type="button"><i class="fas fa-phone fa-xs" aria-hidden="true"></i></button>
+                <button class="py-2 px-1" type="button"><i class="fas fa-globe fa-xs" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+ --}}
+
+ <div class="card-header pb-0 p-3 position-relative">
+    <div class="position-relative">
+    <input type="text" wire:model='search' class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
+    <div class="input-group-append position-absolute pb-5 top-15 end-3 translate-middle-y">
+        <button class="py-4 px-1" type="button" wire:click='is_search_name'><i class="fas fa-signature fa-xs" aria-hidden="true"></i></button>
+        <button class="py-4 px-1" type="button" wire:><i class="fas fa-id-card fa-xs" aria-hidden="true"></i></button>
+        <button class="py-4 px-1" type="button" wire:><i class="fas fa-envelope fa-xs" aria-hidden="true"></i></button>
+        <button class="py-4 px-1" type="button" wire:><i class="fas fa-phone fa-xs" aria-hidden="true"></i></button>
+        <button class="py-4 px-1" type="button" wire:><i class="fas fa-globe fa-xs" aria-hidden="true"></i></button>
+    </div>
+    </div>
+</div>
+
+        <input type="text" wire:model.lazy='search'
             class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
     </div>
     <div class="card-body p-3">
@@ -8,76 +44,100 @@
         <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
                 <thead>
-                    <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
-                    {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Cargo</th> --}}
-                    {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Registrado</th> --}}
-                    </tr>
+                    @if (count($contacts))
+                        <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
+                        {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Cargo</th> --}}
+                        {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Registrado</th> --}}
+                        </tr>
+                    @endif
                 </thead>
                 <tbody>
                     @forelse ($contacts as $index => $contact)
-                    <tr>
-                        <td>
-                            <div class="d-flex px-2 py-1">
-                                <div>
-                                    {{-- <div class="avatar avatar-sm me-3 bg-primary"> {{ $contact->id }} </div> --}}
-                                    <img class="avatar avatar-sm me-3"
-                                        src="{{ count($contacts->find($contact)->pics) == 0 ? '../assets/img/illustrations/contact-profile-2.png'
-                                            : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contacts->find($contact)->pics->first()->store . $contacts->find($contact)->pics->first()->name ))) }}">
+                        <tr>
+                            <td>
+                                <div class="d-flex px-2 py-1">
+                                    <div>
+                                        {{-- <div class="avatar avatar-sm me-3 bg-primary"> {{ $contact->id }} </div> --}}
+                                        <img class="avatar avatar-sm me-3"
+                                            src="{{ count($contacts->find($contact)->pics) == 0 ? '../assets/img/illustrations/contact-profile-2.png'
+                                                : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contacts->find($contact)->pics->first()->store . $contacts->find($contact)->pics->first()->name ))) }}">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">
+                                            {!! json_decode($contacts->find($contact)->prefix->label)->abb !!}.
+                                            {{ $contact['name'] . ' ' . $contact['first_lastname'] }}
+                                        </h6>
+
+                                        {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
+                                        <span class="text-secondary text-xs font-weight-bold"><small>
+                                            {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
+                                            {{ $contact->updated_at->diffForHumans() }} </small>
+                                        </span>
+
+                                    </div>
                                 </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">
-                                        {!! json_decode($contacts->find($contact)->prefix->label)->abb !!}.
-                                        {{ $contact['name'] . ' ' . $contact['first_lastname'] }}
-                                    </h6>
+                            </td>
+                            {{-- <td>
+                                <p class="text-xs font-weight-bold mb-0">Recursos Humanos</p>
+                                <p class="text-xs text-secondary mb-0">Wateke Travel</p>
+                            </td> --}}
 
-                                    {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
-                                    <span class="text-secondary text-xs font-weight-bold"><small>
-                                        {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
-                                        {{ $contact->updated_at->diffForHumans() }} </small>
-                                    </span>
-
-                                </div>
-                            </div>
-                        </td>
-                        {{-- <td>
-                            <p class="text-xs font-weight-bold mb-0">Recursos Humanos</p>
-                            <p class="text-xs text-secondary mb-0">Wateke Travel</p>
-                        </td> --}}
-
-                        <td class="align-middle text-center">
-                            @if ($primaryPhone = $contacts->find($contact)->phones->where('is_primary', true)->first())
-                                @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                                    <a href='tel:{!! $phoneNumber !!}'><i class="fas fa-phone-alt fa-sm me-2 icon-call"></i></a>
+                            <td class="align-middle text-center">
+                                @if ($primaryPhone = $contacts->find($contact)->phones->where('is_primary', true)->first())
+                                    @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
+                                        <a href='tel:{!! $phoneNumber !!}'><i class="fas fa-phone-alt fa-sm me-2 icon-call"></i></a>
+                                    @endif
+                                    @else
+                                        {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
                                 @endif
-                                @else
-                                    {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
-                            @endif
 
-                            <a href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
-                                <i class="fas fa-envelope fa-sm me-2 icon-mail"></i>
-                            </a>
+                                <a href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
+                                    <i class="fas fa-envelope fa-sm me-2 icon-mail"></i>
+                                </a>
 
-                            @if ($primaryChat = $contacts->find($contact)->instant_messages->where('is_primary', true)->first())
-                                    <a href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
-                                        <i class="fas fa-comment fa-sm me-2 icon-text"></i>
-                                    </a>
-                                @else
-                                    {{-- <a href='void(0)'><i class="fas fa-comment-alt fa-sm me-2"></i></a> --}}
-                            @endif
+                                @if ($primaryChat = $contacts->find($contact)->instant_messages->where('is_primary', true)->first())
+                                        <a href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
+                                            <i class="fas fa-comment fa-sm me-2 icon-text"></i>
+                                        </a>
+                                    @else
+                                        {{-- <a href='void(0)'><i class="fas fa-comment-alt fa-sm me-2"></i></a> --}}
+                                @endif
 
-                            {{-- <span class="text-secondary text-xs font-weight-bold">{{ $contact->created_at->format('M y') }}</span> --}}
-                        </td>
-                    </tr>
+                                {{-- <span class="text-secondary text-xs font-weight-bold">{{ $contact->created_at->format('M y') }}</span> --}}
+                            </td>
+                        </tr>
                     @empty
-                    @if ($search != '')
-                        No coincide ningun contacto &nbsp;&nbsp; <strong>boton de crear</strong>
-                    @else
-                        Aun no hay contactos &nbsp;&nbsp; <strong>._.</strong>
-                    @endif
+                        <tr class='mx-auto text-center'>
+                            @if ($search != '')
+                                <td><i class="far fa-frown"></i> &nbsp;No coincide ningun contacto.&nbsp; <i class="far fa-frown"></i></td>
+                            @else
+                                <td><i class="far fa-frown-open"></i> &nbsp;Aun no hay contactos.&nbsp; <i class="far fa-frown-open"></i></td>
+                            @endif
+                        </tr>
                     @endforelse
                </tbody>
             </table>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('livewire:load', function () {
+        const input = document.querySelector('.search-input');
+        const append = input.nextElementSibling;
+
+        input.addEventListener('input', function () { toggleAppend(); });
+        input.addEventListener('focus', function () { toggleAppend(); });
+        input.addEventListener('blur', function () { toggleAppend(); });
+
+        function toggleAppend() {
+            if (input.value || input === document.activeElement) {
+                append.style.display = 'flex';
+            } else {
+                append.style.display = 'none';
+            }
+        }
+    })
+</script>
