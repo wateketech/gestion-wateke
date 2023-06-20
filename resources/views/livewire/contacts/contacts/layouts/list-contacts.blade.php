@@ -70,7 +70,11 @@
                         </td>
                     </tr>
                     @empty
+                    @if ($search != '')
+                        No coincide ningun contacto &nbsp;&nbsp; <strong>boton de crear</strong>
+                    @else
                         Aun no hay contactos &nbsp;&nbsp; <strong>._.</strong>
+                    @endif
                     @endforelse
                </tbody>
             </table>
