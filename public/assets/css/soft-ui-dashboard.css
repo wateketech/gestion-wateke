@@ -21995,6 +21995,15 @@ pre[class*=language-] {
   background-color: #ff6400;
 }
 
+.icon-call:hover {
+  color: #00a600 !important;
+}
+.icon-text:hover {
+  color: #008000 !important;
+}
+.icon-mail:hover {
+  color: rgb(0, 153, 255) !important;
+}
 .icon-del:hover {
   color: #ff0000 !important;
 }
@@ -22007,14 +22016,17 @@ pre[class*=language-] {
 .icon:hover {
   color: #ff6400 !important;
 }
-.icon-call:hover {
-  color: #00a600 !important;
+.icon-primary {
+  color: #ff6400 !important;
 }
-.icon-text:hover {
-  color: #008000 !important;
+.icon-info {
+  color: #0097e8 !important;
 }
-.icon-mail:hover {
-  color: rgb(0, 153, 255) !important;
+.icon-danger {
+  color: #ff0000 !important;
+}
+.icon-success {
+  color: #01953f !important;
 }
 
 div.btn > i:active {

@@ -10,6 +10,16 @@
 
 // iconos en general
 .icon{
+    &-call:hover{
+        color: #00a600 !important;
+    }
+    &-text:hover{
+        color: #008000 !important;
+    }
+    &-mail:hover{
+        color: rgb(0, 153, 255) !important;
+    }
+
 
     &-del:hover{
         color: #ff0000 !important;
@@ -25,14 +35,17 @@
     }
 
 
-    &-call:hover{
-        color: #00a600 !important;
+    &-primary{
+        color: #ff6400 !important;
     }
-    &-text:hover{
-        color: #008000 !important;
+    &-info{
+        color: #0097e8 !important;
     }
-    &-mail:hover{
-        color: rgb(0, 153, 255) !important;
+    &-danger{
+        color: #ff0000 !important;
+    }
+    &-success{
+        color: #01953f !important;
     }
 }
 div.btn > i:active {

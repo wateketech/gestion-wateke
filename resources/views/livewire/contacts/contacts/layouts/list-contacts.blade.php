@@ -6,38 +6,18 @@
 </style> --}}
 @endpush
 <div class="card h-100">
-    <div class="card-header pb-0 p-3">
-
-
-        {{-- <div class="card-header pb-0 p-3 position-relative">
-            <div class="input-group">
-              <input type="text"  class="form-control search-input" placeholder="BUSQUEDA">
-              <div class="input-group-append">
-                <button class="py-2 px-1" type="button"><i class="fas fa-id-card fa-xs" aria-hidden="true"></i></button>
-                <button class="py-2 px-1" type="button"><i class="fas fa-signature fa-xs" aria-hidden="true"></i></button>
-                <button class="py-2 px-1" type="button"><i class="fas fa-envelope fa-xs" aria-hidden="true"></i></button>
-                <button class="py-2 px-1" type="button"><i class="fas fa-phone fa-xs" aria-hidden="true"></i></button>
-                <button class="py-2 px-1" type="button"><i class="fas fa-globe fa-xs" aria-hidden="true"></i></button>
-              </div>
-            </div>
-          </div>
- --}}
-
- <div class="card-header pb-0 p-3 position-relative">
-    <div class="position-relative">
-    <input type="text" wire:model='search' class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
-    <div class="input-group-append position-absolute pb-5 top-15 end-3 translate-middle-y">
-        <button class="py-4 px-1" type="button" wire:click='is_search_name'><i class="fas fa-signature fa-xs" aria-hidden="true"></i></button>
-        <button class="py-4 px-1" type="button" wire:><i class="fas fa-id-card fa-xs" aria-hidden="true"></i></button>
-        <button class="py-4 px-1" type="button" wire:><i class="fas fa-envelope fa-xs" aria-hidden="true"></i></button>
-        <button class="py-4 px-1" type="button" wire:><i class="fas fa-phone fa-xs" aria-hidden="true"></i></button>
-        <button class="py-4 px-1" type="button" wire:><i class="fas fa-globe fa-xs" aria-hidden="true"></i></button>
-    </div>
-    </div>
-</div>
-
-        <input type="text" wire:model.lazy='search'
-            class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
+    <div class="card-header pb-0 p-3 position-relative">
+        <div class="position-relative">
+            <input type="text" wire:model='search' class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
+            {{-- <div class="input-group-append position-absolute top-0 end-3"
+                style="display: {{ $search != '' ? 'flex' : 'none' }};">
+                <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_name')"><i class="fas fa-signature {{ $is_search_name ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
+                <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_ids')"><i class="fas fa-id-card {{ $is_search_ids ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
+                <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_emails')"><i class="fas fa-envelope {{ $is_search_emails ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
+                <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_webs')"><i class="fas fa-globe {{ $is_search_webs ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
+                <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_phones')"><i class="fas fa-phone {{ $is_search_phones ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
+            </div> --}}
+        </div>
     </div>
     <div class="card-body p-3">
 
@@ -92,9 +72,13 @@
                                         {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
                                 @endif
 
-                                <a href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
-                                    <i class="fas fa-envelope fa-sm me-2 icon-mail"></i>
-                                </a>
+                                @if ($contacts->find($contact)->emails->where('is_primary', true)->first())
+                                    <a href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
+                                        <i class="fas fa-envelope fa-sm me-2 icon-mail"></i>
+                                    </a>
+                                    @else
+                                    {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
+                                @endif
 
                                 @if ($primaryChat = $contacts->find($contact)->instant_messages->where('is_primary', true)->first())
                                         <a href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
@@ -121,23 +105,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    document.addEventListener('livewire:load', function () {
-        const input = document.querySelector('.search-input');
-        const append = input.nextElementSibling;
-
-        input.addEventListener('input', function () { toggleAppend(); });
-        input.addEventListener('focus', function () { toggleAppend(); });
-        input.addEventListener('blur', function () { toggleAppend(); });
-
-        function toggleAppend() {
-            if (input.value || input === document.activeElement) {
-                append.style.display = 'flex';
-            } else {
-                append.style.display = 'none';
-            }
-        }
-    })
-</script>
