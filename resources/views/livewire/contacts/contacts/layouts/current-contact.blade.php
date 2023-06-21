@@ -1,34 +1,73 @@
-<div class="card h-100">
-
+<div class="card max-vh-100 min-vh-100">
+@isset ($contact)
     <div class="card-header p-3">
 
         <div class="d-flex px-2 py-1 justify-content-between">
             <div class="d-flex">
+                {{-- <div class="avatar avatar-xxl me-3 bg-primary text-center fs-4">id: {{ $contact->id }} </div> --}}
                 <div>
-                    <img src="../assets/img/team-2.jpg" class="avatar avatar-xxl me-3">
+                    <img class="avatar avatar-xxl me-3"
+                        src="{{ count($contact->pics) == 0 ? '../assets/img/illustrations/contact-profile-1.png'
+                            : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contact->pics->first()->store . $contact->pics->first()->name ))) }}">
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-xl h5">John Alejandro Michael Alvarez</h6>
-                    <p class="text-md text-secondary pb-2 mb-0">john@creative-tim.com</p>
-                    <hr/>
-                    <p class="text-lg pt-2 mb-0">Recursos Humanos &nbsp;|&nbsp; Wateke Travel</p>
+                    <h6 class="mb-0 text-xl h5">
+                        {!! json_decode($contact->prefix->label)->abb !!}.
+                        {{$contact->name . ' ' . $contact->middle_name . ' ' . $contact->first_lastname . ' ' . $contact->second_lastname}}
+                    </h6>
+                    {{ $contact->alias ? '(' . $contact->alias . ')': '' }}
+
+                    @if ($contact->emails->where('is_primary', true)->first())
+                        <p class="text-md text-secondary pb-2 mb-0">{{ $contact->emails->where('is_primary', true)->first()->value }}</p>
+                        <hr/>
+                    @else
+                        <p class="text-sm pt-2 mb-0">Este usuario no tiene email primario</p>
+                    @endif
+
+                    {{-- @if (isset($ocupation_id) && isset($ocupation_entity_id))
+                        <p class="text-lg pt-2 mb-0">ocupation_id &nbsp;|&nbsp; ocupation_entity_id</p>
+                    @else
+                        <p class="text-sm pt-2 mb-0">Este usuario no dispone de datos laborales</p>
+                    @endif --}}
+                    <p class="text-sm pt-2 mb-0">Este usuario no dispone de datos laborales</p>
+
                 </div>
             </div>
 
 
             <div class="d-flex justify-content-top">
-                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
-                    style="background-color: #00a600">
-                    <i class="fas fa-phone-alt fa-lg"></i>
-                </a>
-                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
-                    style="background-color: rgb(0, 153, 255)">
-                    <i class="fas fa-envelope fa-lg"></i>
-                </a>
-                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2"
-                    style="background-color: #008000">
-                    <i class="fas fa-comment fa-lg"></i>
-                </a>
+                @if ($primaryPhone = $contact->phones->where('is_primary', true)->first())
+                    @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
+                        <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #00a600"
+                            href='tel:{!! $phoneNumber !!}'>
+                            <i class="fas fa-phone-alt fa-lg"></i>
+                        </a>
+                    @endif
+                @else
+                    <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-phone-alt fa-lg"></i></div>
+                @endif
+
+
+                @if ($contact->emails->where('is_primary', true)->first())
+                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: rgb(0, 153, 255)"
+                        href='mailto:{{ $contact->emails->where('is_primary', true)->first()->value }}'>
+                        <i class="fas fa-envelope fa-lg"></i>
+                    </a>
+                @else
+                    <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-envelope fa-lg"></i></div>
+                @endif
+
+
+                @if ($primaryChat = $contact->instant_messages->where('is_primary', true)->first())
+                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #008000"
+                        href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
+                        <i class="fas fa-comment fa-lg"></i>
+                    </a>
+                @else
+                    <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-comment fa-lg"></i></div>
+                @endif
+
+
             </div>
         </div>
 
@@ -758,6 +797,5 @@
 
 
     </div>
-
-
+@endisset
 </div>

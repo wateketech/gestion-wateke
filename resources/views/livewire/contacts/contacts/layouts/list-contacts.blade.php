@@ -1,11 +1,9 @@
-@push('style')
-{{-- <style>
-    .input-group > .form-control:focus, .input-group > .form-select:focus {
-        z-index: 1 !important;
-    }
-</style> --}}
-@endpush
-<div class="card h-100">
+<div class="card h-100"
+    style="
+        min-height: 100vh !important;
+        max-height: 100vh !important;
+    ">
+
     <div class="card-header pb-0 p-3 position-relative">
         <div class="position-relative">
             <input type="text" wire:model='search' class="w-100 form-control search-input" aria-label="Large" placeholder="BUSQUEDA">
@@ -19,7 +17,7 @@
             </div> --}}
         </div>
     </div>
-    <div class="card-body p-3">
+    <div class="card-body p-3" style="        overflow-y: scroll;">
 
         <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
@@ -37,12 +35,12 @@
                         <tr>
                             <td>
                                 <div class="d-flex px-2 py-1">
-                                    <div>
+                                    <a href='javascript:void(0)' wire:click="$set('current_contact', {{ $contact->id }})">
                                         {{-- <div class="avatar avatar-sm me-3 bg-primary"> {{ $contact->id }} </div> --}}
                                         <img class="avatar avatar-sm me-3"
                                             src="{{ count($contacts->find($contact)->pics) == 0 ? '../assets/img/illustrations/contact-profile-2.png'
                                                 : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contacts->find($contact)->pics->first()->store . $contacts->find($contact)->pics->first()->name ))) }}">
-                                    </div>
+                                    </a>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm">
                                             {!! json_decode($contacts->find($contact)->prefix->label)->abb !!}.
