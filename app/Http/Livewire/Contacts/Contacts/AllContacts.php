@@ -11,7 +11,7 @@ class AllContacts extends Component
     public $entity_types;
     protected $contacts;
 
-    public $current_contact;
+    public $current_contact = 2;
     private $perPage = 100;
     public $pageOffset = 0;
 
@@ -23,6 +23,15 @@ class AllContacts extends Component
 
 
 
+    public function updatedCurrentContact(){
+        $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
+
+        // $childComponent = $this->getChildInstance('contacts.contacts.current-contact');
+
+//          $this->mountChild('contacts.contacts.current-contact', [
+//          'id' => $this->current_contact
+    //  ]);
+    }
     public function mount(){
         $this->restartFilter(false);
         $this->entity_types = EntityTypes::all();
@@ -150,7 +159,7 @@ class AllContacts extends Component
                                                       // ->orWhere('middle_name', 'like', '%'.$this->search_middle_name.'%')
                                                       ->orWhere('first_lastname', 'like', '%'.$this->search_first_lastname.'%')
                                                       ->orWhere('second_lastname', 'like', '%'.$this->search_second_lastname.'%')
-                                                      // ->where('alias', 'like', '%'.$this->search_alias.'%')
+                                                      // ->orWhere('alias', 'like', '%'.$this->search_alias.'%')
                                                       ;
                                                 })
                                               ->orWhereHas('ids', function ($query) { $query->where('value', 'like', '%'.$this->search_ids.'%'); })

@@ -64,7 +64,7 @@ Holaaaaaaaaaaa
                 @include('livewire.contacts.contacts.layouts.list-contacts')
             </div>
             <div class="col-lg-7 py-2">
-                @include('livewire.contacts.contacts.layouts.current-contact')
+                @livewire('contacts.contacts.current-contact')
             </div>
 
 
