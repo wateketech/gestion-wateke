@@ -32,8 +32,8 @@
                 </thead>
                 <tbody>
                     @forelse ($contacts as $index => $contact)
-                        <tr>
-                            <td>
+                        <tr style="background-color:{{ $current_contact == $contact->id ? 'antiquewhite': '' }};">
+                            <td class="m-0 p-0">
                                 <div class="d-flex px-2 py-1">
                                     <a href='javascript:void(0)' wire:click="$set('current_contact', {{ $contact->id }})">
                                         {{-- <div class="avatar avatar-sm me-3 bg-primary"> {{ $contact->id }} </div> --}}
@@ -61,7 +61,7 @@
                                 <p class="text-xs text-secondary mb-0">Wateke Travel</p>
                             </td> --}}
 
-                            <td class="align-middle text-center">
+                            <td class="align-middle text-center m-0 p-0">
                                 @if ($primaryPhone = $contacts->find($contact)->phones->where('is_primary', true)->first())
                                     @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
                                         <a href='tel:{!! $phoneNumber !!}'><i class="fas fa-phone-alt fa-sm me-2 icon-call"></i></a>
