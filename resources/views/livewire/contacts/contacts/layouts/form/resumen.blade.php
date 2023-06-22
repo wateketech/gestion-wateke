@@ -49,7 +49,7 @@
         <div class="row">
             <div class="col-5 pb-4 pl-11 text-start">
                 @forelse ($rrss as $index => $rs)
-                    <a href="/{{ $rs['value'] }}" target="_blank" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                    <a href="{{ $rrss_types->find($rs['type_id'])->url . $rs['value'] }}" target="_blank" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color: {{ $rrss_types->find($rs['type_id'])->color }}">
                         {!! html_entity_decode($rrss_types->find($rs['type_id'])->icon) !!}
                     </a>
@@ -85,8 +85,8 @@
                     <p class="pt-3 p-0 m-0">{{ count($publish_us) == 0 ? 'NO nos publica' : '' }}</p>
 
                     <strong class='pr-3'>Notas: </strong>
-                    <small>{{ (isset($about) && strlen($about)!=0) ? '' : 'No dispone' }}</small>{{-- agregar tambien condicion para el about laboral --}}
-                    @if (isset($about) && strlen($about)!=0)
+                    <small>{{ (isset($about) && strlen($about) != 0) ? '' : 'No dispone' }}</small>{{-- agregar tambien condicion para el about laboral --}}
+                    @if (isset($about) && strlen($about) != 0)
                         <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-file-alt px-0"></i>
                         </div>
@@ -181,9 +181,9 @@
                                                     Quitar
                                                 </a> --}}
                                                 @if (isset(json_decode($phone['value_meta'])->is_valid))
-                                                    {!! json_decode($phone['value_meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                    {!! json_decode($phone['value_meta'])->is_valid ? '<i class="fas fa-check-double text-info"></i>' : '<i class="fas fa-check-double text-danger"></i>' !!}
                                                 @else
-                                                    <i class="fas fa-question"></i>
+                                                    <i class="fas fa-check-double text-info"></i>
                                                 @endif
                                             </td>
                                         </tr>
@@ -243,9 +243,9 @@
                                                     Quitar
                                                 </a> --}}
                                                 @if (isset(json_decode($instant_message['meta'])->is_valid))
-                                                    {!! json_decode($instant_message['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                    {!! json_decode($instant_message['meta'])->is_valid ? '<i class="fas fa-check-double text-info"></i>' : '<i class="fas fa-check-double text-danger"></i>' !!}
                                                 @else
-                                                    <i class="fas fa-question"></i>
+                                                    <i class="fas fa-check-double text-info"></i>
                                                 @endif
                                             </td>
                                         </tr>
@@ -305,9 +305,9 @@
                                                         Quitar
                                                     </a> --}}
                                                     {{-- @if (isset(json_decode($email['meta'])->is_valid))
-                                                        {!! json_decode($email['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                        {!! json_decode($email['meta'])->is_valid ? '<i class="fas fa-check-double text-info"></i>' : '<i class="fas fa-check-double text-danger"></i>' !!}
                                                     @else
-                                                        <i class="fas fa-question"></i>
+                                                        <i class="fas fa-check-double text-info"></i>
                                                     @endif --}}
                                                 </td>
                                             </tr>
@@ -410,9 +410,9 @@
                                                     Quitar
                                                 </a> --}}
                                                 @if (isset(json_decode($web['meta'])->is_valid))
-                                                    {!! json_decode($web['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                    {!! json_decode($web['meta'])->is_valid ? '<i class="fas fa-check-double text-info"></i>' : '<i class="fas fa-check-double text-danger"></i>' !!}
                                                 @else
-                                                    <i class="fas fa-question"></i>
+                                                    <i class="fas fa-check-double text-info"></i>
                                                 @endif
                                             </td>
                                         </tr>
@@ -463,9 +463,9 @@
                                                     Quitar
                                                 </a> --}}
                                                 @if (isset(json_decode($web['meta'])->is_valid))
-                                                    {!! json_decode($web['meta'])->is_valid ? '<i class="text-info far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                                                    {!! json_decode($web['meta'])->is_valid ? '<i class="fas fa-check-double text-info"></i>' : '<i class="fas fa-check-double text-danger"></i>' !!}
                                                 @else
-                                                    <i class="fas fa-question"></i>
+                                                    <i class="fas fa-check-double text-info"></i>
                                                 @endif
                                             </td>
                                         </tr>

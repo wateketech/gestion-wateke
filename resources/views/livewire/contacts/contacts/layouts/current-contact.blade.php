@@ -21,7 +21,8 @@
                         <p class="text-md text-secondary pb-2 mb-0">{{ $contact->emails->where('is_primary', true)->first()->value }}</p>
                         <hr/>
                     @else
-                        <p class="text-sm pt-2 mb-0">Este usuario no tiene email primario</p>
+                        {{-- esto nunca puede aparecer !!--}}
+                        <p class="text-sm pt-2 mb-0"><i class="far fa-sad-tear fa-md icon-primary"></i> Este usuario no tiene email primario</p>
                     @endif
 
                     {{-- @if (isset($ocupation_id) && isset($ocupation_entity_id))
@@ -29,7 +30,6 @@
                     @else
                         <p class="text-sm pt-2 mb-0">Este usuario no dispone de datos laborales</p>
                     @endif --}}
-                    <p class="text-sm pt-2 mb-0">Este usuario no dispone de datos laborales</p>
 
                 </div>
             </div>
@@ -69,6 +69,34 @@
 
 
             </div>
+
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-5 pb-4 pl-11 text-start">
+                @forelse ($contact->rrss as $index => $rs)
+                    <a href="{{ $rs->type->url . $rs->value }}" target="_blank" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
+                        style="background-color: {{ $rs->type->color }}">
+                        {!! html_entity_decode($rs->type->icon) !!}
+                    </a>
+                @empty
+                <i class="far fa-sad-tear fa-md icon-primary"></i> Este contacto no tienen redes sociales
+                @endforelse
+            </div>
+            <div class="col-7 pb-4 px-4 text-end">
+                @forelse ($contact->dates as $index => $date)
+                    <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
+                        style="background-color: {{ $date->type->color }}; color:white; cursor:pointer; position:relative;"
+                            onmouseover="this.innerHTML='{!! htmlspecialchars($date->type->icon, ENT_QUOTES) !!}&nbsp;{{ $date->type->label }}';"
+                            onmouseout="this.innerHTML='{!! htmlspecialchars($date->type->icon, ENT_QUOTES) !!}&nbsp;{{ $date->value }}';">
+                        {!! html_entity_decode($date->type->icon) !!}&nbsp;{{ $date->value }}
+                    </a>
+                @empty
+
+                @endforelse
+            </div>
         </div>
 
     </div>
@@ -76,88 +104,63 @@
 
 
     <div class="card-body px-2 pt-0">
-        <div class="row">
-            <div class="col-5 pb-4 pl-11 text-start">
 
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color: #3b5998;">
-                            <i class="fab fa-facebook-f" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#e4405f;">
-                            <i class="fab fa-instagram" style="transform:scale(1.8)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#1da1f2;">
-                            <i class="fab fa-twitter" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#0077b5;">
-                        <i class="fab fa-linkedin-in" style="transform:scale(1.5)"></i>
-                    </a>
-                    {{-- <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#000000;">
-                        <i class="fab fa-tiktok" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#dbd82c;">
-                        <i class="fab fa-snapchat-ghost" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#dd4b39;">
-                        <i class="fab fa-google-plus-g" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color: #c4302b;">
-                        <i class="fab fa-youtube" style="transform:scale(1.5)"></i>
-                    </a>
-                    <a href="#" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
-                        style="background-color:#bd081c;">
-                        <i class="fab fa-pinterest" style="transform:scale(1.5)"></i>
-                    </a> --}}
+        <div class="row mx-1">
+            <div class="col-md-3 mb-md-0 mb-3 card card-body border card-plain border-radius-lg mx-3 px-3 py-3 min-height-120">
+                {{-- <div class=""> --}}
+                    @forelse ($contact->ids as $id)
+                        <p class="p-0 m-0">{!! html_entity_decode($id->type->icon) !!} {{ $id->value }}</p>
+                        @empty
+                        <p class="p-0 m-0"><small><i class="far fa-sad-tear fa-md icon-primary"></i> No tiene documentación <i class="far fa-sad-tear fa-md icon-primary"></i></small></p>
+                    @endforelse
+                    <p class="pt-3 pb-2 p-0 m-0">{!! count($contact->publish_us) == 0 ? html_entity_decode('<i class="far fa-angry icon-danger"></i>') . ' NO nos publica ' : '' !!}</p>
 
+                    <strong class='pt-1 pr-3'>Notas: </strong>
+                    <small>{{ (isset($contact->about) && strlen(trim($contact->about))!=0) ? '' : 'No dispone' }}</small>{{-- agregar tambien condicion para el about laboral --}}
+                    @if (isset($contact->about) && strlen(trim($contact->about))!=0)
+                        <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-file-alt px-0"></i>
+                        </div>
+                        <div class="dropdown-menu about">
+                            {{ $contact->about}}
+                        </div>
+                    @endif
+                    {{-- @if ()
+                        <div type="button" class="d-inline mx-0 px-2 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-file-alt px-0"></i>
+                        </div>
+                        <div class="dropdown-menu about">
+
+                        </div>
+                    @endif --}}
+
+                {{-- </div> --}}
             </div>
-            <div class="col-7 pb-4 px-4 text-end">
-
-                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: rgb(236, 198, 25); color:white; cursor:pointer; position:relative;"
-                        onmouseover="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;Cumpleaños';"
-                        onmouseout="this.innerHTML='<i class=&quot;fas fa-birthday-cake&quot;></i>&nbsp;20 septiembre';">
-                    <i class="fas fa-birthday-cake"></i>&nbsp;20 septiembre
-                </a>
-                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: rgb(194, 194, 194); color:white; cursor:pointer; position:relative;"
-                        onmouseover="this.innerHTML='<i class=&quot;fas fa-pray&quot;></i>&nbsp;Santo';"
-                        onmouseout="this.innerHTML='<i class=&quot;fas fa-pray&quot;></i>&nbsp;20 enero';">
-                        <i class="fas fa-pray"></i>&nbsp;20 enero
-                </a>
-                {{-- <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: rgb(255, 153, 200); color:white;cursor:pointer; position:relative;"
-                    onmouseover="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;Aniversario';"
-                    onmouseout="this.innerHTML='<i class=&quot;fas fa-heart&quot;></i>&nbsp;12 dicimebre';">
-                    <i class="fas fa-heart"></i>&nbsp;12 dicimebre
-                </a>
-                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: rgb(73, 162, 232); color:white;cursor:pointer; position:relative;"
-                    onmouseover="this.innerHTML='<i class=&quot;fas fa-user-graduate&quot;></i>&nbsp;Graduación';"
-                    onmouseout="this.innerHTML='<i class=&quot;fas fa-user-graduate&quot;></i>&nbsp;30 octubre';">
-                    <i class="fas fa-user-graduate"></i>
-                    &nbsp;30 octubre
-                </a>
-
-                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: rgb(32, 73, 126); color:white;cursor:pointer; position:relative;"
-                    onmouseover="this.innerHTML='<i class=&quot;fas fa-building&quot;></i>&nbsp;Contratado';"
-                    onmouseout="this.innerHTML='<i class=&quot;fas fa-building&quot;></i>&nbsp;29 febrero';">
-                    <i class="fas fa-building"></i>
-                    &nbsp;29 febrero
-                </a>
-                <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: rgb(197, 198, 198); color:white;cursor:pointer; position:relative;"
-                    onmouseover="this.innerHTML='&nbsp;Personalizado';"
-                    onmouseout="this.innerHTML='&nbsp;12 noviembre';">
-                    &nbsp;12 noviembre
-                </a> --}}
+            <div class="col-md-7 card card-body border card-plain border-radius-lg mx-3 px-3 py-3 pt-0 min-height-120">
+                {{-- <div class=""> --}}
+                    @forelse ($contact->address as $index_add => $add)
+                        <strong class="mt-3">Dirección {{ $add->name }}:</strong>
+                        <p class="card-text fs-6 {{ ($add->geolocation || strlen($add->geolocation)!=0) ? 'cursor-pointer' : '' }}">
+                            <i class="fas fa-map-marker-alt pl-3 pr-1 {{ ($add->geolocation || strlen($add->geolocation)!=0 ) ? 'text-primary' : '' }}"></i>
+                                    @php $localidad = null; @endphp
+                                @foreach ($add->lines as $index_l => $line)
+                                    @if ($line->label != 'Localidad')
+                                        {{ ($line->label == 'Número' ) || ($line->label=='Calle' ) ? '' : $line->label }}
+                                        {{ $line->value }}
+                                    @else
+                                        @php $localidad = $line->value; @endphp
+                                    @endif
+                                @endforeach
+                                    {{ $localidad ? ', ' . $localidad : '' }},
+                                    {{ $add->state->name }},
+                                    {{ $add->city->name }},
+                                    {{-- , {{ $find($add['country_id'])->name }} --}}
+                                    {{ $add->country->name }} <span class="emoji">{{ $add->country->emoji }}</span>
+                            </p>
+                    @empty
+                        <p class="text-center py-6"><i class="far fa-sad-tear fa-lg icon-primary"></i> El usuario no tiene direcciones registradas <i class="far fa-sad-tear fa-lg icon-primary"></i></p>
+                    @endforelse
+                {{-- </div> --}}
             </div>
         </div>
 
@@ -165,50 +168,13 @@
 
 
 
-
-            {{-- pa las direcciones: --}}
-            {{-- <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> --}}
-
-        <div class="card-body px-2 pt-0">
-            <div class="row mx-1">
-                <div class="col-md-4 mb-md-0 mb-4">
-                    <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
-                        <i class="fas fa-id-card pr-4"> CI</i> 00090120456
-                        <br/><i class="fas fa-passport pr-2"> PSP</i> M115602
-                        <br/>
-                        <br/>NO nos publica
-                        <br/>
-                        <strong>Notas: </strong>
-                            <i class="fas fa-people-arrows pl-5"></i>
-                            <i class="fas fa-briefcase px-2"></i>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card card-body border card-plain border-radius-lg p-3 d-inline-block w-100 min-height-150 max-height-150">
-                        <strong class="">Dirección: </strong>
-                        <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Casa"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
-                        <p class="card-text"><i class="fas fa-map-marker-alt pl-3 pr-1" title="Trabajo"></i> 1600 Amphitheatre Parkway, Mountain View, CA</p>
-
-                        {{-- <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
-                        <h6 class="mb-0">
-                            ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
-                        </h6>
-                        <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i> --}}
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="accordion mt-4 mx-2" id="accordionExample">
+        <div class="accordion mt-4 mx-2" id="accordionExample">
 
 
 
 
 
-
+            @if (count($contact->phones) != 0)
                 <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                     <h2 class="accordion-header" id="headingPhone">
                         <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapsePhone">
@@ -221,27 +187,30 @@
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <tbody>
+                                        @foreach ($contact->phones as $index => $phone)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-home fa-lg"></i>
+                                                    <div class="d-flex flex-column justify-content-center pl-3 {{ $phone->is_primary == true ? 'text-primary' : '' }}">
+                                                        {!!  html_entity_decode($phone->type->icon) !!}
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Casa</h6>
-                                                        <p class="text-xs text-secondary mb-0">España</p>
+                                                        <h6 class="mb-0 text-sm">{{ $phone->type->label }}</h6>
+                                                        <p class="text-xs text-secondary mb-0">{{ json_decode($phone->value_meta)->country_name }}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
                                                     <p class="text-md font-weight-bold mb-0" >
-                                                        +34 23 345 23 23
+                                                        {{-- {{ $phone['value'] }} --}}
+                                                        {!! '+' . json_decode($phone->value_meta)->country_dial_code . ' ' . json_decode($phone->value_meta)->clean_number !!}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                            <td class="align-middle text-end">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    href='tel:{!! json_decode($primaryPhone->value_meta)->call_number !!}'>
                                                     Llamar
                                                 </a>
                                                 <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
@@ -249,155 +218,18 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-fax fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Fax</h6>
-                                                        <p class="text-xs text-secondary mb-0">España</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        +34 23 345 23 23
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Llamar
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-briefcase fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Trabajo</h6>
-                                                        <p class="text-xs text-secondary mb-0">España</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        +34 23 345 23 23
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Llamar
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-building fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Oficina</h6>
-                                                        <p class="text-xs text-secondary mb-0">España</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        +34 23 345 23 23
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Llamar
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
-                                                        <i class="fas fa-mobile-alt fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Movil</h6>
-                                                        <p class="text-xs text-secondary mb-0">España</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        +34 23 345 23 23
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Llamar
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-mobile-alt fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Movil</h6>
-                                                        <p class="text-xs text-secondary mb-0">Cuba</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        +53 53 54 88 65
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Llamar
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            @endif
 
 
 
+            @if (count($contact->instant_messages) != 0)
                 <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                     <h2 class="accordion-header" id="headingChats">
                         <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChats" aria-expanded="false" aria-controls="collapseChats">
@@ -410,28 +242,38 @@
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <tbody>
-
+                                    @foreach ($contact->instant_messages as $index => $instant_message)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
-                                                        <i class="fas fa-home fa-lg"></i>
+                                                    <div class="d-flex flex-column justify-content-center pl-3 {{ $instant_message->is_primary == true ? 'text-primary' : '' }}">
+                                                        @switch($instant_message->label)
+                                                            @case('Personal')
+                                                                <i class="fas fa-home fa-lg"></i>
+                                                                @break
+                                                            @case('Trabajo')
+                                                                <i class="fas fa-briefcase fa-lg"></i>
+                                                                @break
+                                                            @default
+                                                                <i class="fas fa-comments"></i>
+                                                        @endswitch
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Whatsapp</p>
+                                                        <h6 class="mb-0 text-sm">{{ $instant_message->label }}</h6>
+                                                        <p class="text-xs text-secondary mb-0">{{ $instant_message->type->label }}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
                                                     <p class="text-md font-weight-bold mb-0" >
-                                                        +53 54771264
+                                                        {{ $instant_message->value }}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                            <td class="align-middle text-end">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    href='{{ $instant_message->type->url . $instant_message->value  }}' target="_blank">
                                                     Chatear
                                                 </a>
                                                 <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
@@ -439,215 +281,79 @@
                                                 </a>
                                             </td>
                                         </tr>
-
-
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-briefcase fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Trabajo</h6>
-                                                        <p class="text-xs text-secondary mb-0">Skype</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        alberto98poe@gmail.com
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Chatear
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-home fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Telegram</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        albertolicea00
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Chatear
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            @endif
 
 
-
+            @if (count($contact->emails) != 0)
                 <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                     <h2 class="accordion-header" id="headingEmails">
                         <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails">
-                            {{-- <i class="fas fa-envelope-open-text"></i> --}}
                             <i class="fas fa-envelope"></i>
                             &nbsp; EMAILS
                         </button>
                     </h2>
-                    <div id="collapseEmails" class="accordion-collapse" aria-labelledby="headingEmails">
+                    <div id="collapseEmails" class="accordion-collapse collapse" aria-labelledby="headingEmails">
                         <div class="accordion-body">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <tbody>
-
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3 text-primary">
-                                                        <i class="fas fa-briefcase fa-lg"></i>
+                                        @foreach ($contact->emails as $index => $email)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-0 py-1">
+                                                        <div class="d-flex flex-column justify-content-center pl-3 {{ $email->is_primary == true ? 'text-primary' : '' }}">
+                                                            @switch($email->label)
+                                                                @case('Personal')
+                                                                    <i class="fas fa-home fa-lg"></i>
+                                                                    @break
+                                                                @case('Trabajo')
+                                                                    <i class="fas fa-briefcase fa-lg"></i>
+                                                                    @break
+                                                                @default
+                                                                    <i class="fas fa-comments"></i>
+                                                            @endswitch
+                                                        </div>
+                                                        <div class="d-flex flex-column justify-content-center pl-3">
+                                                            <h6 class="mb-0 text-sm">{{ $email->label }}</h6>
+                                                            <p class="text-xs text-secondary mb-0">{{ $email->type->label }}</p>
+                                                        </div>
                                                     </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Trabajo</h6>
-                                                        <p class="text-xs text-secondary mb-0">Gmail</p>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex flex-column justify-content-center px-3">
+                                                        <p class="text-md font-weight-bold mb-0" >
+                                                            {{ $email->value }}
+                                                        </p>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        albertolicea00@gmail.com
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Enviar mail
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-
-
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-home fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Microsoft</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        licea.alber56@outlook.com
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Enviar mail
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-home fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Apple</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        licea.alber56@icloud.com
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Enviar mail
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <i class="fas fa-home fa-lg"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Yahoo</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        licea.vallejo00@yahoo.com
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Enviar mail
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-
+                                                </td>
+                                                <td class="align-middle text-end">
+                                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                        href='mailto:{{ $email->value }}'>
+                                                        Enviar email
+                                                    </a>
+                                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                        Copiar
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            @endif
 
 
-
+            @if (count($contact->bank_accounts) != 0)
                 <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                     <h2 class="accordion-header" id="headingBankAccounts">
                     <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankAcoounts" aria-expanded="false" aria-controls="collapseBankAcoounts">
@@ -661,81 +367,46 @@
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/mir.png" class="w-25 mb-0 ml-3">
+                                        @foreach ($contact->bank_accounts as $index => $account)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-0 py-1">
+                                                        @if ($account->type->label != 'Unknown')
+                                                            <img style="max-width: 100%; height: 40px;" src="{{ $account->type->logo }}" alt="{{ $account->type->label }}">
+                                                        @else
+                                                            <img style="max-width: 100%; height: 40px;" src="../assets/img/blank.png">
+                                                        @endif
 
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                        <div class="d-flex flex-column justify-content-center pl-3">
+                                                            <h6 class="mb-0 text-sm">{{ $account->card_holder }}</h6>
+                                                            <p class="text-xs text-secondary mb-0">
+                                                                {{ $account->is_credit ? 'Cérdito' : 'Débito' }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/visa.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex flex-column justify-content-center px-7">
+                                                        <p class="text-md font-weight-bold mb-0" style="font-family: monospace, cursive;">
+                                                            {!! implode('&nbsp;', str_split($account->card_number, 4)) !!}
+                                                        </p>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <img src="../assets/img/logos/card/mastercard.png" class="w-25 mb-0 ml-3">
-
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">John Michael</h6>
-                                                        <p class="text-xs text-secondary mb-0">Banco Popular de Ahorro</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-7">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;&nbsp;7852&nbsp;&nbsp;&nbsp;7852
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs ">Vence: <strong>12/2024</strong></span>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <span class="text-secondary text-xs ">Vence: <strong>{{ date('m/Y', strtotime($account->expiration_date)) }}    </strong></span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            @endif
 
 
-
+            @if (count($contact->webs) != 0)
                 <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                     <h2 class="accordion-header" id="headingWebs">
                         <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWebs" aria-expanded="false" aria-controls="collapseWebs">
@@ -748,8 +419,7 @@
                         <div class="accordion-body">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
-                                    <tbody>
-
+                                    @foreach ($contact->webs as $index => $web)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-0 py-1">
@@ -757,20 +427,21 @@
                                                         <i class="fas fa-globe fa-lg"></i>
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">Personal</h6>
-                                                        <p class="text-xs text-secondary mb-0">Blog</p>
+                                                        <h6 class="mb-0 text-sm">{{ $web->type->label }}</h6>
+                                                        <p class="text-xs text-secondary mb-0">Personal</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
                                                     <p class="text-md font-weight-bold mb-0" >
-                                                        http://albertos-blog.com
+                                                        {{ $web->value }}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                            <td class="align-middle text-end">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    href="//{{ $web->value }}" target="_blank">
                                                     Visitar
                                                 </a>
                                                 <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
@@ -778,24 +449,76 @@
                                                 </a>
                                             </td>
                                         </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
+
+            @if (count($contact->publish_us) != 0)
+                <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
+                    <h2 class="accordion-header" id="headingPublishUs">
+                        <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePublishUs" aria-expanded="false" aria-controls="collapsePublishUs">
+                            <i class="fas fa-bullhorn"></i>
+                            {{-- <i class="fab fa-internet-explorer"></i> --}}
+                            &nbsp; NOS PUBLICA
+                        </button>
+                    </h2>
+                    <div id="collapsePublishUs" class="accordion-collapse collapse" aria-labelledby="headingPublishUs">
+                        <div class="accordion-body">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+                                    @foreach ($contact->publish_us as $index => $web)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-0 py-1">
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <i class="fas fa-globe fa-lg"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center pl-3">
+                                                        <h6 class="mb-0 text-sm">{{ $web->type->label }}</h6>
+                                                        {{-- <p class="text-xs text-secondary mb-0">Personal</p> --}}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center px-3">
+                                                    <p class="text-md font-weight-bold mb-0" >
+                                                        {{ $web->value }}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-end">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    href="//{{ $web->value }}" target="_blank">
+                                                    Visitar
+                                                </a>
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    Copiar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-
-            </div>
-
+            @endif
 
 
         </div>
 
 
+
     </div>
+
+
+
 @endisset
 </div>
