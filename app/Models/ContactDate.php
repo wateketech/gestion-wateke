@@ -14,7 +14,7 @@ class ContactDate extends Model
     protected $fillable = ['contact_id', 'type_id', 'value', 'meta', 'enable'];
 
     public function type(){
-        return $this->belongsTo('App\Models\ContactDateType', 'id');
+        return $this->hasOne('App\Models\ContactDateType', 'id', 'type_id');
     }
     public function contact(){
         return $this->belongsTo('App\Models\Contact', 'id');

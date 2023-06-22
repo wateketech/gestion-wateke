@@ -14,10 +14,10 @@ class AddressCity extends Model
     protected $fillable = ['id', 'name', 'state_id', 'state_code', 'state_name', 'country_id', 'country_code', 'country_name', 'latitude', 'longitude', 'wikiDataId', 'enable'];
 
     public function country(){
-        return $this->belongsTo('App\Models\AddressCountry', 'id');
+        return $this->hasOne('App\Models\AddressCountry', 'id', 'country_id');
     }
     public function state(){
-        return $this->belongsTo('App\Models\AddressState', 'id');
+        return $this->hasOne('App\Models\AddressState', 'id', 'state_id');
     }
 
 }

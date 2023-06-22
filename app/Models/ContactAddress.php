@@ -14,13 +14,13 @@ class ContactAddress extends Model
     protected $fillable = ['contact_id', 'name', 'city_id', 'state_id', 'country_id', 'geolocation', 'zip_code', 'enable'];
 
     public function country(){
-        return $this->belongsTo('App\Models\AddressCountry', 'id');
+        return $this->hasOne('App\Models\AddressCountry', 'id', 'country_id');
     }
     public function state(){
-        return $this->belongsTo('App\Models\AddressState', 'id');
+        return $this->hasOne('App\Models\AddressState', 'id', 'state_id');
     }
     public function city(){
-        return $this->belongsTo('App\Models\AddressCity', 'id');
+        return $this->hasOne('App\Models\AddressCity', 'id', 'city_id');
     }
     public function lines(){
         return $this->hasMany('App\Models\ContactAddressLine', 'address_id');
