@@ -122,6 +122,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!--   Core JS Files   -->
+    <script src="../assets/js/function.js"></script>
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
     {{-- <script src="assets/js/plugins/smooth-scrollbar.min.js"></script> --}}

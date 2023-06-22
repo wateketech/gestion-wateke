@@ -210,10 +210,11 @@
                                             </td>
                                             <td class="align-middle text-end">
                                                 <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                    href='tel:{!! json_decode($primaryPhone->value_meta)->call_number !!}'>
+                                                    href='tel:{!! json_decode($phone->value_meta)->call_number !!}'>
                                                     Llamar
                                                 </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    onclick="copyToClipboard('{!! json_decode($phone->value_meta)->call_number !!}')">
                                                     Copiar
                                                 </a>
                                             </td>
@@ -226,7 +227,6 @@
                     </div>
                 </div>
             @endif
-
 
 
             @if (count($contact->instant_messages) != 0)
@@ -276,7 +276,8 @@
                                                     href='{{ $instant_message->type->url . $instant_message->value  }}' target="_blank">
                                                     Chatear
                                                 </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    onclick="copyToClipboard('{{ $instant_message->value }}')">
                                                     Copiar
                                                 </a>
                                             </td>
@@ -338,7 +339,8 @@
                                                         href='mailto:{{ $email->value }}'>
                                                         Enviar email
                                                     </a>
-                                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                        onclick="copyToClipboard('{{ $email->value }}')">
                                                         Copiar
                                                     </a>
                                                 </td>
@@ -444,7 +446,8 @@
                                                     href="//{{ $web->value }}" target="_blank">
                                                     Visitar
                                                 </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    onclick="copyToClipboard('{{ $web->value }}')">
                                                     Copiar
                                                 </a>
                                             </td>
@@ -497,7 +500,8 @@
                                                     href="//{{ $web->value }}" target="_blank">
                                                     Visitar
                                                 </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto">
+                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                                    onclick="copyToClipboard('{{ $web->value }}')">
                                                     Copiar
                                                 </a>
                                             </td>
