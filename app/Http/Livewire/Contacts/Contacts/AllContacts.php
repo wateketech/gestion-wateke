@@ -8,10 +8,18 @@ use App\Models\Contact as Contacts;
 
 class AllContacts extends Component
 {
+    public $prueba;
+    protected $listeners = [
+        'multiple_selection'
+        ];
+
     public $entity_types;
     protected $contacts;
 
-    public $current_contact = 2;
+    public $multiple_selection = false;
+    public $current_contacts = [];
+    public $current_contact;
+
     private $perPage = 100;
     public $pageOffset = 0;
 
@@ -22,16 +30,22 @@ class AllContacts extends Component
     public $is_search_all, $is_search_name, $is_search_ids, $is_search_emails, $is_search_phones, $is_search_webs;
 
 
-
-    public function updatedCurrentContact(){
-        $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
-
-        // $childComponent = $this->getChildInstance('contacts.contacts.current-contact');
-
-//          $this->mountChild('contacts.contacts.current-contact', [
-//          'id' => $this->current_contact
-    //  ]);
+    public function multiple_selection($args){
+        $this->multiple_selection = $args['is_multiple'];
+        $this->current_contacts[] = $this->current_contact;
     }
+    public function updatedCurrentContact(){
+
+        if ($this->multiple_selection){
+            $this->emitTo('contacts.contacts.current-contact', 'remount_multiple', ['id' => $this->current_contact]);
+            $this->current_contacts[] = $this->current_contact;
+
+        }else{
+            $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
+            $this->current_contacts= [];
+        }
+    }
+
     public function mount(){
         $this->restartFilter(false);
         $this->entity_types = EntityTypes::all();

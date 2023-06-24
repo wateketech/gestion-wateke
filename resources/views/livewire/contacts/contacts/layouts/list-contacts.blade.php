@@ -32,7 +32,7 @@
                 </thead>
                 <tbody class="contact-list">
                     @forelse ($contacts as $index => $contact)
-                        <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }}"
+                        <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }} {{ in_array($contact->id, $current_contacts) ? 'active' : '' }}"
                                 wire:click="$set('current_contact', {{ $contact->id }})">
                             <td class="p-1 px-4">
                                 <div class="d-flex px-2 py-1">
@@ -103,3 +103,27 @@
         </div>
     </div>
 </div>
+
+
+
+@push('scripts')
+<script>
+    window.addEventListener('load', function() {
+        // seleccion multiple contactos con control
+        $multiple_selection_start = false;
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Control' &&  !$multiple_selection_start){
+                $multiple_selection_start = true;
+                Livewire.emit('multiple_selection', {'is_multiple' : true});
+            }
+        });
+        document.addEventListener('keyup', function(event) {
+            if (event.key === 'Control') {
+                $multiple_selection_start = false;
+                Livewire.emit('multiple_selection', {'is_multiple' : false});
+            }
+        });
+    });
+</script>
+@endpush
