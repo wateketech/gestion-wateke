@@ -314,3 +314,33 @@ span.select2.select2-container.select2-container--default.select2-container--bel
     color: aliceblue !important;
     padding: 0.5em !important;
 }
+
+
+
+// estilo para las listas de contactos
+.contact-table{
+    border-collapse: collapse !important;
+}
+.contact-list{
+    border-top: 0 !important;
+
+    .contact-row{
+        cursor: pointer !important;
+
+        :first-child:hover{
+            transform: scale(1.03) !important;
+        }
+        &.active{
+            background-color: #fed9b7 !important;
+
+            :first-child{
+                transform:scale(1.03) !important;
+
+                .contact-name{
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+

@@ -1,29 +1,3 @@
-@push('styles')
-    <style>
-        .contact-table{
-            border-collapse: collapse !important;
-        }
-        .contact-list{
-            border-top: 0 !important;
-        }
-        .contact-list .contact-row{
-            cursor: pointer !important;
-
-        }
-        .contact-list .contact-row.active{
-            background-color: #fed9b7 !important;
-        }
-        .contact-list .contact-row.active :first-child{
-            transform:scale(1.03) !important;
-        }
-        .contact-list .contact-row :first-child:hover{
-            transform: scale(1.03) !important;
-        }
-        .contact-list .contact-row.active :first-child .contact-name{
-            font-weight: bold;
-        }
-    </style>
-@endpush
 <div class="card h-100"
     style="
         min-height: 100vh !important;
