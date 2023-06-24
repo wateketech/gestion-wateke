@@ -1,3 +1,29 @@
+@push('styles')
+    <style>
+        .contact-table{
+            border-collapse: collapse !important;
+        }
+        .contact-list{
+            border-top: 0 !important;
+        }
+        .contact-list .contact-row{
+            cursor: pointer !important;
+
+        }
+        .contact-list .contact-row.active{
+            background-color: #fed9b7 !important;
+        }
+        .contact-list .contact-row.active :first-child{
+            transform:scale(1.03) !important;
+        }
+        .contact-list .contact-row :first-child:hover{
+            transform: scale(1.03) !important;
+        }
+        .contact-list .contact-row.active :first-child .contact-name{
+            font-weight: bold;
+        }
+    </style>
+@endpush
 <div class="card h-100"
     style="
         min-height: 100vh !important;
@@ -17,11 +43,11 @@
             </div> --}}
         </div>
     </div>
-    <div class="card-body p-3" style="        overflow-y: scroll;">
+    <div class="card-body p-3" style="overflow-y: scroll;">
 
         <div class="table-responsive p-0">
-            <table class="table align-items-center mb-0">
-                <thead>
+            <table class="table align-items-center mb-0 contact-table">
+                <thead class="contact-header">
                     @if (count($contacts))
                         <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
@@ -30,19 +56,19 @@
                         </tr>
                     @endif
                 </thead>
-                <tbody>
+                <tbody class="contact-list">
                     @forelse ($contacts as $index => $contact)
-                        <tr style="background-color:{{ $current_contact == $contact->id ? 'antiquewhite': '' }};">
-                            <td class="m-0 p-0">
+                        <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }}"
+                                wire:click="$set('current_contact', {{ $contact->id }})">
+                            <td class="p-1 px-4">
                                 <div class="d-flex px-2 py-1">
-                                    <a href='javascript:void(0)' wire:click="$set('current_contact', {{ $contact->id }})">
-                                        {{-- <div class="avatar avatar-sm me-3 bg-primary"> {{ $contact->id }} </div> --}}
+                                    <a href='javascript:void(0)'> {{-- seleccionar varios a la vez --}}
                                         <img class="avatar avatar-sm me-3"
                                             src="{{ count($contacts->find($contact)->pics) == 0 ? '../assets/img/illustrations/contact-profile-2.png'
                                                 : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contacts->find($contact)->pics->first()->store . $contacts->find($contact)->pics->first()->name ))) }}">
                                     </a>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">
+                                        <h6 class="contact-name mb-0 text-sm">
                                             {!! json_decode($contacts->find($contact)->prefix->label)->abb !!}.
                                             {{ $contact['name'] . ' ' . $contact['first_lastname'] }}
                                         </h6>
@@ -61,10 +87,10 @@
                                 <p class="text-xs text-secondary mb-0">Wateke Travel</p>
                             </td> --}}
 
-                            <td class="align-middle text-center m-0 p-0">
+                            <td class="align-middle text-center p-1">
                                 @if ($primaryPhone = $contacts->find($contact)->phones->where('is_primary', true)->first())
                                     @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                                        <a href='tel:{!! $phoneNumber !!}'><i class="fas fa-phone-alt fa-sm me-2 icon-call"></i></a>
+                                        <a href='tel:{!! $phoneNumber !!}'><i class="fas fa-phone-alt fa-sm me-2 icon-call text-dark"></i></a>
                                     @endif
                                     @else
                                         {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
@@ -72,7 +98,7 @@
 
                                 @if ($contacts->find($contact)->emails->where('is_primary', true)->first())
                                     <a href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
-                                        <i class="fas fa-envelope fa-sm me-2 icon-mail"></i>
+                                        <i class="fas fa-envelope fa-sm me-2 icon-mail text-dark"></i>
                                     </a>
                                     @else
                                     {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
@@ -80,7 +106,7 @@
 
                                 @if ($primaryChat = $contacts->find($contact)->instant_messages->where('is_primary', true)->first())
                                         <a href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
-                                            <i class="fas fa-comment fa-sm me-2 icon-text"></i>
+                                            <i class="fas fa-comment fa-sm me-2 icon-text text-dark"></i>
                                         </a>
                                     @else
                                         {{-- <a href='void(0)'><i class="fas fa-comment-alt fa-sm me-2"></i></a> --}}
