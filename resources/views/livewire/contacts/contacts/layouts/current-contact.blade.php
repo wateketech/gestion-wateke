@@ -75,7 +75,7 @@
 
 
         <div class="row">
-            <div class="col-5 pb-4 pl-11 text-start">
+            <div class="col-5 pb-3 pl-8 text-start">
                 @forelse ($contact->rrss as $index => $rs)
                     <a href="{{ $rs->type->url . $rs->value }}" target="_blank" class="d-inline-block icon icon-shape icon-sm shadow text-center border-radius-xl mb-1 hover-scale"
                         style="background-color: {{ $rs->type->color }}">
@@ -202,8 +202,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
-                                                        {{-- {{ $phone['value'] }} --}}
+                                                    <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
                                                         {!! '+' . json_decode($phone->value_meta)->country_dial_code . ' ' . json_decode($phone->value_meta)->clean_number !!}
                                                     </p>
                                                 </div>
@@ -266,7 +265,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
+                                                    <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
                                                         {{ $instant_message->value }}
                                                     </p>
                                                 </div>
@@ -329,7 +328,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex flex-column justify-content-center px-3">
-                                                        <p class="text-md font-weight-bold mb-0" >
+                                                        <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
                                                             {{ $email->value }}
                                                         </p>
                                                     </div>
@@ -389,9 +388,11 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex flex-column justify-content-center px-7">
-                                                        <p class="text-md font-weight-bold mb-0" style="font-family: monospace, cursive;">
+                                                        <p class="text-md font-weight-bold mb-0" style="font-family: monospace, cursive; cursor:pointer"
+                                                            onclick="copyToClipboard('{{ $account->card_number }}')">
                                                             {!! implode('&nbsp;', str_split($account->card_number, 4)) !!}
                                                         </p>
+
                                                     </div>
                                                 </td>
                                                 <td class="align-middle text-center">
@@ -436,7 +437,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
+                                                    <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
                                                         {{ $web->value }}
                                                     </p>
                                                 </div>
@@ -490,7 +491,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md font-weight-bold mb-0" >
+                                                    <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
                                                         {{ $web->value }}
                                                     </p>
                                                 </div>
