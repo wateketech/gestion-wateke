@@ -185,13 +185,94 @@ class Create extends Component
     {
         return view('livewire.contacts.contacts.create');
     }
-    // ----------------------- VALIDACIONES --------------------------
-    public function skip_validation($attribute, $value, $parameters, $validator){ return true; }
-
-    public function cleanErrors(){ $this->resetValidation(); }
-    public function cleanError($m){ $this->resetValidation($m); }
 
 
+// ----------------------- VALIDACIONES --------------------------
+
+
+
+
+    public function validate_general($fieldName = null){
+        $rules = [
+            'name' => 'required|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
+            'middle_name' => 'nullable|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
+            'first_lastname' => 'required|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
+            'second_lastname' => 'nullable|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
+            // 'profile_pics' => 'max:5120|valid_image_mime',
+        ];
+        $message = [
+            '*.required' => 'El campo es obligatorio',
+            '*.string' => 'El campo debe ser una cadena de texto',
+            '*.min' => 'El campo no puede tener menos de :min caracteres',
+            '*.max' => 'El campo no puede tener más de :max caracteres',
+            '*.regex' => 'El campo solo puede contener letras y espacios en blanco',
+        ];
+
+
+        if ($fieldName !== null){
+            $this->validateOnly($fieldName, $rules, $message);
+        }else{
+            $this->validate($rules, $message);
+
+        }
+
+    }
+    private function validate_emails($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_phones($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_chats($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_rrss($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_webs($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_address($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_ocupation($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
+    private function validate_more($index = null){
+        if ($index === null){
+            return [];
+        }
+        return [];
+
+    }
 
 // -------------------------- STEPS -------------------------- //
     private function backStep($passStep, $currentStep, $time = 1500){
@@ -209,10 +290,33 @@ class Create extends Component
     }
 
 // -------------------------- STEP GENERALS -------------------------- //
+
+    public function updatedGender(){
+        $this->prefixs = $this->genders->find($this->gender)->prefixs->where('enable', true);
+        $this->prefix = $this->prefixs->first()->id;
+    }
+    public function updatedProfilePics(){
+        $this->validate([
+            'profile_pics' => 'required|max:5120|valid_image_mime',
+        ]);
+        if ($this->getErrorBag()->any()) {
+            $this->profile_pics = null;
+        }
+        foreach ($this->profile_pics as $pic) {
+            $filePath = $pic->getRealPath();
+            $image = Image::make($filePath);
+            $image->fit(500, 500);
+            $image->save($filePath);
+        }
+        $this->main_profile_pic = 0;
+
+    }
+
     public function stepSubmit_general_omit(){
         $this->omitStep('emails');
     }
     public function stepSubmit_general_next(){
+        $this->validate($this->validate_general());
         $this->nextStep('general', 'emails');
     }
 
@@ -332,14 +436,8 @@ class Create extends Component
 
 
 
-
-
     // -------------------------- STEP GENERALS --------------------------
-    public function updatedGender()
-    {
-        $this->prefixs = $this->genders->find($this->gender)->prefixs->where('enable', true);
-        $this->prefix = $this->prefixs->first()->id;
-    }
+
     public function addId($index)
     {
         $this->validate([
@@ -369,24 +467,8 @@ class Create extends Component
         unset($this->ids[$index]);
         $this->ids = array_values($this->ids);
     }
-    public function updatedProfilePics()
-    {
-        // $this->dispatchBrowserEvent('coocking-time-profile-img', ['time'=> 2000]);
-        $this->validate([
-            'profile_pics' => 'required|max:5120|valid_image_mime',
-        ]);
-        if ($this->getErrorBag()->any()) {
-            $this->profile_pics = null;
-        }
-        foreach ($this->profile_pics as $pic) {
-            $filePath = $pic->getRealPath();
-            $image = Image::make($filePath);
-            $image->fit(500, 500);
-            $image->save($filePath);
-        }
-        $this->main_profile_pic = 0;
 
-    }
+
     public function zstepSubmit_general()
     {
         $this->validate([

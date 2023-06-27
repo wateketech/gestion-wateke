@@ -25,28 +25,32 @@
 
                 <div class="col-6 form-group">
                     <label for="name" class="form-control-label">Primer Nombre *</label>
-                    <input class="@error('name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="name" id="name" wire:model="name">
+                    <input class="@error('name')border border-danger rounded-3 is-invalid @enderror form-control" name="name" id="name"
+                        wire:blur="validate_general('name')"
+                        wire:model="name" type="text">
                     @error('name') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
                 <div class="col-6 form-group">
                     <label for="middle_name" class="form-control-label">Segundo Nombre</label>
-                    <input class="@error('middle_name')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="middle_name" id="middle_name" wire:model="middle_name">
+                    <input class="@error('middle_name')border border-danger rounded-3 is-invalid @enderror form-control" name="middle_name" id="middle_name"
+                        wire:blur="validate_general('middle_name')"
+                        wire:model="middle_name" type="text">
                     @error('middle_name') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
 
 
                 <div class="col-6 form-group">
                     <label for="first_lastname" class="form-control-label">Primer Apellido *</label>
-                    <input class="@error('first_lastname')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="first_lastname" id="first_lastname" wire:model="first_lastname">
+                    <input class="@error('first_lastname')border border-danger rounded-3 is-invalid @enderror form-control" name="first_lastname" id="first_lastname"
+                        wire:blur="validate_general('first_lastname')"
+                        wire:model="first_lastname" type="text">
                     @error('first_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
                 <div class="col-6 form-group">
                     <label for="second_lastname" class="form-control-label">Segundo Apellido</label>
-                    <input class="@error('second_lastname')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
-                        name="second_lastname" id="second_lastname" wire:model="second_lastname">
+                    <input class="@error('second_lastname')border border-danger rounded-3 is-invalid @enderror form-control" name="second_lastname" id="second_lastname"
+                        wire:blur="validate_general('second_lastname')"
+                        wire:model="second_lastname" type="text">
                     @error('second_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
 
