@@ -1,16 +1,17 @@
 <div class="main-content p-4">
 
 
-    <div class="d-flex flex-row justify-content-start pl-4">
-        <div>
-            <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
-                <i class="fas fa-search"></i> Buscar / Filtrar
-            </a>
-            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-contacto') }}">
-                Crear Contacto
-            </a>
+    <div class="d-flex flex-row justify-content-between mx-4">
 
-        </div>
+        <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-contacto') }}">
+            Crear Contacto
+        </a>
+
+        <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
+            <i class="fas fa-search"></i> Buscar / Filtrar
+        </a>
+
+
     </div>
 
 
@@ -52,7 +53,7 @@ Holaaaaaaaaaaa
 
 @endif --}}
 
-    <div class="container-fluid py-2">
+    <div class="container-fluid ">
         <div class="row">
 
 
@@ -60,10 +61,10 @@ Holaaaaaaaaaaa
                 {{-- @include('livewire.contacts.contacts.layouts.groups-contacts') --}}
             {{-- </div> --}}
 
-            <div class="col-lg-5 py-2">
+            <div class="col-lg-5 py-1">
                 @include('livewire.contacts.contacts.list-contacts')
             </div>
-            <div class="col-lg-7 py-2">
+            <div class="col-lg-7 py-1">
                 @livewire('contacts.contacts.current-contact')
             </div>
 
