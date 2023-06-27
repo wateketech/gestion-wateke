@@ -167,14 +167,14 @@
                                     </div>
                                 </div>
 
-                                @include("livewire.contacts.contacts.layouts.form.more")
+                                {{-- @include("livewire.contacts.contacts.layouts.form.more") --}}
 
                             </div>
                         {{-- -------------------------- STEP RESUMEN -------------------------- --}}
                             <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-resumen">
                                 <div class="position-relative">
 
-                                @include("livewire.contacts.contacts.layouts.form.resumen")
+                                {{-- @include("livewire.contacts.contacts.layouts.form.resumen") --}}
 
                                 <div>
                                     <div class="d-flex justify-content-center mt-3">

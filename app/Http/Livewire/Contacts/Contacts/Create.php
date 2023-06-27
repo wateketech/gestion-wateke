@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Contacts\Contacts;
 
+use App\Rules\UniqueWarning;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -193,7 +195,7 @@ class Create extends Component
         $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 
         $this->remount_bank_accounts();
-        $this->datos_prueba();
+        //$this->datos_prueba();
     }
     public function render()
     {
@@ -222,7 +224,8 @@ class Create extends Component
                     if (count($ids) != count(array_unique($ids))) {
                         $fail('Los valores no pueden repetirse');
                     }
-                }
+                },
+                //new UniqueWarning('contact_ids', 'value', $this->ids[$index]['value'], 'Este id ya es usado por otro contacto'),
             ]
         ], [
                 'ids.*.type_id.required' => 'El campo es obligatorio',

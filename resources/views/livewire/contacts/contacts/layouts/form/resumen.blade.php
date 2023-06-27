@@ -58,7 +58,7 @@
                 @endforelse
             </div>
             <div class="col-7 pb-4 px-4 text-end">
-                @forelse ($dates as $index => $date)
+                {{-- @forelse ($dates as $index => $date)
                     <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
                         style="background-color: {{ $date_types->find($date['type_id'])->color }}; color:white; cursor:pointer; position:relative;"
                             onmouseover="this.innerHTML='{!! htmlspecialchars($date_types->find($date['type_id'])->icon, ENT_QUOTES) !!}&nbsp;{{ $date_types->find($date['type_id'])->label }}';"
@@ -67,7 +67,7 @@
                     </a>
                 @empty
 
-                @endforelse
+                @endforelse --}}
             </div>
         </div>
 
