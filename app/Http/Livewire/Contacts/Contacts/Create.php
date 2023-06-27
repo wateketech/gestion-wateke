@@ -136,17 +136,12 @@ class Create extends Component
 
 
 
-    // ----------------------- VALIDACIONES --------------------------
-    public function skip_validation($attribute, $value, $parameters, $validator){ return true; }
-
-    public function cleanErrors(){ $this->resetValidation(); }
-    public function cleanError($m){ $this->resetValidation($m); }
     // ----------------------- RENDER --------------------------
     public function mount()
     {
-        // $this->genders = Genders::all()->where('enable', true);
-        // $this->gender = $this->genders->first()->id;
-        // $this->updatedGender();
+        $this->genders = Genders::all()->where('enable', true);
+        $this->gender = $this->genders->first()->id;
+        $this->updatedGender();
 //
         // $this->id_types = IdTypes::all()->where('enable', true);
         // $this->email_types = EmailTypes::all()->where('enable', true);
@@ -190,6 +185,13 @@ class Create extends Component
     {
         return view('livewire.contacts.contacts.create');
     }
+    // ----------------------- VALIDACIONES --------------------------
+    public function skip_validation($attribute, $value, $parameters, $validator){ return true; }
+
+    public function cleanErrors(){ $this->resetValidation(); }
+    public function cleanError($m){ $this->resetValidation($m); }
+
+
 
 // -------------------------- STEPS -------------------------- //
     private function backStep($passStep, $currentStep, $time = 1500){
