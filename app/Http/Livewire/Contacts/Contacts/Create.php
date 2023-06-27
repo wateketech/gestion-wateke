@@ -51,16 +51,11 @@ class Create extends Component
         'removeAccountCard',
     ];
     public $prueba, $datos_prueba;
-    //    public $available_id_types = [];
 
     public $errorMessage;
-    public $allStep = ['general', 'emails', 'phone_chats', 'rrss_web', 'address', 'bank_accounts', 'ocupation', 'more', 'resumen'];
+    public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'general'; //'general';
-
-    protected $rules = [
-
-    ];
+    public $currentStep = 'general';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
     // GENERALS
@@ -74,133 +69,265 @@ class Create extends Component
     public $profile_pics = [];
 
     // EMAILS
-    public $email_types;
-    public $emails = [];
-    public $emails_max = 10;
+    //public $email_types;
+    //public $emails = [];
+    //public $emails_max = 10;
 
     // PHONE AND CHATS
-    public $phone_types;
-    public $phones = [];
-    public $phones_max = 8;
-
-    public $instant_message_types;
-    public $instant_messages = [];
-    public $instant_messages_max = 8;
+    //public $phone_types;
+    //public $phones = [];
+    //public $phones_max = 8;
+//
+    //public $instant_message_types;
+    //public $instant_messages = [];
+    //public $instant_messages_max = 8;
 
 
     // RRSS AND WEBS
-    public $rrss_types;
-    public $rrss = [];
-    public $rrss_max = 8;
-
-    public $web_types;
-    public $webs = [];
-    public $webs_max = 8;
+    //public $rrss_types;
+    //public $rrss = [];
+    //public $rrss_max = 8;
+//
+    //public $web_types;
+    //public $webs = [];
+    //public $webs_max = 8;
 
 
     // ADDRESS
-    public $countries, $states, $cities;
-    public $contact_address = [];
-    public $address = [];
-    public $address_max = 3;
-
-    public $address_line = [];
-    public $address_line_max = 10;
+    //public $countries, $states, $cities;
+    //public $contact_address = [];
+    //public $address = [];
+    //public $address_max = 3;
+//
+    //public $address_line = [];
+    //public $address_line_max = 10;
 
     // BANK ACCOUNTS
-    public $bank_account_types, $bank_account_type;
-    public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about, $bank_account_meta;
-    public $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
-
-    public $bank_account_bank_name, $bank_account_bank_title;
-    public $bank_id_in_bbdd;
-    public $bank_account_banks = [];
-    public $bank_accounts = [];
+    //public $bank_account_types, $bank_account_type;
+    //public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about, $bank_account_meta;
+    //public $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
+//
+    //public $bank_account_bank_name, $bank_account_bank_title;
+    //public $bank_id_in_bbdd;
+    //public $bank_account_banks = [];
+    //public $bank_accounts = [];
 
     // OCUPATION
-    public $ocupation_id, $ocupation_entity_id, $ocupation_about;
+    //public $ocupation_id, $ocupation_entity_id, $ocupation_about;
     // EN CONSTRUCCIÓN
 
     // MORE
-    public $date_types, $date_type;
-    public $date_value;
-    public $dates = [];
-    public $dates_max = 4;
-
-    public $publish_us_types, $publish_us_type;
-    public $publish_us_value, $publish_us_about;
-    public $publish_us = [];
-    public $publish_us_max = 8;
-
+    //public $date_types, $date_type;
+    //public $date_value;
+    //public $dates = [];
+    //public $dates_max = 4;
+//
+    //public $publish_us_types, $publish_us_type;
+    //public $publish_us_value, $publish_us_about;
+    //public $publish_us = [];
+    //public $publish_us_max = 8;
+//
 
     // RESUMEN
-    public $is_user_link = false;
-    public $user_link_roles;
-    private $user_link_password;
-    public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
+    // public $is_user_link = false;
+    // public $user_link_roles;
+    // private $user_link_password;
+    // public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
 
 
 
     // ----------------------- VALIDACIONES --------------------------
     public function skip_validation($attribute, $value, $parameters, $validator){ return true; }
 
-    public function cleanErrors()
-    {
-        $this->resetValidation();
-    }
-    public function cleanError($m)
-    {
-        $this->resetValidation($m);
-    }
+    public function cleanErrors(){ $this->resetValidation(); }
+    public function cleanError($m){ $this->resetValidation($m); }
     // ----------------------- RENDER --------------------------
     public function mount()
     {
-        $this->genders = Genders::all()->where('enable', true);
-        $this->gender = $this->genders->first()->id;
-        $this->updatedGender();
-
-        $this->id_types = IdTypes::all()->where('enable', true);
-        $this->email_types = EmailTypes::all()->where('enable', true);
-        $this->phone_types = PhoneTypes::all()->where('enable', true);
-        $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
-        $this->rrss_types = RrssTypes::all()->where('enable', true);
-        $this->web_types = WebTypes::all()->where('enable', true);
-        $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
-        $this->date_types = DateTypes::all()->where('enable', true);
-        $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
-        $this->countries = Countries::all()->where('enable', true);
-
-
-
-        $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',];
-        $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->genders = Genders::all()->where('enable', true);
+        // $this->gender = $this->genders->first()->id;
+        // $this->updatedGender();
+//
+        // $this->id_types = IdTypes::all()->where('enable', true);
+        // $this->email_types = EmailTypes::all()->where('enable', true);
+        // $this->phone_types = PhoneTypes::all()->where('enable', true);
+        // $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
+        // $this->rrss_types = RrssTypes::all()->where('enable', true);
+        // $this->web_types = WebTypes::all()->where('enable', true);
+        // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
+        // $this->date_types = DateTypes::all()->where('enable', true);
+        // $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
+        // $this->countries = Countries::all()->where('enable', true);
+//
+//
+//
+        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',];
+        // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
-        $this->address[] = [
-            'name' => 'Casa',
-            'city_id' => '',
-            'geolocation' => null,
-            'zip_code' => '',
-            'country_id' => null,
-            'state_id' => null
-        ];
-        $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
-        $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
-        $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
-
-        $this->remount_bank_accounts();
+        //$this->address[] = [
+        //    'name' => 'Casa',
+        //    'city_id' => '',
+        //    'geolocation' => null,
+        //    'zip_code' => '',
+        //    'country_id' => null,
+        //    'state_id' => null
+        //];
+        //$this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+        //$this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+        //$this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
+//
+        //$this->remount_bank_accounts();
         //$this->datos_prueba();
     }
     public function render()
     {
         return view('livewire.contacts.contacts.create');
     }
+
+// -------------------------- STEPS -------------------------- //
+    private function backStep($passStep, $currentStep, $time = 1500){
+        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        $this->currentStep = $currentStep;
+    }
+    private function nextStep($passStep, $currentStep, $time = 2000){
+        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        $this->passStep[] = $passStep;
+        $this->currentStep = $currentStep;
+    }
+    private function omitStep($currentStep, $time = 1000){
+        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        $this->currentStep = $currentStep;
+    }
+
+// -------------------------- STEP GENERALS -------------------------- //
+    public function stepSubmit_general_omit(){
+        $this->omitStep('emails');
+    }
+    public function stepSubmit_general_next(){
+        $this->nextStep('general', 'emails');
+    }
+
+// -------------------------- STEP EMAILS -------------------------- //
+    public function stepSubmit_emails_back(){
+        $this->backStep('emails', 'general');
+    }
+    public function stepSubmit_emails_omit(){
+        $this->omitStep('phones');
+    }
+    public function stepSubmit_emails_next(){
+        $this->nextStep('emails', 'phones');
+    }
+// -------------------------- STEP PHONES -------------------------- //
+    public function stepSubmit_phones_back(){
+        $this->backStep('phones', 'emails');
+    }
+    public function stepSubmit_phones_omit(){
+        $this->omitStep('chats');
+    }
+    public function stepSubmit_phones_next(){
+        $this->nextStep('phones', 'chats');
+    }
+// -------------------------- STEP CHATS -------------------------- //
+    public function stepSubmit_chats_back(){
+        $this->backStep('chats', 'phones');
+    }
+    public function stepSubmit_chats_omit(){
+        $this->omitStep('rrss');
+    }
+    public function stepSubmit_chats_next(){
+        $this->nextStep('chats', 'rrss');
+    }
+// -------------------------- STEP RRSS -------------------------- //
+    public function stepSubmit_rrss_back(){
+        $this->backStep('rrss', 'chats');
+    }
+    public function stepSubmit_rrss_omit(){
+        $this->omitStep('webs');
+    }
+    public function stepSubmit_rrss_next(){
+        $this->nextStep('rrss', 'webs');
+    }
+// -------------------------- STEP WEBS -------------------------- //
+    public function stepSubmit_webs_back(){
+        $this->backStep('webs', 'address');
+    }
+    public function stepSubmit_webs_omit(){
+        $this->omitStep('address');
+    }
+    public function stepSubmit_webs_next(){
+        $this->nextStep('webs', 'address');
+    }
+// -------------------------- STEP ADDRESS -------------------------- //
+    public function stepSubmit_address_back(){
+        $this->backStep('address', 'webs');
+    }
+    public function stepSubmit_address_omit(){
+        $this->omitStep('ocupation');
+    }
+    public function stepSubmit_address_next(){
+        $this->nextStep('address', 'ocupation');
+    }
+// -------------------------- STEP OCUPATION -------------------------- //
+    public function stepSubmit_ocupation_back(){
+        $this->backStep('ocupation', 'address');
+    }
+    public function stepSubmit_ocupation_omit(){
+        $this->omitStep('more');
+    }
+    public function stepSubmit_ocupation_next(){
+        $this->nextStep('ocupation', 'more');
+    }
+// -------------------------- STEP MORE -------------------------- //
+    public function stepSubmit_more_back(){
+        $this->backStep('more', 'ocupation');
+    }
+    public function stepSubmit_more_omit(){
+        $this->omitStep('resumen');
+    }
+    public function stepSubmit_more_next(){
+        $this->nextStep('more', 'resumen');
+    }
+// -------------------------- STEP RESUMEN -------------------------- //
+
+
+
+// -------------------------- END - STEPS -------------------------- //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -258,7 +385,7 @@ class Create extends Component
         $this->main_profile_pic = 0;
 
     }
-    public function stepSubmit_general()
+    public function zstepSubmit_general()
     {
         $this->validate([
             'alias' => 'max:50',
@@ -352,7 +479,7 @@ class Create extends Component
         if ($remove_primary)
             $this->selectEmailIsPrimary(0);
     }
-    public function stepSubmit_emails()
+    public function zstepSubmit_emails()
     {
         $this->validate([
             'emails' => 'required',
@@ -853,14 +980,14 @@ class Create extends Component
     }
 
 
-    public function stepSubmit_address_omit()
+    public function zzstepSubmit_address_omit()
     {
         $this->address = [];
         $this->address_line = [];
         $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'bank_accounts';
     }
-    public function stepSubmit_address()
+    public function zstepSubmit_address()
     {
         $this->validate([
             'address.*.name' => 'required',
@@ -1010,7 +1137,7 @@ class Create extends Component
         $this->passStep[] = 'ocupation';
         $this->currentStep = 'more';
     }
-    public function stepSubmit_ocupation_omit()
+    public function zzstepSubmit_ocupation_omit()
     {
         $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'more';
@@ -1121,14 +1248,14 @@ class Create extends Component
     }
 
 
-    public function stepSubmit_more_omit()
+    public function zzstepSubmit_more_omit()
     {
         $this->dates = [];
         $this->publish_us = [];
         $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'resumen';
     }
-    public function stepSubmit_more()
+    public function zstepSubmit_more()
     {
         $this->validate([
             'dates' => 'array',
