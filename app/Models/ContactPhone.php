@@ -11,7 +11,7 @@ class ContactPhone extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_phones';
-    protected $fillable = ['contact_id', 'type_id', 'value', 'value_meta', 'is_primary', 'about', 'enable'];
+    protected $fillable = ['contact_id', 'type_id', 'value', 'extension', 'value_meta', 'is_primary', 'about', 'enable'];
 
     public function type(){
         return $this->hasOne('App\Models\ContactPhoneType', 'id', 'type_id');
