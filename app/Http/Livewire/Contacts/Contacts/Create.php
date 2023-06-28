@@ -193,6 +193,11 @@ class Create extends Component
 
 
     public function validate_general($fieldName = null){
+        $this->name = trim($this->name);
+        $this->middle_name = trim($this->middle_name);
+        $this->first_lastname = trim($this->first_lastname);
+        $this->second_lastname = trim($this->second_lastname);
+
         $rules = [
             'name' => 'required|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
             'middle_name' => 'nullable|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
@@ -217,56 +222,56 @@ class Create extends Component
         }
 
     }
-    private function validate_emails($index = null){
+    public function validate_emails($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_phones($index = null){
+    public function validate_phones($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_chats($index = null){
+    public function validate_chats($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_rrss($index = null){
+    public function validate_rrss($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_webs($index = null){
+    public function validate_webs($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_address($index = null){
+    public function validate_address($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_ocupation($index = null){
+    public function validate_ocupation($index = null){
         if ($index === null){
             return [];
         }
         return [];
 
     }
-    private function validate_more($index = null){
+    public function validate_more($index = null){
         if ($index === null){
             return [];
         }
@@ -291,10 +296,14 @@ class Create extends Component
 
 // -------------------------- STEP GENERALS -------------------------- //
 
+    public function updatedPrefix(){
+        if ($this->prefix === '') $this->prefix = null;
+    }
     public function updatedGender(){
         $this->prefixs = $this->genders->find($this->gender)->prefixs->where('enable', true);
-        $this->prefix = $this->prefixs->first()->id;
+        if ($this->prefix) $this->prefix = $this->prefixs->first()->id;
     }
+
     public function updatedProfilePics(){
         $this->validate([
             'profile_pics' => 'required|max:5120|valid_image_mime',
@@ -316,7 +325,7 @@ class Create extends Component
         $this->omitStep('emails');
     }
     public function stepSubmit_general_next(){
-        $this->validate($this->validate_general());
+        $this->validate_general();
         $this->nextStep('general', 'emails');
     }
 

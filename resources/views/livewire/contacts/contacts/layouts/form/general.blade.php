@@ -1,4 +1,4 @@
-<div class="container-fluid mt-7 mt-lg-4">
+<div class="container-fluid mt-5 mt-lg-4">
     <div class="row">
         <div class='col-lg-8 col-md-12 pb-5'>
             <div class="row">
@@ -9,6 +9,7 @@
                     <label for="prefix" class="form-control-label">Titulo</label>
                     <select class="@error("prefix")border border-danger rounded-3 is-invalid @enderror form-control"
                         name="prefix" id="prefix" wire:model="prefix">
+                        <option value="">Ninguno</option>
                         @foreach ($prefixs as $prefix)
                             <option value="{{ $prefix->id }}">
                                 {!! json_decode($prefix->label)->abb !!}.
