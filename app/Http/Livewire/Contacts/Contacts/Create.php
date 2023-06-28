@@ -55,23 +55,21 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'general';
+    public $currentStep = 'emails';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
+
     // GENERALS
     public $genders, $prefixs;
     public $alias, $name, $middle_name, $first_lastname, $second_lastname, $meta, $about;
     public $gender, $prefix;
-    public $id_types;
-    public $ids = [];
-    public $id_max = 4;
     public $main_profile_pic = 0;
     public $profile_pics = [];
 
     // EMAILS
-    //public $email_types;
-    //public $emails = [];
-    //public $emails_max = 10;
+    public $email_types;
+    public $emails = [];
+    public $emails_max = 10;
 
     // PHONE AND CHATS
     //public $phone_types;
@@ -127,6 +125,9 @@ class Create extends Component
     //public $publish_us = [];
     //public $publish_us_max = 8;
 //
+    //public $id_types;
+    //public $ids = [];
+    //public $id_max = 4;
 
     // RESUMEN
     // public $is_user_link = false;
@@ -143,8 +144,8 @@ class Create extends Component
         $this->gender = $this->genders->first()->id;
         $this->updatedGender();
 //
+        $this->email_types = EmailTypes::all()->where('enable', true);
         // $this->id_types = IdTypes::all()->where('enable', true);
-        // $this->email_types = EmailTypes::all()->where('enable', true);
         // $this->phone_types = PhoneTypes::all()->where('enable', true);
         // $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
         // $this->rrss_types = RrssTypes::all()->where('enable', true);
@@ -156,9 +157,9 @@ class Create extends Component
 //
 //
 //
-        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',];
+        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -189,8 +190,13 @@ class Create extends Component
 
 // ----------------------- VALIDACIONES --------------------------
 
-
-
+    public function uniqueWarningBD($table, $targetField, $value, $message = 'El campo ya es utilizado en base de datos'){
+        $result = DB::table($table)->where($targetField, $value)->first();
+        if ($result) {
+            return $message;
+        }
+        return null;
+    }
 
     public function validate_general($fieldName = null){
         $this->name = trim($this->name);
@@ -205,7 +211,7 @@ class Create extends Component
             'second_lastname' => 'nullable|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
             // 'profile_pics' => 'max:5120|valid_image_mime',
         ];
-        $message = [
+        $messages = [
             '*.required' => 'El campo es obligatorio',
             '*.string' => 'El campo debe ser una cadena de texto',
             '*.min' => 'El campo no puede tener menos de :min caracteres',
@@ -215,18 +221,49 @@ class Create extends Component
 
 
         if ($fieldName !== null){
-            $this->validateOnly($fieldName, $rules, $message);
+            $this->validateOnly($fieldName, $rules, $messages);
         }else{
-            $this->validate($rules, $message);
+            $this->validate($rules, $messages);
 
         }
 
     }
-    public function validate_emails($index = null){
-        if ($index === null){
-            return [];
+    public function validate_emails($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName === 'value'){
+            $this->selectEmailType($index);
         }
-        return [];
+        foreach ($this->emails as $index => $email) {
+            $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
+            if ($index === '*' ) $this->selectEmailType($index);;
+        }
+
+        $rules = [
+            'emails.' . $index . '.is_primary' => '',
+            'emails.' . $index . '.type_id' => ['nullable', 'integer', Rule::in($this->email_types->pluck('id')->toArray()),],
+            'emails.' . $index . '.label' => 'nullable|string|min:2|max:50',
+            'emails.' . $index . '.about' => 'nullable|string|min:2',
+            'emails.' . $index . '.value' => [ 'required', 'email', 'min:5', 'max:255',
+                function ($attribute, $value, $fail) {
+                    $emails = array_column($this->emails, 'value');
+                    if (count($emails) != count(array_unique($emails))) {
+                        $fail('Los emails no pueden repetirse');
+                    }
+                }
+            ]
+        ];
+        $messages = [
+            'emails.*.*.required' => 'El campo es obligatorio',
+            'emails.*.*.email' => 'El campo debe ser un email válido',
+            'emails.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'emails.*.*.min' => 'El campo no puede menos más de :min caracteres',
+            'emails.*.*.unique' => 'Este email ya está en uso',
+        ];
+
+        if ($fieldName !== null){
+            $this->validateOnly($fieldName, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
 
     }
     public function validate_phones($index = null){
@@ -330,6 +367,50 @@ class Create extends Component
     }
 
 // -------------------------- STEP EMAILS -------------------------- //
+
+    public function selectEmailType($index){
+        try {
+            $email = $this->emails[$index]['value'];
+            [$username, $domain] = explode('@', $email);
+            $provider = explode('.', $domain)[0];
+
+            $type = $this->email_types->firstWhere('value', $provider);
+            if ($type) {
+                $this->emails[$index]['type_id'] = $type->id;
+            } else {
+                $this->emails[$index]['type_id'] = null;
+            }
+        }catch (\Exception $e) {
+        }
+    }
+    public function selectEmailIsPrimary($index){
+        $this->emails = array_map(function ($email) {
+            $email['is_primary'] = false;
+            return $email;
+        }, $this->emails);
+
+        $this->emails[$index]['is_primary'] = true;
+    }
+
+    public function addEmail($index){
+        $this->validate_emails(null, $index);
+
+        if (count($this->emails) < $this->emails_max) {
+            $this->emails[] = ['type_id' => null, 'label' => null, 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removeEmail($index){
+        $remove_primary = false;
+        if ($this->emails[$index]['is_primary'])
+            $remove_primary = true;
+
+        unset($this->emails[$index]);
+        $this->emails = array_values($this->emails);
+        if ($remove_primary)
+            $this->selectEmailIsPrimary(0);
+    }
+
+
     public function stepSubmit_emails_back(){
         $this->backStep('emails', 'general');
     }
@@ -337,6 +418,7 @@ class Create extends Component
         $this->omitStep('phones');
     }
     public function stepSubmit_emails_next(){
+        $this->validate_emails();
         $this->nextStep('emails', 'phones');
     }
 // -------------------------- STEP PHONES -------------------------- //
@@ -521,57 +603,8 @@ class Create extends Component
         // NO DISPONIBLE POR EL MOMENTO
         // $this->emails[$index]['meta']['is_valid'] =
     }
-    public function selectEmailIsPrimary($index)
-    {
-        $this->emails = array_map(function ($email) {
-            $email['is_primary'] = false;
-            return $email;
-        }, $this->emails);
 
-        $this->emails[$index]['is_primary'] = true;
-    }
-    public function addEmail($index)
-    {
-        $this->validate([
-            'emails.*.is_primary' => '',
-            'emails.*.type_id' => ['required', 'integer', Rule::in($this->email_types->pluck('id')->toArray()),
-            ],
-            'emails.*.label' => ['required', Rule::in($this->labels_type),
-            ],
-            'emails.*.about' => '',
-            'emails.' . $index . '.value' => [
-                'required',
-                'email',
-                function ($attribute, $value, $fail) {
-                    $emails = array_column($this->emails, 'value');
-                    if (count($emails) != count(array_unique($emails))) {
-                        $fail('Los emails no pueden repetirse');
-                    }
-                }
-            ]
-        ], [
-                '*.required' => 'El campo es obligatorio',
-                'emails.*.*.required' => 'El campo es obligatorio',
-                'emails.*.*.email' => 'El campo debe ser un email',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-        if (count($this->emails) < $this->emails_max) {
-            $this->emails[] = ['type_id' => $this->email_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        }
-    }
 
-    public function removeEmail($index)
-    {
-        $remove_primary = false;
-        if ($this->emails[$index]['is_primary'])
-            $remove_primary = true;
-
-        unset($this->emails[$index]);
-        $this->emails = array_values($this->emails);
-        if ($remove_primary)
-            $this->selectEmailIsPrimary(0);
-    }
     public function zstepSubmit_emails()
     {
         $this->validate([
