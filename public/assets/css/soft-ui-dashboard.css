@@ -22232,6 +22232,10 @@ span.select2.select2-container.select2-container--default.select2-container--bel
   color: #ff6400;
 }
 
+.input-group.intl-tel {
+  flex-wrap: nowrap !important;
+  justify-content: center;
+}
 .input-group.intl-tel .iti.iti--allow-dropdown {
   width: 91% !important;
 }

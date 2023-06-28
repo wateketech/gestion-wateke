@@ -55,7 +55,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'emails';
+    public $currentStep = 'phones';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -71,11 +71,12 @@ class Create extends Component
     public $emails = [];
     public $emails_max = 10;
 
-    // PHONE AND CHATS
-    //public $phone_types;
-    //public $phones = [];
-    //public $phones_max = 8;
-//
+    // PHONES
+    public $phone_types;
+    public $phones = [];
+    public $phones_max = 8;
+
+    // CHATS
     //public $instant_message_types;
     //public $instant_messages = [];
     //public $instant_messages_max = 8;
@@ -145,8 +146,8 @@ class Create extends Component
         $this->updatedGender();
 //
         $this->email_types = EmailTypes::all()->where('enable', true);
+        $this->phone_types = PhoneTypes::all()->where('enable', true);
         // $this->id_types = IdTypes::all()->where('enable', true);
-        // $this->phone_types = PhoneTypes::all()->where('enable', true);
         // $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
         // $this->rrss_types = RrssTypes::all()->where('enable', true);
         // $this->web_types = WebTypes::all()->where('enable', true);
@@ -158,7 +159,7 @@ class Create extends Component
 //
 //
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '',];
+        $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -213,10 +214,11 @@ class Create extends Component
         ];
         $messages = [
             '*.required' => 'El campo es obligatorio',
-            '*.string' => 'El campo debe ser una cadena de texto',
             '*.min' => 'El campo no puede tener menos de :min caracteres',
             '*.max' => 'El campo no puede tener más de :max caracteres',
             '*.regex' => 'El campo solo puede contener letras y espacios en blanco',
+            '*.string' => 'El campo debe ser de tipo texto',
+            '*.integer' => 'Este campo debe ser de tipo entero',
         ];
 
 
@@ -224,7 +226,6 @@ class Create extends Component
             $this->validateOnly($fieldName, $rules, $messages);
         }else{
             $this->validate($rules, $messages);
-
         }
 
     }
@@ -257,6 +258,8 @@ class Create extends Component
             'emails.*.*.max' => 'El campo no puede tener más de :max caracteres',
             'emails.*.*.min' => 'El campo no puede menos más de :min caracteres',
             'emails.*.*.unique' => 'Este email ya está en uso',
+            'emails.*.*.string' => 'Este campo debe ser de tipo texto',
+            'emails.*.*.integer' => 'Este campo debe ser de tipo entero',
         ];
 
         if ($fieldName !== null){
@@ -266,11 +269,47 @@ class Create extends Component
         }
 
     }
-    public function validate_phones($index = null){
-        if ($index === null){
-            return [];
+    public function validate_phones($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName === 'extension'){
+            $this->phones[$index]['extension'] = trim(str_replace(' ', '', $this->phones[$index]['extension']));
         }
-        return [];
+
+        $rules = [
+            'phones.' . $index . '.is_primary' => '',
+            'phones.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
+            'phones.' . $index . '.about' => 'nullable|string|min:2',
+            'phones.' . $index . '.extension' => ['integer',
+                Rule::requiredIf(function () use ($index) {
+                    return $index !== '*' && $this->phone_types->find($this->phones[$index]['type_id'])->label === 'Extensión';
+                }),
+                function ($attribute, $value, $fail) use ($index) {
+                    // validar que el juego del value + ext no se repita en el front-end
+                }],
+            'phones.' . $index . '.value' => ['required', 'min:3', 'max:20',
+                function ($attribute, $value, $fail) use ($index) {
+                    $phones = array_column($this->phones, 'value');
+                    if (count($phones) != count(array_unique($phones)) && $this->phone_types->find($this->phones[$index]['type_id'])->label != 'Extensión') {
+                        $fail('Los números de teléfonos no pueden repetirse');
+                    }
+                }
+            ]
+        ];
+        $messages = [
+            'phones.*.*.required' => 'El campo es obligatorio',
+            'phones.*.*.phone' => 'El campo debe ser un teléfono válido',
+            'phones.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'phones.*.*.min' => 'El campo no puede tener menos de :min caracteres',
+            'phones.*.*.unique' => 'Este teléfono ya está en uso',
+            'phones.*.*.string' => 'Este campo debe ser de tipo texto',
+            'phones.*.*.integer' => 'Este campo debe ser de tipo numerico',
+        ];
+
+
+        if ($fieldName !== null){
+            $this->validateOnly($fieldName, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
 
     }
     public function validate_chats($index = null){
@@ -423,6 +462,40 @@ class Create extends Component
         $this->nextStep('emails', 'phones');
     }
 // -------------------------- STEP PHONES -------------------------- //
+    public function updatePhoneNumber($index, $value, $value_meta){
+        $this->validate_phones('value', $index);
+        $this->phones[$index]['value'] = $value;
+        $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
+    }
+    public function selectPhoneIsPrimary($index){
+        $this->phones = array_map(function ($phone) {
+            $phone['is_primary'] = false;
+            return $phone;
+        }, $this->phones);
+
+        $this->phones[$index]['is_primary'] = true;
+    }
+
+    public function addPhone($index){
+        $this->validate_phones(null, $index);
+
+        if (count($this->phones) < $this->phones_max) {
+            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'extension' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+        $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
+    }
+    public function removePhone($index){
+        $remove_primary = false;
+        if ($this->phones[$index]['is_primary'])
+            $remove_primary = true;
+
+        unset($this->phones[$index]);
+        $this->phones = array_values($this->phones);
+        if ($remove_primary)
+            $this->selectPhoneIsPrimary(0);
+    }
+
+
     public function stepSubmit_phones_back(){
         $this->backStep('phones', 'emails');
     }
@@ -430,6 +503,7 @@ class Create extends Component
         $this->omitStep('chats');
     }
     public function stepSubmit_phones_next(){
+        $this->validate_phones();
         $this->nextStep('phones', 'chats');
     }
 // -------------------------- STEP CHATS -------------------------- //
@@ -645,60 +719,7 @@ class Create extends Component
         // NO DISPONIBLE POR EL MOMENTO
         // $this->emails[$index]['meta']['exist'] =
     }
-    public function updatePhoneNumber($index, $value, $value_meta)
-    {
-        $this->phones[$index]['value'] = $value;
-        $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
-    }
 
-    public function selectPhoneIsPrimary($index)
-    {
-        $this->phones = array_map(function ($phone) {
-            $phone['is_primary'] = false;
-            return $phone;
-        }, $this->phones);
-
-        $this->phones[$index]['is_primary'] = true;
-    }
-    public function addPhone($index)
-    {
-        $this->validate([
-            'phones.*.is_primary' => '',
-            'phones.*.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
-            ],
-            'phones.*.about' => '',
-            'phones.' . $index . '.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $phones = array_column($this->phones, 'value');
-                    if (count($phones) != count(array_unique($phones))) {
-                        $fail('Los números de teléfonos no pueden repetirse');
-                    }
-                }
-            ]
-        ], [
-                '*.required' => 'El campo es obligatorio',
-                'phones.*.*.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-        if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-
-        }
-        $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
-    }
-    public function removePhone($index)
-    {
-        $remove_primary = false;
-        if ($this->phones[$index]['is_primary'])
-            $remove_primary = true;
-
-        unset($this->phones[$index]);
-        $this->phones = array_values($this->phones);
-        if ($remove_primary)
-            $this->selectPhoneIsPrimary(0);
-    }
 
 
     public function existInstantMessage($index)

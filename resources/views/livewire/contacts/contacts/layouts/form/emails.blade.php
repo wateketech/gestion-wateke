@@ -1,4 +1,4 @@
-<div class="col-12 mb-3">
+<div class="col-12 mb-3 mt-5">
     <div class="row">
 
 
@@ -30,7 +30,7 @@
                 </a>
             </div>
             @error("emails.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            <sub class="text-warning">{{ $this->uniqueWarningBD('contact_emails', 'value', $email['value'], 'El campo ya es utilizado en base de datos' ) }}</sub>
+            <sub class="text-warning">{{ $this->uniqueWarningBD('contact_emails', 'value', $email['value'], 'El email ya es utilizado por otro contacto' ) }}</sub>
         </div>
 
 
