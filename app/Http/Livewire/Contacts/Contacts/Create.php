@@ -317,12 +317,13 @@ class Create extends Component
     }
 
 // -------------------------- STEPS -------------------------- //
-    private function backStep($passStep, $currentStep, $time = 1500){
-        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+    private function backStep($passStep, $currentStep, $time = 700){
         $this->currentStep = $currentStep;
     }
     private function nextStep($passStep, $currentStep, $time = 2000){
-        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        if (!in_array($currentStep, $this->passStep)) {
+            $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        }
         $this->passStep[] = $passStep;
         $this->currentStep = $currentStep;
     }
