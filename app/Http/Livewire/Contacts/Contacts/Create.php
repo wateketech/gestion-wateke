@@ -159,7 +159,6 @@ class Create extends Component
 //
 //
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -263,9 +262,12 @@ class Create extends Component
             'emails.*.*.integer' => 'Este campo debe ser de tipo entero',
         ];
 
+
         if ($fieldName !== null){
+            $this->prueba = $fieldName;
             $this->validateOnly($fieldName, $rules, $messages);
         }else{
+            $this->prueba = 'else';
             $this->validate($rules, $messages);
         }
 
@@ -314,9 +316,11 @@ class Create extends Component
 
     }
     public function validate_chats($fieldName = null, $index = '*'){
+        $this->prueba = $index;
+
         if ($index != '*' && $fieldName !== null){
-            if ($fieldName === 'value') $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
-            else if ($fieldName === 'label') $this->emails[$index]['label'] = trim($this->emails[$index]['label']);
+            if ($fieldName === 'value') $this->instant_messages[$index]['value'] = trim($this->instant_messages[$index]['value']);
+            else if ($fieldName === 'label') $this->instant_messages[$index]['label'] = trim($this->instant_messages[$index]['label']);
         }
 
 
@@ -347,8 +351,9 @@ class Create extends Component
             'instant_messages.*.*.integer' => 'Este campo debe ser de tipo numerico',
         ];
 
-        if ($fieldName !== null){
-            $this->validateOnly($fieldName, $rules, $messages);
+        if ($index != '*' && $fieldName !== null){
+            $field = 'instant_messages.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
         }else{
             $this->validate($rules, $messages);
         }

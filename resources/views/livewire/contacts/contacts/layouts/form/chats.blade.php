@@ -11,7 +11,7 @@
             <label for="instant_messages_label_{{ $index }}" class="form-control-label">Etiqueta *</label>
             <input class="@error("instant_messages.{$index}.label")border border-danger rounded-3 @enderror form-control text-lower"
                     type="text" name="instant_messages_label_{{ $index }}" id="instant_messages_label_{{ $index }}"
-                    wire:blur="validate_chats('label, {{ $index }}')"
+                    wire:blur="validate_chats('label', {{ $index }})"
                     wire:model="instant_messages.{{ $index }}.label">
             @error("instant_messages.{$index}.label") <sub class="text-danger">{{ $message }}</sub> @enderror
 
@@ -36,7 +36,7 @@
                         @error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror
                         @if($this->uniqueWarningBD('contact_instant_messages', 'value', $instant_message['value']) != null) border border-warning rounded-3 @endif"
                     type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
-                    wire:blur="validate_chats('value, {{ $index }}')"
+                    wire:blur="validate_chats('value', {{ $index }})"
                     wire:model="instant_messages.{{ $index }}.value">
                 @if ($instant_message_types->find($instant_messages[$index]["type_id"])->url)
                     <a class="input-group-text btn btn-outline-secondary m-0" type="button" target="_blank"

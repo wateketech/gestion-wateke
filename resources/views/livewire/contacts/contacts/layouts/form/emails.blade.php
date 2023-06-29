@@ -11,7 +11,7 @@
             <label for="email_label_{{ $index }}" class="form-control-label">Etiqueta </label>
             <input class="@error("emails.{$index}.label")border border-danger rounded-3 @enderror form-control text-lower"
                     type="email" name="email_label_{{ $index }}" id="email_label_{{ $index }}"
-                    wire:blur="validate_emails('label, {{ $index }}')"
+                    wire:blur="validate_emails('label', {{ $index }})"
                     wire:model="emails.{{ $index }}.label">
             @error("emails.{$index}.label") <sub class="text-danger">{{ $message }}</sub> @enderror
 
