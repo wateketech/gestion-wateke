@@ -363,39 +363,55 @@ class Create extends Component
         }
 
     }
-    public function validate_rrss($index = null){
-        if ($index === null){
-            return [];
+    public function validate_rrss($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){
+
         }
-        return [];
+
+
+        $rules = [
+
+        ];
+        $messages = [
+
+        ];
+
+        if ($index != '*' && $fieldName !== null){
+            $field = 'rrss.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
 
     }
-    public function validate_webs($index = null){
-        if ($index === null){
-            return [];
+    public function validate_webs($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){
+
         }
-        return [];
+
+
+        $rules = [
+
+        ];
+        $messages = [
+
+        ];
+
+        if ($index != '*' && $fieldName !== null){
+            $field = 'webs.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
 
     }
-    public function validate_address($index = null){
-        if ($index === null){
-            return [];
-        }
-        return [];
+    public function validate_address($fieldName = null, $index = '*'){
 
     }
-    public function validate_ocupation($index = null){
-        if ($index === null){
-            return [];
-        }
-        return [];
+    public function validate_ocupation($fieldName = null, $index = '*'){
 
     }
-    public function validate_more($index = null){
-        if ($index === null){
-            return [];
-        }
-        return [];
+    public function validate_more($fieldName = null, $index = '*'){
 
     }
 
