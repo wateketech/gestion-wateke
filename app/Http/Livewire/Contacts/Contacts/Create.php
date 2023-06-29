@@ -55,7 +55,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'phones';
+    public $currentStep = 'chats';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -77,9 +77,9 @@ class Create extends Component
     public $phones_max = 8;
 
     // CHATS
-    //public $instant_message_types;
-    //public $instant_messages = [];
-    //public $instant_messages_max = 8;
+    public $instant_message_types;
+    public $instant_messages = [];
+    public $instant_messages_max = 8;
 
 
     // RRSS AND WEBS
@@ -147,25 +147,26 @@ class Create extends Component
 //
         $this->email_types = EmailTypes::all()->where('enable', true);
         $this->phone_types = PhoneTypes::all()->where('enable', true);
-        // $this->id_types = IdTypes::all()->where('enable', true);
-        // $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
+        $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
         // $this->rrss_types = RrssTypes::all()->where('enable', true);
         // $this->web_types = WebTypes::all()->where('enable', true);
         // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
         // $this->date_types = DateTypes::all()->where('enable', true);
         // $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
         // $this->countries = Countries::all()->where('enable', true);
+        // $this->id_types = IdTypes::all()->where('enable', true);
 //
 //
 //
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
-        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => $this->labels_type[0], 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
         //$this->address[] = [
@@ -235,7 +236,7 @@ class Create extends Component
         }
         foreach ($this->emails as $index => $email) {
             $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
-            if ($index === '*' ) $this->selectEmailType($index);;
+            if ($index === '*' ) $this->selectEmailType($index);
         }
 
         $rules = [
@@ -243,7 +244,7 @@ class Create extends Component
             'emails.' . $index . '.type_id' => ['nullable', 'integer', Rule::in($this->email_types->pluck('id')->toArray()),],
             'emails.' . $index . '.label' => 'nullable|string|min:2|max:50',
             'emails.' . $index . '.about' => 'nullable|string|min:2',
-            'emails.' . $index . '.value' => [ 'required', 'email', 'min:5', 'max:255',
+            'emails.' . $index . '.value' => [ 'required', 'email', 'min:5', 'max:50',
                 function ($attribute, $value, $fail) {
                     $emails = array_column($this->emails, 'value');
                     if (count($emails) != count(array_unique($emails))) {
@@ -312,11 +313,45 @@ class Create extends Component
         }
 
     }
-    public function validate_chats($index = null){
-        if ($index === null){
-            return [];
+    public function validate_chats($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){
+            if ($fieldName === 'value') $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
+            else if ($fieldName === 'label') $this->emails[$index]['label'] = trim($this->emails[$index]['label']);
         }
-        return [];
+
+
+        $rules = [
+            'instant_messages.' . $index . '.is_primary' => '',
+            'instant_messages.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),],
+            'instant_messages.' . $index . '.label' => 'nullable|string|min:2|max:50',
+            'instant_messages.' . $index . '.about' => 'nullable|string|min:2',
+            'instant_messages.' . $index . '.value' => [ 'required', 'min:5', 'max:50',
+                function ($attribute, $value, $fail) {
+                    $instantMessages = collect($this->instant_messages);
+                    $duplicates = $instantMessages->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
+
+                    if ($duplicates > 1) {
+                        $fail('Las cuentas no pueden repetirse con un mismo proveedor');
+                    }
+                }
+            ],
+        ];
+        $messages = [
+            'instant_messages.*.*.required' => 'El campo es obligatorio',
+            'instant_messages.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'instant_messages.*.*.min' => 'El campo no puede tener menos de :min caracteres',
+            'instant_messages.*.*.unique' => 'Esta usuario ya está en uso',
+            'instant_messages.*.*.string' => 'Este campo debe ser de tipo texto',
+            'instant_messages.*.*.integer' => 'Este campo debe ser de tipo numerico',
+        ];
+
+        if ($fieldName !== null){
+            $this->validateOnly($fieldName, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
 
     }
     public function validate_rrss($index = null){
@@ -507,6 +542,34 @@ class Create extends Component
         $this->nextStep('phones', 'chats');
     }
 // -------------------------- STEP CHATS -------------------------- //
+
+    public function selectInstantMessageIsPrimary($index){
+        $this->instant_messages = array_map(function ($instant_message) {
+            $instant_message['is_primary'] = false;
+            return $instant_message;
+        }, $this->instant_messages);
+
+        $this->instant_messages[$index]['is_primary'] = true;
+    }
+
+    public function addInstantMessages($index){
+        $this->validate_chats(null, $index);
+
+        if (count($this->instant_messages) < $this->instant_messages_max) {
+            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => '', 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removeInstantMessages($index){
+    $remove_primary = false;
+    if ($this->instant_messages[$index]['is_primary'])
+        $remove_primary = true;
+
+    unset($this->instant_messages[$index]);
+    $this->instant_messages = array_values($this->instant_messages);
+    if ($remove_primary)
+        $this->selectInstantMessageIsPrimary(0);
+    }
+
     public function stepSubmit_chats_back(){
         $this->backStep('chats', 'phones');
     }
@@ -514,6 +577,7 @@ class Create extends Component
         $this->omitStep('rrss');
     }
     public function stepSubmit_chats_next(){
+        $this->validate_chats();
         $this->nextStep('chats', 'rrss');
     }
 // -------------------------- STEP RRSS -------------------------- //
@@ -721,65 +785,13 @@ class Create extends Component
     }
 
 
-
     public function existInstantMessage($index)
     {
         // NO DISPONIBLE POR EL MOMENTO
         // $this->instant_messages[$index]['meta']['is_valid'] =
     }
-    public function selectInstantMessageIsPrimary($index)
-    {
-        $this->instant_messages = array_map(function ($instant_message) {
-            $instant_message['is_primary'] = false;
-            return $instant_message;
-        }, $this->instant_messages);
 
-        $this->instant_messages[$index]['is_primary'] = true;
-    }
-    public function addInstantMessages($index)
-    {
-        $this->validate([
-            'instant_messages.*.is_primary' => '',
-            'instant_messages.*.type_id' => ['required', Rule::in($this->instant_message_types->pluck('id')->toArray()),
-            ],
-            'instant_messages.*.label' => ['required',
-            ], // Rule::in($this->labels_type),],
-            'instant_messages.*.about' => '',
-            'instant_messages.' . $index . '.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $instantMessages = collect($this->instant_messages);
-                    $duplicates = $instantMessages->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
 
-                    if ($duplicates > 1) {
-                        $fail('Las cuentas no pueden repetirse con un mismo proveedor');
-                    }
-                }
-            ],
-        ], [
-                '*.required' => 'El campo es obligatorio',
-                'instant_messages.*.*.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-        if (count($this->instant_messages) < $this->instant_messages_max) {
-            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => $this->labels_type[0], 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-            ;
-        }
-    }
-    public function removeInstantMessages($index)
-    {
-        $remove_primary = false;
-        if ($this->instant_messages[$index]['is_primary'])
-            $remove_primary = true;
-
-        unset($this->instant_messages[$index]);
-        $this->instant_messages = array_values($this->instant_messages);
-        if ($remove_primary)
-            $this->selectInstantMessageIsPrimary(0);
-    }
 
     public function stepSubmit_phone_chats_omit()
     {
