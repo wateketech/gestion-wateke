@@ -55,7 +55,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'chats';
+    public $currentStep = 'emails';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -230,12 +230,16 @@ class Create extends Component
 
     }
     public function validate_emails($fieldName = null, $index = '*'){
-        if ($index != '*' && $fieldName === 'value'){
-            $this->selectEmailType($index);
-        }
-        foreach ($this->emails as $index => $email) {
-            $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
-            if ($index === '*' ) $this->selectEmailType($index);
+        if ($fieldName === 'value'){
+            if ($index != '*'){
+                $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
+                $this->selectEmailType($index);
+            }else{
+                foreach ($this->emails as $i => $email) {
+                    $this->emails[$i]['value'] = trim($this->emails[$i]['value']);
+                    $this->selectEmailType($i);
+                }
+            }
         }
 
         $rules = [
@@ -263,12 +267,13 @@ class Create extends Component
         ];
 
 
-        if ($fieldName !== null){
-            $this->prueba = $fieldName;
-            $this->validateOnly($fieldName, $rules, $messages);
+        if ($index != '*' && $fieldName !== null){
+            $field = 'emails.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+            // if ($fieldName === 'value') $this->selectEmailType($index);
         }else{
-            $this->prueba = 'else';
             $this->validate($rules, $messages);
+            // foreach ($this->emails as $index => $email) { $this->selectEmailType($index); }
         }
 
     }
@@ -308,16 +313,15 @@ class Create extends Component
         ];
 
 
-        if ($fieldName !== null){
-            $this->validateOnly($fieldName, $rules, $messages);
+        if ($index != '*' && $fieldName !== null && $fieldName !== 'extension'){
+            $field = 'phones.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
         }else{
             $this->validate($rules, $messages);
         }
 
     }
     public function validate_chats($fieldName = null, $index = '*'){
-        $this->prueba = $index;
-
         if ($index != '*' && $fieldName !== null){
             if ($fieldName === 'value') $this->instant_messages[$index]['value'] = trim($this->instant_messages[$index]['value']);
             else if ($fieldName === 'label') $this->instant_messages[$index]['label'] = trim($this->instant_messages[$index]['label']);
@@ -503,9 +507,9 @@ class Create extends Component
     }
 // -------------------------- STEP PHONES -------------------------- //
     public function updatePhoneNumber($index, $value, $value_meta){
-        $this->validate_phones('value', $index);
         $this->phones[$index]['value'] = $value;
         $this->phones[$index]['value_meta'] = json_encode($value_meta, true);
+        $this->validate_phones('value', $index);
     }
     public function selectPhoneIsPrimary($index){
         $this->phones = array_map(function ($phone) {
