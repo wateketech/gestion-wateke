@@ -197,7 +197,7 @@ class Create extends Component
         if (substr($cvalue, 0, 8) === "https://") $cvalue = substr($cvalue, 8);
         else if (substr($cvalue, 0, 7) === "http://") $cvalue = substr($cvalue, 7);
         else if (substr($cvalue, 0, 3) === "://") $cvalue = substr($cvalue, 3);
-        else if (substr($cvalue, 0, 2) === "//") $value = substr($cvalue, 2);
+        else if (substr($cvalue, 0, 2) === "//") $cvalue = substr($cvalue, 2);
 
         return $cvalue;
     }
