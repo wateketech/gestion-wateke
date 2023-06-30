@@ -55,7 +55,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'webs';
+    public $currentStep = 'address';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -94,13 +94,13 @@ class Create extends Component
 
 
     // ADDRESS
-    //public $countries, $states, $cities;
-    //public $contact_address = [];
-    //public $address = [];
-    //public $address_max = 3;
-//
-    //public $address_line = [];
-    //public $address_line_max = 10;
+    public $countries, $states, $cities;
+    public $contact_address = [];
+    public $address = [];
+    public $address_max = 3;
+
+    public $address_line = [];
+    public $address_line_max = 10;
 
     // BANK ACCOUNTS
     //public $bank_account_types, $bank_account_type;
@@ -154,7 +154,7 @@ class Create extends Component
         // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
         // $this->date_types = DateTypes::all()->where('enable', true);
         // $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
-        // $this->countries = Countries::all()->where('enable', true);
+        $this->countries = Countries::all()->where('enable', true);
         // $this->id_types = IdTypes::all()->where('enable', true);
 //
 //
@@ -169,17 +169,17 @@ class Create extends Component
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
-        //$this->address[] = [
-        //    'name' => 'Casa',
-        //    'city_id' => '',
-        //    'geolocation' => null,
-        //    'zip_code' => '',
-        //    'country_id' => null,
-        //    'state_id' => null
-        //];
-        //$this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
-        //$this->address_line[0][] = ['label' => 'Número', 'value' => ''];
-        //$this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
+        $this->address[] = [
+            'name' => 'Casa',
+            'city_id' => '',
+            'geolocation' => null,
+            'zip_code' => '',
+            'country_id' => null,
+            'state_id' => null
+        ];
+        $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+        $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+        $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 //
         //$this->remount_bank_accounts();
         //$this->datos_prueba();
