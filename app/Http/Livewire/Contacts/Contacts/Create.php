@@ -514,6 +514,12 @@ class Create extends Component
     }
 
     public function stepSubmit_general_omit(){
+        // $this->name = null;
+        // $this->middle_name = null;
+        // $this->first_lastname = null;
+        // $this->second_lastname = null;
+        // $this->profile_pics = [];
+
         $this->omitStep('emails');
     }
     public function stepSubmit_general_next(){
@@ -570,6 +576,7 @@ class Create extends Component
         $this->backStep('emails', 'general');
     }
     public function stepSubmit_emails_omit(){
+        // $this->emails = [];
         $this->omitStep('phones');
     }
     public function stepSubmit_emails_next(){
@@ -615,6 +622,7 @@ class Create extends Component
         $this->backStep('phones', 'emails');
     }
     public function stepSubmit_phones_omit(){
+        // $this->phones = [];
         $this->omitStep('chats');
     }
     public function stepSubmit_phones_next(){
@@ -655,6 +663,7 @@ class Create extends Component
         $this->backStep('chats', 'phones');
     }
     public function stepSubmit_chats_omit(){
+        $this->instant_messages = [];
         $this->omitStep('rrss');
     }
     public function stepSubmit_chats_next(){
@@ -681,6 +690,7 @@ class Create extends Component
         $this->backStep('rrss', 'chats');
     }
     public function stepSubmit_rrss_omit(){
+        $this->rrss = [];
         $this->omitStep('webs');
     }
     public function stepSubmit_rrss_next(){
@@ -710,6 +720,7 @@ class Create extends Component
         $this->backStep('webs', 'rrss');
     }
     public function stepSubmit_webs_omit(){
+        $this->webs = [];
         $this->omitStep('address');
     }
     public function stepSubmit_webs_next(){
@@ -806,8 +817,45 @@ class Create extends Component
 
 
 
+    public function existEmail($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->emails[$index]['meta']['is_valid'] =
+    }
+    public function existPhoneNumber($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->emails[$index]['meta']['exist'] =
+    }
+    public function existInstantMessage($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->instant_messages[$index]['meta']['is_valid'] =
+    }
+    public function existWeb($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->webs[$index]['meta']['is_valid'] =
+    }
+    public function existRrss($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->rrss[$index]['meta']['is_valid'] =
+
+    }
+    public function existPublisUs($index)
+    {
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->publish_us[$index]['meta']['is_valid'] =
+    }
 
 
+
+    public function geolocation($index)
+    {
+        // procesar con API de GOOGLE
+        // if (ya existe una geolocation){
+        //      mostrar en la ubicacion
+        // } else{
+        //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
+        // $this->address[$index]['geolocation'] =
+        // }
+    }
 
 
 
@@ -871,8 +919,7 @@ class Create extends Component
 
     // -------------------------- STEP GENERALS --------------------------
 
-    public function addId($index)
-    {
+    public function addId($index){
         $this->validate([
             'ids.*.type_id' => ['required', Rule::in($this->id_types->pluck('id')->toArray()),
             ],
@@ -895,28 +942,18 @@ class Create extends Component
             $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         }
     }
-    public function removeId($index)
-    {
+    public function removeId($index){
         unset($this->ids[$index]);
         $this->ids = array_values($this->ids);
     }
 
 
-    public function zstepSubmit_general()
-    {
+    public function zstepSubmit_general(){
         $this->validate([
             'alias' => 'max:50',
-            'name' => 'required|max:50',
-            'middle_name' => 'max:50',
-            'first_lastname' => 'required|max:50',
-            'second_lastname' => 'max:50',
             'about' => 'max:500',
-            'profile_pics' => 'max:5120|valid_image_mime',
-            // 'main_profile_pic' => ['required', 'integer', 'numeric', 'min:0', 'max:' . count($this->profile_pics)],
-            'ids' => 'required',
-            'ids.*.value' => [
-                'required',
-                'string',
+            'ids.*.type_id' => ['required', 'integer', Rule::in($this->id_types->pluck('id')->toArray()),
+            'ids.*.value' => ['required','string',
                 function ($attribute, $value, $fail) {
                     $ids = array_column($this->ids, 'value');
                     if (count($ids) != count(array_unique($ids))) {
@@ -924,208 +961,15 @@ class Create extends Component
                     }
                 }
             ],
-            'ids.*.type_id' => ['required', 'integer', Rule::in($this->id_types->pluck('id')->toArray()),
             ],
         ], [
                 // '*.array' => 'Error de Servidor : El campo debe ser un array',
                 '*.required' => 'El campo es obligatorio',
                 'ids.*.value.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
             ]);
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'general';
-        $this->currentStep = 'emails';
-    }
-
-    // -------------------------- STEP EMAILS --------------------------
-
-    public function existEmail($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->emails[$index]['meta']['is_valid'] =
     }
 
 
-    public function zstepSubmit_emails()
-    {
-        $this->validate([
-            'emails' => 'required',
-            'emails.*.is_primary' => '',
-            'emails.*.type_id' => ['required', 'integer', Rule::in($this->email_types->pluck('id')->toArray()),
-            ],
-            'emails.*.label' => ['required', Rule::in($this->labels_type),
-            ],
-            'emails.*.about' => '',
-            'emails.*.value' => [
-                'required',
-                'email',
-                function ($attribute, $value, $fail) {
-                    $emails = array_column($this->emails, 'value');
-                    if (count($emails) != count(array_unique($emails))) {
-                        $fail('Los emails no pueden repetirse');
-                    }
-                }
-            ]
-        ], [
-                // '*.array' => 'Error de Servidor : El campo debe ser un array',
-                '*.required' => 'El campo es obligatorio',
-                'emails.*.*.required' => 'El campo es obligatorio',
-                'emails.*.*.email' => 'El campo debe ser un email',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'emails';
-        $this->currentStep = 'phone_chats';
-    }
-    // -------------------------- STEP PHONE AND CHATS --------------------------
-
-    public function existPhoneNumber($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->emails[$index]['meta']['exist'] =
-    }
-
-
-    public function existInstantMessage($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->instant_messages[$index]['meta']['is_valid'] =
-    }
-
-
-
-    public function stepSubmit_phone_chats_omit()
-    {
-        $this->phones = [];
-        $this->instant_messages = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'rrss_web';
-    }
-    public function stepSubmit_phone_chats()
-    {
-        $this->validate([
-            'phones' => 'array',
-            'phones.*.is_primary' => '',
-            'phones.*.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
-            ],
-            'phones.*.about' => '',
-            'phones.*.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $phones = array_column($this->phones, 'value');
-                    if (count($phones) != count(array_unique($phones))) {
-                        $fail('Los números de teléfonos no pueden repetirse');
-                    }
-                }
-            ],
-            'instant_messages' => 'array',
-            'instant_messages.*.is_primary' => '',
-            'instant_messages.*.type_id' => ['required', 'integer', Rule::in($this->instant_message_types->pluck('id')->toArray()),
-            ],
-            'instant_messages.*.label' => ['required',
-            ], //Rule::in($this->labels_type),],
-            'instant_messages.*.about' => '',
-            'instant_messages.*.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $instantMessages = collect($this->instant_messages);
-                    $duplicates = $instantMessages->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $instantMessages->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las cuentas no pueden repetirse con un mismo proveedor');
-                    }
-                }
-            ],
-        ], [
-                '*.array' => 'Error de Servidor : El campo debe ser un array',
-                '*.required' => 'El campo es obligatorio',
-                'instant_messages.*.*.required' => 'El campo es obligatorio',
-                'phones.*.*.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-
-
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'phone_chats';
-        $this->currentStep = 'rrss_web';
-    }
-    // -------------------------- STEP RRSS AND WEBS --------------------------
-
-    public function existWeb($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->webs[$index]['meta']['is_valid'] =
-    }
-
-
-    public function existRrss($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->rrss[$index]['meta']['is_valid'] =
-
-    }
-
-    public function stepSubmit_rrss_web_omit()
-    {
-        $this->rrss = [];
-        $this->webs = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'address';
-    }
-    public function stepSubmit_rrss_web()
-    {
-        $this->validate([
-            'webs' => 'array',
-            'webs.*.type_id' => ['required', 'integer', Rule::in($this->web_types->pluck('id')->toArray()),
-            ],
-            'webs.*.about' => '',
-            'webs.*.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $webs = collect($this->webs);
-                    $duplicates = $webs->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('id_type', $webs->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las webs no pueden repetirse con un mismo tipo');
-                    }
-                }
-            ],
-            'rrss' => 'array',
-            'rrss.*.type_id' => ['required', Rule::in($this->rrss_types->pluck('id')->toArray()),
-            ],
-            'rrss.*.about' => '',
-            'rrss.*.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $rrss = collect($this->rrss);
-                    $duplicates = $rrss->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $rrss->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las cuentas no pueden repetirse para una misma red social');
-                    }
-                }
-            ],
-        ], [
-                '*.array' => 'Error de Servidor : El campo debe ser un array',
-                'webs.*.*.required' => 'El campo es obligatorio',
-                'rrss.*.*.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'rrss_web';
-        $this->currentStep = 'address';
-    }
     // -------------------------- STEP ADDRESS --------------------------
     public function addAddress($index)
     {
@@ -1176,16 +1020,6 @@ class Create extends Component
         unset($this->address[$index]);
         $this->address_line = array_values($this->address_line);
         $this->address = array_values($this->address);
-    }
-    public function geolocation($index)
-    {
-        // procesar con API de GOOGLE
-        // if (ya existe una geolocation){
-        //      mostrar en la ubicacion
-        // } else{
-        //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
-        // $this->address[$index]['geolocation'] =
-        // }
     }
 
     public function updateCountry($index_add, $value)
@@ -1462,11 +1296,7 @@ class Create extends Component
     }
 
 
-    public function existPublisUs($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->publish_us[$index]['meta']['is_valid'] =
-    }
+
     public function updatePublishUsValue($index, $value)
     {
         if (substr($value, 0, 2) === "//")
