@@ -189,7 +189,18 @@ class Create extends Component
         return view('livewire.contacts.contacts.create');
     }
 
+// ----------------------- FUNCTIONS --------------------------
 
+    public function cleanURL($value){
+        $cvalue = strtolower(trim($value));
+
+        if (substr($cvalue, 0, 8) === "https://") $cvalue = substr($cvalue, 8);
+        else if (substr($cvalue, 0, 7) === "http://") $cvalue = substr($cvalue, 7);
+        else if (substr($cvalue, 0, 3) === "://") $cvalue = substr($cvalue, 3);
+        else if (substr($cvalue, 0, 2) === "//") $value = substr($cvalue, 2);
+
+        return $cvalue;
+    }
 // ----------------------- VALIDACIONES --------------------------
 
     public function uniqueWarningBD($table, $targetField, $value, $message = 'El campo ya es utilizado en base de datos'){
@@ -405,18 +416,7 @@ class Create extends Component
     }
     public function validate_webs($fieldName = null, $index = '*'){
         if ($index != '*' && $fieldName !== null){
-            if ($fieldName === 'value'){
-                $this->webs[$index]['value'] = strtolower(trim($this->webs[$index]['value']));
-                $cvalue = $this->webs[$index]['value'];
-
-                if (substr($cvalue, 0, 2) === "//") $value = substr($cvalue, 2);
-                else if (substr($cvalue, 0, 3) === "://") $cvalue = substr($cvalue, 3);
-                else if (substr($cvalue, 0, 7) === "http://") $cvalue = substr($cvalue, 7);
-                else if (substr($cvalue, 0, 8) === "https://") $cvalue = substr($cvalue, 8);
-
-                $this->webs[$index]['value'] = $cvalue;
-
-            }
+            if ($fieldName === 'value') $this->webs[$index]['value'] = $this->cleanURL($this->webs[$index]['value']);
         }
 
 
