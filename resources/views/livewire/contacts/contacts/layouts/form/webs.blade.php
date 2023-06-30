@@ -1,4 +1,4 @@
-<div class="col-12 mb-3">
+<div class="col-12 mb-3 mt-5">
     <div class="row">
 
 
@@ -8,7 +8,7 @@
                 <label for="web-star-fav-{{ $index }}"></label> --}}
             {{-- </div> --}}
             <div class="col-3 form-group pr-0">
-                <label for="webs_types_{{ $index }}" class="form-control-label">Tipo *</label>
+                <label for="webs_types_{{ $index }}" class="form-control-label">Etiqueta *</label>
                 <select class="@error("webs.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
                     name="webs_types_{{ $index }}" id="webs_types_{{ $index }}" wire:model="webs.{{ $index }}.type_id">
                     @foreach ($web_types as $type)

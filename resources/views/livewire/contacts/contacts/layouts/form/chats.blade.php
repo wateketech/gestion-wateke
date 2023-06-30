@@ -1,4 +1,4 @@
-<div class="col-12 mb-3">
+<div class="col-12 mb-3 mt-5">
     <div class="row">
 
 
@@ -8,8 +8,8 @@
             <label for="instant_messages-star-fav-{{ $index }}"></label>
         </div>
         <div class="col-2 form-group pr-0">
-            <label for="instant_messages_label_{{ $index }}" class="form-control-label">Etiqueta *</label>
-            <input class="@error("instant_messages.{$index}.label")border border-danger rounded-3 @enderror form-control text-lower"
+            <label for="instant_messages_label_{{ $index }}" class="form-control-label">Etiqueta</label>
+            <input class="@error("instant_messages.{$index}.label")border border-danger rounded-3 @enderror form-control"
                     type="text" name="instant_messages_label_{{ $index }}" id="instant_messages_label_{{ $index }}"
                     wire:blur="validate_chats('label', {{ $index }})"
                     wire:model="instant_messages.{{ $index }}.label">
