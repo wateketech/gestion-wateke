@@ -55,7 +55,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'emails';
+    public $currentStep = 'webs';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -82,14 +82,15 @@ class Create extends Component
     public $instant_messages_max = 8;
 
 
-    // RRSS AND WEBS
-    //public $rrss_types;
-    //public $rrss = [];
-    //public $rrss_max = 8;
-//
-    //public $web_types;
-    //public $webs = [];
-    //public $webs_max = 8;
+    // RRSS
+    public $rrss_types;
+    public $rrss = [];
+    public $rrss_max = 8;
+
+    // WEBS
+    public $web_types;
+    public $webs = [];
+    public $webs_max = 8;
 
 
     // ADDRESS
@@ -148,8 +149,8 @@ class Create extends Component
         $this->email_types = EmailTypes::all()->where('enable', true);
         $this->phone_types = PhoneTypes::all()->where('enable', true);
         $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
-        // $this->rrss_types = RrssTypes::all()->where('enable', true);
-        // $this->web_types = WebTypes::all()->where('enable', true);
+        $this->rrss_types = RrssTypes::all()->where('enable', true);
+        $this->web_types = WebTypes::all()->where('enable', true);
         // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
         // $this->date_types = DateTypes::all()->where('enable', true);
         // $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
@@ -161,8 +162,8 @@ class Create extends Component
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
@@ -200,10 +201,10 @@ class Create extends Component
     }
 
     public function validate_general($fieldName = null){
-        $this->name = trim($this->name);
-        $this->middle_name = trim($this->middle_name);
-        $this->first_lastname = trim($this->first_lastname);
-        $this->second_lastname = trim($this->second_lastname);
+        $this->name = ucwords(strtolower(trim($this->name)));
+        $this->middle_name = ucwords(strtolower(trim($this->middle_name)));
+        $this->first_lastname = ucwords(strtolower(trim($this->first_lastname)));
+        $this->second_lastname = ucwords(strtolower(trim($this->second_lastname)));
 
         $rules = [
             'name' => 'required|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
@@ -232,11 +233,11 @@ class Create extends Component
     public function validate_emails($fieldName = null, $index = '*'){
         if ($fieldName === 'value'){
             if ($index != '*'){
-                $this->emails[$index]['value'] = trim($this->emails[$index]['value']);
+                $this->emails[$index]['value'] = strtolower(trim($this->emails[$index]['value']));
                 $this->selectEmailType($index);
             }else{
                 foreach ($this->emails as $i => $email) {
-                    $this->emails[$i]['value'] = trim($this->emails[$i]['value']);
+                    $this->emails[$i]['value'] = strtolower(trim($this->emails[$i]['value']));
                     $this->selectEmailType($i);
                 }
             }
@@ -323,7 +324,7 @@ class Create extends Component
     }
     public function validate_chats($fieldName = null, $index = '*'){
         if ($index != '*' && $fieldName !== null){
-            if ($fieldName === 'value') $this->instant_messages[$index]['value'] = trim($this->instant_messages[$index]['value']);
+            if ($fieldName === 'value') $this->instant_messages[$index]['value'] = strtolower(trim($this->instant_messages[$index]['value']));
             else if ($fieldName === 'label') $this->instant_messages[$index]['label'] = trim($this->instant_messages[$index]['label']);
         }
 
@@ -350,7 +351,7 @@ class Create extends Component
             'instant_messages.*.*.required' => 'El campo es obligatorio',
             'instant_messages.*.*.max' => 'El campo no puede tener más de :max caracteres',
             'instant_messages.*.*.min' => 'El campo no puede tener menos de :min caracteres',
-            'instant_messages.*.*.unique' => 'Esta usuario ya está en uso',
+            'instant_messages.*.*.unique' => 'Este usuario ya está en uso',
             'instant_messages.*.*.string' => 'Este campo debe ser de tipo texto',
             'instant_messages.*.*.integer' => 'Este campo debe ser de tipo numerico',
         ];
@@ -365,15 +366,33 @@ class Create extends Component
     }
     public function validate_rrss($fieldName = null, $index = '*'){
         if ($index != '*' && $fieldName !== null){
-
+            if ($fieldName === 'value') $this->rrss[$index]['value'] = strtolower(trim($this->rrss[$index]['value']));
         }
 
-
         $rules = [
+            'rrss.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->rrss_types->pluck('id')->toArray()),],
+            'rrss.' . $index . '.label' => 'nullable|string|min:2|max:50',
+            'rrss.' . $index . '.about' => 'nullable|string|min:2',
+            'rrss.' . $index . '.value' => [ 'required', 'min:5', 'max:50',
+                function ($attribute, $value, $fail) {
+                    $rrss = collect($this->rrss);
+                    $duplicates = $rrss->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $rrss->pluck('type_id')->first())->count();
 
+                    if ($duplicates > 1) {
+                        $fail('Las redes sociales no pueden repetirse con un mismo tipo');
+                    }
+                }
+            ],
         ];
         $messages = [
-
+            'rrss.*.*.required' => 'El campo es obligatorio',
+            'rrss.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'rrss.*.*.min' => 'El campo no puede tener menos de :min caracteres',
+            'rrss.*.*.unique' => 'Esta usuario ya está en uso por otro contacto',
+            'rrss.*.*.string' => 'Este campo debe ser de tipo texto',
+            'rrss.*.*.integer' => 'Este campo debe ser de tipo numerico',
         ];
 
         if ($index != '*' && $fieldName !== null){
@@ -386,15 +405,51 @@ class Create extends Component
     }
     public function validate_webs($fieldName = null, $index = '*'){
         if ($index != '*' && $fieldName !== null){
+            if ($fieldName === 'value'){
+                $this->webs[$index]['value'] = strtolower(trim($this->webs[$index]['value']));
+                $cvalue = $this->webs[$index]['value'];
 
+                if (substr($cvalue, 0, 2) === "//") $value = substr($cvalue, 2);
+                else if (substr($cvalue, 0, 3) === "://") $cvalue = substr($cvalue, 3);
+                else if (substr($cvalue, 0, 7) === "http://") $cvalue = substr($cvalue, 7);
+                else if (substr($cvalue, 0, 8) === "https://") $cvalue = substr($cvalue, 8);
+
+                $this->webs[$index]['value'] = $cvalue;
+
+            }
         }
 
 
         $rules = [
+            'webs.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->web_types->pluck('id')->toArray()),],
+            'webs.' . $index . '.label' => 'nullable|string|min:2|max:50',
+            'webs.' . $index . '.about' => 'nullable|string|min:2',
+            'webs.' . $index . '.value' => [ 'required', 'min:5', 'max:50',
+                function ($attribute, $value, $fail) {
+                    $value = 'https://' . $value;
+                    if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                        $fail('El campo debe ser una URL válida.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    $webs = collect($this->webs);
+                    $duplicates = $webs->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $webs->pluck('type_id')->first())->count();
 
+                    if ($duplicates > 1) {
+                        $fail('Las webs no pueden repetirse con un mismo tipo');
+                    }
+                }
+            ]
         ];
         $messages = [
-
+            'webs.*.*.required' => 'El campo es obligatorio',
+            'webs.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'webs.*.*.min' => 'El campo no puede tener menos de :min caracteres',
+            'webs.*.*.unique' => 'Esta web ya está en uso por otro contacto',
+            'webs.*.*.string' => 'Este campo debe ser de tipo texto',
+            'webs.*.*.integer' => 'Este campo debe ser de tipo numerico',
         ];
 
         if ($index != '*' && $fieldName !== null){
@@ -566,6 +621,7 @@ class Create extends Component
         $this->validate_phones();
         $this->nextStep('phones', 'chats');
     }
+
 // -------------------------- STEP CHATS -------------------------- //
 
     public function selectInstantMessageIsPrimary($index){
@@ -605,7 +661,22 @@ class Create extends Component
         $this->validate_chats();
         $this->nextStep('chats', 'rrss');
     }
+
 // -------------------------- STEP RRSS -------------------------- //
+
+    public function addRrss($index){
+        $this->validate_rrss(null, $index);
+
+        if (count($this->rrss) < $this->rrss_max) {
+            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removeRrss($index){
+        unset($this->rrss[$index]);
+        $this->rrss = array_values($this->rrss);
+    }
+
+
     public function stepSubmit_rrss_back(){
         $this->backStep('rrss', 'chats');
     }
@@ -613,19 +684,54 @@ class Create extends Component
         $this->omitStep('webs');
     }
     public function stepSubmit_rrss_next(){
+        $this->validate_rrss();
         $this->nextStep('rrss', 'webs');
     }
+
 // -------------------------- STEP WEBS -------------------------- //
+    public function selectWebIsPrimary($index){
+        // NO DISPONIBLE PARA CONTACTOS
+    }
+
+    public function addWeb($index){
+        $this->validate_webs(null, $index);
+
+        if (count($this->webs) < $this->webs_max) {
+            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '','label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removeWeb($index){
+        unset($this->webs[$index]);
+        $this->webs = array_values($this->webs);
+    }
+
+
     public function stepSubmit_webs_back(){
-        $this->backStep('webs', 'address');
+        $this->backStep('webs', 'rrss');
     }
     public function stepSubmit_webs_omit(){
         $this->omitStep('address');
     }
     public function stepSubmit_webs_next(){
+        $this->validate_webs();
         $this->nextStep('webs', 'address');
     }
+
 // -------------------------- STEP ADDRESS -------------------------- //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function stepSubmit_address_back(){
         $this->backStep('address', 'webs');
     }
@@ -660,6 +766,78 @@ class Create extends Component
 
 
 // -------------------------- END - STEPS -------------------------- //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -883,57 +1061,6 @@ class Create extends Component
         // NO DISPONIBLE POR EL MOMENTO
         // $this->webs[$index]['meta']['is_valid'] =
     }
-    public function updateWebValue($index, $value)
-    {
-        if (substr($value, 0, 2) === "//")
-            $value = substr($value, 2);
-        else if (substr($value, 0, 3) === "://")
-            $value = substr($value, 3);
-        else if (substr($value, 0, 7) === "http://")
-            $value = substr($value, 7);
-        else if (substr($value, 0, 8) === "https://")
-            $value = substr($value, 8);
-
-        $this->webs[$index]['value'] = $value;
-    }
-    public function selectWebIsPrimary($index)
-    {
-        // NO DISPONIBLE PARA CONTACTOS
-    }
-    public function addWeb($index)
-    {
-        $this->validate([
-            'webs.*.type_id' => ['required', 'integer', Rule::in($this->web_types->pluck('id')->toArray()),
-            ],
-            'webs.*.about' => '',
-            'webs.' . $index . '.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $webs = collect($this->webs);
-                    $duplicates = $webs->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $webs->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las webs no pueden repetirse con un mismo tipo');
-                    }
-                }
-            ]
-        ], [
-                '*.required' => 'El campo es obligatorio',
-                'webs.*.*.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-        if (count($this->webs) < $this->webs_max) {
-            $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        }
-    }
-    public function removeWeb($index)
-    {
-        unset($this->webs[$index]);
-        $this->webs = array_values($this->webs);
-    }
 
 
     public function existRrss($index)
@@ -942,49 +1069,6 @@ class Create extends Component
         // $this->rrss[$index]['meta']['is_valid'] =
 
     }
-    public function updateRrssValue($index, $value, $value_meta)
-    {
-        // IMPLEMENTAR COMO VERIFICAR EL VALUE DEL WEB (quisas no haga falta)
-    }
-    public function selectRrssIsPrimary($index)
-    {
-        // NO DISPONIBLE PARA CONTACTOS
-    }
-    public function addRrss($index)
-    {
-        $this->validate([
-            'rrss.*.type_id' => ['required', Rule::in($this->rrss_types->pluck('id')->toArray()),
-            ],
-            'rrss.*.about' => '',
-            'rrss.' . $index . '.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $rrss = collect($this->rrss);
-                    $duplicates = $rrss->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $rrss->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las redes sociales no pueden repetirse con un mismo tipo');
-                    }
-                }
-            ],
-        ], [
-                '*.required' => 'El campo es obligatorio',
-                'rrss.*.*.required' => 'El campo es obligatorio',
-                '*.max' => 'El campo no puede tener más de :max caracteres',
-                '*.min' => 'El campo no puede menos más de :min caracteres',
-            ]);
-        if (count($this->rrss) < $this->rrss_max) {
-            $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        }
-    }
-    public function removeRrss($index)
-    {
-        unset($this->rrss[$index]);
-        $this->rrss = array_values($this->rrss);
-    }
-
 
     public function stepSubmit_rrss_web_omit()
     {
@@ -1026,7 +1110,7 @@ class Create extends Component
                     })->where('type_id', $rrss->pluck('type_id')->first())->count();
 
                     if ($duplicates > 1) {
-                        $fail('Las redes sociales no pueden repetirse con un mismo tipo');
+                        $fail('Las cuentas no pueden repetirse para una misma red social');
                     }
                 }
             ],
