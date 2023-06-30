@@ -305,7 +305,8 @@ class Create extends Component
                 function ($attribute, $value, $fail) use ($index) {
                     // validar que el juego del value + ext no se repita en el front-end
                 }],
-            'phones.' . $index . '.value' => ['required', 'min:3', 'max:20',
+            'phones.' . $index . '.value' => ['required',
+                                            //'regex:/^(\+?\d{1,3}[-. ]?)?(\(?\d{3}\)?[-. ]?)?\d{3}[-. ]?\d{4}$/',
                 function ($attribute, $value, $fail) use ($index) {
                     $phones = array_column($this->phones, 'value');
                     if (count($phones) != count(array_unique($phones)) && $this->phone_types->find($this->phones[$index]['type_id'])->label != 'Extensión') {
@@ -322,6 +323,7 @@ class Create extends Component
             'phones.*.*.unique' => 'Este teléfono ya está en uso',
             'phones.*.*.string' => 'Este campo debe ser de tipo texto',
             'phones.*.*.integer' => 'Este campo debe ser de tipo numerico',
+            //'phones.*.*.regex' => 'Este campo debe ser un teléfono válido',
         ];
 
 
