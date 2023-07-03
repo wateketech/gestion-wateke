@@ -1,7 +1,7 @@
 <div class="col-12  mb-5 mt-n6">
 
     @foreach ($address as $index_add => $add)
-        <div class="d-flex justify-content-start my-3 mx-3 h4 text-dark form-title">
+        <div class="d-flex justify-content-start my-3 mx-0 h4 text-dark form-title">
             <span class="font-weight-bolder opacity-7 @error("address.{$index_add}.name") text-danger  @enderror"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
                 <input type="text" class="font-weight-bolder opacity-8 border-0 w-25 d-inline-block" style="border-bottom: 1.2px grey solid !important; @error("address.{$index_add}.name") border-bottom: 2px red dashed !important @enderror"
                 wire:blur="validate_address('name', {{ $index_add }})"

@@ -194,17 +194,17 @@
                         {{-- -------------------------- STEP MORE -------------------------- --}}
                         <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-more">
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                {{-- <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos Extras :</span>
-                                </div> --}}
-                                {{-- <div> --}}
+                                <div class="h4 text-dark form-title">
+                                    {{-- <span class="font-weight-bolder opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos Extras :</span> --}}
+                                </div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_more_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
                                     <a class="btn btn-primary" wire:click="stepSubmit_more_next">
                                         <i class="fas fa-angle-double-right"></i>
                                     </a>
-                                {{-- </div> --}}
+                                </div>
                             </div>
 
                             @include("livewire.contacts.contacts.layouts.form.more")

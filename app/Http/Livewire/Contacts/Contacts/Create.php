@@ -55,7 +55,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'address';
+    public $currentStep = 'more';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -117,19 +117,19 @@ class Create extends Component
     // EN CONSTRUCCIÓN
 
     // MORE
-    //public $date_types, $date_type;
-    //public $date_value;
-    //public $dates = [];
-    //public $dates_max = 4;
-//
-    //public $publish_us_types, $publish_us_type;
-    //public $publish_us_value, $publish_us_about;
-    //public $publish_us = [];
-    //public $publish_us_max = 8;
-//
-    //public $id_types;
-    //public $ids = [];
-    //public $id_max = 4;
+    public $date_types, $date_type;
+    public $date_value;
+    public $dates = [];
+    public $dates_max = 3;
+
+    public $publish_us_types, $publish_us_type;
+    public $publish_us_value, $publish_us_about;
+    public $publish_us = [];
+    public $publish_us_max = 8;
+
+    public $id_types;
+    public $ids = [];
+    public $id_max = 4;
 
     // RESUMEN
     // public $is_user_link = false;
@@ -151,11 +151,11 @@ class Create extends Component
         $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
         $this->rrss_types = RrssTypes::all()->where('enable', true);
         $this->web_types = WebTypes::all()->where('enable', true);
-        // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
-        // $this->date_types = DateTypes::all()->where('enable', true);
-        // $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
         $this->countries = Countries::all()->where('enable', true);
-        // $this->id_types = IdTypes::all()->where('enable', true);
+        // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
+        $this->date_types = DateTypes::all()->where('enable', true);
+        $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
+        $this->id_types = IdTypes::all()->where('enable', true);
 //
 //
 //
@@ -166,7 +166,7 @@ class Create extends Component
         $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        //$this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
         $this->address[] = [
@@ -549,6 +549,111 @@ class Create extends Component
     public function validate_ocupation($fieldName = null, $index = '*'){
 
     }
+
+
+
+
+
+
+
+
+
+    public function validate_dates($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){}
+
+        $rules = [
+            'dates.' . $index . '.value' => ['required', 'date',
+                // 'before_or_equal:' . Carbon::now()->subYears(1)->format('Y-m-d'),
+                // 'after_or_equal:' . Carbon::now()->subYears(118)->format('Y-m-d'),
+            ],
+            'dates.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+                function ($attribute, $value, $fail) {
+                    // Obtener los valores de type_id de todos los elementos de dates
+                    $types_id = array_column($this->dates, 'type_id');
+
+                    // Obtener el índice del elemento actual que se está validando
+                    $index = str_replace('dates.', '', $attribute);
+                    $index = str_replace('.type_id', '', $index);
+
+                    // Eliminar el elemento actual de la matriz de type_id
+                    unset($types_id[$index]);
+
+                    // Verificar si el valor de type_id se repite en la matriz de type_id restante
+                    if (in_array($value, $types_id)) {
+                        $fail('El motivo de la fecha no puede repetirse.');
+                    }
+                }
+            ],
+        ];
+        $messages = [
+            'dates.*.*.required' => 'El campo es obligatorio',
+            'dates.*.*.string' => 'Este campo debe ser de tipo texto',
+            'dates.*.*.integer' => 'Este campo debe ser de tipo numerico',
+            'dates.*.*.date' => 'El campo debe ser una fecha válida',
+            'dates.*.*.before_or_equal' => 'La fecha debe estar en un rango coherente.',
+            'dates.*.*.after_or_equal' => 'La fecha debe estar en un rango coherente.',
+        ];
+
+        if ($index != '*' && $fieldName !== null){
+            $field = 'dates.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
+    }
+    public function validate_publish_us($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){
+            if ($fieldName === 'value') $this->publish_us[$index]['value'] = $this->cleanURL($this->publish_us[$index]['value']);
+        }
+
+        $rules = [
+            'publish_us.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
+            'publish_us.' . $index . '.value' => [ 'required', 'min:5', 'max:50',
+                function ($attribute, $value, $fail) {
+                    $value = 'https://' . $value;
+                    if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                        $fail('El campo debe ser una URL válida.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    $url = collect($this->publish_us);
+                    $duplicates = $url->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('id_type', $url->pluck('type_id')->first())->count();
+
+                    if ($duplicates > 1) {
+                        $fail('Las url no pueden repetirse con un mismo tipo');
+                    }
+                }
+            ],
+        ];
+        $messages = [
+            'publish_us.*.*.required' => 'El campo es obligatorio',
+            'publish_us.*.*.string' => 'Este campo debe ser de tipo texto',
+            'publish_us.*.*.integer' => 'Este campo debe ser de tipo numerico',
+            'publish_us.*.*.url' => 'El campo debe ser una url válida',
+        ];
+
+        if ($index != '*' && $fieldName !== null){
+            $field = 'publish_us.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
+    }
+
+
+
+
+
+
+
+    public function validate_ids($fieldName = null, $index = '*'){
+
+    }
+    public function validate_bank_accounts($fieldName = null, $index = '*'){
+
+    }
     public function validate_more($fieldName = null, $index = '*'){
 
     }
@@ -914,13 +1019,54 @@ class Create extends Component
         $this->nextStep('ocupation', 'more');
     }
 // -------------------------- STEP MORE -------------------------- //
+
+    public function addDate($index){
+        if (count($this->dates) >= 1) $this->validate_dates(null, $index);
+
+        if (count($this->dates) < $this->dates_max) {
+            $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removeDate($index){
+        unset($this->dates[$index]);
+        $this->dates = array_values($this->dates);
+    }
+
+
+    public function addPublishUs($index){
+        if (count($this->publish_us) >= 1) $this->validate_publish_us(null, $index);
+
+        if (count($this->publish_us) < $this->publish_us_max) {
+            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removePublishUs($index){
+        unset($this->publish_us[$index]);
+        $this->publish_us = array_values($this->publish_us);
+    }
+
+
+
+
+
+
     public function stepSubmit_more_back(){
         $this->backStep('more', 'ocupation');
     }
     public function stepSubmit_more_omit(){
+        $this->dates = [];
+        $this->publish_us = [];
+        $this->ids = [];
+        // $this->bank_accounts = [];
+        // $this->bank_account_banks = [];
+        $this->about = null;
+        $this->alias = null;
         $this->omitStep('resumen');
     }
     public function stepSubmit_more_next(){
+        $this->validate_dates();
+        $this->validate_publish_us();
+        // ...
         $this->nextStep('more', 'resumen');
     }
 // -------------------------- STEP RESUMEN -------------------------- //
@@ -1048,7 +1194,70 @@ class Create extends Component
 
 
 
+   // -------------------------- STEP MORE --------------------------
 
+    public function zzstepSubmit_more_omit()
+    {
+        $this->dates = [];
+        $this->publish_us = [];
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
+        $this->currentStep = 'resumen';
+    }
+    public function zstepSubmit_more()
+    {
+        $this->validate([
+            'dates' => 'array',
+            'dates.*.value' => [
+                'required',
+                'date',
+                // 'before_or_equal:' . Carbon::now()->subYears(1)->format('d-m-Y'),
+                // 'after_or_equal:' . Carbon::now()->subYears(118)->format('d-m-Y'),
+            ],
+            'dates.*.type_id' => [
+                'required',
+                'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
+                function ($attribute, $value, $fail) {
+                    $types_id = array_column($this->dates, 'type_id');
+                    $index = str_replace('dates.', '', $attribute);
+                    $index = str_replace('.type_id', '', $index);
+                    unset($types_id[$index]);
+                    if (in_array($value, $types_id)) {
+                        $fail('El motivo de la fecha no puede repetirse.');
+                    }
+                }
+            ],
+            'publish_us' => 'array',
+            'publish_us.*.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
+            'publish_us.*.value' => [
+                'required',
+                // 'url',
+                function ($attribute, $value, $fail) {
+                    $url = collect($this->publish_us);
+                    $duplicates = $url->filter(function ($item) use ($value) {
+                        return $item['value'] == $value;
+                    })->where('type_id', $url->pluck('type_id')->first())->count();
+
+                    if ($duplicates > 1) {
+                        $fail('Las url no pueden repetirse con un mismo tipo');
+                    }
+                }
+            ]
+        ], [
+                '*.array' => 'Error de Servidor : El campo debe ser un array',
+                'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
+                'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
+                'dates.*.value.date' => 'El campo debe ser una fecha válida',
+                '*.required' => 'El campo es obligatorio',
+                'dates.*.*.required' => 'El campo es obligatorio',
+                'publish_us.*.value.url' => 'El campo debe ser una url válida',
+                '*.required' => 'El campo es obligatorio',
+                'publish_us.*.*.required' => 'El campo es obligatorio',
+            ]);
+
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
+        $this->passStep[] = 'more';
+        $this->currentStep = 'resumen';
+    }
 
 
 
@@ -1235,182 +1444,8 @@ class Create extends Component
         $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
         $this->currentStep = 'ocupation';
     }
-    // -------------------------- STEP OCUPATION --------------------------
-    public function stepSubmit_ocupation()
-    {
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'ocupation';
-        $this->currentStep = 'more';
-    }
-    public function zzstepSubmit_ocupation_omit()
-    {
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'more';
-    }
-    // -------------------------- STEP MORE --------------------------
-    public function addDate($index)
-    {
-        if (count($this->dates) >= 1) {
-            $this->validate([
-                'dates.' . $index . '.value' => [
-                    'required',
-                    'date',
-                    // 'before_or_equal:' . Carbon::now()->subYears(1)->format('Y-m-d'),
-                    // 'after_or_equal:' . Carbon::now()->subYears(118)->format('Y-m-d'),
-                ],
-                'dates.' . $index . '.type_id' => [
-                    'required',
-                    'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
-                    function ($attribute, $value, $fail) {
-                        // Obtener los valores de type_id de todos los elementos de dates
-                        $types_id = array_column($this->dates, 'type_id');
-
-                        // Obtener el índice del elemento actual que se está validando
-                        $index = str_replace('dates.', '', $attribute);
-                        $index = str_replace('.type_id', '', $index);
-
-                        // Eliminar el elemento actual de la matriz de type_id
-                        unset($types_id[$index]);
-
-                        // Verificar si el valor de type_id se repite en la matriz de type_id restante
-                        if (in_array($value, $types_id)) {
-                            $fail('El motivo de la fecha no puede repetirse.');
-                        }
-                    }
-                ],
-            ], [
-                    'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
-                    'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
-                    'dates.*.value.date' => 'El campo debe ser una fecha válida',
-                    '*.required' => 'El campo es obligatorio',
-                    'dates.*.*.required' => 'El campo es obligatorio',
-                ]);
-        }
-        if (count($this->dates) < $this->dates_max) {
-            $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        }
-    }
-
-    public function removeDate($index)
-    {
-        unset($this->dates[$index]);
-        $this->dates = array_values($this->dates);
-    }
 
 
-
-    public function updatePublishUsValue($index, $value)
-    {
-        if (substr($value, 0, 2) === "//")
-            $value = substr($value, 2);
-        else if (substr($value, 0, 3) === "://")
-            $value = substr($value, 3);
-        else if (substr($value, 0, 7) === "http://")
-            $value = substr($value, 7);
-        else if (substr($value, 0, 8) === "https://")
-            $value = substr($value, 8);
-
-        $this->publish_us[$index]['value'] = $value;
-    }
-    public function addPublishUs($index)
-    {
-        if (count($this->publish_us) >= 1) {
-            $this->validate([
-                'publish_us.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-                'publish_us.' . $index . '.value' => [
-                    'required',
-                    // 'url',
-                    function ($attribute, $value, $fail) {
-                        $url = collect($this->publish_us);
-                        $duplicates = $url->filter(function ($item) use ($value) {
-                            return $item['value'] == $value;
-                        })->where('id_type', $url->pluck('type_id')->first())->count();
-
-                        if ($duplicates > 1) {
-                            $fail('Las url no pueden repetirse con un mismo tipo');
-                        }
-                    }
-                ]
-            ], [
-                    'publish_us.*.value.url' => 'El campo debe ser una url válida',
-                    '*.required' => 'El campo es obligatorio',
-                    'publish_us.*.*.required' => 'El campo es obligatorio',
-                ]);
-        }
-        if (count($this->publish_us) < $this->publish_us_max) {
-            $this->publish_us[] = ['type_id' => $this->publish_us_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        }
-    }
-
-    public function removePublishUs($index)
-    {
-        unset($this->publish_us[$index]);
-        $this->publish_us = array_values($this->publish_us);
-    }
-
-
-    public function zzstepSubmit_more_omit()
-    {
-        $this->dates = [];
-        $this->publish_us = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'resumen';
-    }
-    public function zstepSubmit_more()
-    {
-        $this->validate([
-            'dates' => 'array',
-            'dates.*.value' => [
-                'required',
-                'date',
-                // 'before_or_equal:' . Carbon::now()->subYears(1)->format('d-m-Y'),
-                // 'after_or_equal:' . Carbon::now()->subYears(118)->format('d-m-Y'),
-            ],
-            'dates.*.type_id' => [
-                'required',
-                'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
-                function ($attribute, $value, $fail) {
-                    $types_id = array_column($this->dates, 'type_id');
-                    $index = str_replace('dates.', '', $attribute);
-                    $index = str_replace('.type_id', '', $index);
-                    unset($types_id[$index]);
-                    if (in_array($value, $types_id)) {
-                        $fail('El motivo de la fecha no puede repetirse.');
-                    }
-                }
-            ],
-            'publish_us' => 'array',
-            'publish_us.*.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-            'publish_us.*.value' => [
-                'required',
-                // 'url',
-                function ($attribute, $value, $fail) {
-                    $url = collect($this->publish_us);
-                    $duplicates = $url->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $url->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las url no pueden repetirse con un mismo tipo');
-                    }
-                }
-            ]
-        ], [
-                '*.array' => 'Error de Servidor : El campo debe ser un array',
-                'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
-                'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
-                'dates.*.value.date' => 'El campo debe ser una fecha válida',
-                '*.required' => 'El campo es obligatorio',
-                'dates.*.*.required' => 'El campo es obligatorio',
-                'publish_us.*.value.url' => 'El campo debe ser una url válida',
-                '*.required' => 'El campo es obligatorio',
-                'publish_us.*.*.required' => 'El campo es obligatorio',
-            ]);
-
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'more';
-        $this->currentStep = 'resumen';
-    }
     // -------------------------- STEP RESUMEN --------------------------
 
     public function UpdatedIsUserLink()
