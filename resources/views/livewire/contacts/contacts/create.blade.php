@@ -44,7 +44,7 @@
                                 <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos generales :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_general_next">
                                         <i class="fas fa-angle-double-right"></i>
                                     </a>
@@ -60,7 +60,7 @@
                                 <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-envelope"></i> &nbsp; Emails :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_emails_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
@@ -79,7 +79,7 @@
                                 <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-phone"></i> &nbsp; Télefonos :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
@@ -98,7 +98,7 @@
                                 <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-sms"></i> &nbsp; Mensajerías Instantáneas :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_chats_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
@@ -117,7 +117,7 @@
                                 <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-share-alt"></i> &nbsp; Redes Sociales :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_rrss_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
@@ -136,7 +136,7 @@
                                 <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-globe"></i> &nbsp; Sitios Webs :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_webs_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
@@ -153,9 +153,9 @@
                         <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span>
+                                    {{-- <span class="font-weight-bolder opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span> --}}
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_address_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
@@ -171,21 +171,20 @@
                         {{-- -------------------------- STEP OCCUPATION -------------------------- --}}
                         <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                {{-- <div class="h4 text-dark form-title">
+                                <div class="h4 text-dark form-title">
                                     <span class="font-weight-bolder opacity-7"><i class="fas fa-briefcase"></i> &nbsp; Datos Laborales :</span>
                                 </div>
-                                <div>
+                                <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_ocupation_next">
+                                    <div class="btn btn-secondary"
+                                        wire:click="stepSubmit_ocupation_omit">
+                                        <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                    </div>
+                                    {{-- <a class="btn btn-primary" wire:click="stepSubmit_ocupation_next">
                                         <i class="fas fa-angle-double-right"></i>
-                                    </a>
-                                </div> --}}
-                                <div></div>
-                                <div class="btn btn-secondary"
-                                    wire:click="stepSubmit_ocupation_omit">
-                                    <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                    </a> --}}
                                 </div>
                             </div>
 

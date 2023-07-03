@@ -97,10 +97,10 @@ class Create extends Component
     public $countries, $states, $cities;
     public $contact_address = [];
     public $address = [];
-    public $address_max = 3;
+    public $address_max = 2;
 
     public $address_line = [];
-    public $address_line_max = 10;
+    public $address_line_max = 5;
 
     // BANK ACCOUNTS
     //public $bank_account_types, $bank_account_type;
@@ -171,13 +171,13 @@ class Create extends Component
 
         $this->address[] = [
             'name' => 'Casa',
-            'city_id' => '',
+            'city_id' => null,
             'geolocation' => null,
             'zip_code' => '',
             'country_id' => null,
             'state_id' => null
         ];
-        $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+        // $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
         $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
         $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 //
@@ -463,7 +463,88 @@ class Create extends Component
 
     }
     public function validate_address($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){
+            if ($fieldName === 'zip_code') $this->address[$index]['zip_code'] = trim($this->address[$index]['zip_code']);
+            else if ($fieldName === 'name') $this->address[$index]['name'] = trim($this->address[$index]['name']);
+        }
 
+        $rules = [
+            'address.' . $index . '.name' => 'required',
+            'address.' . $index . '.country_id' => 'required',
+            'address.' . $index . '.state_id' => [
+                function ($attribute, $value, $fail) use ($index) {
+                    if ($index != '*'){
+                        $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
+                        if ($country && $country->states->count() > 0 && empty($value))
+                            $fail('El campo es obligatorio.');
+                    }else{
+                        foreach ($this->address as $index => $address) {
+                            $country = Countries::where('enable', true)->find($address['country_id']);
+                            if ($country && $country->states->count() > 0 && empty($value)) {
+                                $fail('El campo es requerido si está disponible');
+                            }
+                        }
+                    }
+                }
+            ],
+            'address.' . $index . '.city_id' => [
+                function ($attribute, $value, $fail) use ($index) {
+                    if ($index != '*'){
+                        $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
+                        $state = $country ? $country->states()->find($this->address[$index]['state_id']) : null;
+                        if ($state && $state->cities->count() > 0 && empty($this->address[$index]['city_id']))
+                            $fail('El campo es obligatorio.');
+                    }else{
+                        foreach ($this->address as $index => $address) {
+                            $country = Countries::where('enable', true)->find($address['country_id']);
+                            $state = $country ? $country->states()->find($address['state_id']) : null;
+                            if ($state && $state->cities->count() > 0 && empty($address['city_id'])) {
+                                $fail('El campo es requerido si está disponible');
+                            }
+                        }
+                    }
+                }
+            ],
+        ];
+        $messages = [
+            'address.*.*.required' => 'El campo es obligatorio',
+        ];
+
+        if ($index != '*' && $fieldName !== null){
+            $field = 'address.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
+    }
+    public function validate_address_lines($fieldName = null, $index_a = '*', $index_l = '*'){
+        if ($fieldName !== null){
+            if ($index_a != '*' && $index_l != '*' ){
+                if ($fieldName === 'label') $this->address_line[$index_a][$index_l]['label'] = trim($this->address_line[$index_a][$index_l]['label']);
+                else if ($fieldName === 'value') $this->address_line[$index_a][$index_l]['value'] = trim($this->address_line[$index_a][$index_l]['value']);
+            }
+        }
+
+        $rules = [
+            'address_line.' . $index_a . '.' . $index_l . '.label' => 'required',
+            'address_line.' . $index_a . '.' . $index_l . '.value' => 'required',
+        ];
+        $messages =[
+            'address_line.*.*.*.required' => 'El campo es obligatorio',
+        ];
+
+        if ($fieldName !== null){
+            if ($index_a != '*' && $index_l != '*' ){
+                $field = 'address_line.' . $index_a . '.' . $index_l . '.' . $fieldName;
+                $this->validateOnly($field, $rules, $messages);
+            }
+            else if($index_a != '*'){
+                $field = 'address_line.' . $index_a . '.*.' . $fieldName;
+                $this->validateOnly($field, $rules, $messages);
+            }
+        }else{
+            $this->validate($rules, $messages);
+        }
     }
     public function validate_ocupation($fieldName = null, $index = '*'){
 
@@ -731,27 +812,95 @@ class Create extends Component
     }
 
 // -------------------------- STEP ADDRESS -------------------------- //
+    public function updateCountry($index_add, $value){
+        $this->address[$index_add]['country_id'] = $value;
+        $this->address[$index_add]['state_id'] = null;
+        $this->address[$index_add]['city_id'] = null;
+
+        $states = Countries::where('enable', true)->find($value)->states->map(function ($state) {
+            return ['id' => $state->id, 'text' => $state->name,];
+        })->toArray();
+
+        if (count($states) == 0) {
+            $this->dispatchBrowserEvent('init-select2-states-disabled', ['index_add' => $index_add]);
+        } else {
+            $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states]);
+        }
+        $this->validate_address('country_id', $index_add);
+    }
+    public function updateState($index_add, $value){
+        $this->address[$index_add]['state_id'] = $value;
+        $this->address[$index_add]['city_id'] = null;
+
+        $cities = Countries::find($this->address[$index_add]['country_id'])
+            ->states->find($this->address[$index_add]['state_id'])
+            ->cities->map(function ($city) {
+                return ['id' => $city->id, 'text' => $city->name,];
+            })->toArray();
+
+        if (count($cities) == 0) {
+            $this->dispatchBrowserEvent('init-select2-cities-disabled', ['index_add' => $index_add]);
+        } else {
+            $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'cities' => $cities]);
+        }
+        $this->validate_address('state_id', $index_add);
+    }
+    public function updateCity($index_add, $value){
+        $this->address[$index_add]['city_id'] = $value;
+        $this->validate_address('city_id', $index_add);
+    }
 
 
+    public function addAddress($index){
+        $this->validate_address(null, $index);
+        $this->validate_address_lines(null, $index);
+
+        if (count($this->address) < $this->address_max) {
+            $this->address[] = [
+                'name' => '# ' . ($index + 2),
+                'citie_id' => null,
+                'geolocation' => null,
+                'zip_code' => '',
+                'country_id' => null,
+                'state_id' => null
+            ];
+            // $this->address_line[$index + 1][] = ['label' => 'Localidad', 'value' => ''];
+            $this->address_line[$index + 1][] = ['label' => 'Número', 'value' => ''];
+            $this->address_line[$index + 1][] = ['label' => 'Calle', 'value' => ''];
+        }
+        $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => $index + 1]);
+    }
+    public function removeAddress($index){
+        unset($this->address_line[$index]);
+        unset($this->address[$index]);
+        $this->address_line = array_values($this->address_line);
+        $this->address = array_values($this->address);
+    }
 
 
+    public function addAddressLine($index_l, $index_add){
+        $this->validate_address_lines(null, $index_l, $index_add);
 
-
-
-
-
-
-
-
-
+        if (count($this->address_line[$index_add]) < $this->address_line_max) {
+            $this->address_line[$index_add][] = ['label' => '', 'value' => ''];
+        }
+    }
+    public function removeAddressLine($index_l, $index_add){
+        unset($this->address_line[$index_add][$index_l]);
+        $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
+    }
 
     public function stepSubmit_address_back(){
         $this->backStep('address', 'webs');
     }
     public function stepSubmit_address_omit(){
+        $this->address = [];
+        $this->address_line = [];
         $this->omitStep('ocupation');
     }
     public function stepSubmit_address_next(){
+        $this->validate_address();
+        $this->validate_address_lines();
         $this->nextStep('address', 'ocupation');
     }
 // -------------------------- STEP OCUPATION -------------------------- //
@@ -972,166 +1121,6 @@ class Create extends Component
     }
 
 
-    // -------------------------- STEP ADDRESS --------------------------
-    public function addAddress($index)
-    {
-        $this->validate([
-            'address.' . $index . '.name' => 'required',
-            'address.' . $index . '.country_id' => 'required',
-            'address.' . $index . '.state_id' => [
-                function ($attribute, $value, $fail) use ($index) {
-                    $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
-                    if ($country && $country->states->count() > 0 && empty($value))
-                        $fail('El campo es obligatorio.');
-                }
-            ],
-            'address.' . $index . '.city_id' => [
-                function ($attribute, $value, $fail) use ($index) {
-                    $country = Countries::where('enable', true)->find($this->address[$index]['country_id']);
-                    $state = $country ? $country->states()->find($this->address[$index]['state_id']) : null;
-                    if ($state && $state->cities->count() > 0 && empty($this->address[$index]['city_id']))
-                        $fail('El campo es obligatorio.');
-                }
-            ],
-            'address_line.' . $index . '.*.label' => 'required',
-            'address_line.' . $index . '.*.value' => 'required',
-            // 'address_line.' . $index . $index_l . '.label' => 'required',
-            // 'address_line.' . $index . $index_l . '.value' => 'required',
-        ], [
-                'address.' . $index . '.*.required' => 'El campo es obligatorio',
-                'address_line.' . $index . '.*.*.required' => 'El campo es obligatorio',
-            ]);
-        if (count($this->address) < $this->address_max) {
-            $this->address[] = [
-                'name' => '# ' . ($index + 2),
-                'citie_id' => '1',
-                'geolocation' => '',
-                'zip_code' => '',
-                'country_id' => null,
-                'state_id' => null
-            ];
-            $this->address_line[$index + 1][] = ['label' => 'Localidad', 'value' => ''];
-            $this->address_line[$index + 1][] = ['label' => 'Numero', 'value' => ''];
-            $this->address_line[$index + 1][] = ['label' => 'Calle', 'value' => ''];
-        }
-        $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => $index + 1]);
-    }
-    public function removeAddress($index)
-    {
-        unset($this->address_line[$index]);
-        unset($this->address[$index]);
-        $this->address_line = array_values($this->address_line);
-        $this->address = array_values($this->address);
-    }
-
-    public function updateCountry($index_add, $value)
-    {
-        $this->address[$index_add]['country_id'] = $value;
-        $this->address[$index_add]['state_id'] = null;
-        $this->address[$index_add]['city_id'] = null;
-
-        $states = Countries::where('enable', true)->find($value)->states->map(function ($state) {
-            return ['id' => $state->id, 'text' => $state->name,];
-        })->toArray();
-
-        if (count($states) == 0) {
-            $this->dispatchBrowserEvent('init-select2-states-disabled', ['index_add' => $index_add]);
-        } else {
-            $this->dispatchBrowserEvent('init-select2-states', ['index_add' => $index_add, 'states' => $states]);
-        }
-    }
-    public function updateState($index_add, $value)
-    {
-        $this->address[$index_add]['state_id'] = $value;
-        $this->address[$index_add]['city_id'] = null;
-
-        $cities = Countries::find($this->address[$index_add]['country_id'])
-            ->states->find($this->address[$index_add]['state_id'])
-            ->cities->map(function ($city) {
-                return ['id' => $city->id, 'text' => $city->name,];
-            })->toArray();
-
-        if (count($cities) == 0) {
-            $this->dispatchBrowserEvent('init-select2-cities-disabled', ['index_add' => $index_add]);
-        } else {
-            $this->dispatchBrowserEvent('init-select2-cities', ['index_add' => $index_add, 'cities' => $cities]);
-        }
-    }
-    public function updateCity($index_add, $value)
-    {
-        $this->address[$index_add]['city_id'] = $value;
-    }
-
-
-
-    public function addAddressLine($index_l, $index_add)
-    {
-        $this->validate([
-            'address_line.' . $index_add . '.*.label' => 'required',
-            'address_line.' . $index_add . '.*.value' => 'required',
-            // 'address_line.' . $index_add . $index_l . '.label' => 'required',
-            // 'address_line.' . $index_add . $index_l . '.value' => 'required',
-        ], [
-                'address_line.' . $index_add . '.*.*.required' => 'El campo es obligatorio',
-            ]);
-        if (count($this->address_line[$index_add]) < $this->address_line_max) {
-            $this->address_line[$index_add][] = ['label' => '', 'value' => ''];
-        }
-    }
-    public function removeAddressLine($index_l, $index_add)
-    {
-        unset($this->address_line[$index_add][$index_l]);
-        $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
-    }
-
-
-    public function zzstepSubmit_address_omit()
-    {
-        $this->address = [];
-        $this->address_line = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'bank_accounts';
-    }
-    public function zstepSubmit_address()
-    {
-        $this->validate([
-            'address.*.name' => 'required',
-            'address.*.country_id' => 'required',
-            'address.*.state_id' => [
-                function ($attribute, $value, $fail) {
-                    foreach ($this->address as $index => $address) {
-                        $country = Countries::where('enable', true)->find($address['country_id']);
-                        if ($country && $country->states->count() > 0 && empty($value)) {
-                            $fail('El campo es requerido si está disponible');
-                        }
-                    }
-                }
-            ],
-            'address.*.city_id' => [
-                function ($attribute, $value, $fail) {
-                    foreach ($this->address as $index => $address) {
-                        $country = Countries::where('enable', true)->find($address['country_id']);
-                        $state = $country ? $country->states()->find($address['state_id']) : null;
-                        if ($state && $state->cities->count() > 0 && empty($address['city_id'])) {
-                            $fail('El campo es requerido si está disponible');
-                        }
-                    }
-                }
-            ],
-            'address_line.*.*.label' => 'required',
-            'address_line.*.*.value' => 'required',
-        ], [
-                '*.*.*.required' => 'El campo es obligatorio',
-                'address.*.*.required' => 'El campo es obligatorio',
-                'address_line.*.*.*.required' => 'El campo es obligatorio',
-            ]);
-
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'address';
-        $this->currentStep = 'bank_accounts';
-        $this->dispatchBrowserEvent('init-select2-countries', ['index_add' => 0]);
-        $this->remount_bank_accounts();
-    }
 
     // -------------------------- STEP BANK ACCOUNTS --------------------------
     public function remount_bank_accounts()
