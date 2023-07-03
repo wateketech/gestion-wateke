@@ -18,11 +18,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('notification_id');
             $table->unsignedBigInteger('user_id');
-
-            $table->timestamp('viewed');
+            $table->string('about')->nullable();
+            $table->json('meta')->nullable();
+            $table->timestamp('read_at')->nullable();
             // $table->timestamp('status');
-
-            $table->string('about')->nullable()->default('');
             $table->timestamps();
 
 
