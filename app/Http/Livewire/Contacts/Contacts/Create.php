@@ -1008,6 +1008,17 @@ class Create extends Component
         // }
     }
 
+    public function existAdress($index)
+    {
+        // si ya existe la direccion hacer merge entre ellas, coger el id de las ya creadas y duplicarlas
+        // sugerencia de direcciones por maxima coincidencia y redundancia en bbdd (a las q mas se repitan y a los patrones iguales)
+    }
+    public function existAdressLine($index)
+    {
+        // si ya existe la direccion hacer merge entre ellas, coger el id de las ya creadas y duplicarlas
+        // sugerencia de direcciones por maxima coincidencia y redundancia en bbdd (a las q mas se repitan y a los patrones iguales)
+    }
+
 
 
 
