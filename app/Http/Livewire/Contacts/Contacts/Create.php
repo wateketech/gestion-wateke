@@ -164,8 +164,8 @@ class Create extends Component
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->publish_us[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 

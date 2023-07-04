@@ -1,6 +1,6 @@
 <div class="col-12 mb-4">
     <div class="d-flex justify-content-start my-3 mx-0 h4 text-dark form-title">
-        <span class="font-weight-bolder opacity-7"><i class="fas fa-calendar-alt"></i> &nbsp; Fechas :</span>
+        <span class="font-weight-500 opacity-7"><i class="fas fa-calendar-alt"></i> &nbsp; Fechas :</span>
     </div>
     <div class="row mx-3">
         @forelse ($dates as $index => $date)

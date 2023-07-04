@@ -21,14 +21,6 @@
                     <div class="d-lg-block btn btn-primary {{ $currentStep != 'more' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("more", $passStep) && $currentStep != 'more' ? 'primary-btn-disabled-dark' : '' }}"    id="menu-step-more"   > Datos Extras</div>
                     <div class="d-lg-block btn btn-primary {{ $currentStep != 'resumen' ? 'primary-btn-disabled-light' : ''}}  {{ in_array("resumen", $passStep) && $currentStep != 'resumen' ? 'primary-btn-disabled-dark' : '' }}" id="menu-step-resumen"> Vista Resumen</div>
 
-                    {{-- <div id="menu-step-phone_chats" class="d-lg-block btn btn-primary {{ $currentStep != 'phone_chats' ? 'primary-btn-disabled-light' : '' }} {{ in_array("phone_chats", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Teléfonos y Mensajería</div> --}}
-                    {{-- <div id="menu-step-rrss_web" class="d-lg-block btn btn-primary {{ $currentStep != 'rrss_web' ? 'primary-btn-disabled-light' : '' }} {{ in_array("rrss_web", $passStep) ? 'primary-btn-disabled-dark' : '' }}">RRSS y WEBS</div> --}}
-                    {{-- <div id="menu-step-address" class="d-lg-block btn btn-primary {{ $currentStep != 'address' ? 'primary-btn-disabled-light' : '' }} {{ in_array("address", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Dirección</div> --}}
-                    {{-- <div id="menu-step-bank_accounts" class="d-lg-block btn btn-primary {{ $currentStep != 'bank_accounts' ? 'primary-btn-disabled-light' : '' }} {{ in_array("bank_accounts", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Datos Bancarios</div> --}}
-                    {{-- <div id="menu-step-ocupation" class="d-lg-block btn btn-primary {{ $currentStep != 'ocupation' ? 'primary-btn-disabled-light' : '' }} {{ in_array("ocupation", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Datos Laborales</div> --}}
-                    {{-- <div id="menu-step-more" class="d-lg-block btn btn-primary {{ $currentStep != 'more' ? 'primary-btn-disabled-light' : '' }} {{ in_array("more", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Datos Extras</div> --}}
-                    {{-- <div id="menu-step-resumen" class="d-lg-block btn btn-primary {{ $currentStep != 'resumen' ? 'primary-btn-disabled-light' : '' }} {{ in_array("resumen", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Vista Resumen</div> --}}
-
                 </div>
 
                 {{-- form --}}
@@ -42,7 +34,7 @@
                         <div class="row {{ $currentStep != 'general' ? 'd-none' : '' }}" id="step-general">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos generales :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos generales :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_general_next">
@@ -58,7 +50,7 @@
                         <div class="row {{ $currentStep != 'emails' ? 'd-none' : '' }}" id="step-emails">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-envelope"></i> &nbsp; Emails :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-envelope"></i> &nbsp; Emails :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_emails_back">
@@ -77,7 +69,7 @@
                         <div class="row {{ $currentStep != 'phones' ? 'd-none' : '' }}" id="step-phones">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-phone"></i> &nbsp; Télefonos :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-phone"></i> &nbsp; Télefonos :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
@@ -96,7 +88,7 @@
                         <div class="row {{ $currentStep != 'chats' ? 'd-none' : '' }}" id="step-chats">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-sms"></i> &nbsp; Mensajerías Instantáneas :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-sms"></i> &nbsp; Mensajerías Instantáneas :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_chats_back">
@@ -115,7 +107,7 @@
                         <div class="row {{ $currentStep != 'rrss' ? 'd-none' : '' }}" id="step-rrss">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-share-alt"></i> &nbsp; Redes Sociales :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-share-alt"></i> &nbsp; Redes Sociales :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_rrss_back">
@@ -134,7 +126,7 @@
                         <div class="row {{ $currentStep != 'webs' ? 'd-none' : '' }}" id="step-webs">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-globe"></i> &nbsp; Sitios Webs :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-globe"></i> &nbsp; Sitios Webs :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_webs_back">
@@ -153,7 +145,7 @@
                         <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    {{-- <span class="font-weight-bolder opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span> --}}
+                                    {{-- <span class="font-weight-500 opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span> --}}
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_address_back">
@@ -172,7 +164,7 @@
                         <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    <span class="font-weight-bolder opacity-7"><i class="fas fa-briefcase"></i> &nbsp; Datos Laborales :</span>
+                                    <span class="font-weight-500 opacity-7"><i class="fas fa-briefcase"></i> &nbsp; Datos Laborales :</span>
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
@@ -195,7 +187,7 @@
                         <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-more">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <div class="h4 text-dark form-title">
-                                    {{-- <span class="font-weight-bolder opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos Extras :</span> --}}
+                                    {{-- <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos Extras :</span> --}}
                                 </div>
                                 <div class="z-index-2">
                                     <a class="btn btn-primary" wire:click="stepSubmit_more_back">
@@ -216,174 +208,6 @@
                             @include("livewire.contacts.contacts.layouts.form.resumen")
 
                         </div>
-                        {{-- -------------------------- END - STEPS -------------------------- --}}
-
-
-
-
-                        {{-- -------------------------- STEP GENERALS -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'general' ? 'd-none' : '' }}" id="step-general">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_general">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.general")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP EMAILS -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'emails' ? 'd-none' : '' }}" id="step-emails">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_emails">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.emails")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP PHONE AND CHATS -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'phone_chats' ? 'd-none' : '' }}" id="step-phone_chats">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">-- center --
-                                        <div class="btn btn-primary"
-                                            wire:click="stepSubmit_phone_chats">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </div>
-                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
-                                            wire:click="stepSubmit_phone_chats_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.phone_chats")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP RRSS AND WEBS -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'rrss_web' ? 'd-none' : '' }}" id="step-rrss_web">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">-- center --
-                                        <div class="btn btn-primary"
-                                            wire:click="stepSubmit_rrss_web">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </div>
-                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
-                                            wire:click="stepSubmit_rrss_web_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.rrss_web")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP ADDRESS -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">-- center --
-                                        <div class="btn btn-primary"
-                                            wire:click="stepSubmit_address">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </div>
-                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
-                                            wire:click="stepSubmit_address_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.address")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP BANK ACCOUNTS -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'bank_accounts' ? 'd-none' : '' }}" id="step-bank_accounts">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">-- center --
-                                        <div class="btn btn-primary"
-                                            wire:click="stepSubmit_bank_accounts">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </div>
-                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
-                                            wire:click="stepSubmit_bank_accounts_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                -- <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 btn btn-primary"
-                                        wire:click="stepSubmit_bank_accounts">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </div>
-                                </div> --
-
-
-
-
-                                @include("livewire.contacts.contacts.layouts.form.bank_accounts")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP OCUPATION -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">-- center --
-                                        <div class="btn btn-primary"
-                                            wire:click="stepSubmit_ocupation">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </div>
-                                        -- <div class="btn btn-secondary position-absolute" style="right: 65px;" --
-                                        <div class="btn btn-secondary position-absolute"
-                                            wire:click="stepSubmit_ocupation_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.ocupation")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP MORE -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-more">
-                                <div class="position-relative">
-                                    <div class="position-absolute top-0 end-0 d-flex  justify-content-end ">-- center --
-                                        <div class="btn btn-primary"
-                                            wire:click="stepSubmit_more">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </div>
-                                        <div class="btn btn-secondary position-absolute" style="right: 65px;"
-                                            wire:click="stepSubmit_more_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @include("livewire.contacts.contacts.layouts.form.more")
-
-                            </div> --}}
-                        {{-- -------------------------- STEP RESUMEN -------------------------- --}}
-                            {{-- <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-resumen">
-                                <div class="position-relative">
-
-                                @include("livewire.contacts.contacts.layouts.form.resumen")
-
-                                <div>
-                                    <div class="d-flex justify-content-center mt-3">
-                                        <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
-                                        <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
-                                        <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
-                                    </div>
-                                </div>
-                                <div class='px-4 fs-5'>
-                                    <sub>
-                                        <strong>Nota: </strong>Eventualmente podrá recibir notificaciones a implementaciones y/o actualizaciones de campos nuevos o faltantes al completar la información de contacto.
-                                    </sub>
-                                </div>
-
-                            </div> --}}
                         {{-- -------------------------- END - STEPS -------------------------- --}}
                         </div>
                     </form>
