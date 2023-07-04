@@ -3,13 +3,19 @@
 
     <div class="d-flex flex-row justify-content-between mx-4">
 
-        <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-contacto') }}">
-            Crear Contacto
-        </a>
+        <div>
+            <a class="btn text-white btn-secondary px-3 disabled" title="buscar / filtrar">
+                <i class="fas fa-search"></i> Buscar / Filtrar
+            </a>
+        </div>
 
-        <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
-            <i class="fas fa-search"></i> Buscar / Filtrar
-        </a>
+
+        <div>
+            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-contacto') }}">
+                Crear Contacto
+            </a>
+        </div>
+
 
 
     </div>

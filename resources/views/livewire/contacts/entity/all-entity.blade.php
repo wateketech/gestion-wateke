@@ -1,19 +1,28 @@
 <div class="main-content p-4">
 
-    <div class="d-flex flex-row justify-content-start pl-4">
+
+
+    <div class="d-flex flex-row justify-content-between mx-6">
+
         <div>
-            <a class="btn text-white btn-primary px-3" title="buscar / filtrar">
-                <i class="fas fa-search"></i> Buscar
+            <a class="btn text-white btn-secondary px-3 disabled" title="vista masiva">
+                Vista Masiva
             </a>
-            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-entidad') }}">
-                Crear Nueva Entidad
+            <a class="btn text-white btn-secondary px-3 disabled" title="buscar / filtrar">
+                <i class="fas fa-search"></i> Buscar / Filtrar
             </a>
-
-            {{-- <div name="btn" type="submit" class="btn txt-blanco box-azul btn-md px-3" wire:click='order("asc")' title="ordenar">
-                <i class="fas fa-sort-up"></i>
-            </div> --}}
-
         </div>
+
+
+
+        <div>
+            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-entidad') }}">
+                Crear Entidad
+            </a>
+        </div>
+
+
+
     </div>
 
 
