@@ -1,18 +1,19 @@
 <div class="col-12 mb-4">
     <div class="d-flex justify-content-start my-3 mx-0 h4 text-dark form-title">
-        <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Identificaiones :</span>
+        <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Identificaciones :</span>
     </div>
     <div class="row mx-3">
         @forelse ($ids as $index => $id)
-        <div class="col-3 form-group pr-0">
-            <label for="id_types_{{ $index }}" class="form-control-label">ID *</label>
+        <div class="col-4 form-group pr-0">
+            <label for="id_types_{{ $index }}" class="form-control-label">Tipo *</label>
             <select class="@error("ids.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
                 name="id_types_{{ $index }}" id="id_types_{{ $index }}"
                 wire:blur="validate_ids('label', {{ $index }})"
                 wire:model="ids.{{ $index }}.type_id">
                 @foreach ($id_types as $type)
                     <option value="{{ $type->id }}">
-                        {{ $type->label }}
+                        {{-- {{ $type->label }} --}}
+                        {{ $type->title }}
                     </option>
                 @endforeach
                 <script>
@@ -21,8 +22,8 @@
             </select>
             @error("ids.{$index}.type_id") <sub class="text-danger">{{ $message }}</sub> @enderror
         </div>
-        <div class="col-6 col-md-6 form-group">
-            <label for="id_value_{{ $index }}" class="form-control-label">{{ $id_types->find($ids[$index]['type_id'])->title }} *</label>
+        <div class="col-5 col-md-5 form-group">
+            <label for="id_value_{{ $index }}" class="form-control-label">Número de {{ $id_types->find($ids[$index]['type_id'])->label }} &nbsp; *</label>
             <input class="@error("ids.{$index}.value")border border-danger rounded-3 @enderror form-control text-upper"
                 type="text" name="id_value_{{ $index }}" id="id_value_{{ $index }}"
                 wire:blur="validate_ids('value', {{ $index }})"

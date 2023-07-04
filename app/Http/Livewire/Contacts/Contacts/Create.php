@@ -25,7 +25,6 @@ use App\Models\ContactPhoneType as PhoneTypes;
 use App\Models\ContactInstantmessageType as InstantMessageTypes;
 use App\Models\ContactRrssType as RrssTypes;
 use App\Models\ContactWebType as WebTypes;
-use App\Models\ContactBankAccountType as BankAccountTypes;
 use App\Models\ContactDateType as DateTypes;
 use App\Models\ContactPublishUsType as PublishUsTypes;
 use App\Models\ContactAddress as Address;
@@ -102,19 +101,7 @@ class Create extends Component
     public $address_line = [];
     public $address_line_max = 5;
 
-    // BANK ACCOUNTS
-    //public $bank_account_types, $bank_account_type;
-    //public $bank_account_card_number, $bank_account_card_holder, $bank_account_is_credit, $bank_account_about, $bank_account_meta;
-    //public $bank_account_expiration_date, $bank_account_expiration_year, $bank_account_expiration_month;
-//
-    //public $bank_account_bank_name, $bank_account_bank_title;
-    //public $bank_id_in_bbdd;
-    //public $bank_account_banks = [];
-    //public $bank_accounts = [];
 
-    // OCUPATION
-    //public $ocupation_id, $ocupation_entity_id, $ocupation_about;
-    // EN CONSTRUCCIÓN
 
     // MORE
     public $date_types, $date_type;
@@ -145,20 +132,19 @@ class Create extends Component
         $this->genders = Genders::all()->where('enable', true);
         $this->gender = $this->genders->first()->id;
         $this->updatedGender();
-//
+
         $this->email_types = EmailTypes::all()->where('enable', true);
         $this->phone_types = PhoneTypes::all()->where('enable', true);
         $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
         $this->rrss_types = RrssTypes::all()->where('enable', true);
         $this->web_types = WebTypes::all()->where('enable', true);
         $this->countries = Countries::all()->where('enable', true);
-        // $this->bank_account_types = BankAccountTypes::all()->where('enable', true);
         $this->date_types = DateTypes::all()->where('enable', true);
         $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
         $this->id_types = IdTypes::all()->where('enable', true);
-//
-//
-//
+
+
+
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -180,9 +166,9 @@ class Create extends Component
         // $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
         $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
         $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
-//
-        //$this->remount_bank_accounts();
-        //$this->datos_prueba();
+
+
+        $this->fakedata();
     }
     public function render()
     {
@@ -653,6 +639,7 @@ class Create extends Component
         $rules = [
             'ids.' . $index . '.type_id' => ['required', Rule::in($this->id_types->pluck('id')->toArray()),],
             'ids.' . $index . '.value' => [ 'required', 'string', 'min:5', 'max:20',
+                Rule::unique('contact_ids', 'value', 'type_id'),
                 function ($attribute, $value, $fail) {
                     $ids = array_column($this->ids, 'value');
                     if (count($ids) != count(array_unique($ids))) {
@@ -665,7 +652,7 @@ class Create extends Component
             'ids.*.*.required' => 'El campo es obligatorio',
             'ids.*.*.max' => 'El campo no puede tener más de :max caracteres',
             'ids.*.*.min' => 'El campo no puede tener menos de :min caracteres',
-            'ids.*.*.unique' => 'Este id ya está en uso por otro contacto',
+            'ids.*.*.unique' => 'Esta identificación ya está en uso por otro contacto',
             'ids.*.*.string' => 'Este campo debe ser de tipo texto',
             'ids.*.*.integer' => 'Este campo debe ser de tipo numerico',
             'ids.*.*.url' => 'El campo debe ser una url válida',
@@ -1274,109 +1261,6 @@ class Create extends Component
 
 
 
-    // -------------------------- STEP BANK ACCOUNTS --------------------------
-    public function remount_bank_accounts()
-    {
-        $this->bank_account_types = BankAccountTypes::all();
-        $this->bank_account_type = $this->bank_account_types->first()->id;
-        $this->bank_account_expiration_year = date("Y");
-        $this->bank_account_expiration_month = date("n") + 4;
-        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));
-        $this->bank_account_card_number = '';
-        $this->bank_account_card_holder = $this->name . ' ' . $this->first_lastname;
-        $this->bank_account_is_credit = 'true';
-        $this->bank_account_about = '';
-        $this->bank_account_meta = "{\"is_valid\":null}";
-
-        $this->bank_account_bank_name = '';
-        $this->bank_account_bank_title = '';
-        $this->bank_id_in_bbdd = null;
-    }
-
-    // public function updatedBankAccountCardNumber(){
-    //     foreach ($this->bank_account_types as $type){
-    //         if (!isset($type->regEx)) {
-    //             continue;
-    //         }
-    //         foreach (json_decode($type->regEx) as $regEx){
-    //             if (!preg_match($regEx, $this->bank_account_card_number)){
-    //                 // dd($type->id);
-    //                 $this->bank_account_type = $type->id;
-    //             }
-    //         }
-    //     }
-    // }
-
-    public function addAccountCard()
-    {
-        $bank_account_card_number = preg_replace('/\D/', '', $this->bank_account_card_number);
-        $this->bank_account_expiration_date = date('Y-m-d', mktime(0, 0, 0, $this->bank_account_expiration_month, 1, $this->bank_account_expiration_year));
-
-        $this->validate([
-            'bank_account_card_number' => 'required|max:25|min:25',
-            'bank_account_card_holder' => 'required',
-            'bank_account_is_credit' => 'required',
-            'bank_account_expiration_date' => 'required|date',
-            'bank_account_expiration_year' => 'required',
-            'bank_account_expiration_month' => 'required',
-            'bank_account_about' => 'nullable',
-            // 'bank_account_bank_name' => 'required',
-            // 'bank_account_bank_title' => 'nullable',
-        ], [
-                '*.required' => 'El campo es obligatorio',
-                'bank_account_card_number.max' => 'La Numeración debe tener 16 digitos',
-                'bank_account_card_number.min' => 'La Numeración debe tener 16 digitos',
-            ]);
-
-        // hacer en algun lado la validacion por si ya existe el banco sugerirlo
-        // array_push($this->bank_account_banks, [
-        //         'name' => $this->bank_account_bank_name,
-        //         'title' => $this->bank_account_bank_title,
-        //     ]);
-
-        array_push($this->bank_accounts, [
-            // 'contact_id' => ,
-            'type_id' => $this->bank_account_type,
-            // 'bank_id_in_bbdd' => isset($this->bank_id_in_bbdd) ? $this->bank_id_in_bbdd : null,
-            'card_number' => $bank_account_card_number,
-            'card_holder' => $this->bank_account_card_holder,
-            'expiration_date' => $this->bank_account_expiration_date,
-            'is_credit' => $this->bank_account_is_credit,
-            'about' => $this->bank_account_about,
-            'meta' => $this->bank_account_meta,
-        ]);
-        $this->remount_bank_accounts();
-    }
-    public function removeAccountCard($index)
-    {
-        array_splice($this->bank_accounts, $index, 1);
-        // array_splice($this->bank_account_banks, $index, 1);
-    }
-    public function editAccountCard($index)
-    {
-        // NO DISPONIBLE
-    }
-
-    public function stepSubmit_bank_accounts()
-    {
-        $this->validate([
-            'bank_accounts' => 'required'
-        ], [
-                '*.required' => 'Necesita añadir almenos una cuenta bancaria, caso contrario omita la sección.',
-            ]);
-
-
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'bank_accounts';
-        $this->currentStep = 'ocupation';
-    }
-    public function stepSubmit_bank_accounts_omit()
-    {
-        $this->bank_accounts = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'ocupation';
-    }
-
 
     // -------------------------- STEP RESUMEN --------------------------
 
@@ -1428,10 +1312,6 @@ class Create extends Component
             $this->user_link_password_public = null;
             $this->user_link_password_check = null;
         }
-    }
-    public function stepSubmit_resumen()
-    {
-        // esto creo q no se va a usar
     }
     // -------------------------- FINAL STEP  --------------------------
     public function store()
@@ -1585,120 +1465,15 @@ class Create extends Component
     }
 
 
-    // -------------------------- DATOS DE PRUEBA  --------------------------
-    private function datos_prueba()
-    {
-        // GENERALS
-        $this->alias = 'El bebe';
-        $this->name = 'Alberto';
-        $this->middle_name = 'de Jesús';
-        $this->first_lastname = 'Licea';
-        $this->second_lastname = 'Vallejo';
-        $this->about = 'Una pequeña descripción del contacto en cuestión.';
-        $this->gender = 1;
-        $this->prefix = 5;
-        $this->ids = [
-            ['type_id' => 1, 'value' => '00090120123'],
-            ['type_id' => 2, 'value' => 'A1234567'],
-        ];
-        // $this->main_profile_pic = 0;
-        // $this->profile_pics = [];
-
-        // EMAILS
-        $this->emails = [
-            ['type_id' => '1', 'is_primary' => false, 'label' => 'Personal', 'value' => 'albertolicea00@outlook.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => '3', 'is_primary' => true, 'label' => 'Personal', 'value' => 'albertolicea00@icloud.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => '2', 'is_primary' => false, 'label' => 'Trabajo', 'value' => 'albertolicea00@gmail.com', 'about' => '', 'meta' => "{\"is_valid\":false}"],
-        ];
-
-        // PHONE AND CHATS
-        $this->phones = [
-            ['type_id' => 2, 'value' => '32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            ['type_id' => 3, 'value' => '32271900', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-            ['type_id' => 1, 'value' => '5615459878', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
-            ['type_id' => 6, 'value' => '354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
-        ];
-        $this->instant_messages = [
-            ['type_id' => 2, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => 1, 'label' => 'Personal', 'value' => '+5354771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"],
-            ['type_id' => 3, 'label' => 'Trabajo', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":false}"],
-            ['type_id' => 1, 'label' => 'Ventas', 'value' => '+54771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":true}"],
-        ];
-
-
-        // RRSS AND WEBS
-        $this->webs = [
-            ['type_id' => 1, 'value' => 'albertos-blog.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => 2, 'value' => 'alberto.licea', 'about' => '', 'meta' => "{\"is_valid\":null}"],
-            ['type_id' => 6, 'value' => 'wateke.travel', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-        ];
-        $this->rrss = [
-            ['type_id' => 4, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":false}"],
-            ['type_id' => 1, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => 2, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-        ];
-
-
-        // ADDRESS
-        $this->address = [
-            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100"],
-            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100"],
-        ];
-        $this->address_line = [
-            [
-                ['label' => "Localidad", 'value' => "Centro"],
-                ['label' => "Número", 'value' => "364"],
-                ['label' => "Calle", 'value' => "Bembeta"],
-                ['label' => "entre", 'value' => "Cielo"],
-                ['label' => "y", 'value' => "20 de Mayo"],
-            ],
-            [
-                ['label' => "Localidad", 'value' => "Centro"],
-                ['label' => "Número", 'value' => "568"],
-                ['label' => "Calle", 'value' => "Bembeta"],
-                ['label' => "entre", 'value' => "Cielo"],
-                ['label' => "y", 'value' => "20 de Mayo"],
-            ]
-        ];
 
 
 
 
-        // BANK ACCOUNTS
-        // $this->bank_account_types = '';
-        // $this->bank_account_type = '';
-        // $this->bank_account_card_number = '';
-        // $this->bank_account_card_holder = '';
-        // $this->bank_account_is_credit = '';
-        // $this->bank_account_about = '';
-        // $this->bank_account_expiration_date = '';
-        // $this->bank_account_expiration_year = '';
-        // $this->bank_account_expiration_month = '';
-        // $this->bank_account_bank_name = '';
-        // $this->bank_account_bank_title = '';
-        // $this->bank_account_banks = '';
-        $this->bank_accounts = [
-            ['type_id' => 4, 'card_holder' => 'Alberto Licea', 'card_number' => "1234123412341234", 'is_credit' => true, 'about' => '', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 11, 1, 24))],
-            ['type_id' => 1, 'card_holder' => 'Alberto Licea', 'card_number' => "9087569325412563", 'is_credit' => false, 'about' => '', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 7, 1, 25))],
-            ['type_id' => 2, 'card_holder' => 'Alberto Licea', 'card_number' => "9562885966531257", 'is_credit' => false, 'about' => '', 'expiration_date' => date('Y-m-d', mktime(0, 0, 0, 3, 1, 24))],
-        ];
-
-        // OCUPATION
-
-        // MORE
-        $this->dates = [
-            ['type_id' => '1', 'value' => '2000-05-16'],
-            ['type_id' => '2', 'value' => '2011-04-25'],
-        ];
-        $this->publish_us = [
-            ['type_id' => '1', 'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => '3', 'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
-            ['type_id' => '2', 'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
-        ];
 
 
 
 
+    private function fakedata(){
 
     }
 
