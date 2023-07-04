@@ -852,7 +852,8 @@ class Create extends Component
         if (count($this->phones) >= 1){
             if ($remove_primary) $this->selectPhoneIsPrimary(0);
         }
-
+        // refrescar componente visual
+        $this->dispatchBrowserEvent('intl-tel-input-remove-phone');
     }
 
 
@@ -860,7 +861,7 @@ class Create extends Component
         $this->backStep('phones', 'emails');
     }
     public function stepSubmit_phones_omit(){
-        // $this->phones = [];
+        $this->phones = [];
         $this->omitStep('chats');
     }
     public function stepSubmit_phones_next(){

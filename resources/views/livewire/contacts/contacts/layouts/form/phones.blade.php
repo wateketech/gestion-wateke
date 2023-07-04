@@ -23,7 +23,7 @@
             </div>
             <div class="col col-md form-group">
                 <label for="phone_value_{{ $index }}" class="form-control-label">Teléfono *</label>
-                <div class="input-group intl-tel" wire:ignore>
+                <div class="input-group intl-tel" id="input-group-intl-tel" wire:ignore>
                     <input class="form-control @error("phones.{$index}.value")border border-danger rounded-3 @enderror"
                         type="tel" name="phone_value_{{ $index }}" id="intl-tel-input-{{ $index }}"
                         data-index={{ $index }}>
@@ -111,6 +111,8 @@
                 country_dial_code : countryCode,
                 country_iso2 : iti.getSelectedCountryData().iso2,
                 country_name : iti.getSelectedCountryData().name
+                // flag_title = 'country_name' + ': +' + 'country_dial_code';
+                // flag_icon = 'iti__flag iti__' + 'country_iso2';
             }
             value_meta = Object.keys(value_meta).reduce(function(obj, key) {
                 obj[key] = (typeof value_meta[key] === "undefined") ? null : value_meta[key];
@@ -124,5 +126,35 @@
     });
 
     window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { index: 0 } }));
+
+    window.addEventListener('intl-tel-input-remove-phone', function(event){
+        phonesvalues = document.querySelectorAll('#input-group-intl-tel');
+        phonesvalues.forEach(phone => {
+            flag_div = phone.children[0].children[0].children[0];
+            flag_icon = phone.children[0].children[0].children[0].children[0];
+            input = phone.children[0].children[1];
+            hidden = phone.children[0].children[2];
+            a = phone.children[1];
+
+
+            console.log(flag_div)
+            console.log(flag_icon)
+            console.log(input)
+            console.log(hidden)
+            console.log(a)
+
+            flag_div.title = 'country_name' + ': +' + 'country_dial_code';
+            flag_icon.className = 'iti__flag iti__' + 'country_iso2';
+            input.value = 'value';
+            a.href = 'call_number';
+
+            console.log(flag_div)
+            console.log(flag_icon)
+            console.log(input)
+            console.log(hidden)
+            console.log(a)
+
+        });
+    });
 </script>
 
