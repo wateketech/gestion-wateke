@@ -193,6 +193,10 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_more_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
+                                    {{-- <div class="btn btn-secondary"
+                                        wire:click="stepSubmit_more_omit">
+                                        <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                    </div> --}}
                                     <a class="btn btn-primary" wire:click="stepSubmit_more_next">
                                         <i class="fas fa-angle-double-right"></i>
                                     </a>
