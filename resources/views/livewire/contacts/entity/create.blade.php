@@ -1,4 +1,4 @@
-<div class="main-content">
+{{-- <div class="main-content">
     <div class="d-flex justify-content-center my-3 h3 text-dark form-title">
         Formulario para registrar {{ $entity_type == Null ? 'Entidad' : $entity_type->visual_name_p }}
     </div>
@@ -7,7 +7,7 @@
         <div class="row">
 
 
-                {{-- form steps --}}
+                form steps
                 <div class="col-lg-2 py-2">
                     <div id="menu-step-entity_type" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_type' ? 'primary-btn-disabled-light' : '' }} {{ in_array("entity_type", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Tipo de Entidad</div>
                     <div id="menu-step-entity_general" class="d-lg-block btn btn-primary {{ $currentStep != 'entity_general' ? 'primary-btn-disabled-light' : '' }} {{ in_array("entity_general", $passStep) ? 'primary-btn-disabled-dark' : '' }}">Datos Generales</div>
@@ -19,24 +19,24 @@
                     <div id="menu-step-0" class="d-lg-block btn btn-primary {{ $currentStep != 5 ? 'primary-btn-disabled-light' : '' }}">Vista Resumen</div>
                 </div>
 
-                {{-- form --}}
+                form
                 <div class="col-lg-10 py-2">
                     <form wire:submit.prevent="store" action="#" method="POST">
                         <div class="card card-body blur shadow-blur mx-2 my-1 px-4">
-                        {{-- -------------------------- STEP TYPE -------------------------- --}}
+                        -------------------------- STEP TYPE --------------------------
                             <div class="row {{ $currentStep != 'entity_type' ? 'd-none' : '' }}" id="step-entity_type">
-                                {{-- <div class="position-relative">
+                                <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
                                         wire:click="stepSubmit_entity_type">
                                         <i class="fas fa-angle-double-right"></i>
                                     </div>
-                                </div> --}}
+                                </div>
 
                                 @include("livewire.contacts.entity.layouts.form.entity_type")
 
                             </div>
 
-                        {{-- -------------------------- STEP GENERALS -------------------------- --}}
+                        -------------------------- STEP GENERALS --------------------------
                             <div class="row {{ $currentStep != 'entity_general' ? 'd-none' : '' }}" id="step-entity_general">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
@@ -48,7 +48,7 @@
                                 @include("livewire.contacts.entity.layouts.form.entity_general")
 
                             </div>
-                        {{-- -------------------------- STEP BANK ACCOUNTS -------------------------- --}}
+                        -------------------------- STEP BANK ACCOUNTS --------------------------
                             <div class="row {{ $currentStep != 'entity_bank_accounts' ? 'd-none' : '' }}" id="step-entity_bank_accounts">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
@@ -60,7 +60,7 @@
                                 @include("livewire.contacts.entity.layouts.form.entity_bank_accounts")
 
                             </div>
-                        {{-- -------------------------- STEP 4 -------------------------- --}}
+                        -------------------------- STEP 4 --------------------------
                             <div class="row {{ $currentStep != 4 ? 'd-none' : '' }}" id="step-4">
                                 <div class="position-relative">
                                     <div class="position-absolute top-0 end-0 btn btn-primary"
@@ -72,7 +72,7 @@
                                 paso 4
 
                             </div>
-                        {{-- -------------------------- STEP 0  -------------------------- --}}
+                        -------------------------- STEP 0  --------------------------
                             <div class="row {{ $currentStep != 0 ? 'd-none' : '' }}" id="step-0">
 
                                 <div>
@@ -83,7 +83,7 @@
                                 </div>
 
                             </div>
-                        {{-- -------------------------- END - STEPS -------------------------- --}}
+                        -------------------------- END - STEPS --------------------------
                         </div>
                     </form>
                 </div>
@@ -97,7 +97,7 @@
 
 
 
-{{-- Sweet Alert Notificaciones --}}
+Sweet Alert Notificaciones
 @push('scripts')
 <script>
         const swalWithBootstrapButtons = Swal.mixin({
@@ -153,4 +153,9 @@
 
 
 </script>
-@endpush
+@endpush --}}
+
+
+
+
+@include('livewire.in-progress')
