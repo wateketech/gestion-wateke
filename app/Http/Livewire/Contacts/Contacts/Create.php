@@ -54,7 +54,7 @@ class Create extends Component
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'more';
+    public $currentStep = 'phones';
 
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
@@ -830,22 +830,29 @@ class Create extends Component
     }
 
     public function addPhone($index){
-        $this->validate_phones(null, $index);
+        if (count($this->phones) >= 1) $this->validate_phones(null, $index);
 
         if (count($this->phones) < $this->phones_max) {
-            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'extension' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            if (count($this->phones)  === 0 ) {
+                $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'extension' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            }else{
+                $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'extension' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            }
         }
         $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index + 1]);
     }
     public function removePhone($index){
-        $remove_primary = false;
-        if ($this->phones[$index]['is_primary'])
-            $remove_primary = true;
+        if (count($this->phones) >= 1){
+            $remove_primary = false;
+            if ($this->phones[$index]['is_primary']) $remove_primary = true;
+        }
 
         unset($this->phones[$index]);
         $this->phones = array_values($this->phones);
-        if ($remove_primary)
-            $this->selectPhoneIsPrimary(0);
+        if (count($this->phones) >= 1){
+            if ($remove_primary) $this->selectPhoneIsPrimary(0);
+        }
+
     }
 
 
@@ -873,21 +880,27 @@ class Create extends Component
     }
 
     public function addInstantMessages($index){
-        $this->validate_chats(null, $index);
+        if (count($this->instant_messages) >= 1) $this->validate_chats(null, $index);
 
         if (count($this->instant_messages) < $this->instant_messages_max) {
-            $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => '', 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            if (count($this->instant_messages)  === 0 ) {
+                $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => '', 'value' => '', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            }else{
+                $this->instant_messages[] = ['type_id' => $this->phone_types[0]->id, 'label' => '', 'value' => '', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+            }
         }
     }
     public function removeInstantMessages($index){
-    $remove_primary = false;
-    if ($this->instant_messages[$index]['is_primary'])
-        $remove_primary = true;
+        if (count($this->instant_messages) >= 1){
+            $remove_primary = false;
+            if ($this->instant_messages[$index]['is_primary']) $remove_primary = true;
+        }
 
-    unset($this->instant_messages[$index]);
-    $this->instant_messages = array_values($this->instant_messages);
-    if ($remove_primary)
-        $this->selectInstantMessageIsPrimary(0);
+        unset($this->instant_messages[$index]);
+        $this->instant_messages = array_values($this->instant_messages);
+        if (count($this->instant_messages) >= 1){
+            if ($remove_primary) $this->selectInstantMessageIsPrimary(0);
+        }
     }
 
     public function stepSubmit_chats_back(){
@@ -905,7 +918,7 @@ class Create extends Component
 // -------------------------- STEP RRSS -------------------------- //
 
     public function addRrss($index){
-        $this->validate_rrss(null, $index);
+        if (count($this->rrss) >= 1) $this->validate_rrss(null, $index);
 
         if (count($this->rrss) < $this->rrss_max) {
             $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -935,7 +948,7 @@ class Create extends Component
     }
 
     public function addWeb($index){
-        $this->validate_webs(null, $index);
+        if (count($this->webs) >= 1) $this->validate_webs(null, $index);
 
         if (count($this->webs) < $this->webs_max) {
             $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '','label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];

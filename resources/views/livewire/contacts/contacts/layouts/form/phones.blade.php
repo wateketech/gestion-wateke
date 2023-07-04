@@ -2,7 +2,7 @@
     <div class="row">
 
 
-        @foreach ($phones as $index => $phone)
+        @forelse ($phones as $index => $phone)
             <div class="col-1 form-check d-flex justify-content-end pt-4 star-primary">
                 <input id="phone-star-fav-{{ $index }}" type="radio" name="phone-is_primary" wire:click="selectPhoneIsPrimary({{ $index }})" {{ $phones[$index]['is_primary'] ? 'checked' : '' }} >
                 <label for="phone-star-fav-{{ $index }}"></label>
@@ -52,7 +52,10 @@
                     @if (count($phones) > 1)
                         <div wire:click="removePhone({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
                     @endif
-                    @if (count($phones) < $phones_max)
+                    @if (count($phones) == 1)
+                        <div wire:click="removePhone({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
+                        <div wire:click="addPhone({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
+                    @elseif (count($phones) < $phones_max)
                         <div wire:click="addPhone({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
                     @endif
                 @else
@@ -61,7 +64,12 @@
             </div>
 
             <div class="clearfix"></div>
-        @endforeach
+        @empty
+            <div class="d-flex justify-content-start my-2 mx-3 h5 text-dark form-title">
+                <div wire:click="addPhone({{ -1 }})" class="btn btn-outline-success px-3">Agregar un Télefono</i></div>
+            </div>
+
+        @endforelse
     </div>
 </div>
 
