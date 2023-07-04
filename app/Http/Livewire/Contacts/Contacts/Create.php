@@ -166,7 +166,7 @@ class Create extends Component
         $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->dates[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['id_type' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        //$this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
 
         $this->address[] = [
@@ -546,17 +546,18 @@ class Create extends Component
             $this->validate($rules, $messages);
         }
     }
+
     public function validate_ocupation($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){}
 
+        $rules = [
+        ];
+        $messages = [
+        ];
+
+        if ($index != '*' && $fieldName !== null){}
+        else{}
     }
-
-
-
-
-
-
-
-
 
     public function validate_dates($fieldName = null, $index = '*'){
         if ($index != '*' && $fieldName !== null){}
@@ -629,6 +630,9 @@ class Create extends Component
         ];
         $messages = [
             'publish_us.*.*.required' => 'El campo es obligatorio',
+            'publish_us.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'publish_us.*.*.min' => 'El campo no puede tener menos de :min caracteres',
+            'publish_us.*.*.unique' => 'Este sitio ya está en uso por otro contacto',
             'publish_us.*.*.string' => 'Este campo debe ser de tipo texto',
             'publish_us.*.*.integer' => 'Este campo debe ser de tipo numerico',
             'publish_us.*.*.url' => 'El campo debe ser una url válida',
@@ -641,21 +645,73 @@ class Create extends Component
             $this->validate($rules, $messages);
         }
     }
-
-
-
-
-
-
-
     public function validate_ids($fieldName = null, $index = '*'){
+        if ($index != '*' && $fieldName !== null){
+            if ($fieldName === 'value') $this->ids[$index]['value'] = $this->alias = ucwords(strtoupper(trim($this->ids[$index]['value'])));
+        }
 
+        $rules = [
+            'ids.' . $index . '.type_id' => ['required', Rule::in($this->id_types->pluck('id')->toArray()),],
+            'ids.' . $index . '.value' => [ 'required', 'string', 'min:5', 'max:20',
+                function ($attribute, $value, $fail) {
+                    $ids = array_column($this->ids, 'value');
+                    if (count($ids) != count(array_unique($ids))) {
+                        $fail('Los valores no pueden repetirse');
+                    }
+                },
+            ]
+        ];
+        $messages = [
+            'ids.*.*.required' => 'El campo es obligatorio',
+            'ids.*.*.max' => 'El campo no puede tener más de :max caracteres',
+            'ids.*.*.min' => 'El campo no puede tener menos de :min caracteres',
+            'ids.*.*.unique' => 'Este id ya está en uso por otro contacto',
+            'ids.*.*.string' => 'Este campo debe ser de tipo texto',
+            'ids.*.*.integer' => 'Este campo debe ser de tipo numerico',
+            'ids.*.*.url' => 'El campo debe ser una url válida',
+        ];
+
+        if ($index != '*' && $fieldName !== null){
+            $field = 'ids.' . $index . '.' . $fieldName;
+            $this->validateOnly($field, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
     }
+
+
+
+
+
+
     public function validate_bank_accounts($fieldName = null, $index = '*'){
 
     }
-    public function validate_more($fieldName = null, $index = '*'){
+    public function validate_bank_account_banks($fieldName = null, $index = '*'){
 
+    }
+
+    public function validate_extra($fieldName = null){
+        $this->alias = ucwords(strtolower(trim($this->alias)));
+
+        $rules =[
+            'alias' => 'nullable|min:1|max:50',
+            'about' => 'nullable|min:3|max:250',
+        ];
+        $messages = [
+            '*.required' => 'El campo es obligatorio',
+            '*.max' => 'El campo no puede tener más de :max caracteres',
+            '*.min' => 'El campo no puede tener menos de :min caracteres',
+            '*.unique' => 'Esta usuario ya está en uso por otro contacto',
+            '*.string' => 'Este campo debe ser de tipo texto',
+        ];
+
+
+        if ($fieldName !== null){
+            $this->validateOnly($fieldName, $rules, $messages);
+        }else{
+            $this->validate($rules, $messages);
+        }
     }
 
 // -------------------------- STEPS -------------------------- //
@@ -1046,6 +1102,22 @@ class Create extends Component
     }
 
 
+    public function addId($index){
+        if (count($this->ids) >= 1) $this->validate_ids(null, $index);
+
+        if (count($this->ids) < $this->id_max) {
+            $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
+    public function removeId($index){
+        unset($this->ids[$index]);
+        $this->ids = array_values($this->ids);
+    }
+
+
+
+
+
 
 
 
@@ -1066,7 +1138,10 @@ class Create extends Component
     public function stepSubmit_more_next(){
         $this->validate_dates();
         $this->validate_publish_us();
-        // ...
+        $this->validate_ids();
+        //$this->validate_bank_accounts();
+        //$this->validate_bank_account_banks();
+        $this->validate_extra();
         $this->nextStep('more', 'resumen');
     }
 // -------------------------- STEP RESUMEN -------------------------- //
@@ -1194,151 +1269,8 @@ class Create extends Component
 
 
 
-   // -------------------------- STEP MORE --------------------------
-
-    public function zzstepSubmit_more_omit()
-    {
-        $this->dates = [];
-        $this->publish_us = [];
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->currentStep = 'resumen';
-    }
-    public function zstepSubmit_more()
-    {
-        $this->validate([
-            'dates' => 'array',
-            'dates.*.value' => [
-                'required',
-                'date',
-                // 'before_or_equal:' . Carbon::now()->subYears(1)->format('d-m-Y'),
-                // 'after_or_equal:' . Carbon::now()->subYears(118)->format('d-m-Y'),
-            ],
-            'dates.*.type_id' => [
-                'required',
-                'integer', Rule::in($this->phone_types->pluck('id')->toArray()),
-                function ($attribute, $value, $fail) {
-                    $types_id = array_column($this->dates, 'type_id');
-                    $index = str_replace('dates.', '', $attribute);
-                    $index = str_replace('.type_id', '', $index);
-                    unset($types_id[$index]);
-                    if (in_array($value, $types_id)) {
-                        $fail('El motivo de la fecha no puede repetirse.');
-                    }
-                }
-            ],
-            'publish_us' => 'array',
-            'publish_us.*.type_id' => ['required', 'integer', Rule::in($this->publish_us_types->pluck('id')->toArray())],
-            'publish_us.*.value' => [
-                'required',
-                // 'url',
-                function ($attribute, $value, $fail) {
-                    $url = collect($this->publish_us);
-                    $duplicates = $url->filter(function ($item) use ($value) {
-                        return $item['value'] == $value;
-                    })->where('type_id', $url->pluck('type_id')->first())->count();
-
-                    if ($duplicates > 1) {
-                        $fail('Las url no pueden repetirse con un mismo tipo');
-                    }
-                }
-            ]
-        ], [
-                '*.array' => 'Error de Servidor : El campo debe ser un array',
-                'dates.*.value.before_or_equal' => 'La fecha debe estar en un rango coherente.',
-                'dates.*.value.after_or_equal' => 'La fecha debe estar en un rango coherente.',
-                'dates.*.value.date' => 'El campo debe ser una fecha válida',
-                '*.required' => 'El campo es obligatorio',
-                'dates.*.*.required' => 'El campo es obligatorio',
-                'publish_us.*.value.url' => 'El campo debe ser una url válida',
-                '*.required' => 'El campo es obligatorio',
-                'publish_us.*.*.required' => 'El campo es obligatorio',
-            ]);
-
-        $this->dispatchBrowserEvent('coocking-time', ['time' => 2000]);
-        $this->passStep[] = 'more';
-        $this->currentStep = 'resumen';
-    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // -------------------------- STEP GENERALS --------------------------
-
-    public function addId($index){
-        $this->validate([
-            'ids.*.type_id' => ['required', Rule::in($this->id_types->pluck('id')->toArray()),
-            ],
-            'ids.*.value' => 'required|string',
-            'ids.' . $index . '.value' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $ids = array_column($this->ids, 'value');
-                    if (count($ids) != count(array_unique($ids))) {
-                        $fail('Los valores no pueden repetirse');
-                    }
-                },
-                //new UniqueWarning('contact_ids', 'value', $this->ids[$index]['value'], 'Este id ya es usado por otro contacto'),
-            ]
-        ], [
-                'ids.*.type_id.required' => 'El campo es obligatorio',
-                'ids.*.value.required' => 'El campo es obligatorio',
-            ]);
-        if (count($this->ids) < $this->id_max) {
-            $this->ids[] = ['type_id' => $this->id_types->first()->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        }
-    }
-    public function removeId($index){
-        unset($this->ids[$index]);
-        $this->ids = array_values($this->ids);
-    }
-
-
-    public function zstepSubmit_general(){
-        $this->validate([
-            'alias' => 'max:50',
-            'about' => 'max:500',
-            'ids.*.type_id' => ['required', 'integer', Rule::in($this->id_types->pluck('id')->toArray()),
-            'ids.*.value' => ['required','string',
-                function ($attribute, $value, $fail) {
-                    $ids = array_column($this->ids, 'value');
-                    if (count($ids) != count(array_unique($ids))) {
-                        $fail('Los valores no pueden repetirse');
-                    }
-                }
-            ],
-            ],
-        ], [
-                // '*.array' => 'Error de Servidor : El campo debe ser un array',
-                '*.required' => 'El campo es obligatorio',
-                'ids.*.value.required' => 'El campo es obligatorio',
-            ]);
-    }
 
 
 

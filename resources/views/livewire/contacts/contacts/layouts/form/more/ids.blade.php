@@ -7,7 +7,9 @@
         <div class="col-3 form-group pr-0">
             <label for="id_types_{{ $index }}" class="form-control-label">ID *</label>
             <select class="@error("ids.{$index}.type_id")border border-danger rounded-3 is-invalid @enderror form-control"
-                name="id_types_{{ $index }}" id="id_types_{{ $index }}" wire:model="ids.{{ $index }}.type_id">
+                name="id_types_{{ $index }}" id="id_types_{{ $index }}"
+                wire:blur="validate_ids('label', {{ $index }})"
+                wire:model="ids.{{ $index }}.type_id">
                 @foreach ($id_types as $type)
                     <option value="{{ $type->id }}">
                         {{ $type->label }}
@@ -23,28 +25,9 @@
             <label for="id_value_{{ $index }}" class="form-control-label">{{ $id_types->find($ids[$index]['type_id'])->title }} *</label>
             <input class="@error("ids.{$index}.value")border border-danger rounded-3 @enderror form-control text-upper"
                 type="text" name="id_value_{{ $index }}" id="id_value_{{ $index }}"
-                wire:model.debounce.500ms="ids.{{ $index }}.value">
+                wire:blur="validate_ids('value', {{ $index }})"
+                wire:model="ids.{{ $index }}.value">
             @error("ids.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            {{-- @php
-                $id_value_valid = true;
-                if ($id[$index]['value']) {
-                    foreach (json_decode($id_types->find($id[$index]['type_id'])->regEx) as $regEx) {
-                        if (preg_match($regEx, $id['value'])) {
-                            $id_value_valid = true;
-                            break;
-                        } else {
-                            $id_value_valid = false;
-                            print '<p class="d-none text-danger">fallo en :'. $regEx . '</p>';
-                        }
-                    }
-                }
-            @endphp
-            @if (!$id_value_valid)
-                <sub class="text-warning">Tenga presente que el {{ $id_types->find($id[$index]['type_id'])->title }} no cumple con el formato. </sub>
-                <script>
-                    document.getElementById('id_value_{{ $index }}').classList += ' is-warning';
-                </script>
-            @endif --}}
         </div>
         <div class="col-3 col-md-3 mt-4">
             @if ($index === count($ids) - 1)
