@@ -49,13 +49,12 @@ class Create extends Component
         'updateCity',
         'removeAccountCard',
     ];
-    public $prueba, $datos_prueba;
+    public $prueba = 'hola';
 
     public $errorMessage;
     public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
     public $passStep = [];
-    public $currentStep = 'phones';
-
+    public $currentStep = 'resumen';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
     // GENERALS
@@ -853,7 +852,7 @@ class Create extends Component
             if ($remove_primary) $this->selectPhoneIsPrimary(0);
         }
         // refrescar componente visual
-        $this->dispatchBrowserEvent('intl-tel-input-remove-phone');
+        $this->dispatchBrowserEvent('intl-tel-input-remove-phone', ['phones' => $this->phones]);
     }
 
 
@@ -1014,8 +1013,10 @@ class Create extends Component
 
 
     public function addAddress($index){
-        $this->validate_address(null, $index);
-        $this->validate_address_lines(null, $index);
+        if (count($this->address) >= 1){
+            $this->validate_address(null, $index);
+            $this->validate_address_lines(null, $index);
+        }
 
         if (count($this->address) < $this->address_max) {
             $this->address[] = [
@@ -1037,6 +1038,9 @@ class Create extends Component
         unset($this->address[$index]);
         $this->address_line = array_values($this->address_line);
         $this->address = array_values($this->address);
+
+        // refrescar componente visual
+        $this->dispatchBrowserEvent('select2-remove-address', ['address' => $this->address]);
     }
 
 

@@ -1,13 +1,14 @@
 <div class="col-12  mb-5 mt-n6">
 
-    @foreach ($address as $index_add => $add)
+    @forelse ($address as $index_add => $add)
         <div class="d-flex justify-content-start my-3 mx-0 h4 text-dark form-title">
             <span class="font-weight-500 opacity-7 @error("address.{$index_add}.name") text-danger  @enderror"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección&nbsp;&nbsp;
                 <input type="text" class="font-weight-500 opacity-8 border-0 w-25 d-inline-block" style="border-bottom: 1.2px grey solid !important; @error("address.{$index_add}.name") border-bottom: 2px red dashed !important @enderror"
                 wire:blur="validate_address('name', {{ $index_add }})"
                 wire:model="address.{{ $index_add }}.name">:
             </span>
-            @if (count($address) > 1)
+
+            @if (count($address) > 0)
                 <div wire:click="removeAddress({{ $index_add }})" class="btn btn-outline-danger px-3 py-2 mr-6">Quitar direccion</div>
             @endif
         </div>
@@ -117,6 +118,30 @@
                 @endforeach
             </div>
 
+
+            {{-- <div class="col-2 col-md-2 mt-4">
+                @if ($index === count($instant_messages) - 1)
+                    @if (count($instant_messages) > 1)
+                        <div wire:click="removeInstantMessages({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
+                    @endif
+                    @if (count($instant_messages) == 1)
+                        <div wire:click="removeInstantMessages({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
+                        <div wire:click="addInstantMessages({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
+                    @elseif (count($instant_messages) < $instant_messages_max)
+                        <div wire:click="addInstantMessages({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
+                    @endif
+                @else
+                    <div wire:click="removeInstantMessages({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
+                @endif
+            </div>
+        @empty
+            <div class="d-flex justify-content-start my-2 mx-3 h5 text-dark form-title">
+                <div wire:click="addInstantMessages({{ -1 }})" class="btn btn-outline-success px-3">Agregar una Mensajería</i></div>
+            </div>
+        @endforelse --}}
+
+
+
             <div class="col-3 col-md-3">
                 @if ($index_add === count($address) - 1)
                     @if (count($address) < $address_max)
@@ -125,7 +150,16 @@
                 @endif
             </div>
         </div>
-    @endforeach
+
+        @empty
+
+        <div class="h4 text-dark form-title mr-1 py-3 mb-5 pb-4">
+            <span class="font-weight-500 opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Direcciones</span>
+        </div>
+            <div class="d-flex justify-content-start my-2 mx-3 h5 text-dark form-title">
+                <div wire:click="addAddress({{ -1 }})" class="btn btn-outline-success px-3">Agregar una Dirección</i></div>
+            </div>
+        @endforelse
 
 
 
