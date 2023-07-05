@@ -128,32 +128,24 @@
     window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { index: 0 } }));
 
     window.addEventListener('intl-tel-input-remove-phone', function(event){
-        phonesvalues = document.querySelectorAll('#input-group-intl-tel');
+        let phonesvalues = document.querySelectorAll('#input-group-intl-tel');
+        let index = 0;
         phonesvalues.forEach(phone => {
-            flag_div = phone.children[0].children[0].children[0];
-            flag_icon = phone.children[0].children[0].children[0].children[0];
-            input = phone.children[0].children[1];
-            hidden = phone.children[0].children[2];
-            a = phone.children[1];
+            let real_phone = event.detail.phones[index];
+            let real_meta_phone = JSON.parse(real_phone.value_meta);
 
+            let flag_div = phone.children[0].children[0].children[0];
+            let flag_icon = phone.children[0].children[0].children[0].children[0];
+            let input = phone.children[0].children[1];
+            let hidden = phone.children[0].children[2];
+            let a = phone.children[1];
 
-            console.log(flag_div)
-            console.log(flag_icon)
-            console.log(input)
-            console.log(hidden)
-            console.log(a)
+            flag_div.title = real_meta_phone.country_name + ': +' + real_meta_phone.country_dial_code;
+            flag_icon.className = 'iti__flag iti__' + real_meta_phone.country_iso2;
+            input.value = real_phone.value;
+            a.href = real_meta_phone.call_number;
 
-            flag_div.title = 'country_name' + ': +' + 'country_dial_code';
-            flag_icon.className = 'iti__flag iti__' + 'country_iso2';
-            input.value = 'value';
-            a.href = 'call_number';
-
-            console.log(flag_div)
-            console.log(flag_icon)
-            console.log(input)
-            console.log(hidden)
-            console.log(a)
-
+            index++;
         });
     });
 </script>
