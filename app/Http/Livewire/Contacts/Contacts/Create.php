@@ -52,7 +52,18 @@ class Create extends Component
     public $prueba = 'hola';
 
     public $errorMessage;
-    public $allStep = [ 'general', 'emails', 'phones', 'chats', 'rrss', 'webs', 'address', 'ocupation', 'more', 'resumen', ];
+    public $allStep = [
+        0 => ['name' => 'general', 'is_filled' => false, 'next_step' => 'emails', 'pass_step' => null],
+        1 => ['name' => 'emails', 'is_filled' => false, 'next_step' => 'phones', 'pass_step' => 'general'],
+        2 => ['name' => 'phones', 'is_filled' => false, 'next_step' => 'chats', 'pass_step' => 'emails'],
+        3 => ['name' => 'chats', 'is_filled' => false, 'next_step' => 'rrss', 'pass_step' => 'phones'],
+        4 => ['name' => 'rrss', 'is_filled' => false, 'next_step' => 'webs', 'pass_step' => 'chats'],
+        5 => ['name' => 'webs', 'is_filled' => false, 'next_step' => 'address', 'pass_step' => 'rrss'],
+        6 => ['name' => 'address', 'is_filled' => false, 'next_step' => 'ocupation', 'pass_step' => 'webs'],
+        7 => ['name' => 'ocupation', 'is_filled' => false, 'next_step' => 'more', 'pass_step' => 'address'],
+        8 => ['name' => 'more', 'is_filled' => false, 'next_step' => 'resumen', 'pass_step' => 'ocupation'],
+        9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
+    ];
     public $passStep = [];
     public $currentStep = 'resumen';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
@@ -118,10 +129,10 @@ class Create extends Component
     public $id_max = 4;
 
     // RESUMEN
-    // public $is_user_link = false;
-    // public $user_link_roles;
-    // private $user_link_password;
-    // public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
+    public $is_user_link = false;
+    public $user_link_roles;
+    private $user_link_password;
+    public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
 
 
 
@@ -706,16 +717,57 @@ class Create extends Component
     }
     private function nextStep($passStep, $currentStep, $time = 2000){
         if (!in_array($currentStep, $this->passStep)) {
-            $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+            // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
         }
         $this->passStep[] = $passStep;
         $this->currentStep = $currentStep;
     }
     private function omitStep($currentStep, $time = 1000){
-        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
         $this->currentStep = $currentStep;
     }
+    public function continueStep($time = 600){
+        // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        $unmakedTab = array_filter($this->allStep, function($step) {
+            return array_search($step['name'], $this->passStep) === false;
+        });
+        $unmakedTab = array_values($unmakedTab);
+        //$unmakedTab = array_diff($this->allStep, $this->passStep);
 
+        $this->currentStep = reset($unmakedTab)['name'];
+        //dd(reset($unmakedTab)['name']);
+    }
+    public function canOmitStep($currentStep = null){
+        if ($currentStep === null) $currentStep = $this->currentStep;
+
+        return false;
+    }
+    public function canContinueStep($currentStep = null){
+        $can_continue = false;
+        if ($currentStep === null) $currentStep = $this->currentStep;
+
+        $next_step = $this->getNextStep($currentStep)['name'];
+        if (in_array($next_step, $this->passStep)) $can_continue = true;
+
+        return $can_continue;
+        // return false;
+    }
+    public function getNextStep($currentStep = null){
+        if ($currentStep === null) $currentStep = $this->currentStep;
+        // $current_step_key = array_search($currentStep, array_column($this->allStep, 'name'));
+        $current_step_key = null;
+        foreach ($this->allStep as $key => $value) {
+            if ($value['name'] === $currentStep) {
+                $current_step_key = $key;
+                break;
+            }
+        }
+
+        $next_step_key = $current_step_key + 1;
+        $next_step = $this->allStep[$next_step_key];
+
+        return $next_step;
+    }
 // -------------------------- STEP GENERALS -------------------------- //
 
     public function updatedPrefix(){
@@ -753,8 +805,17 @@ class Create extends Component
         $this->omitStep('emails');
     }
     public function stepSubmit_general_next(){
-        $this->validate_general();
-        $this->nextStep('general', 'emails');
+        // if (strlen($this->name) === 0 &&
+        //     strlen($this->middle_name) === 0 &&
+        //     strlen($this->first_lastname) === 0 &&
+        //     strlen($this->second_lastname) === 0 &&
+        // ){
+        //    $this->stepSubmit_general_omit();
+        // }
+        // else{
+            $this->validate_general();
+            $this->nextStep('general', 'emails');
+        // }
     }
 
 // -------------------------- STEP EMAILS -------------------------- //
@@ -810,8 +871,11 @@ class Create extends Component
         $this->omitStep('phones');
     }
     public function stepSubmit_emails_next(){
-        $this->validate_emails();
-        $this->nextStep('emails', 'phones');
+        // if (count($this->emails) === 0) $this->stepSubmit_emails_omit();
+        // else{
+            $this->validate_emails();
+            $this->nextStep('emails', 'phones');
+        // }
     }
 // -------------------------- STEP PHONES -------------------------- //
     public function updatePhoneNumber($index, $value, $value_meta){
@@ -864,8 +928,11 @@ class Create extends Component
         $this->omitStep('chats');
     }
     public function stepSubmit_phones_next(){
-        $this->validate_phones();
-        $this->nextStep('phones', 'chats');
+        if (count($this->phones) === 0) $this->stepSubmit_phones_omit();
+        else{
+            $this->validate_phones();
+            $this->nextStep('phones', 'chats');
+        }
     }
 
 // -------------------------- STEP CHATS -------------------------- //
@@ -911,8 +978,11 @@ class Create extends Component
         $this->omitStep('rrss');
     }
     public function stepSubmit_chats_next(){
-        $this->validate_chats();
-        $this->nextStep('chats', 'rrss');
+        if (count($this->instant_messages) === 0) $this->stepSubmit_chats_omit();
+        else{
+            $this->validate_chats();
+            $this->nextStep('chats', 'rrss');
+        }
     }
 
 // -------------------------- STEP RRSS -------------------------- //
@@ -938,8 +1008,11 @@ class Create extends Component
         $this->omitStep('webs');
     }
     public function stepSubmit_rrss_next(){
-        $this->validate_rrss();
-        $this->nextStep('rrss', 'webs');
+        if (count($this->rrss) === 0) $this->stepSubmit_rrss_omit();
+        else{
+            $this->validate_rrss();
+            $this->nextStep('rrss', 'webs');
+        }
     }
 
 // -------------------------- STEP WEBS -------------------------- //
@@ -968,8 +1041,11 @@ class Create extends Component
         $this->omitStep('address');
     }
     public function stepSubmit_webs_next(){
-        $this->validate_webs();
-        $this->nextStep('webs', 'address');
+        if (count($this->webs) === 0) $this->stepSubmit_webs_omit();
+        else{
+            $this->validate_webs();
+            $this->nextStep('webs', 'address');
+        }
     }
 
 // -------------------------- STEP ADDRESS -------------------------- //
@@ -1065,9 +1141,12 @@ class Create extends Component
         $this->omitStep('ocupation');
     }
     public function stepSubmit_address_next(){
-        $this->validate_address();
-        $this->validate_address_lines();
-        $this->nextStep('address', 'ocupation');
+        if (count($this->address) === 0) $this->stepSubmit_address_omit();
+        else{
+            $this->validate_address();
+            $this->validate_address_lines();
+            $this->nextStep('address', 'ocupation');
+        }
     }
 // -------------------------- STEP OCUPATION -------------------------- //
     public function stepSubmit_ocupation_back(){
@@ -1120,13 +1199,6 @@ class Create extends Component
     }
 
 
-
-
-
-
-
-
-
     public function stepSubmit_more_back(){
         $this->backStep('more', 'ocupation');
     }
@@ -1141,18 +1213,31 @@ class Create extends Component
         $this->omitStep('resumen');
     }
     public function stepSubmit_more_next(){
-        $this->validate_dates();
-        $this->validate_publish_us();
-        $this->validate_ids();
-        //$this->validate_bank_accounts();
-        //$this->validate_bank_account_banks();
-        $this->validate_extra();
-        $this->nextStep('more', 'resumen');
+        if (count($this->dates) === 0 &&
+            count($this->publish_us) === 0 &&
+            count($this->ids) === 0 &&
+            strlen($this->about) === 0 &&
+            strlen($this->alias) === 0
+        ){
+            $this->stepSubmit_more_omit();
+        }
+        else{
+            $this->validate_dates();
+            $this->validate_publish_us();
+            $this->validate_ids();
+            //$this->validate_bank_accounts();
+            //$this->validate_bank_account_banks();
+            $this->validate_extra();
+            $this->nextStep('more', 'resumen');
+        }
     }
 // -------------------------- STEP RESUMEN -------------------------- //
-
-
-
+    public function stepSubmit_resumen_back(){
+        $this->backStep('resumen', 'more');
+    }
+    public function stepSubmit_resumen_review(){
+        $this->backStep('resumen', 'general');
+    }
 // -------------------------- END - STEPS -------------------------- //
 
 

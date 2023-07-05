@@ -37,6 +37,12 @@
                                     <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos generales :</span>
                                 </div>
                                 <div class="z-index-2">
+                                @if ($this->canContinueStep('general'))
+                                    <a class="btn btn-outline-primary"
+                                        wire:click="continueStep">
+                                        <i class="fas fa-share">&nbsp; Falta</i>
+                                    </a>
+                                @endif
                                     <a class="btn btn-primary" wire:click="stepSubmit_general_next">
                                         <i class="fas fa-angle-double-right"></i>
                                     </a>
@@ -56,9 +62,22 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_emails_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_emails_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canContinueStep('emails'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
+                                    @if ($this->canOmitStep('emails'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_emails_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_emails_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -72,12 +91,25 @@
                                     <span class="font-weight-500 opacity-7"><i class="fas fa-phone"></i> &nbsp; Télefonos :</span>
                                 </div>
                                 <div class="z-index-2">
+                                    @if ($this->canContinueStep('phones'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
                                     <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_phones_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canOmitStep('phones'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_phones_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_phones_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -94,9 +126,22 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_chats_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_chats_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canContinueStep('chats'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
+                                    @if ($this->canOmitStep('chats'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_chats_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_chats_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -113,9 +158,22 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_rrss_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_rrss_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canContinueStep('rrss'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
+                                    @if ($this->canOmitStep('rrss'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_rrss_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_rrss_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -132,9 +190,22 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_webs_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_webs_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canContinueStep('webs'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
+                                    @if ($this->canOmitStep('webs'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_webs_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_webs_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -151,9 +222,22 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_address_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <a class="btn btn-primary" wire:click="stepSubmit_address_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canContinueStep('address'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
+                                    @if ($this->canOmitStep('address'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_address_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_address_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -170,13 +254,10 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    <div class="btn btn-secondary"
+                                    <a class="btn btn-secondary"
                                         wire:click="stepSubmit_ocupation_omit">
                                         <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                    </div>
-                                    {{-- <a class="btn btn-primary" wire:click="stepSubmit_ocupation_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a> --}}
+                                    </a>
                                 </div>
                             </div>
 
@@ -193,13 +274,22 @@
                                     <a class="btn btn-primary" wire:click="stepSubmit_more_back">
                                         <i class="fas fa-angle-double-left"></i>
                                     </a>
-                                    {{-- <div class="btn btn-secondary"
-                                        wire:click="stepSubmit_more_omit">
-                                        <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                    </div> --}}
-                                    <a class="btn btn-primary" wire:click="stepSubmit_more_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
+                                    @if ($this->canContinueStep('more'))
+                                        <a class="btn btn-outline-primary"
+                                            wire:click="continueStep">
+                                            <i class="fas fa-share">&nbsp; Falta</i>
+                                        </a>
+                                    @endif
+                                    @if ($this->canOmitStep('more'))
+                                        <a class="btn btn-secondary"
+                                            wire:click="stepSubmit_more_omit">
+                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-primary" wire:click="stepSubmit_more_next">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 

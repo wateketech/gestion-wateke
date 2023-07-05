@@ -56,6 +56,8 @@
                 <div wire:click="removeRrss({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
             @endif
         </div>
+
+        <div class="clearfix"></div>
         @empty
             <div class="d-flex justify-content-start my-2 mx-3 h5 text-dark form-title">
                 <div wire:click="addRrss({{ -1 }})" class="btn btn-outline-success px-3">Agregar una Red Social</i></div>
