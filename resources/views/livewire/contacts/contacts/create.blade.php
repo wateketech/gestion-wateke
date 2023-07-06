@@ -301,6 +301,13 @@
 
                             @include("livewire.contacts.contacts.layouts.form.resumen")
 
+                            <div>
+                                <div class="d-flex justify-content-center mt-3">
+                                    <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
+                                    <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
+                                </div>
+                            </div>
+
                         </div>
                         {{-- -------------------------- END - STEPS -------------------------- --}}
                         </div>
@@ -421,7 +428,7 @@
             swalWithBootstrapButtons.fire({
                 position: 'center' ,
                 title: '¡Ya existen usuarios con los emails!',
-                html: "Posteriormente puede crear un usuario y enlazarlo a este contacto manualmente",
+                html: "Posteriormente puede crear un usuario y enlazarlo a este contacto de forma manualmente",
                 icon: 'warning',
                 timer: 10000
             })

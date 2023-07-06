@@ -128,6 +128,8 @@ class Create extends Component
     public $ids = [];
     public $id_max = 4;
 
+    public $bank_accounts = [];
+
     // RESUMEN
     public $is_user_link = false;
     public $user_link_roles;
@@ -178,7 +180,7 @@ class Create extends Component
         $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 
 
-        $this->fakedata();
+        // $this->fakedata();
     }
     public function render()
     {
@@ -643,7 +645,7 @@ class Create extends Component
     }
     public function validate_ids($fieldName = null, $index = '*'){
         if ($index != '*' && $fieldName !== null){
-            if ($fieldName === 'value') $this->ids[$index]['value'] = $this->alias = ucwords(strtoupper(trim($this->ids[$index]['value'])));
+            if ($fieldName === 'value') $this->ids[$index]['value'] = ucwords(strtoupper(trim($this->ids[$index]['value'])));
         }
 
         $rules = [
@@ -689,7 +691,9 @@ class Create extends Component
     }
 
     public function validate_extra($fieldName = null){
-        $this->alias = ucwords(strtolower(trim($this->alias)));
+        if ($fieldName !== null){
+            if ($fieldName === 'alias') $this->alias = ucwords(strtolower(trim($this->alias)));
+        }
 
         $rules =[
             'alias' => 'nullable|min:1|max:50',
@@ -1232,6 +1236,56 @@ class Create extends Component
         }
     }
 // -------------------------- STEP RESUMEN -------------------------- //
+    public function UpdatedIsUserLink()
+    {
+        $primary_email = null;
+        $existing_emails = DB::table('users')->select('email')->get()->pluck('email')->toArray();
+        foreach ($this->emails as $email) {
+            if ($email['is_primary'] == 1) {
+                $email_value = $email['value'];
+                if (!in_array($email_value, $existing_emails)) {
+                    $primary_email = $email_value;
+                    break;
+                }
+                foreach ($this->emails as $next_email) {
+                    if ($next_email['value'] != $email_value && !in_array($next_email['value'], $existing_emails)) {
+                        $primary_email = $next_email['value'];
+                        break 2;
+                    }
+                }
+            }
+        }
+        if (!$primary_email) {
+            $this->dispatchBrowserEvent('error-user-exist');
+            $this->is_user_link = false;
+        }
+
+        $this->user_link_roles = \Spatie\Permission\Models\Role::all(); // ->where('enable', true);
+        // Validar en dependencia del rol que cree el contacto sera los roles que este pueda establecer al contacto
+
+
+        $primary_phone = array_column(array_filter($this->phones, function ($phone) {
+            return $phone['is_primary'] == 1;
+        }), 'value');
+
+
+        if ($this->is_user_link) {
+            $this->user_link_name = $this->name . ' ' . $this->first_lastname;
+            $this->user_link_email = $primary_email;
+            $this->user_link_phone = reset($primary_phone);
+            $this->user_link_role = '1';
+        } else {
+            $this->user_link_name = null;
+            $this->user_link_email = null;
+            $this->user_link_phone = null;
+            $this->user_link_about = null;
+            $this->user_link_role = null;
+            $this->user_link_password = null;
+            $this->user_link_password_public = null;
+            $this->user_link_password_check = null;
+        }
+    }
+
     public function stepSubmit_resumen_back(){
         $this->backStep('resumen', 'more');
     }
@@ -1367,55 +1421,7 @@ class Create extends Component
 
     // -------------------------- STEP RESUMEN --------------------------
 
-    public function UpdatedIsUserLink()
-    {
-        $primary_email = null;
-        $existing_emails = DB::table('users')->select('email')->get()->pluck('email')->toArray();
-        foreach ($this->emails as $email) {
-            if ($email['is_primary'] == 1) {
-                $email_value = $email['value'];
-                if (!in_array($email_value, $existing_emails)) {
-                    $primary_email = $email_value;
-                    break;
-                }
-                foreach ($this->emails as $next_email) {
-                    if ($next_email['value'] != $email_value && !in_array($next_email['value'], $existing_emails)) {
-                        $primary_email = $next_email['value'];
-                        break 2;
-                    }
-                }
-            }
-        }
-        if (!$primary_email) {
-            $this->dispatchBrowserEvent('error-user-exist');
-            $this->is_user_link = false;
-        }
 
-        $this->user_link_roles = \Spatie\Permission\Models\Role::all(); // ->where('enable', true);
-        // Validar en dependencia del rol que cree el contacto sera los roles que este pueda establecer al contacto
-
-
-        $primary_phone = array_column(array_filter($this->phones, function ($phone) {
-            return $phone['is_primary'] == 1;
-        }), 'value');
-
-
-        if ($this->is_user_link) {
-            $this->user_link_name = $this->name . ' ' . $this->first_lastname;
-            $this->user_link_email = $primary_email;
-            $this->user_link_phone = reset($primary_phone);
-            $this->user_link_role = '1';
-        } else {
-            $this->user_link_name = null;
-            $this->user_link_email = null;
-            $this->user_link_phone = null;
-            $this->user_link_about = null;
-            $this->user_link_role = null;
-            $this->user_link_password = null;
-            $this->user_link_password_public = null;
-            $this->user_link_password_check = null;
-        }
-    }
     // -------------------------- FINAL STEP  --------------------------
     public function store()
     {
@@ -1472,21 +1478,21 @@ class Create extends Component
 
             // CREATE N ASSIGN RELATIONALS TABLES
             $contact->ids()->createMany($this->ids);
-            $contact->emails()->createMany($this->emails);
-            $contact->phones()->createMany($this->phones);
-            $contact->instant_messages()->createMany($this->instant_messages);
-            $contact->webs()->createMany($this->webs);
-            $contact->rrss()->createMany($this->rrss);
-            $contact->dates()->createMany($this->dates);
-            $contact->publish_us()->createMany($this->publish_us);
-
-            $address = $contact->address()->createMany($this->address);
-            for ($i = 0; $i < count($address); $i++) {
-                $address[$i]->lines()->createMany($this->address_line[$i]);
-            }
+            // $contact->emails()->createMany($this->emails);
+            // $contact->phones()->createMany($this->phones);
+            // $contact->instant_messages()->createMany($this->instant_messages);
+            // $contact->webs()->createMany($this->webs);
+            // $contact->rrss()->createMany($this->rrss);
+            // $contact->dates()->createMany($this->dates);
+            // $contact->publish_us()->createMany($this->publish_us);
+//
+            // $address = $contact->address()->createMany($this->address);
+            // for ($i = 0; $i < count($address); $i++) {
+            //     $address[$i]->lines()->createMany($this->address_line[$i]);
+            // }
 
             // PROXIMAMENTE ANALSAR COMO SE ALMACENARAN LOS BANCOS Y SU RELACION CON LAS CUENTAS BANCARIAS (ya que abrían bancos que no serian entidad y otros q si )
-            $contact->bank_accounts()->createMany($this->bank_accounts);
+            // $contact->bank_accounts()->createMany($this->bank_accounts);
 
             // implementar datos laborales
 
@@ -1560,11 +1566,6 @@ class Create extends Component
             $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2]]);
         }
 
-
-
-
-
-
     }
 
 
@@ -1577,6 +1578,114 @@ class Create extends Component
 
 
     private function fakedata(){
+        // $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
+        // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->publish_us[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+
+
+        $this->emails = [];
+        $this->phones = [];
+        $this->instant_messages = [];
+        $this->rrss = [];
+        $this->webs = [];
+        $this->dates = [];
+        $this->publish_us = [];
+        $this->ids = [];
+
+
+
+        $this->alias = 'El bebe';
+        $this->name = 'Alberto';
+        $this->middle_name = 'de Jesús';
+        $this->first_lastname = 'Licea';
+        $this->second_lastname = 'Vallejo';
+        $this->about = 'Una pequeña descripción del contacto en cuestión.';
+        // $this->gender = 1;
+        // $this->prefix = 5;
+        //$this->ids = [
+        //    ['type_id' => 1, 'value' => '00090120123'],
+        //    ['type_id' => 2, 'value' => 'A1234567'],
+        //];
+
+
+
+        // $this->address = [
+        //     ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100"],
+        //     ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100"],
+        // ];
+        $this->address_line = [
+            [
+                ['label' => "Localidad", 'value' => "Centro"],
+                ['label' => "Número", 'value' => "364"],
+                ['label' => "Calle", 'value' => "Bembeta"],
+                ['label' => "entre", 'value' => "Cielo"],
+                ['label' => "y", 'value' => "20 de Mayo"],
+            ],
+            [
+                ['label' => "Localidad", 'value' => "Centro"],
+                ['label' => "Número", 'value' => "568"],
+                ['label' => "Calle", 'value' => "Bembeta"],
+                ['label' => "entre", 'value' => "Cielo"],
+                ['label' => "y", 'value' => "20 de Mayo"],
+            ]
+        ];
+
+
+
+
+
+        $this->emails = [
+            ['type_id' => '1', 'is_primary' => false, 'label' => null, 'value' => 'albertolicea00@outlook.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => '1', 'is_primary' => true, 'label' => '', 'value' => 'albertolicea00@icloud.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => '2', 'is_primary' => false, 'label' => 'Ventas', 'value' => 'albertolicea00@gmail.com', 'about' => '', 'meta' => "{\"is_valid\":false}"],
+        ];
+
+        $this->phones = [
+            ['type_id' => 1, 'value' => '32292629', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32292629\",\"number\":\"+5332292629\",\"call_number\":\"+5332292629\",\"clean_number\":\"32292629\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            ['type_id' => 1, 'value' => '32271900', 'is_primary' => true, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+53 32271900\",\"number\":\"+5332271900\",\"call_number\":\"+5332271900\",\"clean_number\":\"32271900\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+            ['type_id' => 1, 'value' => '5615459878', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":true,\"value\":\"+1 5615459878\",\"number\":\"+15615459878\",\"call_number\":\"+15615459878\",\"clean_number\":\"5615459878\",\"country_code\":null,\"country_dial_code\":\"1\",\"country_iso2\":\"us\",\"country_name\":\"United States\"}"],
+            ['type_id' => 1, 'value' => '354771264', 'is_primary' => false, 'about' => '', 'value_meta' => "{\"is_valid\":false,\"value\":\"+53 54771264\",\"number\":\"+5354771264\",\"call_number\":\"+5354771264\",\"clean_number\":\"54771264\",\"country_code\":null,\"country_dial_code\":\"53\",\"country_iso2\":\"cu\",\"country_name\":\"Cuba\"}"],
+        ];
+
+        $this->instant_messages = [
+            ['type_id' => 2, 'label' => null, 'value' => '+5354771264', 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 1, 'label' => '', 'value' => '+5354771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":null}"],
+            ['type_id' => 3, 'label' => 'Soporte', 'value' => 'soporteit@wateke.travel', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => 1, 'label' => 'Ventas', 'value' => '+54771264', 'is_primary' => false, 'about' => '', 'meta' => "{\"is_valid\":true}"],
+        ];
+
+        $this->webs = [
+            ['type_id' => 1, 'value' => 'albertos-blog.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 2, 'value' => 'alberto.licea', 'about' => '', 'meta' => "{\"is_valid\":Null}"],
+            ['type_id' => 6, 'value' => 'wateke.travel', 'about' => '', 'meta' => "{\"is_valid\":false}"],
+        ];
+        $this->rrss = [
+            ['type_id' => 4, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => 1, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => 2, 'value' => 'albertolicea00', 'about' => '', 'meta' => "{\"is_valid\":true}"],
+        ];
+
+
+        $this->dates = [
+            ['type_id' => '1', 'value' => '2000-05-16'],
+            ['type_id' => '2', 'value' => '2011-04-25'],
+        ];
+        $this->publish_us = [
+            ['type_id' => '1', 'value' => 'albertosblog.com', 'meta' => "{\"is_valid\":true}"],
+            ['type_id' => '3', 'value' => 'tut12app.com', 'meta' => "{\"is_valid\":false}"],
+            ['type_id' => '2', 'value' => 'albertolicea00.com', 'meta' => "{\"is_valid\":true}"],
+        ];
+
+
+
+
+
+
 
     }
 
