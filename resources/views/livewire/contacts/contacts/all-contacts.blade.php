@@ -6,11 +6,19 @@
             <a class="btn text-white btn-secondary px-3 disabled" title="buscar / filtrar">
                 <i class="fas fa-search"></i> Buscar / Filtrar
             </a>
+            <a class="btn text-white btn-primary active btn-lx px-3" href="{{ route('crear-contacto') }}">
+                Crear Contacto
+            </a>
         </div>
 
         <div>
-            <a class="btn text-white btn-success active btn-lx px-3" href="{{ route('crear-contacto') }}">
-                Crear Contacto
+
+            <a class="btn text-primary btn-outline-primary btn-lx px-3" href="{{ route('crear-contacto') }}">
+                <i class="fas fa-pencil-alt"></i> &nbsp;
+                editar
+            </a>
+            <a class="btn text-white btn-danger btn-lx px-3" href="{{ route('crear-contacto') }}">
+                <i class="fas fa-trash-alt "></i>
             </a>
         </div>
     </div>

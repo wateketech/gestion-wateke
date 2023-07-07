@@ -35,37 +35,41 @@
         </div>
 
 
-        <div class="d-flex justify-content-top">
-            @if ($primaryPhone = $contact->phones->where('is_primary', true)->first())
-                @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 btn btn-outline-primary"
-                        href='tel:{!! $phoneNumber !!}'>
-                        <i class="fas fa-phone-alt fa-lg text-primary"></i>
-                    </a>
+        <div class="d-flex flex-column justify-content-top">
+            <div>
+                @if ($primaryPhone = $contact->phones->where('is_primary', true)->first())
+                    @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
+                        <a class="text-center btn btn-primary me-1 px-4 py-3"
+                            href='tel:{!! $phoneNumber !!}'>
+                            <i class="fas fa-phone-alt fa-lg"></i>
+                        </a>
+                    @endif
+                @else
+                    <div class="text-center btn me-1 px-4 py-3 disabled disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-phone-alt fa-lg"></i></div>
                 @endif
-            @else
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-phone-alt fa-lg"></i></div>
-            @endif
 
 
-            @if ($contact->emails->where('is_primary', true)->first())
-                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: rgb(0, 153, 255)"
-                    href='mailto:{{ $contact->emails->where('is_primary', true)->first()->value }}'>
-                    <i class="fas fa-envelope fa-lg"></i>
-                </a>
-            @else
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-envelope fa-lg"></i></div>
-            @endif
+                @if ($primaryChat = $contact->instant_messages->where('is_primary', true)->first())
+                    <a class="text-center btn btn-primary me-1 px-4 py-3"
+                        href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
+                        <i class="fas fa-comment fa-lg"></i>
+                    </a>
+                @else
+                    <div class="text-center btn me-1 px-4 py-3 disabled disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-comment fa-lg"></i></div>
+                @endif
+
+                @if ($contact->emails->where('is_primary', true)->first())
+                    <a class="text-center btn btn-primary me-1 px-4 py-3"
+                        href='mailto:{{ $contact->emails->where('is_primary', true)->first()->value }}'>
+                        <i class="fas fa-envelope fa-lg"></i>
+                    </a>
+                @else
+                    <div class="text-center btn me-1 px-4 py-3 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-envelope fa-lg"></i></div>
+                @endif
 
 
-            @if ($primaryChat = $contact->instant_messages->where('is_primary', true)->first())
-                <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #008000"
-                    href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
-                    <i class="fas fa-comment fa-lg"></i>
-                </a>
-            @else
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-comment fa-lg"></i></div>
-            @endif
+
+            </div>
 
 
         </div>
@@ -89,6 +93,7 @@
             @forelse ($contact->dates as $index => $date)
                 <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
                     style="background-color: {{ $date->type->color }}; color:white; cursor:pointer; position:relative;"
+                    {{-- style="background-color: #ffb280; color:white; cursor:pointer; position:relative;" --}}
                         onmouseover="this.innerHTML='{!! htmlspecialchars($date->type->icon, ENT_QUOTES) !!}&nbsp;{{ $date->type->label }}';"
                         onmouseout="this.innerHTML='{!! htmlspecialchars($date->type->icon, ENT_QUOTES) !!}&nbsp;{{ $date->value }}';">
                     {!! html_entity_decode($date->type->icon) !!}&nbsp;{{ $date->value }}
