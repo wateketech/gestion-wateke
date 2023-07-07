@@ -25,291 +25,297 @@
 
                 {{-- form --}}
                 <div class="col-lg-10 py-2">
-                    <form wire:submit.prevent="store" action='#' method="POST">
+                    <form wire:submit.prevent="store" method='POST' action="#">
                         @csrf
                         <div class="card card-body blur shadow-blur mx-2 my-1 px-4" style="min-height: 35em;">
 
 
-                        {{-- -------------------------- STEP GENERALS -------------------------- --}}
-                        <div class="row {{ $currentStep != 'general' ? 'd-none' : '' }}" id="step-general">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos generales :</span>
-                                </div>
-                                <div class="z-index-2">
-                                @if ($this->canContinueStep('general'))
-                                    <a class="btn btn-outline-primary"
-                                        wire:click="continueStep">
-                                        <i class="fas fa-share">&nbsp; Falta</i>
-                                    </a>
-                                @endif
-                                    <a class="btn btn-primary" wire:click="stepSubmit_general_next">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.general")
-
-                        </div>
-                        {{-- -------------------------- STEP EMAILS -------------------------- --}}
-                        <div class="row {{ $currentStep != 'emails' ? 'd-none' : '' }}" id="step-emails">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-envelope"></i> &nbsp; Emails :</span>
-                                </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_emails_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canContinueStep('emails'))
+                            {{-- -------------------------- STEP GENERALS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'general' ? 'd-none' : '' }}" id="step-general">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos generales :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                    @if ($this->canContinueStep('general'))
                                         <a class="btn btn-outline-primary"
                                             wire:click="continueStep">
                                             <i class="fas fa-share">&nbsp; Falta</i>
                                         </a>
                                     @endif
-                                    @if ($this->canOmitStep('emails'))
-                                        <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_emails_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_emails_next">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_general_next">
                                             <i class="fas fa-angle-double-right"></i>
                                         </a>
-                                    @endif
+                                    </div>
                                 </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.general")
+
                             </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.emails")
-
-                        </div>
-                        {{-- -------------------------- STEP PHONES -------------------------- --}}
-                        <div class="row {{ $currentStep != 'phones' ? 'd-none' : '' }}" id="step-phones">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-phone"></i> &nbsp; Télefonos :</span>
-                                </div>
-                                <div class="z-index-2">
-                                    @if ($this->canContinueStep('phones'))
-                                        <a class="btn btn-outline-primary"
-                                            wire:click="continueStep">
-                                            <i class="fas fa-share">&nbsp; Falta</i>
+                            {{-- -------------------------- STEP EMAILS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'emails' ? 'd-none' : '' }}" id="step-emails">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-envelope"></i> &nbsp; Emails :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_emails_back">
+                                            <i class="fas fa-angle-double-left"></i>
                                         </a>
-                                    @endif
-                                    <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canOmitStep('phones'))
+                                        @if ($this->canContinueStep('emails'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        @if ($this->canOmitStep('emails'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_emails_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_emails_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.emails")
+
+                            </div>
+                            {{-- -------------------------- STEP PHONES -------------------------- --}}
+                            <div class="row {{ $currentStep != 'phones' ? 'd-none' : '' }}" id="step-phones">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-phone"></i> &nbsp; Télefonos :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                        @if ($this->canContinueStep('phones'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        @if ($this->canOmitStep('phones'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_phones_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_phones_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.phones")
+
+                            </div>
+                            {{-- -------------------------- STEP GENERALS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'chats' ? 'd-none' : '' }}" id="step-chats">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-sms"></i> &nbsp; Mensajerías Instantáneas :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_chats_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        @if ($this->canContinueStep('chats'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        @if ($this->canOmitStep('chats'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_chats_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_chats_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.chats")
+
+                            </div>
+                            {{-- -------------------------- STEP RRSS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'rrss' ? 'd-none' : '' }}" id="step-rrss">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-share-alt"></i> &nbsp; Redes Sociales :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_rrss_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        @if ($this->canContinueStep('rrss'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        @if ($this->canOmitStep('rrss'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_rrss_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_rrss_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.rrss")
+
+                            </div>
+                            {{-- -------------------------- STEP WEBS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'webs' ? 'd-none' : '' }}" id="step-webs">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-globe"></i> &nbsp; Sitios Webs :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_webs_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        @if ($this->canContinueStep('webs'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        @if ($this->canOmitStep('webs'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_webs_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_webs_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.webs")
+
+                            </div>
+                            {{-- -------------------------- STEP ADDRESS -------------------------- --}}
+                            <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        {{-- <span class="font-weight-500 opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span> --}}
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_address_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        @if ($this->canContinueStep('address'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        @if ($this->canOmitStep('address'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_address_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_address_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.address")
+
+                            </div>
+                            {{-- -------------------------- STEP OCCUPATION -------------------------- --}}
+                            <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        <span class="font-weight-500 opacity-7"><i class="fas fa-briefcase"></i> &nbsp; Datos Laborales :</span>
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
                                         <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_phones_omit">
+                                            wire:click="stepSubmit_ocupation_omit">
                                             <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
                                         </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_phones_next">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </a>
-                                    @endif
+                                    </div>
                                 </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.ocupation")
+
                             </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.phones")
-
-                        </div>
-                        {{-- -------------------------- STEP GENERALS -------------------------- --}}
-                        <div class="row {{ $currentStep != 'chats' ? 'd-none' : '' }}" id="step-chats">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-sms"></i> &nbsp; Mensajerías Instantáneas :</span>
+                            {{-- -------------------------- STEP MORE -------------------------- --}}
+                            <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-more">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="h4 text-dark form-title">
+                                        {{-- <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos Extras :</span> --}}
+                                    </div>
+                                    <div class="z-index-2">
+                                        <a class="btn btn-primary" wire:click="stepSubmit_more_back">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        @if ($this->canContinueStep('more'))
+                                            <a class="btn btn-outline-primary"
+                                                wire:click="continueStep">
+                                                <i class="fas fa-share">&nbsp; Falta</i>
+                                            </a>
+                                        @endif
+                                        @if ($this->canOmitStep('more'))
+                                            <a class="btn btn-secondary"
+                                                wire:click="stepSubmit_more_omit">
+                                                <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-primary" wire:click="stepSubmit_more_next">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_chats_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canContinueStep('chats'))
-                                        <a class="btn btn-outline-primary"
-                                            wire:click="continueStep">
-                                            <i class="fas fa-share">&nbsp; Falta</i>
-                                        </a>
-                                    @endif
-                                    @if ($this->canOmitStep('chats'))
-                                        <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_chats_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_chats_next">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </a>
-                                    @endif
-                                </div>
+
+                                @include("livewire.contacts.contacts.layouts.form.more")
+
                             </div>
+                            {{-- -------------------------- STEP RESUMEN -------------------------- --}}
+                            <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-resumen">
 
-                            @include("livewire.contacts.contacts.layouts.form.chats")
+                                @include("livewire.contacts.contacts.layouts.form.resumen")
 
-                        </div>
-                        {{-- -------------------------- STEP RRSS -------------------------- --}}
-                        <div class="row {{ $currentStep != 'rrss' ? 'd-none' : '' }}" id="step-rrss">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-share-alt"></i> &nbsp; Redes Sociales :</span>
+                                <div>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
+                                        <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
+                                        <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
+                                    </div>
+                                    <div class='px-4 fs-5'>
+                                        <sub>
+                                            <strong>Nota: </strong>Eventualmente podrá recibir notificaciones a implementaciones y/o actualizaciones de campos nuevos o faltantes al completar la información de contacto.
+                                        </sub>
+                                    </div>
                                 </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_rrss_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canContinueStep('rrss'))
-                                        <a class="btn btn-outline-primary"
-                                            wire:click="continueStep">
-                                            <i class="fas fa-share">&nbsp; Falta</i>
-                                        </a>
-                                    @endif
-                                    @if ($this->canOmitStep('rrss'))
-                                        <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_rrss_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_rrss_next">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </a>
-                                    @endif
-                                </div>
+
                             </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.rrss")
-
-                        </div>
-                        {{-- -------------------------- STEP WEBS -------------------------- --}}
-                        <div class="row {{ $currentStep != 'webs' ? 'd-none' : '' }}" id="step-webs">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-globe"></i> &nbsp; Sitios Webs :</span>
-                                </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_webs_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canContinueStep('webs'))
-                                        <a class="btn btn-outline-primary"
-                                            wire:click="continueStep">
-                                            <i class="fas fa-share">&nbsp; Falta</i>
-                                        </a>
-                                    @endif
-                                    @if ($this->canOmitStep('webs'))
-                                        <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_webs_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_webs_next">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.webs")
-
-                        </div>
-                        {{-- -------------------------- STEP ADDRESS -------------------------- --}}
-                        <div class="row {{ $currentStep != 'address' ? 'd-none' : '' }}" id="step-address">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    {{-- <span class="font-weight-500 opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Dirección :</span> --}}
-                                </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_address_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canContinueStep('address'))
-                                        <a class="btn btn-outline-primary"
-                                            wire:click="continueStep">
-                                            <i class="fas fa-share">&nbsp; Falta</i>
-                                        </a>
-                                    @endif
-                                    @if ($this->canOmitStep('address'))
-                                        <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_address_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_address_next">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.address")
-
-                        </div>
-                        {{-- -------------------------- STEP OCCUPATION -------------------------- --}}
-                        <div class="row {{ $currentStep != 'ocupation' ? 'd-none' : '' }}" id="step-ocupation">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    <span class="font-weight-500 opacity-7"><i class="fas fa-briefcase"></i> &nbsp; Datos Laborales :</span>
-                                </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    <a class="btn btn-secondary"
-                                        wire:click="stepSubmit_ocupation_omit">
-                                        <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                    </a>
-                                </div>
-                            </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.ocupation")
-
-                        </div>
-                        {{-- -------------------------- STEP MORE -------------------------- --}}
-                        <div class="row {{ $currentStep != 'more' ? 'd-none' : '' }}" id="step-more">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="h4 text-dark form-title">
-                                    {{-- <span class="font-weight-500 opacity-7"><i class="fas fa-id-card"></i> &nbsp; Datos Extras :</span> --}}
-                                </div>
-                                <div class="z-index-2">
-                                    <a class="btn btn-primary" wire:click="stepSubmit_more_back">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                    @if ($this->canContinueStep('more'))
-                                        <a class="btn btn-outline-primary"
-                                            wire:click="continueStep">
-                                            <i class="fas fa-share">&nbsp; Falta</i>
-                                        </a>
-                                    @endif
-                                    @if ($this->canOmitStep('more'))
-                                        <a class="btn btn-secondary"
-                                            wire:click="stepSubmit_more_omit">
-                                            <i class="fas fa-share">&nbsp;&nbsp;Omitir</i>
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" wire:click="stepSubmit_more_next">
-                                            <i class="fas fa-angle-double-right"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-
-                            @include("livewire.contacts.contacts.layouts.form.more")
-
-                        </div>
-                        {{-- -------------------------- STEP RESUMEN -------------------------- --}}
-                        <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-resumen">
-
-                            @include("livewire.contacts.contacts.layouts.form.resumen")
-
-                            <div>
-                                <div class="d-flex justify-content-center mt-3">
-                                    <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
-                                    <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
-                                </div>
-                            </div>
-
-                        </div>
-                        {{-- -------------------------- END - STEPS -------------------------- --}}
+                            {{-- -------------------------- END - STEPS -------------------------- --}}
                         </div>
                     </form>
                 </div>

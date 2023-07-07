@@ -53,10 +53,10 @@
 
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingPhone">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapsePhone">
+                    <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapsePhone">
                         <i class="fas fa-envelope"></i>
                         &nbsp; PLANTILLAS DE CORREOS
-                    </button>
+                    </div>
                 </h2>
                 <div id="collapsePhone" class="accordion-collapse collapse" aria-labelledby="headingPhone">
                     <div class="accordion-body">

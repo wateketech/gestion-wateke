@@ -174,10 +174,10 @@
         @if (count($contact->phones) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingPhone">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapsePhone">
+                    <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapsePhone">
                         <i class="fas fa-phone"></i>
                         &nbsp; TELÉFONOS
-                    </button>
+                    </div>
                 </h2>
                 <div id="collapsePhone" class="accordion-collapse collapse" aria-labelledby="headingPhone">
                     <div class="accordion-body">
@@ -228,10 +228,10 @@
         @if (count($contact->instant_messages) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingChats">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChats" aria-expanded="false" aria-controls="collapseChats">
+                    <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChats" aria-expanded="false" aria-controls="collapseChats">
                         <i class="fas fa-sms"></i>
                         &nbsp; CHATS
-                    </button>
+                    </div>
                 </h2>
                 <div id="collapseChats" class="accordion-collapse collapse" aria-labelledby="headingChats">
                     <div class="accordion-body">
@@ -291,10 +291,10 @@
         @if (count($contact->emails) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingEmails">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails">
+                    <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails">
                         <i class="fas fa-envelope"></i>
                         &nbsp; EMAILS
-                    </button>
+                    </div>
                 </h2>
                 <div id="collapseEmails" class="accordion-collapse collapse" aria-labelledby="headingEmails">
                     <div class="accordion-body">
@@ -354,11 +354,11 @@
         @if (count($contact->bank_accounts) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingBankAccounts">
-                <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankAcoounts" aria-expanded="false" aria-controls="collapseBankAcoounts">
+                <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankAcoounts" aria-expanded="false" aria-controls="collapseBankAcoounts">
                     {{-- <i class="fas fa-euro-sign"></i> --}}
                     <i class="fas fa-hand-holding-usd"></i>
                     &nbsp; CUENTAS BANCARIAS
-                </button>
+                </div>
                 </h2>
                 <div id="collapseBankAcoounts" class="accordion-collapse collapse" aria-labelledby="headingBankAccounts">
                     <div class="accordion-body p-0">
@@ -409,11 +409,11 @@
         @if (count($contact->webs) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingWebs">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWebs" aria-expanded="false" aria-controls="collapseWebs">
+                    <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWebs" aria-expanded="false" aria-controls="collapseWebs">
                         <i class="fas fa-wifi"></i>
                         {{-- <i class="fab fa-internet-explorer"></i> --}}
                         &nbsp; WEBS
-                    </button>
+                    </div>
                 </h2>
                 <div id="collapseWebs" class="accordion-collapse collapse" aria-labelledby="headingWebs">
                     <div class="accordion-body">
@@ -462,11 +462,11 @@
         @if (count($contact->publish_us) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingPublishUs">
-                    <button class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePublishUs" aria-expanded="false" aria-controls="collapsePublishUs">
+                    <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePublishUs" aria-expanded="false" aria-controls="collapsePublishUs">
                         <i class="fas fa-bullhorn"></i>
                         {{-- <i class="fab fa-internet-explorer"></i> --}}
                         &nbsp; NOS PUBLICA
-                    </button>
+                    </div>
                 </h2>
                 <div id="collapsePublishUs" class="accordion-collapse collapse" aria-labelledby="headingPublishUs">
                     <div class="accordion-body">

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('store');
             $table->json('meta')->nullable();
-            $table->string('label')->nullable();
             $table->boolean('is_primary')->default(0);
             $table->boolean('enable')->default(1);
             $table->timestamps();

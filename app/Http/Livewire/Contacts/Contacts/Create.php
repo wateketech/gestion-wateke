@@ -65,7 +65,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'resumen';
+    public $currentStep = 'general';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
     // GENERALS
@@ -679,10 +679,6 @@ class Create extends Component
     }
 
 
-
-
-
-
     public function validate_bank_accounts($fieldName = null, $index = '*'){
 
     }
@@ -726,7 +722,7 @@ class Create extends Component
         $this->passStep[] = $passStep;
         $this->currentStep = $currentStep;
     }
-    private function omitStep($currentStep, $time = 1000){
+    public function omitStep($currentStep, $time = 1000){
         // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
         $this->currentStep = $currentStep;
     }
@@ -1293,138 +1289,14 @@ class Create extends Component
         $this->backStep('resumen', 'general');
     }
 // -------------------------- END - STEPS -------------------------- //
+// -------------------------- END - STEPS -------------------------- //
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function existEmail($index){
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->emails[$index]['meta']['is_valid'] =
-    }
-    public function existPhoneNumber($index){
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->emails[$index]['meta']['exist'] =
-    }
-    public function existInstantMessage($index){
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->instant_messages[$index]['meta']['is_valid'] =
-    }
-    public function existWeb($index){
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->webs[$index]['meta']['is_valid'] =
-    }
-    public function existRrss($index){
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->rrss[$index]['meta']['is_valid'] =
-
-    }
-    public function existPublisUs($index)
-    {
-        // NO DISPONIBLE POR EL MOMENTO
-        // $this->publish_us[$index]['meta']['is_valid'] =
-    }
-
-
-
-    public function geolocation($index)
-    {
-        // procesar con API de GOOGLE
-        // if (ya existe una geolocation){
-        //      mostrar en la ubicacion
-        // } else{
-        //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
-        // $this->address[$index]['geolocation'] =
-        // }
-    }
-
-    public function existAdress($index)
-    {
-        // si ya existe la direccion hacer merge entre ellas, coger el id de las ya creadas y duplicarlas
-        // sugerencia de direcciones por maxima coincidencia y redundancia en bbdd (a las q mas se repitan y a los patrones iguales)
-    }
-    public function existAdressLine($index)
-    {
-        // si ya existe la direccion hacer merge entre ellas, coger el id de las ya creadas y duplicarlas
-        // sugerencia de direcciones por maxima coincidencia y redundancia en bbdd (a las q mas se repitan y a los patrones iguales)
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // -------------------------- STEP RESUMEN --------------------------
-
-
-    // -------------------------- FINAL STEP  --------------------------
-    public function store()
-    {
+    public function store(){
         $picsError = false;
         $linkUserError = false;
 
@@ -1457,7 +1329,6 @@ class Create extends Component
 
             // CREATE AND LINK USER ACCOUNT
             if ($this->is_user_link) {
-
                 $user = Users::factory()->create([
                     'name' => $this->user_link_name,
                     'email' => $this->user_link_email,
@@ -1478,6 +1349,148 @@ class Create extends Component
 
             // CREATE N ASSIGN RELATIONALS TABLES
             $contact->ids()->createMany($this->ids);
+            $contact->emails()->createMany($this->emails);
+            $contact->phones()->createMany($this->phones);
+            $contact->instant_messages()->createMany($this->instant_messages);
+            $contact->webs()->createMany($this->webs);
+            $contact->rrss()->createMany($this->rrss);
+            $contact->dates()->createMany($this->dates);
+            $contact->publish_us()->createMany($this->publish_us);
+
+            $address = $contact->address()->createMany($this->address);
+            for ($i = 0; $i < count($address); $i++) {
+                $address[$i]->lines()->createMany($this->address_line[$i]);
+            }
+
+            // PROXIMAMENTE ANALSAR COMO SE ALMACENARAN LOS BANCOS Y SU RELACION CON LAS CUENTAS BANCARIAS (ya que abrían bancos que no serian entidad y otros q si )
+            // $contact->bank_accounts()->createMany($this->bank_accounts);
+
+            // implementar datos laborales
+
+
+            DB::beginTransaction();
+            $link_pics = [];
+            $storename = 'app/public/images/contacts_profile_pics/';
+            try {
+                foreach ($this->profile_pics as $index => $pic) {
+                    $timestamp = str_replace(array(' ', ':', '-'), '', now());
+                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
+                    $imageSize = getimagesize($pic->path());
+
+                    $pic->storeAs($storename, $filename);
+                    $link_pics[] = $contact->pics()->create([
+                        'label' => null,
+                        'name' => $filename,
+                        'store' => $storename,
+                        'is_primary' => ($this->main_profile_pic == $index ? 1 : 0),
+                        'meta' => json_encode([
+                            'width' => $imageSize[0],
+                            'height' => $imageSize[1],
+                            'mime_type' => $pic->getMimeType(),
+                            'size' => $pic->getSize(),
+                            'client_original_name' => $pic->getClientOriginalName(),
+                            'client_mime_type' => $pic->getClientMimeType(),
+                            'client_original_extension' => $pic->getClientOriginalExtension(),
+                            'error' => $pic->getError(),
+                            'is_valid' => $pic->isValid(),
+                            'is_file' => $pic->isFile(),
+                            'is_readable' => $pic->isReadable(),
+                            'is_writable' => $pic->isWritable(),
+                            'file_info' => $pic->getFileInfo()
+                            ])
+                        ]);
+
+
+                }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                $picsError = true;
+                // throw $e;            hacer que la transaccion completa se vea afectada
+            }
+
+            DB::commit();
+
+
+            if ($picsError){
+                // If there was an error creating the database record, delete the image from the file system
+                foreach ($this->profile_pics as $index => $pic) {
+                    $timestamp = str_replace(array(' ', ':', '-'), '', now());
+                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
+                    $path = 'app/public/images/contacts_profile_pics/' . $filename;
+                    if (Storage::exists($path)) Storage::delete($path);
+                }
+                if (count($link_pics) != 0){
+                    foreach ($this->link_pics as $pic) {
+                        $path = $pic->store . $pic->name;
+                        if (Storage::exists($path)) Storage::delete($path);
+                    }
+                }
+                $this->dispatchBrowserEvent('pics-error');
+            }
+            // if ($linkUserError) $this->dispatchBrowserEvent('pics-error');
+            else $this->dispatchBrowserEvent('show-created-success');
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2]]);
+        }
+    }
+
+    public function zstore(){
+        $picsError = false;
+        $linkUserError = false;
+
+        DB::beginTransaction();
+        try {
+            if ($this->is_user_link) {
+                $this->validate([
+                    'user_link_password_public' => 'required|min:6',
+                    'user_link_password_check' => 'required|same:user_link_password_public',
+                ], [
+                        '*.required' => 'El campo es obligatorio',
+                        '*.same' => 'Las contraseñas no coinciden'
+                    ]);
+                $this->user_link_password = Hash::make($this->user_link_password_public);
+            }
+
+
+            // CREATE CONTACT
+            $contact = Contacts::create([
+                'alias' => $this->alias,
+                'name' => $this->name,
+                'middle_name' => $this->middle_name,
+                'first_lastname' => $this->first_lastname,
+                'second_lastname' => $this->second_lastname,
+                'gender_id' => $this->gender,
+                'prefix_id' => $this->prefix,
+                'meta' => $this->meta,
+                'about' => $this->about,
+            ]);
+
+            // CREATE AND LINK USER ACCOUNT
+            if ($this->is_user_link) {
+                $user = Users::factory()->create([
+                    'name' => $this->user_link_name,
+                    'email' => $this->user_link_email,
+                    'password' => $this->user_link_password,
+                    'phone' => $this->user_link_phone,
+                    'about' => $this->user_link_about,
+                    'enable' => true
+                ])->assignRole($this->user_link_role);
+
+                // LINK USER CONTACT
+                ContactLinkUser::create([
+                    'contact_id' => $contact->id,
+                    'user_id' => $user->id,
+                ]);
+            }
+
+
+
+            // CREATE N ASSIGN RELATIONALS TABLES
+            // $contact->ids()->createMany($this->ids);
             // $contact->emails()->createMany($this->emails);
             // $contact->phones()->createMany($this->phones);
             // $contact->instant_messages()->createMany($this->instant_messages);
@@ -1577,47 +1590,150 @@ class Create extends Component
 
 
 
-    private function fakedata(){
-        // $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
-        // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->publish_us[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-        // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-
-
-        $this->emails = [];
-        $this->phones = [];
-        $this->instant_messages = [];
-        $this->rrss = [];
-        $this->webs = [];
-        $this->dates = [];
-        $this->publish_us = [];
-        $this->ids = [];
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // -------------------------- EXTRAS VALIDATE --------------------------
+
+    public function existEmail($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->emails[$index]['meta']['is_valid'] =
+    }
+    public function existPhoneNumber($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->emails[$index]['meta']['exist'] =
+    }
+    public function existInstantMessage($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->instant_messages[$index]['meta']['is_valid'] =
+    }
+    public function existWeb($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->webs[$index]['meta']['is_valid'] =
+    }
+    public function existRrss($index){
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->rrss[$index]['meta']['is_valid'] =
+
+    }
+    public function existPublisUs($index)
+    {
+        // NO DISPONIBLE POR EL MOMENTO
+        // $this->publish_us[$index]['meta']['is_valid'] =
+    }
+
+
+
+    public function geolocation($index)
+    {
+        // procesar con API de GOOGLE
+        // if (ya existe una geolocation){
+        //      mostrar en la ubicacion
+        // } else{
+        //      hacer que la localice (usando el country/state/city escogido con su longitude y latitude)
+        // $this->address[$index]['geolocation'] =
+        // }
+    }
+
+    public function existAdress($index)
+    {
+        // si ya existe la direccion hacer merge entre ellas, coger el id de las ya creadas y duplicarlas
+        // sugerencia de direcciones por maxima coincidencia y redundancia en bbdd (a las q mas se repitan y a los patrones iguales)
+    }
+    public function existAdressLine($index)
+    {
+        // si ya existe la direccion hacer merge entre ellas, coger el id de las ya creadas y duplicarlas
+        // sugerencia de direcciones por maxima coincidencia y redundancia en bbdd (a las q mas se repitan y a los patrones iguales)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function fakedata(){
         $this->alias = 'El bebe';
         $this->name = 'Alberto';
         $this->middle_name = 'de Jesús';
         $this->first_lastname = 'Licea';
         $this->second_lastname = 'Vallejo';
         $this->about = 'Una pequeña descripción del contacto en cuestión.';
-        // $this->gender = 1;
-        // $this->prefix = 5;
-        //$this->ids = [
-        //    ['type_id' => 1, 'value' => '00090120123'],
-        //    ['type_id' => 2, 'value' => 'A1234567'],
-        //];
+        $this->gender = 1;
+        $this->prefix = 5;
 
 
+        $this->ids = [
+            ['type_id' => 1, 'value' => '00090120123'],
+            ['type_id' => 2, 'value' => 'A1234567'],
+        ];
 
-        // $this->address = [
-        //     ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100"],
-        //     ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100"],
-        // ];
+
+        $this->address = [
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 1", 'state_id' => "286", 'zip_code' => "70100"],
+            ['city_id' => "21825", 'country_id' => "56", 'geolocation' => null, 'name' => "Casa 2", 'state_id' => "286", 'zip_code' => "70100"],
+        ];
         $this->address_line = [
             [
                 ['label' => "Localidad", 'value' => "Centro"],
@@ -1661,7 +1777,7 @@ class Create extends Component
 
         $this->webs = [
             ['type_id' => 1, 'value' => 'albertos-blog.com', 'about' => '', 'meta' => "{\"is_valid\":true}"],
-            ['type_id' => 2, 'value' => 'alberto.licea', 'about' => '', 'meta' => "{\"is_valid\":Null}"],
+            ['type_id' => 2, 'value' => 'alberto.licea', 'about' => '', 'meta' => "{\"is_valid\":null}"],
             ['type_id' => 6, 'value' => 'wateke.travel', 'about' => '', 'meta' => "{\"is_valid\":false}"],
         ];
         $this->rrss = [
