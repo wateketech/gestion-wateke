@@ -25,7 +25,7 @@
                 @include('livewire.contacts.contacts.list-contacts')
             </div>
             <div class="col-lg-7 py-1">
-                @livewire('contacts.contacts.current-contact')
+                @livewire('contacts.contacts.current-contact', ['contact_id' => $current_contact])
             </div>
         </div>
     </div>

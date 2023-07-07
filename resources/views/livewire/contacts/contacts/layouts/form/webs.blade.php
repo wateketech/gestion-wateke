@@ -38,7 +38,7 @@
                     </a>
                 </div>
                 @error("webs.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                <sub class="text-warning">{{ $this->uniqueWarningBD('contact_webs', 'value', $web['value'], 'Esta web ya es utilizado por otro contacto' ) }}</sub>
+                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_webs', 'value', $web['value'], 'Esta web ya es utilizado por otro contacto' ) !!}</sub>
             </div>
 
 

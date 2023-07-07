@@ -35,7 +35,6 @@ class AllContacts extends Component
         $this->current_contacts[] = $this->current_contact;
     }
     public function updatedCurrentContact(){
-
         if ($this->multiple_selection){
             $this->emitTo('contacts.contacts.current-contact', 'remount_multiple', ['id' => $this->current_contact]);
             $this->current_contacts[] = $this->current_contact;
@@ -46,7 +45,24 @@ class AllContacts extends Component
         }
     }
 
-    public function mount(){
+    public function mount($id = null ){
+        $this->current_contact = $id;
+
+        if (isset($id) || $id !== null) {
+            if (Contacts::find($id) === null) abort(404);
+            else{
+                // $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' =>'15'] );
+            }
+        }
+        // $this->updatedCurrentContact();
+        // $this->route = $route;
+        // $this->entity_types = EntityTypes::all();
+        // $this->valid_routes = collect($this->entity_types->pluck('route')->toArray());
+        // $this->valid_routes->push('grupos-cadenas-hoteleras', 'agencias', '');
+
+
+
+
         $this->restartFilter(false);
         $this->entity_types = EntityTypes::all();
         //$nextPage = $this->contacts->currentPage() + 1;
@@ -54,6 +70,10 @@ class AllContacts extends Component
         //$morePosts = Contacts::paginate(10, ['*'], 'page', $nextPage);
         // $this->pageOffset++;
         //dd($morePosts->currentPage());
+
+
+
+
     }
     public function restartFilter($value){
         $this->is_search_name = $value;

@@ -22,6 +22,9 @@ class CurrentContact extends Component
         ];
 
 
+    public function mount($contact_id = null){
+        if ($contact_id) $this->remount(['id' => $contact_id]);
+    }
 
     public function remount($args){
         $contact_id = $args['id'];

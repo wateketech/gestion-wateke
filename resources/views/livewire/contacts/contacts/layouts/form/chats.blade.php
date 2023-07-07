@@ -46,7 +46,7 @@
                     @endif
                 </div>
                 @error("instant_messages.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                <sub class="text-warning">{{ $this->uniqueWarningBD('contact_instant_messages', 'value', $instant_message['value'], 'Esta cuenta ya es utilizado por otro contacto' ) }}</sub>
+                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_instant_messages', 'value', $instant_message['value'], 'Esta cuenta ya es utilizado por otro contacto' ) !!}</sub>
 
             </div>
 

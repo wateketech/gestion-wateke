@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <sub wire:ignore id='phone_value_warning-{{$index}}' class="text-warning" hidden>El número no cumple con el formato.</sub>
-                <sub class="text-warning">{{ $this->uniqueWarningBD('contact_phones', 'value', $phone['value'], 'El telefono ya es utilizado por otro contacto' ) }}</sub>
+                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_phones', 'value', $phone['value'], 'El telefono ya es utilizado por otro contacto' ) !!}</sub>
                 @error("phones.{$index}.value")<sub class="text-danger d-block pt-2">{{ $message }}</sub> @enderror
             </div>
 

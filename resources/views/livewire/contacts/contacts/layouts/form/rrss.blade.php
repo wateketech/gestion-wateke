@@ -35,7 +35,7 @@
                     </a>
                 </div>
             @error("rrss.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            <sub class="text-warning">{{ $this->uniqueWarningBD('contact_rrss', 'value', $rs['value'], 'Esta cuenta ya es utilizado por otro contacto' ) }}</sub>
+            <sub class="text-warning">{!! $this->uniqueWarningBD('contact_rrss', 'value', $rs['value'], 'Esta cuenta ya es utilizado por otro contacto' ) !!}</sub>
 
         </div>
 

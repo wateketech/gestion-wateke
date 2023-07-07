@@ -201,10 +201,14 @@ class Create extends Component
     }
 // ----------------------- VALIDACIONES --------------------------
 
-    public function uniqueWarningBD($table, $targetField, $value, $message = 'El campo ya es utilizado en base de datos'){
+    public function uniqueWarningBD($table, $targetField, $value, $message = 'El campo ya es utilizado en base de datos', $href = true){
         $result = DB::table($table)->where($targetField, $value)->first();
+
         if ($result) {
-            return $message;
+            if (!$href) return $message;
+            else{
+                return $message . " &nbsp;&nbsp;&nbsp; <a href='/contactos/" . $result->contact_id .  "' target='_blank' class='btn btn-outline-primary m-0 py-0 px-1' style='font-size: smaller;'>ver contacto</a>";
+            }
         }
         return null;
     }

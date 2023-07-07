@@ -30,7 +30,8 @@
                 </a>
             </div>
             @error("emails.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            <sub class="text-warning">{{ $this->uniqueWarningBD('contact_emails', 'value', $email['value'], 'El email ya es utilizado por otro contacto' ) }}</sub>
+            {{-- {!! html_entity_decode($rs->type->icon) !!} --}}
+            <sub class="text-warning">{!! $this->uniqueWarningBD('contact_emails', 'value', $email['value'], 'El email ya es utilizado por otro contacto' ) !!}</sub>
         </div>
 
 

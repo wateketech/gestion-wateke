@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
 
     // SECCIÓN DE CONTACTOS
     Route::get('/contactos', Contacts::class)->name('contactos');
+    Route::get('/contactos/{id?}', Contacts::class)->name('contactos');
     Route::get('/crear-contacto', CreateContact::class)->name('crear-contacto');
 
     Route::get('/entidades', Entitys::class)->name('entidades');

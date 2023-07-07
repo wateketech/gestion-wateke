@@ -10,7 +10,9 @@
             </div>
             <div class="d-flex flex-column justify-content-center">
                 <h6 class="mb-0 text-xl h5">
-                    {!! json_decode($contact->prefix->label)->abb !!}.
+                    @isset($contact->prefix)
+                        {!! json_decode($contact->prefix->label)->abb !!}.
+                    @endisset
                     {{$contact->name . ' ' . $contact->middle_name . ' ' . $contact->first_lastname . ' ' . $contact->second_lastname}}
                 </h6>
                 {{ $contact->alias ? '(' . $contact->alias . ')': '' }}
@@ -36,9 +38,9 @@
         <div class="d-flex justify-content-top">
             @if ($primaryPhone = $contact->phones->where('is_primary', true)->first())
                 @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #00a600"
+                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 btn btn-outline-primary"
                         href='tel:{!! $phoneNumber !!}'>
-                        <i class="fas fa-phone-alt fa-lg"></i>
+                        <i class="fas fa-phone-alt fa-lg text-primary"></i>
                     </a>
                 @endif
             @else

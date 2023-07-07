@@ -43,7 +43,9 @@
                                     </a>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="contact-name mb-0 text-sm">
-                                            {!! json_decode($contacts->find($contact)->prefix->label)->abb !!}.
+                                            @isset($contacts->find($contact)->prefix)
+                                                {!! json_decode($contacts->find($contact)->prefix->label)->abb !!}.
+                                            @endisset
                                             {{ $contact['name'] . ' ' . $contact['first_lastname'] }}
                                         </h6>
 
