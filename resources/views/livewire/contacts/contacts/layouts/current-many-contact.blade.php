@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-top">
 
                 @if (count($contacts_emails) != 0)
-                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: rgb(0, 153, 255)"
+                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #ff6400"
                         href='mailto:{{ $this->getEmails() }}'>
                             <i class="fas fa-envelope"></i>
                     </a>

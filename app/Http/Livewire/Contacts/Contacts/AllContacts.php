@@ -10,7 +10,9 @@ class AllContacts extends Component
 {
     public $prueba;
     protected $listeners = [
-        'multiple_selection'
+        'multiple_selection',
+        'delete_contact' => 'deleteContact',
+        'enable_contact' => 'enableContact'
         ];
 
     public $entity_types;
@@ -32,7 +34,9 @@ class AllContacts extends Component
 
     public function multiple_selection($args){
         $this->multiple_selection = $args['is_multiple'];
-        $this->current_contacts[] = $this->current_contact;
+        if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null) {
+            $this->current_contacts[] = $this->current_contact;
+        }
     }
     public function updatedCurrentContact(){
         if ($this->multiple_selection){
@@ -50,18 +54,7 @@ class AllContacts extends Component
 
         if (isset($id) || $id !== null) {
             if (Contacts::find($id) === null) abort(404);
-            else{
-                // $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' =>'15'] );
-            }
         }
-        // $this->updatedCurrentContact();
-        // $this->route = $route;
-        // $this->entity_types = EntityTypes::all();
-        // $this->valid_routes = collect($this->entity_types->pluck('route')->toArray());
-        // $this->valid_routes->push('grupos-cadenas-hoteleras', 'agencias', '');
-
-
-
 
         $this->restartFilter(false);
         $this->entity_types = EntityTypes::all();
@@ -209,4 +202,21 @@ class AllContacts extends Component
     public function selectContact($id){
         $this->current_contact = Contacts::find($id);
     }
+
+
+    public function deleteContact_Q($id){
+        $this->dispatchBrowserEvent('show-delete-contact', ['contact_id' => $id, 'current_contact' => $this->current_contact]);
+    }
+    public function deleteContact($id, $value){
+        if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
+            Contacts::find($id)->update(['enable' => false]);
+        }
+    }
+    public function enableContact($id){
+        if ($id == $this->current_contact){
+            $contact_id = Contacts::find($id)->update(['enable' => true]);
+        }
+        $this->dispatchBrowserEvent('show-recovery-contact');
+    }
+
 }

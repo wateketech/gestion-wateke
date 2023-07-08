@@ -35,41 +35,38 @@
         </div>
 
 
-        <div class="d-flex flex-column justify-content-top">
-            <div>
+        <div class="d-flex justify-content-top">
+
                 @if ($primaryPhone = $contact->phones->where('is_primary', true)->first())
                     @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                        <a class="text-center btn btn-primary me-1 px-4 py-3"
+                        <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #ff6400"
                             href='tel:{!! $phoneNumber !!}'>
                             <i class="fas fa-phone-alt fa-lg"></i>
                         </a>
                     @endif
                 @else
-                    <div class="text-center btn me-1 px-4 py-3 disabled disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-phone-alt fa-lg"></i></div>
+                    <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-phone-alt fa-lg"></i></div>
                 @endif
 
 
                 @if ($primaryChat = $contact->instant_messages->where('is_primary', true)->first())
-                    <a class="text-center btn btn-primary me-1 px-4 py-3"
+                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #ff6400"
                         href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
                         <i class="fas fa-comment fa-lg"></i>
                     </a>
                 @else
-                    <div class="text-center btn me-1 px-4 py-3 disabled disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-comment fa-lg"></i></div>
+                    <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-comment fa-lg"></i></div>
                 @endif
 
                 @if ($contact->emails->where('is_primary', true)->first())
-                    <a class="text-center btn btn-primary me-1 px-4 py-3"
+                    <a class="icon icon-shape icon-md shadow text-center border-radius-50 me-2" style="background-color: #ff6400"
                         href='mailto:{{ $contact->emails->where('is_primary', true)->first()->value }}'>
                         <i class="fas fa-envelope fa-lg"></i>
                     </a>
                 @else
-                    <div class="text-center btn me-1 px-4 py-3 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-envelope fa-lg"></i></div>
+                    <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-envelope fa-lg"></i></div>
                 @endif
 
-
-
-            </div>
 
 
         </div>
@@ -92,8 +89,8 @@
         <div class="col-7 pb-4 px-4 text-end">
             @forelse ($contact->dates as $index => $date)
                 <a class="d-inline-block text-center border-radius-md me-1 mb-1 px-3 py-1 w-auto hover-scale"
-                    style="background-color: {{ $date->type->color }}; color:white; cursor:pointer; position:relative;"
-                    {{-- style="background-color: #ffb280; color:white; cursor:pointer; position:relative;" --}}
+                    {{-- style="background-color: {{ $date->type->color }}; color:white; cursor:pointer; position:relative;" --}}
+                    style="background-color: #ffb280; color:white; cursor:pointer; position:relative;"
                         onmouseover="this.innerHTML='{!! htmlspecialchars($date->type->icon, ENT_QUOTES) !!}&nbsp;{{ $date->type->label }}';"
                         onmouseout="this.innerHTML='{!! htmlspecialchars($date->type->icon, ENT_QUOTES) !!}&nbsp;{{ $date->value }}';">
                     {!! html_entity_decode($date->type->icon) !!}&nbsp;{{ $date->value }}
@@ -200,14 +197,20 @@
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center pl-3">
                                                     <h6 class="mb-0 text-sm">{{ $phone->type->label }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{ json_decode($phone->value_meta)->country_name }}</p>
+                                                    <p class="text-xs text-secondary mb-0">
+                                                        {{ isset(json_decode($phone->value_meta)->country_name) ? json_decode($phone->value_meta)->country_name : ' - - - - - - ' }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column justify-content-center px-3">
                                                 <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
-                                                    {!! '+' . json_decode($phone->value_meta)->country_dial_code . ' ' . json_decode($phone->value_meta)->clean_number !!}
+                                                    @if (isset(json_decode($phone->value_meta)->country_dial_code) && isset(json_decode($phone->value_meta)->clean_number))
+                                                        {!! '+' . json_decode($phone->value_meta)->country_dial_code . ' ' . json_decode($phone->value_meta)->clean_number !!}
+                                                    @else
+                                                        {{ $phone->value != '' || $phone->value != null ? $phone->value : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ?' }}
+                                                    @endif
                                                 </p>
                                             </div>
                                         </td>
@@ -252,18 +255,20 @@
                                                 <div class="d-flex flex-column justify-content-center pl-3 {{ $instant_message->is_primary == true ? 'text-primary' : '' }}">
                                                     @switch($instant_message->label)
                                                         @case('Personal')
+                                                        @case('')
+                                                        @case(null)
                                                             <i class="fas fa-home fa-lg"></i>
                                                             @break
                                                         @case('Trabajo')
                                                             <i class="fas fa-briefcase fa-lg"></i>
                                                             @break
                                                         @default
-                                                            <i class="fas fa-comments"></i>
+                                                            <i class="fas fa-comments fa-lg"></i>
                                                     @endswitch
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <h6 class="mb-0 text-sm">{{ $instant_message->label }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{ $instant_message->type->label }}</p>
+                                                    <h6 class="mb-0 text-sm">{{ $instant_message->label === null || strlen($instant_message->label) === 0 ? 'Personal' : $instant_message->label }}</h6>
+                                                    <p class="text-xs text-secondary mb-0">{{ isset($instant_message->type->label) ? $instant_message->type->label : ' - - - - - - - - - ' }}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -303,7 +308,7 @@
                         &nbsp; EMAILS
                     </div>
                 </h2>
-                <div id="collapseEmails" class="accordion-collapse collapse" aria-labelledby="headingEmails">
+                <div id="collapseEmails" class="accordion-collapse" aria-labelledby="headingEmails">
                     <div class="accordion-body">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -315,18 +320,20 @@
                                                     <div class="d-flex flex-column justify-content-center pl-3 {{ $email->is_primary == true ? 'text-primary' : '' }}">
                                                         @switch($email->label)
                                                             @case('Personal')
+                                                            @case('')
+                                                            @case(null)
                                                                 <i class="fas fa-home fa-lg"></i>
                                                                 @break
                                                             @case('Trabajo')
                                                                 <i class="fas fa-briefcase fa-lg"></i>
                                                                 @break
                                                             @default
-                                                                <i class="fas fa-comments"></i>
+                                                                <i class="fas fa-comments fa-lg"></i>
                                                         @endswitch
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">{{ $email->label }}</h6>
-                                                        <p class="text-xs text-secondary mb-0">{{ $email->type->label }}</p>
+                                                        <h6 class="mb-0 text-sm">{{ $email->label === null || strlen($email->label) === 0 ? 'Personal' : $email->label }}</h6>
+                                                        <p class="text-xs text-secondary mb-0">{{ isset($email->type->label) ? $email->type->label : ' - - - - - - - - - ' }}</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -357,8 +364,8 @@
             </div>
         @endif
 
-
-        @if (count($contact->bank_accounts) != 0)
+        {{-- @if (count($contact->bank_accounts) != 0) --}}
+        @if (false)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
                 <h2 class="accordion-header" id="headingBankAccounts">
                 <div class="accordion-button h6 mb-0 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankAcoounts" aria-expanded="false" aria-controls="collapseBankAcoounts">

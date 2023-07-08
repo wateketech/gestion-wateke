@@ -35,7 +35,8 @@ class CurrentContact extends Component
         $this->multiple_selection = false;
         $this->contacts = [ $this->contact ];
         $this->cleanMassivePropertys();
-        $this->getMassivePropertys($contact_id);
+
+        if ($this->contact) $this->getMassivePropertys($contact_id);
 
     }
 
