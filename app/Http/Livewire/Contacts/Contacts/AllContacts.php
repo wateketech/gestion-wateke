@@ -42,7 +42,9 @@ class AllContacts extends Component
     public function updatedCurrentContact(){
         if ($this->multiple_selection){
             $this->emitTo('contacts.contacts.current-contact', 'remount_multiple', ['id' => $this->current_contact]);
-            $this->current_contacts[] = $this->current_contact;
+            if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null) {
+                $this->current_contacts[] = $this->current_contact;
+            }
 
         }else{
             $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
@@ -205,14 +207,33 @@ class AllContacts extends Component
     }
 
 
+
+
+    public function createGroup ($ids){
+        json_decode($ids);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function deleteContact_Q($id){
         $this->dispatchBrowserEvent('show-delete-contact', ['contact_id' => $id, 'current_contact' => $this->current_contact]);
     }
     public function deleteContacts_Q($ids){
         $this->dispatchBrowserEvent('show-delete-contacts', ['contacts_id' => $ids, 'current_contacts' => $this->current_contacts]);
     }
-
-
     public function deleteContact($id, $value){
         if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
             Contacts::find($id)->update(['enable' => false]);
@@ -226,6 +247,7 @@ class AllContacts extends Component
         }
     }
 
+
     public function enableContact($id){
         if ($id == $this->current_contact){
             $contact_id = Contacts::find($id)->update(['enable' => true]);
@@ -234,7 +256,6 @@ class AllContacts extends Component
         else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => false]);
 
     }
-
     public function enableContacts($ids){
         if (json_decode($ids) == $this->current_contacts){
             foreach ($this->current_contacts as $id){

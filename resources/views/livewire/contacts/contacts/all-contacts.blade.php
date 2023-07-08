@@ -17,7 +17,7 @@
         {{-- SINGLE CONTACT VIEW --}}
         @if (isset($current_contact) && count($current_contacts) <= 1)
 
-            <a class="btn btn-outline-secondary btn-lx px-3 mx-1 disabled" href="#">
+            <a class="btn btn-outline-primary btn-lx px-3 mx-1" target="_blank" href="{{ route('editar-contacto', ['id' => $current_contact]) }}">
                 <i class="fas fa-pencil-alt"></i> &nbsp;
                 Editar
             </a>
@@ -33,10 +33,10 @@
 
         {{-- MULTIPLE CONTACT VIEW --}}
         @elseif (count($current_contacts) > 1)
-            <a class="btn btn-outline-secondary btn-lx mx-1 px-3 disabled" href="#">
+            <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="createGroup('{{ json_encode($current_contacts) }}')">
                 <i class="fas fa-users"></i> &nbsp;
                 Crear Grupo
-            </a>
+            </div>
             @if ($contacts->contains('id', $current_contact))
                 <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContacts_Q('{{ json_encode($current_contacts) }}')">
                     <i class="fas fa-trash-alt "></i>

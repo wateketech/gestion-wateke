@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/contactos', Contacts::class)->name('contactos');
     Route::get('/contactos/{id?}', Contacts::class)->name('contactos');
     Route::get('/crear-contacto', CreateContact::class)->name('crear-contacto');
+    Route::get('/editar-contacto/{id}', CreateContact::class)->name('editar-contacto');
 
     Route::get('/entidades', Entitys::class)->name('entidades');
     Route::get('/entidades/{route?}', Entitys::class)->name('entidades');
