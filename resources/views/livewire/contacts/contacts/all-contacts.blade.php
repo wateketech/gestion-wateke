@@ -17,7 +17,7 @@
         {{-- SINGLE CONTACT VIEW --}}
         @if (isset($current_contact) && count($current_contacts) <= 1)
 
-            <a class="btn text-primary btn-outline-primary btn-lx px-3 mx-1" href="#">
+            <a class="btn btn-outline-secondary btn-lx px-3 mx-1 disabled" href="#">
                 <i class="fas fa-pencil-alt"></i> &nbsp;
                 Editar
             </a>
@@ -33,13 +33,19 @@
 
         {{-- MULTIPLE CONTACT VIEW --}}
         @elseif (count($current_contacts) > 1)
-            <a class="btn text-primary btn-outline-primary btn-lx px-3" href="#">
+            <a class="btn btn-outline-secondary btn-lx mx-1 px-3 disabled" href="#">
                 <i class="fas fa-users"></i> &nbsp;
                 Crear Grupo
             </a>
-            <a class="btn text-white btn-danger btn-lx px-3" href="#">
-                <i class="fas fa-trash-alt "></i>
-            </a>
+            @if ($contacts->contains('id', $current_contact))
+                <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContacts_Q('{{ json_encode($current_contacts) }}')">
+                    <i class="fas fa-trash-alt "></i>
+                </div>
+            @else
+                <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContacts('{{ json_encode($current_contacts) }}')">
+                    <i class="fas fa-share fa-flip-horizontal"></i> Deshacer {{-- Recuperar --}}
+                </div>
+            @endif
         @else
 
 
@@ -94,7 +100,7 @@
                 title: '¿Estas seguro?',
                 html: "\
                 <p>¡Al eliminar el contacto NO habrá vuelta atrás!</p>\
-                <p>Para confirmar teclee el id del contacto (<strong class='text-danger'> id:" + deletedContactId + " </strong>) :</p>\
+                <p>Para confirmar teclee el ID del contacto (<strong class='text-danger'> ID:" + deletedContactId + " </strong>) :</p>\
                 ",
                 icon: 'warning',
                 input: 'text',
@@ -114,9 +120,9 @@
                             Toast.fire({
                                 icon: 'success',
                                 title: '¡Eliminado!',
-                                text: 'El usuario ha sido eliminado de la base de datos.',
+                                text: 'El contacto ha sido eliminado de la base de datos.',
                                 // html: "\
-                                // <p>El usuario ha sido eliminado de la base de datos.</p>\
+                                // <p>El contacto ha sido eliminado de la base de datos.</p>\
                                 // <p class='btn btn-outline-secondary py-1 px-2'\
                                 //     wire:click=\"enableContact(" + deletedContactId + ")\">Deshacer acción</p>\
                                 // "
@@ -135,19 +141,87 @@
                     Toast.fire(
                         'Cancelado',
                         'El contacto esta a salvo :)',
-                        'error'
+                        'warning'
                     )
                 }
             })
         });
 
 
-        window.addEventListener('show-recovery-contact', function(event){
-            Toast.fire(
-                '¡Recuperado!',
-                'Contacto recuperado exitosamente.',
-                'success'
-            );
+        window.addEventListener('show-delete-contacts', function(event){
+            let deletedContactIds = JSON.parse(event.detail.contacts_id);
+            let formattedContactIds = deletedContactIds.join(' - ');
+
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: '¿Estas seguro?',
+                html: "\
+                <p>¡Al eliminar los contactos NO habrá vuelta atrás!</p>\
+                <small>Confirme tecleando los IDs de los contacto seguido de una coma</small>\
+                <p><strong class='text-danger'> IDs: " + formattedContactIds + " </strong> :</p>\
+                ",
+                icon: 'warning',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: 'Borralos',
+                cancelButtonText: 'Cancelar',
+                timer: 50000
+
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    if (result.value === deletedContactIds.join(', ')) {
+                        new Promise((resolve) => {
+                            Livewire.emit('delete_contacts', deletedContactIds, result.value);
+                            resolve();
+                        })
+                        .then(() => {
+                            Toast.fire({
+                                icon: 'success',
+                                title: '¡Eliminado!',
+                                text: 'Los contactos ha sido eliminados de la base de datos.',
+                                // html: "\
+                                // <p>Los contactos han sido eliminados de la base de datos.</p>\
+                                // <p class='btn btn-outline-secondary py-1 px-2'\
+                                //     wire:click=\"enableContact(" + deletedContactId + ")\">Deshacer acción</p>\
+                                // "
+                            });
+
+                        });
+                    }else{
+                        Toast.fire(
+                            '¡Error al eliminar!',
+                            'Error en los ids de confirmacion al eliminar los contactos :)',
+                            'error'
+                        )
+                    }
+                } else if
+                ( result.dismiss === Swal.DismissReason.cancel){
+                    Toast.fire(
+                        'Cancelado',
+                        'Los contactos están a salvo :)',
+                        'warning'
+                    )
+                }
+            })
+        });
+
+        window.addEventListener('show-recovery-contact-success', function(event){
+            let is_multiple = event.detail.is_multiple;
+
+            Toast.fire({
+                title: '¡Recuperado!',
+                text: is_multiple ? 'Contacto recuperado exitosamente.' : 'Contactos recuperados exitosamente.',
+                icon: 'success',
+            });
+        });
+        window.addEventListener('show-recovery-contact-error', function(event){
+            let is_multiple = event.detail.is_multiple;
+
+            Toast.fire({
+                title: '¡Error!',
+                text: is_multiple ? 'No se ha podido recuper el contacto.' : 'No se han podido recuper los contactos.',
+                icon: 'danger',
+            });
         });
 
 

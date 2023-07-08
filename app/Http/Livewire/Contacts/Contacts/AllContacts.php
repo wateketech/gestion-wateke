@@ -12,7 +12,8 @@ class AllContacts extends Component
     protected $listeners = [
         'multiple_selection',
         'delete_contact' => 'deleteContact',
-        'enable_contact' => 'enableContact'
+        'delete_contacts' => 'deleteContacts',
+        'enable_contacts' => 'enableContacts'
         ];
 
     public $entity_types;
@@ -207,16 +208,41 @@ class AllContacts extends Component
     public function deleteContact_Q($id){
         $this->dispatchBrowserEvent('show-delete-contact', ['contact_id' => $id, 'current_contact' => $this->current_contact]);
     }
+    public function deleteContacts_Q($ids){
+        $this->dispatchBrowserEvent('show-delete-contacts', ['contacts_id' => $ids, 'current_contacts' => $this->current_contacts]);
+    }
+
+
     public function deleteContact($id, $value){
         if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
             Contacts::find($id)->update(['enable' => false]);
         }
     }
+    public function deleteContacts($ids, $value){
+        if ($ids == $this->current_contacts) {
+            foreach ($ids as $id){
+                Contacts::find($id)->update(['enable' => false]);
+            }
+        }
+    }
+
     public function enableContact($id){
         if ($id == $this->current_contact){
             $contact_id = Contacts::find($id)->update(['enable' => true]);
+            $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => false]);
         }
-        $this->dispatchBrowserEvent('show-recovery-contact');
+        else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => false]);
+
+    }
+
+    public function enableContacts($ids){
+        if (json_decode($ids) == $this->current_contacts){
+            foreach ($this->current_contacts as $id){
+                $contact_id = Contacts::find($id)->update(['enable' => true]);
+            }
+            $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => true]);
+        }
+        else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => true]);
     }
 
 }
