@@ -34,7 +34,7 @@
                 <div class="input-group">
                     <input class="form-control text-lower
                             @error("instant_messages.{$index}.value")border border-danger rounded-3 @enderror
-                            @if($this->uniqueWarningBD('contact_instant_messages', 'value', $instant_message['value']) != null) border border-warning rounded-3 @endif""
+                            @if($this->uniqueCoupleWarningBD('contact_instant_messages', 'value', $instant_message['value'], 'type_id', $instant_message['type_id']) != null) border border-warning rounded-3 @endif"
                         type="tel" name="instant_messages_value_{{ $index }}" id="instant_messages_value_{{ $index }}"
                         wire:blur="validate_chats('value', {{ $index }})"
                         wire:model="instant_messages.{{ $index }}.value">
@@ -46,7 +46,7 @@
                     @endif
                 </div>
                 @error("instant_messages.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_instant_messages', 'value', $instant_message['value'], 'Esta cuenta ya es utilizado por otro contacto' ) !!}</sub>
+                <sub class="text-warning">{!! $this->uniqueCoupleWarningBD('contact_instant_messages', 'value', $instant_message['value'], 'type_id', $instant_message['type_id'], 'Esta cuenta ya es utilizado por otro contacto' ) !!}</sub>
 
             </div>
 

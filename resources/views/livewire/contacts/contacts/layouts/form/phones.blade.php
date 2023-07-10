@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <sub wire:ignore id='phone_value_warning-{{$index}}' class="text-warning" hidden>El número no cumple con el formato.</sub>
-                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_phones', 'value', $phone['value'], 'El telefono ya es utilizado por otro contacto' ) !!}</sub>
+                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_phones', 'value', $phone['value'], 'El telefono puede ya estar siendo utilizado por otro contacto' ) !!}</sub>
                 @error("phones.{$index}.value")<sub class="text-danger d-block pt-2">{{ $message }}</sub> @enderror
             </div>
 
@@ -77,6 +77,7 @@
 
 <script wire:ignore src="../assets/js/plugins/intl-tel-input/js/intlTelInput.js"></script>
 <script wire:ignore>
+
     window.addEventListener('intl-tel-input', function(event){
         var index = event.detail.index;
         var tel = document.getElementById("intl-tel-input-" + index);
@@ -88,6 +89,25 @@
             preferredCountries: ['cu', 'gt', 'cr', 'ad', 'es'],
             utilsScript: "../assets/js/plugins/intl-tel-input/js/utils.js",
         });
+
+
+        if (event.detail.phone){
+            let real_phone = event.detail.phone;
+            let real_meta_phone = JSON.parse(real_phone.value_meta);
+
+
+            let flag_div =  tel.parentNode.children[0].children[0];
+            let flag_icon = tel.parentNode.children[0].children[0].children[0];
+            let input = tel;
+            let hidden = tel.parentNode.children[2];
+            let a = tel.parentNode.parentNode.children[1];
+
+
+            flag_div.title = real_meta_phone.country_name + ': +' + real_meta_phone.country_dial_code;
+            flag_icon.className = 'iti__flag iti__' + real_meta_phone.country_iso2;
+            input.value = real_phone.value;
+            a.href = real_meta_phone.call_number;
+        }
 
         tel.addEventListener('blur', function(event) {
             let warningMessage = document.getElementById('phone_value_warning-' + index)
@@ -125,8 +145,6 @@
         });
     });
 
-    window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { index: 0 } }));
-
     window.addEventListener('intl-tel-input-remove-phone', function(event){
         let phonesvalues = document.querySelectorAll('#input-group-intl-tel');
         let index = 0;
@@ -148,5 +166,29 @@
             index++;
         });
     });
+
 </script>
 
+
+
+{{-- // console.log({{ $index  }}) --}}
+{{-- // window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { {{ $index }}: 0, phone : {{ $current_phone }} }})); --}}
+
+
+
+@if ($edit_mode)
+    @foreach ($phones as $index => $current_phone)
+        <script wire:ignore>
+            window.dispatchEvent(new CustomEvent('intl-tel-input', { detail:
+                {
+                    index : {{ $index }},
+                    phone: {!! json_encode($current_phone) !!},
+                }
+            }));
+        </script>
+    @endforeach
+@else
+<script wire:ignore>
+    window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { index: 0 } }));
+</script>
+@endif

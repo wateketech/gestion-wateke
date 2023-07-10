@@ -28,7 +28,9 @@
                 <label for="webs_value_{{ $index }}" class="form-control-label">Enlace *</label>
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1" style='padding-right: 0px !important;'>https://</span>
-                    <input class="@error("webs.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
+                    <input class="form-control text-lower
+                        @error("webs.{$index}.value")border border-danger rounded-3 @enderror
+                        @if($this->uniqueCoupleWarningBD('contact_webs', 'value', $web['value'], 'type_id', $web['type_id']) != null) border border-warning rounded-3 @endif"
                         type="text" name="webs_value_{{ $index }}" id="webs_value_{{ $index }}"
                         wire:model="webs.{{ $index }}.value"
                         wire:blur="validate_webs('value', {{ $index }})"
@@ -38,7 +40,7 @@
                     </a>
                 </div>
                 @error("webs.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_webs', 'value', $web['value'], 'Esta web ya es utilizado por otro contacto' ) !!}</sub>
+                <sub class="text-warning">{!! $this->uniqueCoupleWarningBD('contact_webs', 'value', $web['value'], 'type_id', $web['type_id'], 'Esta web ya es utilizado por otro contacto' ) !!}</sub>
             </div>
 
 

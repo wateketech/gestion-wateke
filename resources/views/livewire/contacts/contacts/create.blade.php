@@ -25,7 +25,7 @@
 
                 {{-- form --}}
                 <div class="col-lg-10 py-2">
-                    <form wire:submit.prevent="store" method='POST' action="#">
+                    <form wire:submit.prevent="{{ $create_mode ?  'store' : 'update' }}" method='POST' action="#">
                         @csrf
                         <div class="card card-body blur shadow-blur mx-2 my-1 px-4" style="min-height: 35em;">
 
@@ -116,7 +116,7 @@
                                 @include("livewire.contacts.contacts.layouts.form.phones")
 
                             </div>
-                            {{-- -------------------------- STEP GENERALS -------------------------- --}}
+                            {{-- -------------------------- STEP CHATS -------------------------- --}}
                             <div class="row {{ $currentStep != 'chats' ? 'd-none' : '' }}" id="step-chats">
                                 <div class="d-flex flex-row justify-content-between align-items-center">
                                     <div class="h4 text-dark form-title">
@@ -302,16 +302,28 @@
                                 @include("livewire.contacts.contacts.layouts.form.resumen")
 
                                 <div>
-                                    <div class="d-flex justify-content-center mt-3">
-                                        <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
-                                        <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
-                                        <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
-                                    </div>
-                                    <div class='px-4 fs-5'>
-                                        <sub>
-                                            <strong>Nota: </strong>Eventualmente podrá recibir notificaciones a implementaciones y/o actualizaciones de campos nuevos o faltantes al completar la información de contacto.
-                                        </sub>
-                                    </div>
+                                    @if ($create_mode)
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
+                                            <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
+                                            {{-- <button type="submit" class="btn btn-success mx-2">Crear Contacto</button> --}}
+                                            <a type="button" wire:click="store" class="btn btn-success mx-2">Crear Contacto</a>
+                                        </div>
+                                        <div class='px-4 fs-5'>
+                                            <sub>
+                                                <strong>Nota: </strong>Eventualmente podrá recibir notificaciones a implementaciones y/o actualizaciones de campos nuevos o faltantes al completar la información de contacto.
+                                            </sub>
+                                        </div>
+                                    @endif
+                                    @if ($edit_mode)
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <a type="button" href="{{ route('editar-contacto', ['id' => $contact_id]) }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
+                                            <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
+                                            {{-- <a type="button" wire:click="update" class="btn btn-success mx-2">Actualizar Contacto</a> --}}
+                                            <button type="submit" class="btn btn-success mx-2">Actualizar Contacto</button>
+                                        </div>
+                                    @endif
+
                                 </div>
 
                             </div>

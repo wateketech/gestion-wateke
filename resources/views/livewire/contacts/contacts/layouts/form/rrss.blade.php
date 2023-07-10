@@ -24,7 +24,9 @@
             <label for="rrss_value_{{ $index }}" class="form-control-label">Usuario *</label>
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">@</span>
-                <input class="@error("rrss.{$index}.value")border border-danger rounded-3 @enderror form-control text-lower"
+                <input class="form-control text-lower
+                    @error("rrss.{$index}.value")border border-danger rounded-3 @enderror
+                    @if($this->uniqueCoupleWarningBD('contact_rrss', 'value', $rs['value'], 'type_id', $rs['type_id']) != null) border border-warning rounded-3 @endif"
                     type="text" name="rrss_value_{{ $index }}" id="rrss_value_{{ $index }}"
                     wire:blur="validate_rrss('value', {{ $index }})"
                     wire:model="rrss.{{ $index }}.value"
@@ -35,7 +37,7 @@
                     </a>
                 </div>
             @error("rrss.{$index}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
-            <sub class="text-warning">{!! $this->uniqueWarningBD('contact_rrss', 'value', $rs['value'], 'Esta cuenta ya es utilizado por otro contacto' ) !!}</sub>
+            <sub class="text-warning">{!! $this->uniqueCoupleWarningBD('contact_rrss', 'value', $rs['value'], 'type_id', $rs['type_id'], 'Esta cuenta ya es utilizado por otro contacto' ) !!}</sub>
 
         </div>
 

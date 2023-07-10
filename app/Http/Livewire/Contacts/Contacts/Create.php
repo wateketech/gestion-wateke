@@ -65,8 +65,14 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'general';
+    public $currentStep = 'emails';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
+
+
+    // VIEW-FUNCT MODES
+    public $contact_id;
+    public $create_mode = false;
+    public $edit_mode = false;
 
     // GENERALS
     public $genders, $prefixs;
@@ -137,26 +143,9 @@ class Create extends Component
     public $user_link_role, $user_link_name, $user_link_email, $user_link_phone, $user_link_password_public, $user_link_password_check, $user_link_about;
 
 
-
     // ----------------------- RENDER --------------------------
-    public function mount()
-    {
-        $this->genders = Genders::all()->where('enable', true);
-        $this->gender = $this->genders->first()->id;
-        $this->updatedGender();
 
-        $this->email_types = EmailTypes::all()->where('enable', true);
-        $this->phone_types = PhoneTypes::all()->where('enable', true);
-        $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
-        $this->rrss_types = RrssTypes::all()->where('enable', true);
-        $this->web_types = WebTypes::all()->where('enable', true);
-        $this->countries = Countries::all()->where('enable', true);
-        $this->date_types = DateTypes::all()->where('enable', true);
-        $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
-        $this->id_types = IdTypes::all()->where('enable', true);
-
-
-
+    public function initContactPropertys(){
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
         $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
@@ -165,7 +154,6 @@ class Create extends Component
         $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
-
 
         $this->address[] = [
             'name' => 'Casa',
@@ -178,9 +166,82 @@ class Create extends Component
         // $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
         $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
         $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
+    }
+    public function getContactPropertys($id){
+        $this->contact_id = $id;
+        $current_contact = Contacts::find($this->contact_id);
+
+        $this->alias = $current_contact->alias;
+        $this->name = $current_contact->name;
+        $this->middle_name = $current_contact->middle_name;
+        $this->first_lastname = $current_contact->first_lastname;
+        $this->second_lastname = $current_contact->second_lastname;
+        $this->about = $current_contact->about;
+        $this->gender = $current_contact->gender_id;
+        $this->prefix = $current_contact->prefix_id;
+
+        //$this->address = $current_contact->address->toArray();
+        // $this->address_line = $current_contact->address->address_line->toArray();
+
+        $this->address[] = ['name' => 'Casa','city_id' => null,'geolocation' => null,'zip_code' => '','country_id' => null,'state_id' => null];
+        $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+        $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
 
 
-        // $this->fakedata();
+        //$phones = $current_contact->phones->toArray();
+        //foreach ($phones as $index => $phone){
+        //    $this->phones[] = $phone;
+            // $this->removePhone($index);
+            // $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index]);
+            // $this->dispatchBrowserEvent('intl-tel-input-remove-phone', ['phones' => $this->phones]);
+        //}
+        $this->phones = $current_contact->phones->toArray();
+
+
+//         window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { index: 0, phone : phones[0]} }));
+
+        $this->emails = $current_contact->emails->toArray();
+        $this->instant_messages = $current_contact->instant_messages->toArray();
+        $this->webs = $current_contact->webs->toArray();
+        $this->rrss = $current_contact->rrss->toArray();
+        $this->dates = $current_contact->dates->toArray();
+        $this->publish_us = $current_contact->publish_us->toArray();
+        $this->ids = $current_contact->ids->toArray();
+
+
+
+
+
+
+
+    }
+
+    public function mount($id = null)
+    {
+        $this->genders = Genders::all()->where('enable', true);
+        $this->gender = $this->genders->first()->id;
+        $this->updatedGender();
+        $this->email_types = EmailTypes::all()->where('enable', true);
+        $this->phone_types = PhoneTypes::all()->where('enable', true);
+        $this->instant_message_types = InstantMessageTypes::all()->where('enable', true);
+        $this->rrss_types = RrssTypes::all()->where('enable', true);
+        $this->web_types = WebTypes::all()->where('enable', true);
+        $this->countries = Countries::all()->where('enable', true);
+        $this->date_types = DateTypes::all()->where('enable', true);
+        $this->publish_us_types = PublishUsTypes::all()->where('enable', true);
+        $this->id_types = IdTypes::all()->where('enable', true);
+
+
+        if ($id === null){
+            $this->create_mode = true;
+            $this->initContactPropertys();
+            // $this->fakedata();
+        }
+        else if (isset($id) || $id !== null) {
+            $this->edit_mode = true;
+            if (Contacts::find($id) === null) abort(404);
+            $this->getContactPropertys($id);
+        }
     }
     public function render()
     {
@@ -202,7 +263,25 @@ class Create extends Component
 // ----------------------- VALIDACIONES --------------------------
 
     public function uniqueWarningBD($table, $targetField, $value, $message = 'El campo ya es utilizado en base de datos', $href = true){
-        $result = DB::table($table)->where($targetField, $value)->first();
+        $result = DB::table($table)
+            ->where($targetField, $value)
+            ->whereNot('contact_id', $this->contact_id === null ? -1 : $this->contact_id)
+            ->first();
+
+        if ($result) {
+            if (!$href) return $message;
+            else{
+                return $message . " &nbsp;&nbsp;&nbsp; <a href='/contactos/" . $result->contact_id .  "' target='_blank' class='btn btn-outline-primary m-0 py-0 px-1' style='font-size: smaller;'>ver contacto</a>";
+            }
+        }
+        return null;
+    }
+    public function uniqueCoupleWarningBD($table, $targetField1, $value1, $targetField2, $value2, $message = 'El campo ya es utilizado en base de datos', $href = true){
+        $result = DB::table($table)
+            ->where($targetField1, $value1)
+            ->where($targetField2, $value2)
+            ->whereNot('contact_id', $this->contact_id === null ? -1 : $this->contact_id)
+            ->first();
 
         if ($result) {
             if (!$href) return $message;
@@ -213,6 +292,9 @@ class Create extends Component
         return null;
     }
 
+
+
+
     public function validate_general($fieldName = null){
         $this->name = ucwords(strtolower(trim($this->name)));
         $this->middle_name = ucwords(strtolower(trim($this->middle_name)));
@@ -220,10 +302,10 @@ class Create extends Component
         $this->second_lastname = ucwords(strtolower(trim($this->second_lastname)));
 
         $rules = [
-            'name' => 'required|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
-            'middle_name' => 'nullable|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
-            'first_lastname' => 'required|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
-            'second_lastname' => 'nullable|string|min:2|max:50|regex:/^[a-zA-Z ]+$/',
+            'name' => 'required|string|min:2|max:50|regex:/^[\p{L}ÁÉÍÓÚáéíóú ]+$/u',
+            'middle_name' => 'nullable|string|min:2|max:50|regex:/^[\p{L}ÁÉÍÓÚáéíóú ]+$/u',
+            'first_lastname' => 'required|string|min:2|max:50|regex:/^[\p{L}ÁÉÍÓÚáéíóú ]+$/u',
+            'second_lastname' => 'nullable|string|min:2|max:50|regex:/^[\p{L}ÁÉÍÓÚáéíóú ]+$/u',
             // 'profile_pics' => 'max:5120|valid_image_mime',
         ];
         $messages = [
@@ -296,6 +378,8 @@ class Create extends Component
             $this->phones[$index]['extension'] = trim(str_replace(' ', '', $this->phones[$index]['extension']));
         }
 
+        dd('hola');
+        // HAY PROBLEMAS AQUI EN EL MODO DE EDITAR
         $rules = [
             'phones.' . $index . '.is_primary' => '',
             'phones.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
@@ -655,7 +739,8 @@ class Create extends Component
         $rules = [
             'ids.' . $index . '.type_id' => ['required', Rule::in($this->id_types->pluck('id')->toArray()),],
             'ids.' . $index . '.value' => [ 'required', 'string', 'min:5', 'max:20',
-                Rule::unique('contact_ids', 'value', 'type_id'),
+                Rule::unique('contact_ids', 'value', 'type_id')
+                    ->whereNot('contact_id', $this->contact_id === null ? -1 : $this->contact_id),
                 function ($attribute, $value, $fail) {
                     $ids = array_column($this->ids, 'value');
                     if (count($ids) != count(array_unique($ids))) {
@@ -1295,7 +1380,9 @@ class Create extends Component
 // -------------------------- END - STEPS -------------------------- //
 // -------------------------- END - STEPS -------------------------- //
 
-
+    public function update(){
+        dd('Hola');
+    }
 
 
 
