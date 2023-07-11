@@ -65,7 +65,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'address';
+    public $currentStep = 'resumen';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
 

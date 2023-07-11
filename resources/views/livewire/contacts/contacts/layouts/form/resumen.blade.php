@@ -142,12 +142,20 @@
                                     @endif
                                 @endforeach
                             {{ $localidad ? ', ' . $localidad : '' }},
+                            @if (isset($add['country_id']))
+                            @if ($add['country_id'] != null)
                             @if ($countries->find($add['country_id']) != null)
-                                {{ $countries->find($add['country_id'])->states->find($add['state_id'])->name }},
+                                @php $country = $countries->find($add['country_id']); @endphp
+
+                                @if ($add['state_id'] != null)
+                                    {{ $country->states->find($add['state_id']) ? $country->states->find($add['state_id'])->name : ''}},
+                                @endif
+                                @if ($add['city_id'] != null)
+                                    {{ $country->cities->find($add['city_id']) ? $country->cities->find($add['city_id'])->name : ''}},
+                                @endif
+                                {{ $country->name }} <span class="emoji">{{ $countries->find($add['country_id'])->emoji }}</span>
                             @endif
-                            @if ($countries->find($add['country_id']) != null)
-                                {{ $countries->find($add['country_id'])->cities->find($add['city_id'])->name }},
-                                {{ $countries->find($add['country_id'])->name }} <span class="emoji">{{ $countries->find($add['country_id'])->emoji }}</span>
+                            @endif
                             @endif
                         </p>
                     @empty
