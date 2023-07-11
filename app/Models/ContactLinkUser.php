@@ -14,9 +14,9 @@ class ContactLinkUser extends Model
     protected $fillable = ['contact_id', 'user_id', 'enable', 'meta',];
 
     public function contact(){
-        return $this->belongsTo('App\Models\Contact', 'id');
+        return $this->belongsTo('App\Models\Contact', 'contact_id', 'id');
     }
     public function user(){
-        return $this->belongsTo('App\Models\User', 'id');
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 }

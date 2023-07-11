@@ -50,9 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Notification')->withTimestamps();
     }
-    public function contact()
+    public function link_contact()
     {
-        return $this->belongsToMany('App\Models\Contact');
+        return $this->hasOne('App\Models\ContactLinkUser', 'user_id', 'id')->with('contact');;
     }
 
 

@@ -63,4 +63,8 @@ class Contact extends Model
         return $this->hasMany('App\Models\ContactAddress', 'contact_id');
     }
 
+    public function link_user(){
+        return $this->hasOne('App\Models\ContactLinkUser', 'contact_id', 'id')->with('user');
+    }
+
 }

@@ -112,7 +112,7 @@
                 @forelse ($contact->ids as $id)
                     <p class="p-0 m-0">{!! html_entity_decode($id->type->icon) !!} {{ $id->value }}</p>
                     @empty
-                    <p class="p-0 m-0"><small><i class="far fa-sad-tear fa-md icon-primary"></i> No tiene documentación <i class="far fa-sad-tear fa-md icon-primary"></i></small></p>
+                    {{-- <p class="p-0 m-0"><small><i class="far fa-sad-tear fa-md icon-primary"></i> No tiene documentación <i class="far fa-sad-tear fa-md icon-primary"></i></small></p> --}}
                 @endforelse
                 <p class="pt-3 pb-2 p-0 m-0">{!! count($contact->publish_us) == 0 ? html_entity_decode('<i class="far fa-angry icon-danger"></i>') . ' NO nos publica ' : '' !!}</p>
 
@@ -152,11 +152,13 @@
                                     @php $localidad = $line->value; @endphp
                                 @endif
                             @endforeach
-                                {{ $localidad ? ', ' . $localidad : '' }},
-                                {{ $add->state->name }},
-                                {{ $add->city->name }},
-                                {{-- , {{ $find($add['country_id'])->name }} --}}
-                                {{ $add->country->name }} <span class="emoji">{{ $add->country->emoji }}</span>
+                                @if ($add->country != null)
+                                    {{ $localidad ? ', ' . $localidad : '' }},
+                                    {{ $add->state != null ? $add->state->name : '' }},
+                                    {{ $add->city != null ? $add->city->name : '' }},
+                                    {{-- , {{ $find($add['country_id'])->name }} --}}
+                                    {{ $add->country->name }} <span class="emoji">{{ $add->country->emoji }}</span>
+                                @endif
                         </p>
                 @empty
                     <p class="text-center py-6"><i class="far fa-sad-tear fa-lg icon-primary"></i> El usuario no tiene direcciones registradas <i class="far fa-sad-tear fa-lg icon-primary"></i></p>

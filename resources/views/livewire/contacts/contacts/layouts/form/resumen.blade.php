@@ -70,7 +70,7 @@
                     {!! html_entity_decode($rrss_types->find($rs['type_id'])->icon) !!}
                 </a>
             @empty
-                Este contacto no tienen redes sociales
+            <i class="far fa-sad-tear fa-md icon-primary"></i> Este contacto no tienen redes sociales
             @endforelse
         </div>
         <div class="col-7 pb-4 px-4 text-end">
@@ -104,7 +104,7 @@
                     @foreach ($ids as $id)
                         <p class="p-0 m-0">{!! html_entity_decode($id_types->find($id['type_id'])->icon) !!} {{ $id['value'] }}</p>
                     @endforeach
-                    <p class="pt-3 p-0 m-0">{{ count($publish_us) == 0 ? 'NO nos publica' : '' }}</p>
+                    <p class="pt-3 pb-2 p-0 m-0">{!! count($publish_us) == 0 ? html_entity_decode('<i class="far fa-angry icon-danger"></i>') . ' NO nos publica ' : '' !!}</p>
 
                     <strong class='pr-3'>Notas: </strong>
                     <small>{{ (isset($about) && strlen($about) != 0) ? '' : 'No dispone' }}</small>{{-- agregar tambien condicion para el about laboral --}}
@@ -159,7 +159,7 @@
                             @endif
                         </p>
                     @empty
-                        No dispone
+                    <p class="text-center py-6"><i class="far fa-sad-tear fa-lg icon-primary"></i> El usuario no tiene direcciones registradas <i class="far fa-sad-tear fa-lg icon-primary"></i></p>
                     @endforelse
             </div>
         </div>
@@ -556,6 +556,7 @@
 
 
 <div class="card-footer px-4 pt-1">
+@if ($create_mode)
     <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="rememberMe" wire:model='is_user_link'>
         <label class="form-check-label fs-6" for="rememberMe"> Convertir en un usuario del sistema</label>
@@ -591,5 +592,33 @@
         </div>
     @endif
     @error('is_user_link') <sub class="text-danger">{{ $message }}</sub> @enderror
+@endif
+@if ($edit_mode && false)
+    <h5 class="form-title h6 opacity-8">
+        <i class="fas fa-user"></i> &nbsp;&nbsp;
+        Información del usuario al sistema
+    </h5>
+    <div class="mt-3 row">
+        <div class="col form-group">
+            <label for="user_link_role" class="form-control-label">Rol *</label>
+            <input class="@error('user_link_email')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
+                name="user_link_role" id="user_link_role" value="{{ $user_link_role }}" disabled>
+            @error('user_link_role') <sub class="text-danger">{{ $message }}</sub> @enderror
+        </div>
+        <div class="col form-group">
+            <label for="user_link_email" class="form-control-label">Usuario</label>
+            <input class="@error('user_link_email')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
+                name="user_link_email" id="user_link_email" value="{{ $user_link_email }}" disabled>
+            @error('user_link_email') <sub class="text-danger">{{ $message }}</sub> @enderror
+        </div>
+        <div class="col form-group">
+            <label for="user_link_password_public" class="form-control-label">Contraseña *</label>
+            <input class="@error('user_link_password_public')border border-danger rounded-3 is-invalid @enderror form-control" type="text" {{-- type="password" --}}
+                aria-label="Password" name="user_link_password_public" id="user_link_password_public" aria-describedby="password-addon"
+                value="{{ $user_link_password_public }}" disabled>
+            @error('user_link_password_public') <sub class="text-danger">{{ $message }}</sub> @enderror
+        </div>
+    </div>
+@endif
 </div>
 

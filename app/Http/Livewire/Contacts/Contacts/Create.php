@@ -194,6 +194,14 @@ class Create extends Component
         $this->dates = $current_contact->dates->where('enable', true)->toArray();
         $this->publish_us = $current_contact->publish_us->where('enable', true)->toArray();
         $this->ids = $current_contact->ids->where('enable', true)->toArray();
+
+        if ($link_user = $current_contact->link_user){
+            $this->user_link_role = $link_user->user->roles->pluck('name')[0];
+            $this->user_link_name = $link_user->user->name;
+            $this->user_link_email = $link_user->user->email;
+            // $this->user_link_password_public = $link_user->password_public;
+        }
+
     }
 
     public function mount($id = null)
