@@ -65,7 +65,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'emails';
+    public $currentStep = 'address';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
 
@@ -378,26 +378,44 @@ class Create extends Component
             $this->phones[$index]['extension'] = trim(str_replace(' ', '', $this->phones[$index]['extension']));
         }
 
-        dd('hola');
-        // HAY PROBLEMAS AQUI EN EL MODO DE EDITAR
         $rules = [
             'phones.' . $index . '.is_primary' => '',
             'phones.' . $index . '.type_id' => ['required', 'integer', Rule::in($this->phone_types->pluck('id')->toArray()),],
             'phones.' . $index . '.about' => 'nullable|string|min:2',
-            'phones.' . $index . '.extension' => ['integer',
+            'phones.' . $index . '.extension' => [ 'nullable', 'integer',
                 Rule::requiredIf(function () use ($index) {
-                    return $index !== '*' && $this->phone_types->find($this->phones[$index]['type_id'])->label === 'Extensión';
+                    if ($index === '*'){
+                        foreach ($this->phones as $phone) {
+                            if ($this->phone_types->find($phone['type_id'])->label === 'Extensión' && empty($phone['extension'])) return true;
+                        }
+                        return false;
+                    }
+                    else{
+                        return $index !== '*' && $this->phone_types->find($this->phones[$index]['type_id'])->label === 'Extensión';
+                    }
                 }),
                 function ($attribute, $value, $fail) use ($index) {
                     // validar que el juego del value + ext no se repita en el front-end
                 }],
-            'phones.' . $index . '.value' => ['required',
-                                            //'regex:/^(\+?\d{1,3}[-. ]?)?(\(?\d{3}\)?[-. ]?)?\d{3}[-. ]?\d{4}$/',
+            'phones.' . $index . '.value' => ['nullable', 'required', 'min:5', 'max:20',
+                                            'regex:/^(\+)?(\d{1,3})?[- ]?(\()?(\d{3})?(\))?[- ]?\d{3}[- ]?\d*$/',
+
                 function ($attribute, $value, $fail) use ($index) {
                     $phones = array_column($this->phones, 'value');
-                    if (count($phones) != count(array_unique($phones)) && $this->phone_types->find($this->phones[$index]['type_id'])->label != 'Extensión') {
-                        $fail('Los números de teléfonos no pueden repetirse');
+                    if ($index === '*'){
+                        foreach ($this->phones as $phone) {
+                            if (count($phones) != count(array_unique($phones)) && $phone['type_id'] != 'Extensión') {
+                                $fail('Los números de teléfonos no pueden repetirse');
+                            }
+                        }
                     }
+                    else{
+                        if (count($phones) != count(array_unique($phones)) && $this->phone_types->find($this->phones[$index]['type_id'])->label != 'Extensión') {
+                            $fail('Los números de teléfonos no pueden repetirse');
+                        }
+                    }
+
+
                 }
             ]
         ];
@@ -409,7 +427,7 @@ class Create extends Component
             'phones.*.*.unique' => 'Este teléfono ya está en uso',
             'phones.*.*.string' => 'Este campo debe ser de tipo texto',
             'phones.*.*.integer' => 'Este campo debe ser de tipo numerico',
-            //'phones.*.*.regex' => 'Este campo debe ser un teléfono válido',
+            'phones.*.*.regex' => 'Este campo debe ser un teléfono válido',
         ];
 
 

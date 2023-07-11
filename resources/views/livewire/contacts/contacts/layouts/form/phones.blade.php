@@ -31,8 +31,8 @@
                         <i class="fas fa-phone"></i>
                     </a>
                 </div>
-                <sub wire:ignore id='phone_value_warning-{{$index}}' class="text-warning" hidden>El número no cumple con el formato.</sub>
-                <sub class="text-warning">{!! $this->uniqueWarningBD('contact_phones', 'value', $phone['value'], 'El telefono puede ya estar siendo utilizado por otro contacto' ) !!}</sub>
+                <p><sub class="text-warning">{!! $this->uniqueWarningBD('contact_phones', 'value', $phone['value'], 'El telefono puede ya estar siendo utilizado por otro contacto' ) !!}</sub></p>
+                <p><sub wire:ignore id='phone_value_warning-{{$index}}' class="text-warning" hidden>El número no cumple con el formato.</sub></p>
                 @error("phones.{$index}.value")<sub class="text-danger d-block pt-2">{{ $message }}</sub> @enderror
             </div>
 
@@ -83,6 +83,7 @@
         var tel = document.getElementById("intl-tel-input-" + index);
         var iti = window.intlTelInput(tel, {
             hiddenInput: "tel-" + index,
+            formatOnDisplay: true,
             initialCountry: "es",
             separateDialCode: false,
             // excludeCountries: ["af"],
@@ -104,18 +105,25 @@
 
 
             flag_div.title = real_meta_phone.country_name + ': +' + real_meta_phone.country_dial_code;
-            flag_icon.className = 'iti__flag iti__' + real_meta_phone.country_iso2;
+            //flag_icon.className = 'iti__flag iti__' + real_meta_phone.country_iso2;
+            iti.setCountry(real_meta_phone.country_iso2)
             input.value = real_phone.value;
             a.href = real_meta_phone.call_number;
         }
 
         tel.addEventListener('blur', function(event) {
+            // Establece el value formateado
+            var formattedPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
+            tel.value = formattedPhoneNumber;
+
+
+            // almacena en el componente las propiedades del telefono (value_meta)
             let warningMessage = document.getElementById('phone_value_warning-' + index)
-            if (iti.isValidNumber()){
-                warningMessage.hidden = true;
-            }else{
-                warningMessage.hidden = false;
+            if (tel.value != null && tel.value != '' && tel.value != undefined){
+                if (iti.isValidNumber()) warningMessage.hidden = true;
+                else warningMessage.hidden = false;
             }
+            else warningMessage.hidden = true;
 
             let cleanNumber = iti.getNumber().replace(/\D/g, '');
             let countryCode = iti.getSelectedCountryData().dialCode;
@@ -127,6 +135,7 @@
                 number : iti.getNumber(),
                 call_number : ('+' + countryCode + cleanNumber),
                 clean_number : cleanNumber,
+                formatted_number : formattedPhoneNumber,
                 country_code : iti.getSelectedCountryData().areaCode,
                 country_dial_code : countryCode,
                 country_iso2 : iti.getSelectedCountryData().iso2,
@@ -134,6 +143,7 @@
                 // flag_title = 'country_name' + ': +' + 'country_dial_code';
                 // flag_icon = 'iti__flag iti__' + 'country_iso2';
             }
+
             value_meta = Object.keys(value_meta).reduce(function(obj, key) {
                 obj[key] = (typeof value_meta[key] === "undefined") ? null : value_meta[key];
                 return obj;

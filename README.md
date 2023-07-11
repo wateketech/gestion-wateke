@@ -100,7 +100,6 @@ Start the server
 ## Authors
 
 - [@albertolicea00](https://www.github.com/albertolicea00)
-- [@Edes7191](https://github.com/Edes7191)
 
 ## Credits
 
