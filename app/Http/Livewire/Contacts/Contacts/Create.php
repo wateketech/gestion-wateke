@@ -180,40 +180,20 @@ class Create extends Component
         $this->gender = $current_contact->gender_id;
         $this->prefix = $current_contact->prefix_id;
 
-        //$this->address = $current_contact->address->toArray();
-        // $this->address_line = $current_contact->address->address_line->toArray();
+        $this->address = $current_contact->address->where('enable', true)->toArray();
+        $this->address_line = [];
+        foreach($this->address as $index => $add){
+            $this->address_line[$index] = $current_contact->address[$index]->lines->toArray();
+        }
 
-        $this->address[] = ['name' => 'Casa','city_id' => null,'geolocation' => null,'zip_code' => '','country_id' => null,'state_id' => null];
-        $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
-        $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
-
-
-        //$phones = $current_contact->phones->toArray();
-        //foreach ($phones as $index => $phone){
-        //    $this->phones[] = $phone;
-            // $this->removePhone($index);
-            // $this->dispatchBrowserEvent('intl-tel-input', ['index' => $index]);
-            // $this->dispatchBrowserEvent('intl-tel-input-remove-phone', ['phones' => $this->phones]);
-        //}
-        $this->phones = $current_contact->phones->toArray();
-
-
-//         window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { index: 0, phone : phones[0]} }));
-
-        $this->emails = $current_contact->emails->toArray();
-        $this->instant_messages = $current_contact->instant_messages->toArray();
-        $this->webs = $current_contact->webs->toArray();
-        $this->rrss = $current_contact->rrss->toArray();
-        $this->dates = $current_contact->dates->toArray();
-        $this->publish_us = $current_contact->publish_us->toArray();
-        $this->ids = $current_contact->ids->toArray();
-
-
-
-
-
-
-
+        $this->emails = $current_contact->emails->where('enable', true)->toArray();
+        $this->phones = $current_contact->phones->where('enable', true)->toArray();
+        $this->instant_messages = $current_contact->instant_messages->where('enable', true)->toArray();
+        $this->webs = $current_contact->webs->where('enable', true)->toArray();
+        $this->rrss = $current_contact->rrss->where('enable', true)->toArray();
+        $this->dates = $current_contact->dates->where('enable', true)->toArray();
+        $this->publish_us = $current_contact->publish_us->where('enable', true)->toArray();
+        $this->ids = $current_contact->ids->where('enable', true)->toArray();
     }
 
     public function mount($id = null)
@@ -1156,14 +1136,33 @@ class Create extends Component
     }
 
 // -------------------------- STEP ADDRESS -------------------------- //
+
+    public function getStates($country_id){
+        return Countries::where('enable', true)->find($country_id)->states->map(function ($state) {
+            return ['id' => $state->id, 'text' => $state->name,];
+        })->toArray();
+    }
+    public function getCities($country_id = null, $state_id = null){
+        $country = Countries::find($country_id);
+        if (!$country) return [];
+
+        $state = $country->states->find($state_id);
+        if (!$state) return [];
+
+        $cities = $state->cities;
+        if (!$cities) return [];
+
+        return $cities->map(function ($city) {
+            return ['id' => $city->id, 'text' => $city->name,];
+        })->toArray();
+    }
+
     public function updateCountry($index_add, $value){
         $this->address[$index_add]['country_id'] = $value;
         $this->address[$index_add]['state_id'] = null;
         $this->address[$index_add]['city_id'] = null;
 
-        $states = Countries::where('enable', true)->find($value)->states->map(function ($state) {
-            return ['id' => $state->id, 'text' => $state->name,];
-        })->toArray();
+        $states = $this->getStates($value);
 
         if (count($states) == 0) {
             $this->dispatchBrowserEvent('init-select2-states-disabled', ['index_add' => $index_add]);
@@ -1176,11 +1175,7 @@ class Create extends Component
         $this->address[$index_add]['state_id'] = $value;
         $this->address[$index_add]['city_id'] = null;
 
-        $cities = Countries::find($this->address[$index_add]['country_id'])
-            ->states->find($this->address[$index_add]['state_id'])
-            ->cities->map(function ($city) {
-                return ['id' => $city->id, 'text' => $city->name,];
-            })->toArray();
+        $cities = $this->getCities($this->address[$index_add]['country_id'], $this->address[$index_add]['state_id']);
 
         if (count($cities) == 0) {
             $this->dispatchBrowserEvent('init-select2-cities-disabled', ['index_add' => $index_add]);

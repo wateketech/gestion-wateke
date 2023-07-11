@@ -28,7 +28,9 @@
                         <option></option>
                         @foreach ($countries as $country)
                             <option value="{{ $country->id }}"
-                                data-flag={{ $country->emoji }}>
+                                data-flag={{ $country->emoji }}
+                                {{ $country->id == $add['country_id'] ? 'selected' : '' }}
+                                >
                                 {{ property_exists(json_decode($country->translations), 'es') ? json_decode($country->translations)->es :  $country->name }}
                             </option>
                         @endforeach
@@ -119,28 +121,6 @@
             </div>
 
 
-            {{-- <div class="col-2 col-md-2 mt-4">
-                @if ($index === count($instant_messages) - 1)
-                    @if (count($instant_messages) > 1)
-                        <div wire:click="removeInstantMessages({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
-                    @endif
-                    @if (count($instant_messages) == 1)
-                        <div wire:click="removeInstantMessages({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
-                        <div wire:click="addInstantMessages({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
-                    @elseif (count($instant_messages) < $instant_messages_max)
-                        <div wire:click="addInstantMessages({{ $index }})" class="btn btn-outline-success px-3"><i class="fas fa-plus text-success"></i></div>
-                    @endif
-                @else
-                    <div wire:click="removeInstantMessages({{ $index }})" class="btn btn-outline-danger px-3 mr-2"><i class="fas fa-minus text-danger"></i></div>
-                @endif
-            </div>
-        @empty
-            <div class="d-flex justify-content-start my-2 mx-3 h5 text-dark form-title">
-                <div wire:click="addInstantMessages({{ -1 }})" class="btn btn-outline-success px-3">Agregar una Mensajería</i></div>
-            </div>
-        @endforelse --}}
-
-
 
             <div class="col-3 col-md-3">
                 @if ($index_add === count($address) - 1)
@@ -185,6 +165,7 @@
                 }
         });
     });
+
     window.addEventListener('init-select2-states-disabled', function(event){
         $selectCity = $('#cities_' + event.detail.index_add +'.Select--2');
         $selectCity.empty();
@@ -201,6 +182,8 @@
 
     });
     window.addEventListener('init-select2-states', function(event){
+        let current_state = event.detail.current_state
+
         $selectCity = $('#cities_' + event.detail.index_add +'.Select--2');
         $selectCity.empty();
         if ($selectCity.length && $selectCity.data('select2')) $selectCity.select2('destroy');
@@ -211,9 +194,16 @@
         $select.empty();
         $select.prop('disabled', false);
         $select.append($('<option>', { value: '', text: '' }));
+        $.each(event.detail.states, function (i, state) {
+            let $option = $('<option>', { value: state.id, text: state.text });
+            if (state.id === current_state) {
+                $option.prop('selected', true);
+            }
+            $select.append($option);
+        });
+
         $select.select2({
                 placeholder: 'Seleccione',
-                data: event.detail.states
             });
     });
 
@@ -226,16 +216,86 @@
         $select.attr('disabled', true);
     });
     window.addEventListener('init-select2-cities', function(event){
+        let current_city = event.detail.current_city
+        console.log(event.detail.cities);
+
         var $select = $('#cities_' + event.detail.index_add +'.Select--2');
         $select.empty();
         $select.prop('disabled', false);
         $select.append($('<option>', { value: '', text: '' }));
+        $.each(event.detail.cities, function (i, city) {
+            let $option = $('<option>', { value: city.id, text: city.text });
+            if (city.id === current_city) {
+                $option.prop('selected', true);
+            }
+            $select.append($option);
+        });
         $select.select2({
                 placeholder: 'Seleccione',
-                data: event.detail.cities
             });
     });
 
+
+</script>
+
+
+
+@if ($edit_mode)
+    @foreach ($address as $index => $add)\
+        <script wire:ignore>
+            window.dispatchEvent(new CustomEvent('init-select2-countries', { detail:{
+                    index_add: {{ $index }}
+                }
+            }));
+        </script>
+        {{-- FILL STATES --}}
+        @php $states = $this->getStates($add['country_id']); @endphp
+        @if (count($states) != 0)
+        <script wire:ignore>
+            window.dispatchEvent(new CustomEvent('init-select2-states', { detail:{
+                    index_add: {{ $index }},
+                    states : {!! json_encode($states) !!},
+                    current_state : {!! $add['state_id'] != null ? $add['state_id'] : -1 !!}
+                }
+            }));
+        </script>
+        @else
+        <script wire:ignore>
+            window.dispatchEvent(new CustomEvent('init-select2-states-disabled', { detail:{
+                    index_add: {{ $index }},
+                }
+            }));
+        </script>
+        @endif
+
+        {{-- FILL CITIES --}}
+        @php $cities = $this->getCities($add['country_id'], $add['state_id']); @endphp
+        @if (count($cities) != 0)
+        <script wire:ignore>
+            window.dispatchEvent(new CustomEvent('init-select2-cities', { detail:{
+                    index_add: {{ $index }},
+                    cities : {!! json_encode($cities) !!},
+                    current_city : {!! $add['city_id'] != null ? $add['city_id'] : -1 !!}
+                }
+            }));
+        </script>
+        @else
+        <script wire:ignore>
+            window.dispatchEvent(new CustomEvent('init-select2-cities-disabled', { detail:{
+                    index_add: {{ $index }},
+                }
+            }));
+        </script>
+        @endif
+
+
+    @endforeach
+@else
+<script wire:ignore>
     window.dispatchEvent(new CustomEvent('init-select2-countries', { detail: { index_add: 0 } }));
 </script>
+@endif
+
+
 @endpush
+

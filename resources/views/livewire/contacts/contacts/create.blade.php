@@ -299,7 +299,7 @@
                             {{-- -------------------------- STEP RESUMEN -------------------------- --}}
                             <div class="row {{ $currentStep != 'resumen' ? 'd-none' : '' }}" id="step-resumen">
 
-                                @include("livewire.contacts.contacts.layouts.form.resumen")
+                                {{-- @include("livewire.contacts.contacts.layouts.form.resumen") --}}
 
                                 <div>
                                     @if ($create_mode)

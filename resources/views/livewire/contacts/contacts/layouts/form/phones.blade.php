@@ -180,12 +180,6 @@
 </script>
 
 
-
-{{-- // console.log({{ $index  }}) --}}
-{{-- // window.dispatchEvent(new CustomEvent('intl-tel-input', { detail: { {{ $index }}: 0, phone : {{ $current_phone }} }})); --}}
-
-
-
 @if ($edit_mode)
     @foreach ($phones as $index => $current_phone)
         <script wire:ignore>
