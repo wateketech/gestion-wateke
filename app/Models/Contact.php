@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\MassCreateConcerns;
-use App\Traits\MassUpdateConcerns;
+use App\Traits\MassAssignmentConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
     use HasFactory;
-    use MassCreateConcerns;
-    use MassUpdateConcerns;
+    use MassAssignmentConcerns;
     protected $table='contacts';
     protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'prefix_id', 'gender_id', 'about', 'meta', 'enable'];
 

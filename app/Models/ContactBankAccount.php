@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\MassCreateConcerns;
-use App\Traits\MassUpdateConcerns;
+use App\Traits\MassAssignmentConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactBankAccount extends Model
 {
     use HasFactory;
-    use MassCreateConcerns;
-    use MassUpdateConcerns;
+    use MassAssignmentConcerns;
     protected $table='contact_bank_accounts';
     protected $fillable = ['contact_id', 'type_id', 'bank_id', 'card_number', 'card_holder', 'expiration_date', 'is_credit', 'meta', 'about', 'enable'];
     public function type(){

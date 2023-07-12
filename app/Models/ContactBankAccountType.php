@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\MassCreateConcerns;
-use App\Traits\MassUpdateConcerns;
+use App\Traits\MassAssignmentConcerns;
 
 class ContactBankAccountType extends Model
 {
     use HasFactory;
-    use MassCreateConcerns;
-    use MassUpdateConcerns;
+    use MassAssignmentConcerns;
     protected $table='contact_bank_account_types';
     protected $fillable = ['label', 'logo', 'color', 'regEx', 'enable'];
 

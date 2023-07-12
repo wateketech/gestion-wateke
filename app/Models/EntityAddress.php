@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\MassCreateConcerns;
-use App\Traits\MassUpdateConcerns;
+use App\Traits\MassAssignmentConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EntityAddress extends Model
 {
     use HasFactory;
-    use MassCreateConcerns;
-    use MassUpdateConcerns;
+    use MassAssignmentConcerns;
     protected $table='entity_address';
     protected $fillable = ['entity_id', 'name', 'city_id', 'state_id', 'country_id', 'geolocation', 'zip_code', 'enable'];
 
