@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\MassAssignmentConcerns;
+use App\Traits\MassCreateConcerns;
+use App\Traits\MassUpdateConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EntityPhone extends Model
 {
     use HasFactory;
-    use MassAssignmentConcerns;
+    use MassCreateConcerns;
+    use MassUpdateConcerns;
     protected $table='entity_phones';
     protected $fillable = ['entity_id', 'type_id', 'value', 'extension', 'value_meta', 'about', 'enable'];
 

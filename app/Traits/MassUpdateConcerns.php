@@ -2,17 +2,8 @@
 
 namespace App\Traits;
 
-trait MassCreateConcerns
+trait MassUpdateConcerns
 {
-    public static function createMany(array $data): array
-    {
-        $models = [];
-        foreach ($data as $modelData) {
-            $models[] = static::create($modelData);
-        }
-        return $models;
-    }
-
 
     public static function updateMany(array $data): array
     {

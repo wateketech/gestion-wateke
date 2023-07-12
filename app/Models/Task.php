@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\MassAssignmentConcerns;
+use App\Traits\MassCreateConcerns;
+use App\Traits\MassUpdateConcerns;
 
 class Task extends Model
 {
     use HasFactory;
-    use MassAssignmentConcerns;
+    use MassCreateConcerns;
+    use MassUpdateConcerns;
     protected $table='tasks';
 
     protected $fillable = ['name', 'type_value', 'average', 'type_frec', 'about', 'enable', 'permanent'];

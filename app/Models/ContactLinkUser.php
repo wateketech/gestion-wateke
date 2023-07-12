@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\MassAssignmentConcerns;
+use App\Traits\MassCreateConcerns;
+use App\Traits\MassUpdateConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactLinkUser extends Model
 {
     use HasFactory;
-    use MassAssignmentConcerns;
+    use MassCreateConcerns;
+    use MassUpdateConcerns;
     protected $table='contact_link_user';
     protected $fillable = ['contact_id', 'user_id', 'enable', 'meta',];
 

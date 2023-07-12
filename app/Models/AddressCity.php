@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\MassAssignmentConcerns;
+use App\Traits\MassCreateConcerns;
+use App\Traits\MassUpdateConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AddressCity extends Model
 {
     use HasFactory;
-    use MassAssignmentConcerns;
+    use MassCreateConcerns;
+    use MassUpdateConcerns;
     protected $table='cities';
     protected $fillable = ['id', 'name', 'state_id', 'state_code', 'state_name', 'country_id', 'country_code', 'country_name', 'latitude', 'longitude', 'wikiDataId', 'enable'];
 

@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\MassAssignmentConcerns;
+use App\Traits\MassCreateConcerns;
+use App\Traits\MassUpdateConcerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EntityPublishUs extends Model
 {
     use HasFactory;
-    use MassAssignmentConcerns;
+    use MassCreateConcerns;
+    use MassUpdateConcerns;
     protected $table='entity_publish_us';
     protected $fillable = ['entity_id', 'type_id', 'value', 'meta', 'about', 'enable'];
 
