@@ -391,7 +391,7 @@
                 text: "Hubo un error al procesar sus datos!",
                 footer: "<code> " + $event.detail.code + " : " + $event.detail.message + "</code>"
             }).then(() => {
-                window.location.href = "contactos";
+                window.location.href = "/contactos";
             })
         });
 
@@ -412,7 +412,7 @@
                 //         'success'
                 //         )
                 //     } else if ( result.dismiss === Swal.DismissReason.cancel){
-                //         window.location.href = "crear-contactos";
+                //         window.location.href = "/crear-contactos";
                 //     }
             }).then((result) => {
                 window.dispatchEvent(new CustomEvent('show-created-warning'));
@@ -427,7 +427,7 @@
                 icon: 'success',
                 timer: 5000
             }).then(() => {
-                window.location.href = "contactos";
+                window.location.href = "/contactos";
             })
         });
         window.addEventListener('show-created-warning', function(){
@@ -439,7 +439,7 @@
                 icon: 'warning',
                 timer: 5000
             }).then(() => {
-                window.location.href = "contactos";
+                window.location.href = "/contactos";
             })
         });
         window.addEventListener('error-user-exist', function(){

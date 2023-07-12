@@ -17,6 +17,10 @@ use App\Models\Gender as Genders;
 use App\Models\ContactLinkUser;
 use App\Models\User as Users;
 use App\Models\Contact as Contacts;
+use App\Models\ContactId as ContactId;
+
+
+
 use App\Models\AddressCountry as Countries;
 use App\Models\AddressState as States;
 use App\Models\ContactIdType as IdTypes;
@@ -65,7 +69,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'resumen';
+    public $currentStep = 'more';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
 
@@ -1402,7 +1406,55 @@ class Create extends Component
 // -------------------------- END - STEPS -------------------------- //
 
     public function update(){
-        dd('Hola');
+        $picsError = false;
+        $linkUserError = false;
+
+        DB::beginTransaction();
+        try {
+            // UPDATE CONTACT
+            $contact = Contacts::find($this->contact_id);
+
+            $contact->alias = $this->alias;
+            $contact->name = $this->name;
+            $contact->middle_name = $this->middle_name;
+            $contact->first_lastname = $this->first_lastname;
+            $contact->second_lastname = $this->second_lastname;
+            $contact->gender_id = $this->gender;
+            $contact->prefix_id = $this->prefix;
+            $contact->meta = $this->meta;
+            $contact->about = $this->about;
+
+            // UPDATE N ASSIGN RELATIONALS TABLES
+            $unsaved = ContactId::updateMany($this->ids);
+            dd($unsaved);
+            // dd($contact->ids()->ccreateMany($this->ids));
+            // $contact->ids()->updateMany($this->ids);
+            // $contact->emails()->updateOrCreate($this->emails);
+            // $contact->phones()->updateMany($this->phones);
+            // $contact->instant_messages()->createMany($this->instant_messages);
+            // $contact->webs()->createMany($this->webs);
+            // $contact->rrss()->createMany($this->rrss);
+            // $contact->dates()->createMany($this->dates);
+            // $contact->publish_us()->createMany($this->publish_us);
+//
+            // $address = $contact->address()->createMany($this->address);
+            // for ($i = 0; $i < count($address); $i++) {
+            //     $address[$i]->lines()->createMany($this->address_line[$i]);
+            // }
+
+
+            $contact->save();
+            DB::commit();
+
+            if ($picsError){
+
+            }
+            // if ($linkUserError) $this->dispatchBrowserEvent('pics-error');
+            else $this->dispatchBrowserEvent('show-updated-success');
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2]]);
+        }
     }
 
 
@@ -1549,150 +1601,6 @@ class Create extends Component
             $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2]]);
         }
     }
-
-    public function zstore(){
-        $picsError = false;
-        $linkUserError = false;
-
-        DB::beginTransaction();
-        try {
-            if ($this->is_user_link) {
-                $this->validate([
-                    'user_link_password_public' => 'required|min:6',
-                    'user_link_password_check' => 'required|same:user_link_password_public',
-                ], [
-                        '*.required' => 'El campo es obligatorio',
-                        '*.same' => 'Las contraseñas no coinciden'
-                    ]);
-                $this->user_link_password = Hash::make($this->user_link_password_public);
-            }
-
-
-            // CREATE CONTACT
-            $contact = Contacts::create([
-                'alias' => $this->alias,
-                'name' => $this->name,
-                'middle_name' => $this->middle_name,
-                'first_lastname' => $this->first_lastname,
-                'second_lastname' => $this->second_lastname,
-                'gender_id' => $this->gender,
-                'prefix_id' => $this->prefix,
-                'meta' => $this->meta,
-                'about' => $this->about,
-            ]);
-
-            // CREATE AND LINK USER ACCOUNT
-            if ($this->is_user_link) {
-                $user = Users::factory()->create([
-                    'name' => $this->user_link_name,
-                    'email' => $this->user_link_email,
-                    'password' => $this->user_link_password,
-                    'phone' => $this->user_link_phone,
-                    'about' => $this->user_link_about,
-                    'enable' => true
-                ])->assignRole($this->user_link_role);
-
-                // LINK USER CONTACT
-                ContactLinkUser::create([
-                    'contact_id' => $contact->id,
-                    'user_id' => $user->id,
-                ]);
-            }
-
-
-
-            // CREATE N ASSIGN RELATIONALS TABLES
-            // $contact->ids()->createMany($this->ids);
-            // $contact->emails()->createMany($this->emails);
-            // $contact->phones()->createMany($this->phones);
-            // $contact->instant_messages()->createMany($this->instant_messages);
-            // $contact->webs()->createMany($this->webs);
-            // $contact->rrss()->createMany($this->rrss);
-            // $contact->dates()->createMany($this->dates);
-            // $contact->publish_us()->createMany($this->publish_us);
-//
-            // $address = $contact->address()->createMany($this->address);
-            // for ($i = 0; $i < count($address); $i++) {
-            //     $address[$i]->lines()->createMany($this->address_line[$i]);
-            // }
-
-            // PROXIMAMENTE ANALSAR COMO SE ALMACENARAN LOS BANCOS Y SU RELACION CON LAS CUENTAS BANCARIAS (ya que abrían bancos que no serian entidad y otros q si )
-            // $contact->bank_accounts()->createMany($this->bank_accounts);
-
-            // implementar datos laborales
-
-
-            DB::beginTransaction();
-            $link_pics = [];
-            $storename = 'app/public/images/contacts_profile_pics/';
-            try {
-                foreach ($this->profile_pics as $index => $pic) {
-                    $timestamp = str_replace(array(' ', ':', '-'), '', now());
-                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
-                    $imageSize = getimagesize($pic->path());
-
-                    $pic->storeAs($storename, $filename);
-                    $link_pics[] = $contact->pics()->create([
-                        'label' => null,
-                        'name' => $filename,
-                        'store' => $storename,
-                        'is_primary' => ($this->main_profile_pic == $index ? 1 : 0),
-                        'meta' => json_encode([
-                            'width' => $imageSize[0],
-                            'height' => $imageSize[1],
-                            'mime_type' => $pic->getMimeType(),
-                            'size' => $pic->getSize(),
-                            'client_original_name' => $pic->getClientOriginalName(),
-                            'client_mime_type' => $pic->getClientMimeType(),
-                            'client_original_extension' => $pic->getClientOriginalExtension(),
-                            'error' => $pic->getError(),
-                            'is_valid' => $pic->isValid(),
-                            'is_file' => $pic->isFile(),
-                            'is_readable' => $pic->isReadable(),
-                            'is_writable' => $pic->isWritable(),
-                            'file_info' => $pic->getFileInfo()
-                            ])
-                        ]);
-
-
-                }
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollBack();
-
-                $picsError = true;
-                // throw $e;            hacer que la transaccion completa se vea afectada
-            }
-
-            DB::commit();
-
-
-            if ($picsError){
-                // If there was an error creating the database record, delete the image from the file system
-                foreach ($this->profile_pics as $index => $pic) {
-                    $timestamp = str_replace(array(' ', ':', '-'), '', now());
-                    $filename = $timestamp . "_" . $contact->id . "-" . $pic->getFilename();
-                    $path = 'app/public/images/contacts_profile_pics/' . $filename;
-                    if (Storage::exists($path)) Storage::delete($path);
-                }
-                if (count($link_pics) != 0){
-                    foreach ($this->link_pics as $pic) {
-                        $path = $pic->store . $pic->name;
-                        if (Storage::exists($path)) Storage::delete($path);
-                    }
-                }
-                $this->dispatchBrowserEvent('pics-error');
-            }
-            // if ($linkUserError) $this->dispatchBrowserEvent('pics-error');
-            else $this->dispatchBrowserEvent('show-created-success');
-
-        } catch (\Illuminate\Database\QueryException $e) {
-            DB::rollBack();
-            $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2]]);
-        }
-
-    }
-
 
 
 
