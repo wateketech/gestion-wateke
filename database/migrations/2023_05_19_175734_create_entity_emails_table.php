@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('entity_emails', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('entity_id');
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('type_id')->nullable();
             $table->string('value');
             $table->json('meta')->nullable();
             $table->boolean('is_primary')->default(0);

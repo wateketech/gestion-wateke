@@ -20,8 +20,14 @@ return new class extends Migration
             $table->string('comercial_name')->nullable();
             $table->text('about')->nullable();
             $table->unsignedBigInteger('entity_type_id');
-            $table->boolean('enable')->default(1);
             $table->json('meta')->nullable();
+
+            $table->boolean('enable')->default(1);
+            $table->boolean('locked')->default(0);
+            $table->boolean('is_editing')->default(0);
+            $table->string('edited_by')->nullable();
+            $table->boolean('busy')->default(0);
+            $table->json('busy_by')->nullable();
             $table->timestamps();
 
 

@@ -23,8 +23,14 @@ return new class extends Migration
             $table->unsignedBigInteger('prefix_id')->nullable();
             $table->unsignedBigInteger('gender_id')->nullable();
             $table->text('about')->nullable();
-            $table->boolean('enable')->default(1);
             $table->json('meta')->nullable();
+
+            $table->boolean('enable')->default(1);
+            $table->boolean('locked')->default(0);
+            $table->boolean('is_editing')->default(0);
+            $table->string('edited_by')->nullable();
+            $table->boolean('busy')->default(0);
+            $table->json('busy_by')->nullable();
             $table->timestamps();
 
             $table->foreign('prefix_id')->references('id')->on('prefixs')->constrained();

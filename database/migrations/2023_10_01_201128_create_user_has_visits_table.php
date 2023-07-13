@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->timestamp('deaddate');
             $table->string('about')->nullable()->default('');
-            $table->string('enable')->nullable()->default(1);
+            $table->boolean('enable')->nullable()->default(1);
             $table->timestamps();
 
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('address_id');
             $table->string('label');
             $table->string('value');
+            $table->boolean('enable')->default(1);
             $table->timestamps();
 
             $table->foreign('address_id')->references('id')->on('entity_address')->constrained();

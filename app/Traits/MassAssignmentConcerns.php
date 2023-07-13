@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use Illuminate\Support\Collection;
 
 trait MassAssignmentConcerns
 {
@@ -12,12 +13,12 @@ trait MassAssignmentConcerns
         }
         return $models;
     }
-    public static function updateMany(array $data): array
+    public static function updateMany(array $newData, array $bbddData): array
     {
         $to_create = [];
         $to_delete = [];
         $models = [];
-        foreach ($data as $modelData) {
+        foreach ($newData as $modelData) {
             if (isset($modelData['id'])){
                 $model = static::find($modelData['id']);
             }
@@ -31,12 +32,18 @@ trait MassAssignmentConcerns
                 $to_create[] = $modelData;
             }
         }
-        // static::whereNotIn('id', collect($data)->pluck('id'))->update('enable', false);
+
+        $to_delete = array_diff(array_column($bbddData, 'id'), array_column($newData, 'id'));
 
         return [
             'models' => $models,
-            'to_create' => $to_create,
-            'to_delete' => $to_delete
+            'absent' => $to_create,
+            'missing' => $to_delete
         ];
     }
+    public static function disableMany(array $ids, string $field = 'enable'): void
+    {
+        static::whereIn('id', $ids)->update([$field  => false]);
+    }
+
 }

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('is_persistent')->default(0);
             $table->timestamp('deaddate');
             $table->timestamp('redirect')->nullable();
-            $table->string('enable')->default(1);
+            $table->boolean('enable')->default(1);
             $table->timestamps();
             $table->json('meta')->nullable();
 

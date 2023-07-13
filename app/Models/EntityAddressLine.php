@@ -11,7 +11,7 @@ class EntityAddressLine extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='entity_address_lines';
-    protected $fillable = ['address_id', 'label', 'value'];
+    protected $fillable = ['address_id', 'label', 'value', 'enable'];
 
     public function address(){
         return $this->belongsTo('App\Models\EntityAddress', 'id');

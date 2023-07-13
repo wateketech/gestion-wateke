@@ -11,7 +11,7 @@ class ContactAddressLine extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contact_address_lines';
-    protected $fillable = ['address_id', 'label', 'value'];
+    protected $fillable = ['address_id', 'label', 'value', 'enable'];
 
     public function address(){
         return $this->belongsTo('App\Models\ContactAddress', 'id');

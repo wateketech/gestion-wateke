@@ -18,8 +18,15 @@ use App\Models\ContactLinkUser;
 use App\Models\User as Users;
 use App\Models\Contact as Contacts;
 use App\Models\ContactId as ContactId;
-
-
+use App\Models\ContactEmail as ContactEmail;
+use App\Models\ContactPhone as ContactPhone;
+use App\Models\ContactInstantmessage as ContactInstantmessage;
+use App\Models\ContactRrss as ContactRrss;
+use App\Models\ContactWeb as ContactWeb;
+use App\Models\ContactDate as ContactDate;
+use App\Models\ContactPublishUs as ContactPublishUs;
+use App\Models\ContactAddress as ContactAddress;
+use App\Models\ContactAddressLine as ContactAddressLine;
 
 use App\Models\AddressCountry as Countries;
 use App\Models\AddressState as States;
@@ -187,7 +194,7 @@ class Create extends Component
         $this->address = $current_contact->address->where('enable', true)->toArray();
         $this->address_line = [];
         foreach($this->address as $index => $add){
-            $this->address_line[$index] = $current_contact->address[$index]->lines->toArray();
+            $this->address_line[$index] = $current_contact->address[$index]->lines->where('enable', true)->toArray();
         }
 
         $this->emails = $current_contact->emails->where('enable', true)->toArray();
@@ -1150,6 +1157,9 @@ class Create extends Component
 // -------------------------- STEP ADDRESS -------------------------- //
 
     public function getStates($country_id){
+        $country = Countries::find($country_id);
+        if (!$country) return [];
+
         return Countries::where('enable', true)->find($country_id)->states->map(function ($state) {
             return ['id' => $state->id, 'text' => $state->name,];
         })->toArray();
@@ -1405,9 +1415,37 @@ class Create extends Component
 // -------------------------- END - STEPS -------------------------- //
 // -------------------------- END - STEPS -------------------------- //
 
+
     public function update(){
         $picsError = false;
         $linkUserError = false;
+
+        $contact = Contacts::find($this->contact_id);
+
+
+        $updated_address = ContactAddress::updateMany($this->address, $contact->address->toArray());
+        $address_absent = $contact->address()->createMany($updated_address['absent']);
+        ContactAddress::disableMany($updated_address['missing']);
+
+
+        $new_address_line = [];
+        foreach ($this->address_line as $index => $lines) {
+            foreach ($lines as $line) {
+                if (array_key_exists('address_id', $line)){
+                    // actualizarlo si ya existe
+                    ContactAddressLine::find($line['id'])->update($line);
+                }
+                else{
+                    // crearlo si no existe
+                    // capturar si es una direccion nueva o una vieja
+                    $contact->address()->create($line);
+                }
+            }
+        }
+
+
+
+
 
         DB::beginTransaction();
         try {
@@ -1424,23 +1462,40 @@ class Create extends Component
             $contact->meta = $this->meta;
             $contact->about = $this->about;
 
-            // UPDATE N ASSIGN RELATIONALS TABLES
-            $unsaved = ContactId::updateMany($this->ids);
-            dd($unsaved);
-            // dd($contact->ids()->ccreateMany($this->ids));
-            // $contact->ids()->updateMany($this->ids);
-            // $contact->emails()->updateOrCreate($this->emails);
-            // $contact->phones()->updateMany($this->phones);
-            // $contact->instant_messages()->createMany($this->instant_messages);
-            // $contact->webs()->createMany($this->webs);
-            // $contact->rrss()->createMany($this->rrss);
-            // $contact->dates()->createMany($this->dates);
-            // $contact->publish_us()->createMany($this->publish_us);
-//
-            // $address = $contact->address()->createMany($this->address);
-            // for ($i = 0; $i < count($address); $i++) {
-            //     $address[$i]->lines()->createMany($this->address_line[$i]);
-            // }
+            // UPDATE, ASSIGN n DISABLE RELATIONALS TABLES
+            $updated_emails = ContactEmail::updateMany($this->emails, $contact->emails->toArray());
+            $contact->emails()->createMany($updated_emails['absent']);
+            ContactEmail::disableMany($updated_emails['missing']);
+
+            $updated_phones = ContactPhone::updateMany($this->phones, $contact->phones->toArray());
+            $contact->phones()->createMany($updated_phones['absent']);
+            ContactPhone::disableMany($updated_phones['missing']);
+
+            $updated_instant_messages = ContactInstantMessage::updateMany($this->instant_messages, $contact->instant_messages->toArray());
+            $contact->instant_messages()->createMany($updated_instant_messages['absent']);
+            ContactInstantMessage::disableMany($updated_instant_messages['missing']);
+
+            $updated_webs = ContactWeb::updateMany($this->webs, $contact->webs->toArray());
+            $contact->webs()->createMany($updated_webs['absent']);
+            ContactWeb::disableMany($updated_webs['missing']);
+
+            $updated_rrss = ContactRrss::updateMany($this->rrss, $contact->rrss->toArray());
+            $contact->rrss()->createMany($updated_rrss['absent']);
+            ContactRrss::disableMany($updated_rrss['missing']);
+
+            $updated_dates = ContactDate::updateMany($this->dates, $contact->dates->toArray());
+            $contact->dates()->createMany($updated_dates['absent']);
+            ContactDate::disableMany($updated_dates['missing']);
+
+            $updated_publish_us = ContactPublishUs::updateMany($this->publish_us, $contact->publish_us->toArray());
+            $contact->publish_us()->createMany($updated_publish_us['absent']);
+            ContactPublishUs::disableMany($updated_publish_us['missing']);
+
+            $updated_ids = ContactId::updateMany($this->ids, $contact->ids->toArray());
+            $contact->ids()->createMany($updated_ids['absent']);
+            ContactId::disableMany($updated_ids['missing']);
+
+
 
 
             $contact->save();

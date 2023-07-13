@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('label')->unique();
             $table->string('color')->nullable();
             $table->string('icon')->nullable();
-            $table->string('enable')->default(1);
+            $table->boolean('enable')->default(1);
             $table->timestamps();
 
         });

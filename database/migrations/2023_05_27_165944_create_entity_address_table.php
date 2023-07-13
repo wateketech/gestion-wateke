@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('country_id');
             $table->json('geolocation')->nullable();
             $table->string('zip_code')->nullable();
-            $table->string('enable')->default(1);
+            $table->boolean('enable')->default(1);
             $table->timestamps();
 
             $table->foreign('entity_id')->references('id')->on('entitys')->constrained();

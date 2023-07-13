@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('about')->nullable();
-            $table->string('enable')->default(1);
+            $table->boolean('enable')->default(1);
             $table->timestamps();
 
         });
