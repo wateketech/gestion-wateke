@@ -1425,22 +1425,34 @@ class Create extends Component
 
         $updated_address = ContactAddress::updateMany($this->address, $contact->address->toArray());
         $address_absent = $contact->address()->createMany($updated_address['absent']);
-        ContactAddress::disableMany($updated_address['missing']);
-
 
         $new_address_line = [];
-        foreach ($this->address_line as $index => $lines) {
+        foreach ($this->address_line as $index_add => $lines) {
             foreach ($lines as $line) {
                 if (array_key_exists('address_id', $line)){
                     // actualizarlo si ya existe
                     ContactAddressLine::find($line['id'])->update($line);
                 }
+                // capturar si es una direccion nueva o una vieja
                 else{
-                    // crearlo si no existe
-                    // capturar si es una direccion nueva o una vieja
-                    $contact->address()->create($line);
+                    // direccion vieja - crearlo
+                    if (array_key_exists('contact_id', $this->address[$index_add])){
+                        $line['address_id'] = $this->address[$index_add]['id'];
+                        ContactAddressLine::create($line);
+                    }
+                    // direccion nueva - crearlo
+                    else{
+                        $new_address_line[$index_add][] = $line;
+                    }
                 }
             }
+        }
+
+        ContactAddress::disableMany($updated_address['missing']);
+
+        dd($new_address_line);
+        foreach ($new_address_line as $index_add => $lines) {
+            dd($lines);
         }
 
 
