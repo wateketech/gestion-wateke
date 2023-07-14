@@ -240,6 +240,9 @@ class Create extends Component
         else if (isset($id) || $id !== null) {
             $this->edit_mode = true;
             if (Contacts::find($id) === null) abort(404);
+
+            Contacts::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
+            dd(Contacts::find($id));
             $this->getContactPropertys($id);
         }
     }
@@ -1431,6 +1434,8 @@ class Create extends Component
         try {
             // UPDATE CONTACT
             $contact = Contacts::find($this->contact_id);
+            $contact->is_editing = false;
+
 
             $contact->alias = $this->alias;
             $contact->name = $this->name;
@@ -1560,7 +1565,9 @@ class Create extends Component
                 'prefix_id' => $this->prefix,
                 'meta' => $this->meta,
                 'about' => $this->about,
+                'created_by' => auth()->user()->id,
             ]);
+
 
             // CREATE AND LINK USER ACCOUNT
             if ($this->is_user_link) {

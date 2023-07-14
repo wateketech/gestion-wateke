@@ -9,7 +9,8 @@ class Entity extends Model
 {
     use HasFactory;
     protected $table='entitys';
-    protected $fillable = ['alias', 'legal_name', 'comercial_name', 'about', 'meta', 'enable', 'entity_type_id'];
+    protected $fillable = ['alias', 'legal_name', 'comercial_name', 'about', 'meta', 'entity_type_id',
+        'enable', 'locked', 'is_editing', 'edited_by', 'created_by', 'busy', 'busy_by'];
 
     public function entity_type(){
         return $this->hasOne('App\Models\EntityType', 'id');
@@ -49,7 +50,17 @@ class Entity extends Model
 
 
 
+    public function edited_by_user(){
+        return $this->hasOne('App\Models\User', 'edited_by', 'id')->with('user');
+    }
+    public function created_by_user(){
+        return $this->hasOne('App\Models\User', 'created_by', 'id')->with('user');
+    }
 
+
+    // public function busy_by(){
+    //     return $this->hasOne('App\Models\', 'busy_by', 'id')->with('process');
+    // }
 
 
 

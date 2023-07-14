@@ -25,7 +25,8 @@ return new class extends Migration
             $table->boolean('enable')->default(1);
             $table->boolean('locked')->default(0);
             $table->boolean('is_editing')->default(0);
-            $table->string('edited_by')->nullable();
+            $table->unsignedBigInteger('edited_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->boolean('busy')->default(0);
             $table->json('busy_by')->nullable();
             $table->timestamps();
@@ -34,6 +35,9 @@ return new class extends Migration
             $table->foreign('entity_type_id')->references('id')->on('entity_types')->constrained();
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
+
+            $table->foreign('edited_by')->references('id')->on('users')->constrained();
+            $table->foreign('created_by')->references('id')->on('users')->constrained();
         });
     }
 

@@ -52,7 +52,8 @@
                                         {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
                                         <span class="text-secondary text-xs font-weight-bold"><small>
                                             {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
-                                            {{ $contact->updated_at->diffForHumans() }} </small>
+                                            {{ $contact->updated_at->diffForHumans() }}
+                                            por {{$contact->created_at == $contact->updated_at ? $contact->created_by_user->name : $contact->edited_by_user->name   }}</small>
                                         </span>
 
                                     </div>

@@ -11,7 +11,9 @@ class Contact extends Model
     use HasFactory;
     use MassAssignmentConcerns;
     protected $table='contacts';
-    protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'prefix_id', 'gender_id', 'about', 'meta', 'enable'];
+    protected $fillable = ['alias', 'name', 'middle_name', 'first_lastname', 'second_lastname', 'prefix_id', 'gender_id', 'about', 'meta',
+        'enable', 'locked', 'is_editing', 'edited_by', 'created_by', 'busy', 'busy_by'];
+
 
     public function bank_accounts(){
         return $this->hasMany('App\Models\ContactBankAccount', 'contact_id');
@@ -66,5 +68,22 @@ class Contact extends Model
     public function link_user(){
         return $this->hasOne('App\Models\ContactLinkUser', 'contact_id', 'id')->with('user');
     }
+
+
+
+
+    public function edited_by_user(){
+        return $this->hasOne('App\Models\User', 'id', 'edited_by');
+    }
+    public function created_by_user(){
+        return $this->hasOne('App\Models\User', 'id', 'created_by');
+    }
+
+
+    // public function busy_by(){
+    //     return $this->hasOne('App\Models\', 'busy_by', 'id')->with('process');
+    // }
+
+
 
 }
