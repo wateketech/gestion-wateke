@@ -22150,6 +22150,10 @@ span.select2.select2-container.select2-container--default.select2-container--bel
   width: 100% !important;
 }
 
+.select2-container .select2-container--default {
+  width: -webkit-fill-available;
+  width: 100% !important;
+}
 .select2-container--default .select2-results__option--selected {
   background-color: #ddd;
   font-weight: bold;

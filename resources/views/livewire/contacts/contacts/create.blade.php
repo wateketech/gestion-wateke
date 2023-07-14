@@ -442,6 +442,29 @@
                 window.location.href = "/contactos";
             })
         });
+        window.addEventListener('show-updated-success', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: 'Actualizado',
+                html: "¡Contacto actualizado exitosamente!",
+                icon: 'success',
+                timer: 5000
+            }).then(() => {
+                window.location.href = "/contactos";
+            })
+        });
+        window.addEventListener('show-updated-warning', function(){
+            swalWithBootstrapButtons.fire({
+                position: 'center' ,
+                title: 'Actualizado',
+                html: "¡Contacto actualizado exitosamente!",
+                // footer: "Algunos datos no han sido procesados del todo, luego podrás actualizarlos",
+                icon: 'warning',
+                timer: 5000
+            }).then(() => {
+                window.location.href = "/contactos";
+            })
+        });
         window.addEventListener('error-user-exist', function(){
             swalWithBootstrapButtons.fire({
                 position: 'center' ,

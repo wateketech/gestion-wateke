@@ -76,7 +76,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'more';
+    public $currentStep = 'general';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
 
@@ -126,6 +126,7 @@ class Create extends Component
     public $address_max = 2;
 
     public $address_line = [];
+    public $missing_address_line = [];
     public $address_line_max = 5;
 
 
@@ -194,7 +195,7 @@ class Create extends Component
         $this->address = $current_contact->address->where('enable', true)->toArray();
         $this->address_line = [];
         foreach($this->address as $index => $add){
-            $this->address_line[$index] = $current_contact->address[$index]->lines->where('enable', true)->toArray();
+            $this->address_line[$index] = $current_contact->address[$index]->lines->where('enable', true)->values()->toArray();
         }
 
         $this->emails = $current_contact->emails->where('enable', true)->toArray();
@@ -584,7 +585,7 @@ class Create extends Component
                         foreach ($this->address as $index => $address) {
                             $country = Countries::where('enable', true)->find($address['country_id']);
                             if ($country && $country->states->count() > 0 && empty($value)) {
-                                $fail('El campo es requerido si está disponible');
+                                // $fail('El campo es requerido si está disponible');
                             }
                         }
                     }
@@ -602,7 +603,7 @@ class Create extends Component
                             $country = Countries::where('enable', true)->find($address['country_id']);
                             $state = $country ? $country->states()->find($address['state_id']) : null;
                             if ($state && $state->cities->count() > 0 && empty($address['city_id'])) {
-                                $fail('El campo es requerido si está disponible');
+                                // $fail('El campo es requerido si está disponible');
                             }
                         }
                     }
@@ -627,7 +628,6 @@ class Create extends Component
                 else if ($fieldName === 'value') $this->address_line[$index_a][$index_l]['value'] = trim($this->address_line[$index_a][$index_l]['value']);
             }
         }
-
         $rules = [
             'address_line.' . $index_a . '.' . $index_l . '.label' => 'required',
             'address_line.' . $index_a . '.' . $index_l . '.value' => 'required',
@@ -1221,7 +1221,7 @@ class Create extends Component
         if (count($this->address) < $this->address_max) {
             $this->address[] = [
                 'name' => '# ' . ($index + 2),
-                'citie_id' => null,
+                'city_id' => null,
                 'geolocation' => null,
                 'zip_code' => '',
                 'country_id' => null,
@@ -1245,13 +1245,19 @@ class Create extends Component
 
 
     public function addAddressLine($index_l, $index_add){
-        $this->validate_address_lines(null, $index_l, $index_add);
+        $this->validate_address_lines(null, $index_add, $index_l);
 
         if (count($this->address_line[$index_add]) < $this->address_line_max) {
             $this->address_line[$index_add][] = ['label' => '', 'value' => ''];
         }
     }
     public function removeAddressLine($index_l, $index_add){
+        // las lineas de direccion que fueron eliminadas en el proceso de edicion
+        if($this->edit_mode){
+            if (isset($this->address_line[$index_add][$index_l]['id'])){
+                $this->missing_address_line[] = $this->address_line[$index_add][$index_l]['id'];
+            }
+        }
         unset($this->address_line[$index_add][$index_l]);
         $this->address_line[$index_add] = array_values($this->address_line[$index_add]);
     }
@@ -1420,44 +1426,6 @@ class Create extends Component
         $picsError = false;
         $linkUserError = false;
 
-        $contact = Contacts::find($this->contact_id);
-
-
-        $updated_address = ContactAddress::updateMany($this->address, $contact->address->toArray());
-        $address_absent = $contact->address()->createMany($updated_address['absent']);
-
-        $new_address_line = [];
-        foreach ($this->address_line as $index_add => $lines) {
-            foreach ($lines as $line) {
-                if (array_key_exists('address_id', $line)){
-                    // actualizarlo si ya existe
-                    ContactAddressLine::find($line['id'])->update($line);
-                }
-                // capturar si es una direccion nueva o una vieja
-                else{
-                    // direccion vieja - crearlo
-                    if (array_key_exists('contact_id', $this->address[$index_add])){
-                        $line['address_id'] = $this->address[$index_add]['id'];
-                        ContactAddressLine::create($line);
-                    }
-                    // direccion nueva - crearlo
-                    else{
-                        $new_address_line[$index_add][] = $line;
-                    }
-                }
-            }
-        }
-
-        ContactAddress::disableMany($updated_address['missing']);
-
-        dd($new_address_line);
-        foreach ($new_address_line as $index_add => $lines) {
-            dd($lines);
-        }
-
-
-
-
 
         DB::beginTransaction();
         try {
@@ -1507,6 +1475,42 @@ class Create extends Component
             $contact->ids()->createMany($updated_ids['absent']);
             ContactId::disableMany($updated_ids['missing']);
 
+
+            $updated_address = ContactAddress::updateMany($this->address, $contact->address->toArray());
+
+            $new_address_line = [];
+            foreach ($this->address_line as $index_add => $lines) {
+                foreach ($lines as $line) {
+                    if (array_key_exists('address_id', $line)){
+                        // actualizarlo si ya existe
+                        ContactAddressLine::find($line['id'])->update($line);
+                    }
+                    // capturar si es una direccion nueva o una vieja
+                    else{
+                        // linea de direccion vieja - crearlo directamente
+                        if (array_key_exists('contact_id', $this->address[$index_add])){
+                            $line['address_id'] = $this->address[$index_add]['id'];
+                            ContactAddressLine::create($line);
+                        }
+                        // linea de direccion nueva - crearlo desde la asignación
+                        else{
+                            $new_address_line[$index_add][] = $line;
+                        }
+                    }
+                }
+            }
+
+            // CREAR NUEVOS
+            $new_address_line = array_values($new_address_line);
+            $address_absent = $contact->address()->createMany($updated_address['absent']);
+            for ($i = 0; $i < count($address_absent); $i++) {
+                $address_absent[$i]->lines()->createMany($new_address_line[$i]);
+            }
+
+            // ELIMINAR
+            ContactAddress::disableMany($updated_address['missing']);
+            ContactAddressLine::where('address_id', $updated_address['missing'])->update(['enable' => false]);
+            ContactAddressLine::whereIn('id', $this->missing_address_line)->update(['enable' => false]);
 
 
 

@@ -187,9 +187,13 @@ input{
 span.select2.select2-container.select2-container--default.select2-container--below{
     width: 100% !important;
 }
+
 .select2{
     &-container{
-
+        .select2-container--default{
+            width: -webkit-fill-available;
+            width: 100% !important;
+        }
         &--default{
             .select2-results__option{
                 &--selected {

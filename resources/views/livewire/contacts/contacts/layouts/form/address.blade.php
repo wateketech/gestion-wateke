@@ -70,18 +70,19 @@
                 @error("address.{{ $index_add }}.zip_code") <sub class="text-danger">{{ $message }}</sub> @enderror
             </div>
 
-            <div class="row">
-                <div class="col-2 form-check pt-2 h5 d-flex justify-content-end"></div>
+            @if (count($address_line[$index_add]) != 0)
+                <div class="row">
+                    <div class="col-2 form-check pt-2 h5 d-flex justify-content-end"></div>
 
-                <div class="col-3 col-md-3 form-group text-start p-0 my-0">
-                    <label class="form-control-label pl-6 opacity-7">Etiqueta </label>
+                    <div class="col-3 col-md-3 form-group text-start p-0 my-0">
+                        <label class="form-control-label pl-6 opacity-7">Etiqueta </label>
+                    </div>
+                    <div class="col-5 col-md-5 form-group text-start p-0 my-0">
+                        <label class="form-control-label pl-6 opacity-7">Valores </label>
+                    </div>
+
                 </div>
-                <div class="col-5 col-md-5 form-group text-start p-0 my-0">
-                    <label class="form-control-label pl-6 opacity-7">Valores </label>
-                </div>
-
-            </div>
-
+            @endif
             <div class="row pb-3">
                 @foreach ($address_line[$index_add] as $index_l => $line)
                     <div class="col-2 form-check pt-2 h5 d-flex justify-content-end">
@@ -103,7 +104,6 @@
 
                         @error("address_line.{$index_add}.{$index_l}.value") <sub class="text-danger">{{ $message }}</sub> @enderror
                     </div>
-
 
                     <div class="col-2 col-md-2">
                         @if ($index_l === count($address_line[$index_add]) - 1)
@@ -217,7 +217,6 @@
     });
     window.addEventListener('init-select2-cities', function(event){
         let current_city = event.detail.current_city
-        console.log(event.detail.cities);
 
         var $select = $('#cities_' + event.detail.index_add +'.Select--2');
         $select.empty();
