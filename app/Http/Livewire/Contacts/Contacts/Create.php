@@ -242,7 +242,6 @@ class Create extends Component
             if (Contacts::find($id) === null) abort(404);
 
             Contacts::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
-            dd(Contacts::find($id));
             $this->getContactPropertys($id);
         }
     }
@@ -251,6 +250,13 @@ class Create extends Component
         return view('livewire.contacts.contacts.create');
     }
 
+    public function exit(){
+        if ($this->edit_mode && $this->contact_id){
+            Contacts::find($this->contact_id)->update(['is_editing' => false]);
+        }
+
+        return redirect()->route('contactos');
+    }
 // ----------------------- FUNCTIONS --------------------------
 
     public function cleanURL($value){

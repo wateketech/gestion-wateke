@@ -305,7 +305,7 @@
                                     @if ($create_mode)
                                         <div class="d-flex justify-content-center mt-3">
                                             <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
-                                            <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
+                                            <div type="button" wire:click="exit" class="btn btn-secondary mx-2">Descartar cambios</div>
                                             {{-- <button type="submit" class="btn btn-success mx-2">Crear Contacto</button> --}}
                                             <a type="button" wire:click="store" class="btn btn-success mx-2">Crear Contacto</a>
                                         </div>
@@ -318,7 +318,7 @@
                                     @if ($edit_mode)
                                         <div class="d-flex justify-content-center mt-3">
                                             <a type="button" href="{{ route('editar-contacto', ['id' => $contact_id]) }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
-                                            <a type="button" href="{{ route('contactos') }}" class="btn btn-secondary mx-2">Descartar cambios</a>
+                                            <div type="button" wire:click="exit" class="btn btn-secondary mx-2">Descartar cambios</div>
                                             {{-- <a type="button" wire:click="update" class="btn btn-success mx-2">Actualizar Contacto</a> --}}
                                             <button type="submit" class="btn btn-success mx-2">Actualizar Contacto</button>
                                         </div>
