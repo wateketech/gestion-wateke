@@ -9,7 +9,11 @@ use App\Models\UserHasNotification;
 
 class Notifications extends Component
 {
-    public $is_open_menu = true;
+    protected $listeners = [
+        'set_open_menu'
+    ];
+
+    public $is_open_menu;
     public $is_editing_contact;
     public $notifications = [];
     public $unreadNotifications = 0;
@@ -19,7 +23,10 @@ class Notifications extends Component
     public function refresh(){
         // $this->countNotifications();
     }
-
+    public function set_open_menu($value){
+        // dd($value);
+        $this->is_open_menu = $value;
+    }
 
     public function mount(){
 

@@ -74,3 +74,22 @@
 </ul>
 </li>
 
+<script wire:ignore>
+    // Obtener el menú desplegable
+    var dropdownToggle = document.querySelector('#dropdownMenuButton');
+    var dropdownMenu = dropdownToggle.nextElementSibling;
+
+    // Escuchar el evento click en el objeto document
+    document.addEventListener('click', function(event) {
+        // Comprobar si el clic se produjo dentro o fuera del menú desplegable
+        var isClickedInside = dropdownToggle.contains(event.target) || dropdownMenu.contains(event.target);
+
+        // Si el clic se produjo fuera del menú desplegable, cerrar el menú
+        if (!isClickedInside) {
+            // Livewire.emit('delete_contact', deletedContactId, result.value);
+            Livewire.emit('set_open_menu', false);
+        }else{
+            Livewire.emit('set_open_menu', true);
+        }
+    });
+</script>
