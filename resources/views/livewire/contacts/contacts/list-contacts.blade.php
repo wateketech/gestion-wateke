@@ -52,11 +52,11 @@
                                         {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
                                         <span class="text-secondary text-xs font-weight-bold" wire:poll.keep-alive>
                                             @if ($contact->is_editing)
-                                                <small>en edicion por {{ $contact->edited_by_user->name }}</small>
+                                                <span class="text-primary blink-3 ">en edicion por {{ $contact->edited_by_user->name }}</span>
                                             @else
                                                 {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
                                                 por {{$contact->created_at == $contact->updated_at ? $contact->created_by_user->name : $contact->edited_by_user->name   }}
-                                                {{ $contact->updated_at->diffForHumans() }}</small>
+                                                {{ $contact->updated_at->diffForHumans() }}
                                             @endif
                                         </span>
 
