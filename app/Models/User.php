@@ -52,7 +52,12 @@ class User extends Authenticatable
     }
     public function link_contact()
     {
-        return $this->hasOne('App\Models\ContactLinkUser', 'user_id', 'id')->with('contact');;
+        return $this->hasOne('App\Models\ContactLinkUser', 'user_id', 'id')->with('contact');
+    }
+
+    public function is_editing_contact()
+    {
+        return $this->hasMany('App\Models\Contact', 'edited_by')->where('is_editing', true);
     }
 
 

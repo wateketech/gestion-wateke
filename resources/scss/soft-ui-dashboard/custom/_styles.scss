@@ -353,3 +353,46 @@ span.select2.select2-container.select2-container--default.select2-container--bel
     }
 }
 
+
+
+
+
+
+
+
+// ANIMATIONS
+.blink {
+
+    &-1{
+        animation: blinker 0.5s linear infinite;
+    }
+    &-2{
+        animation: blinker 1s linear infinite;
+    }
+    &-3{
+        animation: blinker 1.5s linear infinite;
+    }
+    &-4{
+        animation: blinker 2s linear infinite;
+    }
+
+
+
+
+    &-white{
+        color: #fff;
+    }
+    &-danger{
+        color: #ff0000;
+    }
+    &-primary{
+        color: #ff6400;
+    }
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+

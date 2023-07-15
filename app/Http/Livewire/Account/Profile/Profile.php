@@ -11,6 +11,7 @@ class Profile extends Component
     public $prueba;
     public $visit = false;
     public $user;
+    public $is_editing_contact;
     public $showSuccesNotification  = true;
 
     public $showDemoNotification = false;
@@ -32,6 +33,7 @@ class Profile extends Component
     }
     public function mount() {
         $this->user = auth()->user();
+        $this->is_editing_contact = $this->user->is_editing_contact;
 
         $this->visit = (count (UserHasVisits::where('user_has_visits.user_id', '=', auth()->user()->id)->where('user_has_visits.enable', 1)->get()) !=0 ) ? true : false;
     }

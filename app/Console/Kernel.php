@@ -25,6 +25,18 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+
+        $schedule->call(function () {
+            $this->cleanEditions();
+        })->hourly();
+
+
+
+
+
+
+
     }
 
     /**
@@ -37,5 +49,24 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private function cleanEditions(){
+        $is_editing_contact = auth()->user()->is_editing_contact;
+        foreach ($is_editing_contact as $contact) {
+            $contact->update(['is_editing' => false]);
+        }
     }
 }

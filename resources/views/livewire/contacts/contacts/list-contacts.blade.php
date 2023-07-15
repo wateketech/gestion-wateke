@@ -50,18 +50,15 @@
                                         </h6>
 
                                         {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
-
-                                        @if ($contact->is_editing)
-                                            <span class="text-secondary text-xs font-weight-bold">
+                                        <span class="text-secondary text-xs font-weight-bold" wire:poll.keep-alive>
+                                            @if ($contact->is_editing)
                                                 <small>en edicion por {{ $contact->edited_by_user->name }}</small>
-                                            </span>
-                                        @else
-                                            <span class="text-secondary text-xs font-weight-bold"><small>
+                                            @else
                                                 {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
                                                 por {{$contact->created_at == $contact->updated_at ? $contact->created_by_user->name : $contact->edited_by_user->name   }}
                                                 {{ $contact->updated_at->diffForHumans() }}</small>
-                                            </span>
-                                        @endif
+                                            @endif
+                                        </span>
 
                                     </div>
                                 </div>

@@ -241,9 +241,23 @@ class Create extends Component
             $this->edit_mode = true;
             if (Contacts::find($id) === null) abort(404);
 
-            Contacts::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
+            $this->set_editing_contact($id);
             $this->getContactPropertys($id);
         }
+    }
+
+    private function set_editing_contact($id){
+        if ($this->edit_mode){
+            Contacts::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
+        }
+    }
+
+    public function updated(){
+        $this->set_editing_contact($this->contact_id);
+    }
+    public function hydrate()
+    {
+        $this->set_editing_contact($this->contact_id);
     }
     public function render()
     {
@@ -828,20 +842,24 @@ class Create extends Component
 
 // -------------------------- STEPS -------------------------- //
     private function backStep($passStep, $currentStep, $time = 700){
+        $this->set_editing_contact($this->contact_id);
         $this->currentStep = $currentStep;
     }
     private function nextStep($passStep, $currentStep, $time = 2000){
+        $this->set_editing_contact($this->contact_id);
         if (!in_array($currentStep, $this->passStep)) {
-            // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+            $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
         }
         $this->passStep[] = $passStep;
         $this->currentStep = $currentStep;
     }
     public function omitStep($currentStep, $time = 1000){
-        // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        $this->set_editing_contact($this->contact_id);
+        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
         $this->currentStep = $currentStep;
     }
     public function continueStep($time = 600){
+        $this->set_editing_contact($this->contact_id);
         // $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
         $unmakedTab = array_filter($this->allStep, function($step) {
             return array_search($step['name'], $this->passStep) === false;

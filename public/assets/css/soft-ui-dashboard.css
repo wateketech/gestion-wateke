@@ -22276,4 +22276,32 @@ span.select2.select2-container.select2-container--default.select2-container--bel
 }
 .contact-list .contact-row.active :first-child .contact-name {
   font-weight: bold;
+}
+
+.blink-1 {
+  animation: blinker 0.5s linear infinite;
+}
+.blink-2 {
+  animation: blinker 1s linear infinite;
+}
+.blink-3 {
+  animation: blinker 1.5s linear infinite;
+}
+.blink-4 {
+  animation: blinker 2s linear infinite;
+}
+.blink-white {
+  color: #fff;
+}
+.blink-danger {
+  color: #ff0000;
+}
+.blink-primary {
+  color: #ff6400;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

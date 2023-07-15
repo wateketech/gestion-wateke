@@ -43,6 +43,9 @@
                                             <i class="fas fa-share">&nbsp; Falta</i>
                                         </a>
                                     @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         <a class="btn btn-primary" wire:click="stepSubmit_general_next">
                                             <i class="fas fa-angle-double-right"></i>
                                         </a>
@@ -68,6 +71,9 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         @if ($this->canOmitStep('emails'))
                                             <a class="btn btn-secondary"
                                                 wire:click="stepSubmit_emails_omit">
@@ -99,6 +105,9 @@
                                         @endif
                                         <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
                                             <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
                                         </a>
                                         @if ($this->canOmitStep('phones'))
                                             <a class="btn btn-secondary"
@@ -132,6 +141,9 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         @if ($this->canOmitStep('chats'))
                                             <a class="btn btn-secondary"
                                                 wire:click="stepSubmit_chats_omit">
@@ -164,6 +176,9 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         @if ($this->canOmitStep('rrss'))
                                             <a class="btn btn-secondary"
                                                 wire:click="stepSubmit_rrss_omit">
@@ -196,6 +211,9 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         @if ($this->canOmitStep('webs'))
                                             <a class="btn btn-secondary"
                                                 wire:click="stepSubmit_webs_omit">
@@ -228,6 +246,9 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         @if ($this->canOmitStep('address'))
                                             <a class="btn btn-secondary"
                                                 wire:click="stepSubmit_address_omit">
@@ -253,6 +274,9 @@
                                     <div class="z-index-2">
                                         <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
                                             <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
                                         </a>
                                         <a class="btn btn-secondary"
                                             wire:click="stepSubmit_ocupation_omit">
@@ -280,6 +304,9 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
+                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
+                                            <i class="fas fa-ban fa-md"></i>
+                                        </a>
                                         @if ($this->canOmitStep('more'))
                                             <a class="btn btn-secondary"
                                                 wire:click="stepSubmit_more_omit">

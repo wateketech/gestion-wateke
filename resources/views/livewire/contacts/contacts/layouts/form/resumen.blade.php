@@ -35,6 +35,10 @@
                 wire:click="stepSubmit_resumen_review">
                 <i class="fas fa-share fa-flip-horizontal"></i> &nbsp;Revisar
             </a>
+            <a class="btn btn-outline-danger me-2 opacity-8" style="height: fit-content;"
+                wire:click="exit">
+                <i class="fas fa-ban fa-md"></i>
+            </a>
             <a class="btn btn-primary me-2" style="height: fit-content;"
                 wire:click="stepSubmit_resumen_back">
                 <i class="fas fa-angle-double-left"></i>

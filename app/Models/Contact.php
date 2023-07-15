@@ -24,6 +24,10 @@ class Contact extends Model
     public function emails(){
         return $this->hasMany('App\Models\ContactEmail', 'contact_id');
     }
+    public function primaryEmail(){
+        return $this->hasMany('App\Models\ContactEmail', 'contact_id')->where('is_primary', true);
+    }
+
     public function ids(){
         return $this->hasMany('App\Models\ContactId', 'contact_id');
     }
