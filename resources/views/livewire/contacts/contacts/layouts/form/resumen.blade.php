@@ -37,7 +37,7 @@
             </a>
             <a class="btn btn-outline-danger me-2 opacity-8" style="height: fit-content;"
                 wire:click="exit">
-                <i class="fas fa-ban fa-md"></i>
+                <i class="fas fa-trash-alt fa-lg"></i>
             </a>
             <a class="btn btn-primary me-2" style="height: fit-content;"
                 wire:click="stepSubmit_resumen_back">
@@ -558,7 +558,7 @@
 
 
 
-
+{{--
 <div class="card-footer px-4 pt-1">
 @if ($create_mode)
     <div class="form-check form-switch">
@@ -617,7 +617,7 @@
         </div>
         <div class="col form-group">
             <label for="user_link_password_public" class="form-control-label">Contraseña *</label>
-            <input class="@error('user_link_password_public')border border-danger rounded-3 is-invalid @enderror form-control" type="text" {{-- type="password" --}}
+            <input class="@error('user_link_password_public')border border-danger rounded-3 is-invalid @enderror form-control" type="text"
                 aria-label="Password" name="user_link_password_public" id="user_link_password_public" aria-describedby="password-addon"
                 value="{{ $user_link_password_public }}" disabled>
             @error('user_link_password_public') <sub class="text-danger">{{ $message }}</sub> @enderror
@@ -625,4 +625,4 @@
     </div>
 @endif
 </div>
-
+ --}}

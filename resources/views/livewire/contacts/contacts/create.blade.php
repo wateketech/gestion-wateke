@@ -43,8 +43,8 @@
                                             <i class="fas fa-share">&nbsp; Falta</i>
                                         </a>
                                     @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         <a class="btn btn-primary" wire:click="stepSubmit_general_next">
                                             <i class="fas fa-angle-double-right"></i>
@@ -71,8 +71,8 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('emails'))
                                             <a class="btn btn-secondary"
@@ -106,8 +106,8 @@
                                         <a class="btn btn-primary" wire:click="stepSubmit_phones_back">
                                             <i class="fas fa-angle-double-left"></i>
                                         </a>
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('phones'))
                                             <a class="btn btn-secondary"
@@ -141,8 +141,8 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('chats'))
                                             <a class="btn btn-secondary"
@@ -176,8 +176,8 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('rrss'))
                                             <a class="btn btn-secondary"
@@ -211,8 +211,8 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('webs'))
                                             <a class="btn btn-secondary"
@@ -246,8 +246,8 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('address'))
                                             <a class="btn btn-secondary"
@@ -275,8 +275,8 @@
                                         <a class="btn btn-primary" wire:click="stepSubmit_ocupation_back">
                                             <i class="fas fa-angle-double-left"></i>
                                         </a>
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         <a class="btn btn-secondary"
                                             wire:click="stepSubmit_ocupation_omit">
@@ -304,8 +304,8 @@
                                                 <i class="fas fa-share">&nbsp; Falta</i>
                                             </a>
                                         @endif
-                                        <a class="btn btn-outline-danger opacity-8" wire:click="exit">
-                                            <i class="fas fa-ban fa-md"></i>
+                                        <a class="btn btn-outline-danger opacity-8 px-4 mx-1" wire:click="exit">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
                                         </a>
                                         @if ($this->canOmitStep('more'))
                                             <a class="btn btn-secondary"
@@ -334,7 +334,7 @@
                                             <a type="button" href="{{ route('crear-contacto') }}" class="btn btn-danger opacity-7 mx-2"><i class="fas fa-sync-alt"></i></a>
                                             <div type="button" wire:click="exit" class="btn btn-secondary mx-2">Descartar cambios</div>
                                             {{-- <button type="submit" class="btn btn-success mx-2">Crear Contacto</button> --}}
-                                            <a type="button" wire:click="store" class="btn btn-success mx-2">Crear Contacto</a>
+                                            <button type="submit" class="btn btn-success mx-2">Crear Contacto</button>
                                         </div>
                                         <div class='px-4 fs-5'>
                                             <sub>
@@ -365,143 +365,3 @@
 
 
 </div>
-
-
-
-{{-- Sweet Alert Notificaciones --}}
-@push('scripts')
-<script>
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                container: 'swal-wide-container',
-                popup: 'swal-wide-popup',
-                confirmButton: 'btn btn-success mx-3',
-                cancelButton: 'btn btn-danger mx-3'
-            },
-            buttonsStyling: false
-        })
-
-
-        window.addEventListener('coocking-time', function($event){
-            let timerInterval
-            Swal.fire({
-                title: 'Lo estamos cocinando',
-                html: 'Esto tomará unos segundos <img class="w-25 m-auto mt-4 mb-2" src="../assets/img/logos/loading.gif">',
-                timer: $event.detail.time,
-                timerProgressBar: true,
-                allowOutsideClick: false,
-                backdropOpacity: 0.2,
-                showConfirmButton: false,
-                showCancelButton: false,
-                // allowEscapeKey: false,
-                didOpen: () => {
-                    console.log();
-                    // Swal.showLoading()
-                    // const b = Swal.getHtmlContainer().querySelector('b')
-                    timerInterval = setInterval(() => {
-                        // b.textContent = Swal.getTimerLeft()
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                }
-            })
-        });
-
-
-
-        window.addEventListener('ddbb-error', function($event){
-            swalWithBootstrapButtons.fire({
-                icon: 'error',
-                title: 'Oops...',
-                timer: 5000,
-                text: "Hubo un error al procesar sus datos!",
-                footer: "<code> " + $event.detail.code + " : " + $event.detail.message + "</code>"
-            }).then(() => {
-                window.location.href = "/contactos";
-            })
-        });
-
-        window.addEventListener('pics-error', function($event){
-            swalWithBootstrapButtons.fire({
-                icon: 'warning',
-                title: 'Oops...',
-                timer: 4000,
-                text: "Hubo un error al procesar la imagen!",
-                footer: "Luego, podrás actualizarla."
-                // confirmButtonText: 'Continuar igualmente',
-                // cancelButtonText: 'No, cancelar',
-            // }).then((result) => {
-                //     if (result.isConfirmed) {
-                //         swalWithBootstrapButtons.fire(
-                //         'Deleted!',
-                //         'Your file has been deleted.',
-                //         'success'
-                //         )
-                //     } else if ( result.dismiss === Swal.DismissReason.cancel){
-                //         window.location.href = "/crear-contactos";
-                //     }
-            }).then((result) => {
-                window.dispatchEvent(new CustomEvent('show-created-warning'));
-            })
-        });
-
-        window.addEventListener('show-created-success', function(){
-            swalWithBootstrapButtons.fire({
-                position: 'center' ,
-                title: 'Creado',
-                html: "¡Contacto creado exitosamente!",
-                icon: 'success',
-                timer: 5000
-            }).then(() => {
-                window.location.href = "/contactos";
-            })
-        });
-        window.addEventListener('show-created-warning', function(){
-            swalWithBootstrapButtons.fire({
-                position: 'center' ,
-                title: 'Creado',
-                html: "¡Contacto creado exitosamente!",
-                // footer: "Algunos datos no han sido procesados del todo, luego podrás actualizarlos",
-                icon: 'warning',
-                timer: 5000
-            }).then(() => {
-                window.location.href = "/contactos";
-            })
-        });
-        window.addEventListener('show-updated-success', function(){
-            swalWithBootstrapButtons.fire({
-                position: 'center' ,
-                title: 'Actualizado',
-                html: "¡Contacto actualizado exitosamente!",
-                icon: 'success',
-                timer: 5000
-            }).then(() => {
-                window.location.href = "/contactos";
-            })
-        });
-        window.addEventListener('show-updated-warning', function(){
-            swalWithBootstrapButtons.fire({
-                position: 'center' ,
-                title: 'Actualizado',
-                html: "¡Contacto actualizado exitosamente!",
-                // footer: "Algunos datos no han sido procesados del todo, luego podrás actualizarlos",
-                icon: 'warning',
-                timer: 5000
-            }).then(() => {
-                window.location.href = "/contactos";
-            })
-        });
-        window.addEventListener('error-user-exist', function(){
-            swalWithBootstrapButtons.fire({
-                position: 'center' ,
-                title: '¡Ya existen usuarios con los emails!',
-                html: "Posteriormente puede crear un usuario y enlazarlo a este contacto de forma manualmente",
-                icon: 'warning',
-                timer: 10000
-            })
-        });
-
-
-</script>
-@endpush

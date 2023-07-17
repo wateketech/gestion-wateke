@@ -43,5 +43,14 @@ class UsersSeeder extends Seeder
             'about' => '  ',
             'enable' => true
         ])->assignRole('SuperAdmin');
+
+        User::factory()->create([
+            'name' => 'Archi',
+            'email' => 'arquimedes@placeresmompeller.com',
+            'password' => Hash::make('Wateke2023+'),
+            'phone' => '+53 58958864',
+            'about' => '  ',
+            'enable' => true
+        ])->assignRole('SuperAdmin');
     }
 }
