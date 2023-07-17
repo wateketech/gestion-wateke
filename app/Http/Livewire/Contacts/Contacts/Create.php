@@ -418,27 +418,48 @@ class Create extends Component
                     }
                 }),
                 function ($attribute, $value, $fail) use ($index) {
-                    // validar que el juego del value + ext no se repita en el front-end
+                    $phones = array_filter($this->phones, function($phone) {
+                        if ($this->phone_types->find($phone['type_id'])->label == 'Extensión')
+                            return $phone['value'];
+                    });
+                    if ($index === '*'){
+                        foreach ($phones as $value) {
+                            $duplicates = array_filter($phones, function($phone) use ($value) {
+                                return $value == $phone;
+                            });
+                            if (count($duplicates) > 1)
+                                $fail('Las extensiones no pueden repetirse');
+                        }
+                    }
+                    else{
+                        if (count($phones) != count(array_unique(array_column($phones, 'value'))) && $this->phone_types->find($this->phones[$index]['type_id'])->label == 'Extensión') {
+                            $fail('Las extensiones no pueden repetirse');
+                        }
+                    }
                 }],
             'phones.' . $index . '.value' => ['nullable', 'required', 'min:5', 'max:20',
                                             'regex:/^(\+)?(\d{1,3})?[- ]?(\()?(\d{3})?(\))?[- ]?\d{3}[- ]?\d*$/',
 
                 function ($attribute, $value, $fail) use ($index) {
-                    $phones = array_column($this->phones, 'value');
+                    $phones = array_filter($this->phones, function($phone) {
+                        if ($this->phone_types->find($phone['type_id'])->label != 'Extensión')
+                            return $phone['value'];
+                    });
+
                     if ($index === '*'){
-                        foreach ($this->phones as $phone) {
-                            if (count($phones) != count(array_unique($phones)) && $phone['type_id'] != 'Extensión') {
+                        foreach ($phones as $value) {
+                            $duplicates = array_filter($phones, function($phone) use ($value) {
+                                return $value == $phone;
+                            });
+                            if (count($duplicates) > 1)
                                 $fail('Los números de teléfonos no pueden repetirse');
-                            }
                         }
                     }
                     else{
-                        if (count($phones) != count(array_unique($phones)) && $this->phone_types->find($this->phones[$index]['type_id'])->label != 'Extensión') {
+                        if (count($phones) != count(array_unique(array_column($phones, 'value'))) && $this->phone_types->find($this->phones[$index]['type_id'])->label != 'Extensión') {
                             $fail('Los números de teléfonos no pueden repetirse');
                         }
                     }
-
-
                 }
             ]
         ];
