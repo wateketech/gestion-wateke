@@ -9,6 +9,9 @@ use App\Models\Contact as Contacts;
 class AllContacts extends Component
 {
     public $prueba;
+    public $filter_view = false;
+    public $group_view = false;
+
     protected $listeners = [
         'multiple_selection',
         'delete_contact' => 'deleteContact',
@@ -180,6 +183,19 @@ class AllContacts extends Component
     }
 
     // }
+
+    
+
+
+    public function updatedFilterView()
+    {
+        $this->group_view = false;
+    }
+    public function updatedGroupView()
+    {
+        $this->filter_view = false;
+    }
+
     public function render()
     {
         $this->contacts = Contacts::where('enable', true)
@@ -206,9 +222,6 @@ class AllContacts extends Component
         $this->current_contact = Contacts::find($id);
     }
 
-
-
-
     public function createGroup ($ids){
         json_decode($ids);
     }
@@ -219,6 +232,8 @@ class AllContacts extends Component
 
 
 
+
+    
 
 
 

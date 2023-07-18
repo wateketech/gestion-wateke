@@ -1,7 +1,7 @@
 <div class="card h-100">
     <div class="card-header p-3">
         <div class="w-100 text-center">
-            <p>Grupos</p>
+            <p>Filtros</p>
         </div>
     </div>
     <div class="card-body px-2 pt-0">
