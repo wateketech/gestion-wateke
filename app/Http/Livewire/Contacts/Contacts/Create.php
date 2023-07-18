@@ -1571,7 +1571,7 @@ class Create extends Component
 
             }
             // if ($linkUserError) $this->dispatchBrowserEvent('pics-error', ['redirect' => '/contactos']);
-            else $this->dispatchBrowserEvent('show-updated-success', ['redirect' => '/contactos', 'text' => '¡Contacto creado exitosamente!']);
+            else $this->dispatchBrowserEvent('show-updated-success', ['redirect' => '/contactos/' . $this->contact_id, 'text' => '¡Contacto creado exitosamente!']);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2], 'redirect' => '/contactos']);
@@ -1718,7 +1718,7 @@ class Create extends Component
                 $this->dispatchBrowserEvent('pics-error', ['redirect' => '/contactos']);
             }
             // if ($linkUserError) $this->dispatchBrowserEvent('pics-error', ['redirect' => '/contactos']);
-            else $this->dispatchBrowserEvent('show-created-success', ['redirect' => '/contactos', 'text' => '¡Contacto creado exitosamente!']);
+            else $this->dispatchBrowserEvent('show-created-success', ['redirect' => '/contactos/' . $contact->id, 'text' => '¡Contacto creado exitosamente!']);
 
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();

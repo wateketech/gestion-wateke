@@ -451,8 +451,15 @@ $aspect-ratios: (
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif:      'Open Sans' !default;
-$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-sans-serif:      'Comfortaa' !default;
+$font-family-monospace:       'Raleway' !default;
+
+
+// $font-family-sans-serif:      'Open Sans' !default;
+// $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-comfortaa:       'Comfortaa' !default;
+$font-family-raleway:         'Raleway' !default;
+
 // stylelint-enable value-keyword-case
 $font-family-base:            var(--bs-font-sans-serif) !default;
 $font-family-code:            var(--bs-font-monospace) !default;

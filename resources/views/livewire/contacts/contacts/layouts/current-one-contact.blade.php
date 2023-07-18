@@ -187,50 +187,47 @@
                 </h2>
                 <div id="collapsePhone" class="accordion-collapse collapse" aria-labelledby="headingPhone">
                     <div class="accordion-body">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <tbody>
-                                    @foreach ($contact->phones as $index => $phone)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-0 py-1">
-                                                <div class="d-flex flex-column justify-content-center pl-3 {{ $phone->is_primary == true ? 'text-primary' : '' }}">
-                                                    {!!  html_entity_decode($phone->type->icon) !!}
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <h6 class="mb-0 text-sm">{{ $phone->type->label }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        {{ isset(json_decode($phone->value_meta)->country_name) ? json_decode($phone->value_meta)->country_name : ' - - - - - - ' }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex flex-column justify-content-center px-3">
-                                                <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
-                                                    @if (isset(json_decode($phone->value_meta)->country_dial_code) && isset(json_decode($phone->value_meta)->clean_number))
-                                                        {!! '+' . json_decode($phone->value_meta)->country_dial_code . ' ' . json_decode($phone->value_meta)->clean_number !!}
-                                                    @else
-                                                        {{ $phone->value != '' || $phone->value != null ? $phone->value : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ?' }}
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                href='tel:{!! json_decode($phone->value_meta)->call_number !!}'>
-                                                Llamar
-                                            </a>
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                onclick="copyToClipboard('{!! json_decode($phone->value_meta)->call_number !!}')">
-                                                Copiar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        @foreach ($contact->phones as $index => $phone)
+                            
+                            <div class="row pb-3">
+                                <div class="col text-start">
+                                    <div class="d-flex px-0 py-1 px-2">
+                                        <div class="d-flex flex-column justify-content-center px-2 {{ $phone->is_primary == true ? 'text-primary' : '' }}">
+                                            {!!  html_entity_decode($phone->type->icon) !!}
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center px-2">
+                                            <h6 class="mb-0 text-sm">{{ $phone->type->label }}</h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                {{ isset(json_decode($phone->value_meta)->country_name) ? json_decode($phone->value_meta)->country_name : ' - - - - - - ' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col px-3">
+                                    {{-- <div class="d-flex flex-column justify-content-center px-3"> --}}
+                                        <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive; cursor:pointer"
+                                            onclick="copyToClipboard('{!! json_decode($phone->value_meta)->call_number !!}')">
+                                            @if (isset(json_decode($phone->value_meta)->country_dial_code) && isset(json_decode($phone->value_meta)->clean_number))
+                                                {!! '+' . json_decode($phone->value_meta)->country_dial_code . ' ' . json_decode($phone->value_meta)->clean_number !!}
+                                            @else
+                                                {{ $phone->value != '' || $phone->value != null ? $phone->value : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ?' }}
+                                            @endif
+                                        </p>
+                                    {{-- </div> --}}
+                                </div>
+                                <div class="col px-3 text-end">
+                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                        href='tel:{!! json_decode($phone->value_meta)->call_number !!}'>
+                                        Llamar
+                                    </a>
+                                    <a class="btn btn-primary btn-sm me-1 mb-1 px-3 py-1 w-auto"
+                                        href="javascript:void(0)" onclick="copyToClipboard('{!! json_decode($phone->value_meta)->call_number !!}')">
+                                        Copiar
+                                    </a>
+                                </div>
+                            </div>
+
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -247,60 +244,57 @@
                 </h2>
                 <div id="collapseChats" class="accordion-collapse collapse" aria-labelledby="headingChats">
                     <div class="accordion-body">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <tbody>
-                                @foreach ($contact->instant_messages as $index => $instant_message)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-0 py-1">
-                                                <div class="d-flex flex-column justify-content-center pl-3 {{ $instant_message->is_primary == true ? 'text-primary' : '' }}">
-                                                    @switch($instant_message->label)
-                                                        @case('Personal')
-                                                        @case('')
-                                                        @case(null)
-                                                            <i class="fas fa-home fa-lg"></i>
-                                                            @break
-                                                        @case('Trabajo')
-                                                            <i class="fas fa-briefcase fa-lg"></i>
-                                                            @break
-                                                        @default
-                                                            <i class="fas fa-comments fa-lg"></i>
-                                                    @endswitch
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <h6 class="mb-0 text-sm">{{ $instant_message->label === null || strlen($instant_message->label) === 0 ? 'Personal' : $instant_message->label }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{ isset($instant_message->type->label) ? $instant_message->type->label : ' - - - - - - - - - ' }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex flex-column justify-content-center px-3">
-                                                <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
-                                                    {{ $instant_message->value }}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                href='{{ $instant_message->type->url . $instant_message->value  }}' target="_blank">
-                                                Chatear
-                                            </a>
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                onclick="copyToClipboard('{{ $instant_message->value }}')">
-                                                Copiar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        @foreach ($contact->instant_messages as $index => $instant_message)
+                            <div class="row pb-3">
+
+                                <div class="col d-flex">
+                                    <div class="d-flex flex-column justify-content-center px-2">
+                                        <div class="d-flex flex-column justify-content-center px-1 {{ $instant_message->is_primary == true ? 'text-primary' : '' }}">
+                                            @switch($instant_message->label)
+                                                @case('Personal')
+                                                @case('')
+                                                @case(null)
+                                                    <i class="fas fa-home fa-lg"></i>
+                                                    @break
+                                                @case('Trabajo')
+                                                    <i class="fas fa-briefcase fa-lg"></i>
+                                                    @break
+                                                @default
+                                                    <i class="fas fa-comments fa-lg"></i>
+                                            @endswitch
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center px-2">
+                                            <h6 class="mb-0 text-sm">{{ $instant_message->label === null || strlen($instant_message->label) === 0 ? 'Personal' : $instant_message->label }}</h6>
+                                            <p class="text-xs text-secondary mb-0">{{ isset($instant_message->type->label) ? $instant_message->type->label : ' - - - - - - - - - ' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col px-3">
+                                    {{-- <div class="d-flex flex-column justify-content-center px-3"> --}}
+                                        <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive; cursor:pointer;"
+                                        onclick="copyToClipboard('{{ $instant_message->type->url . $instant_message->value  }}')">
+                                            {{ $instant_message->value }}
+                                        </p>
+                                    {{-- </div> --}}
+                                </div>
+
+                                <div class="col px-3 text-end">
+                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                        href='{{ $instant_message->type->url . $instant_message->value  }}' target="_blank">
+                                        Chatear
+                                    </a>
+                                    <a class="btn btn-primary btn-sm me-1 mb-1 px-3 py-1 w-auto"
+                                        href="javascript:void(0)" onclick="copyToClipboard('{{ $instant_message->type->url . $instant_message->value  }}')">
+                                        Copiar
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         @endif
-
 
         @if (count($contact->emails) != 0)
             <div class="accordion-item border border-1 border-radius-sm m-1 p-1">
@@ -312,55 +306,52 @@
                 </h2>
                 <div id="collapseEmails" class="accordion-collapse" aria-labelledby="headingEmails">
                     <div class="accordion-body">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <tbody>
-                                    @foreach ($contact->emails as $index => $email)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-0 py-1">
-                                                    <div class="d-flex flex-column justify-content-center pl-3 {{ $email->is_primary == true ? 'text-primary' : '' }}">
-                                                        @switch($email->label)
-                                                            @case('Personal')
-                                                            @case('')
-                                                            @case(null)
-                                                                <i class="fas fa-home fa-lg"></i>
-                                                                @break
-                                                            @case('Trabajo')
-                                                                <i class="fas fa-briefcase fa-lg"></i>
-                                                                @break
-                                                            @default
-                                                                <i class="fas fa-comments fa-lg"></i>
-                                                        @endswitch
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center pl-3">
-                                                        <h6 class="mb-0 text-sm">{{ $email->label === null || strlen($email->label) === 0 ? 'Personal' : $email->label }}</h6>
-                                                        <p class="text-xs text-secondary mb-0">{{ isset($email->type->label) ? $email->type->label : ' - - - - - - - - - ' }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center px-3">
-                                                    <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
-                                                        {{ $email->value }}
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-end">
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                    href='mailto:{{ $email->value }}'>
-                                                    Enviar email
-                                                </a>
-                                                <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                    onclick="copyToClipboard('{{ $email->value }}')">
-                                                    Copiar
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        @foreach ($contact->emails as $index => $email)
+                            <div class="row pb-3">
+
+                                <div class="col d-flex">
+                                    <div class="d-flex flex-column justify-content-center px-2 {{ $email->is_primary == true ? 'text-primary' : '' }}">
+                                        @switch($email->label)
+                                            @case('Personal')
+                                            @case('')
+                                            @case(null)
+                                                <i class="fas fa-home fa-lg"></i>
+                                                @break
+                                            @case('Trabajo')
+                                                <i class="fas fa-briefcase fa-lg"></i>
+                                                @break
+                                            @default
+                                                <i class="fas fa-comments fa-lg"></i>
+                                        @endswitch
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center px-2">
+                                        <h6 class="mb-0 text-sm">{{ $email->label === null || strlen($email->label) === 0 ? 'Personal' : $email->label }}</h6>
+                                        <p class="text-xs text-secondary mb-0">{{ isset($email->type->label) ? $email->type->label : ' - - - - - - - - - ' }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="col px-3">
+                                    {{-- <div class="d-flex flex-column justify-content-center px-3"> --}}
+                                        <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive; cursor:pointer"
+                                            onclick="copyToClipboard('{{ $email->value }}')">
+                                            {{ $email->value }}
+                                        </p>
+                                    {{-- </div> --}}
+                                </div>
+
+                                <div class="col px-3 text-end">
+                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                        href='mailto:{{ $email->value }}'>
+                                        Enviar email
+                                    </a>
+                                    <a class="btn btn-primary btn-sm me-1 mb-1 px-3 py-1 w-auto"
+                                        href="javascript:void(0)" onclick="copyToClipboard('{{ $email->value }}')">
+                                        Copiar
+                                    </a>
+                                </div>
+
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -379,11 +370,11 @@
                 <div id="collapseBankAcoounts" class="accordion-collapse collapse" aria-labelledby="headingBankAccounts">
                     <div class="accordion-body p-0">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0 overflow-hidden">
                                 <tbody>
                                     @foreach ($contact->bank_accounts as $index => $account)
-                                        <tr>
-                                            <td>
+                                        <tr class="row">
+                                            <td class="col-4 text-start">
                                                 <div class="d-flex px-0 py-1">
                                                     @if ($account->type->label != 'Unknown')
                                                         <img style="max-width: 100%; height: 40px;" src="{{ $account->type->logo }}" alt="{{ $account->type->label }}">
@@ -399,7 +390,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td class="col-4 px-2">
                                                 <div class="d-flex flex-column justify-content-center px-7">
                                                     <p class="text-md font-weight-bold mb-0" style="font-family: monospace, cursive; cursor:pointer"
                                                         onclick="copyToClipboard('{{ $account->card_number }}')">
@@ -408,7 +399,7 @@
 
                                                 </div>
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td class="col-4 text-end">
                                                 <span class="text-secondary text-xs ">Vence: <strong>{{ date('m/Y', strtotime($account->expiration_date)) }}    </strong></span>
                                             </td>
                                         </tr>
@@ -433,42 +424,42 @@
                 </h2>
                 <div id="collapseWebs" class="accordion-collapse collapse" aria-labelledby="headingWebs">
                     <div class="accordion-body">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                @foreach ($contact->webs as $index => $web)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-0 py-1">
-                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <i class="fas fa-globe fa-lg"></i>
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <h6 class="mb-0 text-sm">{{ $web->type->label }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">Personal</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex flex-column justify-content-center px-3">
-                                                <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
-                                                    {{ $web->value }}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                href="//{{ $web->value }}" target="_blank">
-                                                Visitar
-                                            </a>
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                onclick="copyToClipboard('{{ $web->value }}')">
-                                                Copiar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </div>
+                        @foreach ($contact->webs as $index => $web)
+                            <div class="row pb-3">
+
+                                <div class="col d-flex">
+                                        <div class="d-flex flex-column justify-content-center px-2">
+                                            <i class="fas fa-globe fa-lg"></i>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center px-2">
+                                            <h6 class="mb-0 text-sm">{{ $web->type->label }}</h6>
+                                            <p class="text-xs text-secondary mb-0">Personal</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <div class="col px-3">
+                                    {{-- <div class="d-flex flex-column justify-content-center px-3"> --}}
+                                        <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive; cursor:pointer"
+                                            onclick="copyToClipboard('{{ $web->value }}')">
+                                            {{ $web->value }}
+                                        </p>
+                                    {{-- </div> --}}
+                                </div>
+
+                                <div class="col px-3 text-end">
+                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                        href="//{{ $web->value }}" target="_blank">
+                                        Visitar
+                                    </a>
+                                    <a class="btn btn-primary btn-sm me-1 mb-1 px-3 py-1 w-auto"
+                                        href="javascript:void(0)" onclick="copyToClipboard('{{ $web->value }}')">
+                                        Copiar
+                                    </a>
+                                </div>
+                            
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -486,48 +477,61 @@
                 </h2>
                 <div id="collapsePublishUs" class="accordion-collapse collapse" aria-labelledby="headingPublishUs">
                     <div class="accordion-body">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <tbody>
-                                @foreach ($contact->publish_us as $index => $web)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-0 py-1">
-                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <i class="fas fa-globe fa-lg"></i>
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                    <h6 class="mb-0 text-sm">{{ $web->type->label }}</h6>
-                                                    {{-- <p class="text-xs text-secondary mb-0">Personal</p> --}}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex flex-column justify-content-center px-3">
-                                                <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive;">
-                                                    {{ $web->value }}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                href="//{{ $web->value }}" target="_blank">
-                                                Visitar
-                                            </a>
-                                            <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
-                                                onclick="copyToClipboard('{{ $web->value }}')">
-                                                Copiar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        @foreach ($contact->publish_us as $index => $web)
+                            <div class="row pb-3">
+
+                                <div class="col d-flex">
+                                    <div class="d-flex flex-column justify-content-center px-2">
+                                        <i class="fas fa-globe fa-lg"></i>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center px-2">
+                                        <h6 class="mb-0 text-sm">{{ $web->type->label }}</h6>
+                                        {{-- <p class="text-xs text-secondary mb-0">Personal</p> --}}
+                                    </div>
+                                </div>
+
+                                <div class="col px-3">
+                                    {{-- <div class="d-flex flex-column justify-content-center px-3"> --}}
+                                        <p class="text-md text-secondary mb-0" style="font-family: monospace, cursive; cursor:pointer"
+                                            onclick="copyToClipboard('{{ $web->value }}')">
+                                            {{ $web->value }}
+                                        </p>
+                                    {{-- </div> --}}
+                                </div>
+
+                                <div class="col px-3 text-end">
+                                    <a class="btn btn-primary btn-sm text-white me-1 mb-1 px-3 py-1 w-auto"
+                                        href="//{{ $web->value }}" target="_blank">
+                                        Visitar
+                                    </a>
+                                    <a class="btn btn-primary btn-sm me-1 mb-1 px-3 py-1 w-auto"
+                                        href="javascript:void(0)" onclick='copyToClipboard("{{ $web->value }}")'>
+                                        Copiar
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     </div>

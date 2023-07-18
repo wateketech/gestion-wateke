@@ -50,8 +50,8 @@
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 103, 116, 142;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: "Open Sans";
-  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --bs-font-sans-serif: "Comfortaa";
+  --bs-font-monospace: "Raleway";
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
@@ -17088,7 +17088,7 @@ textarea.form-control-lg {
   padding: 1.5rem;
 }
 .card .card-body {
-  font-family: "Open Sans";
+  font-family: "Comfortaa";
   padding: 1.5rem;
 }
 .card.card-plain {
@@ -20361,11 +20361,11 @@ p {
 }
 
 .text-sans-serif {
-  font-family: "Open Sans" !important;
+  font-family: "Comfortaa" !important;
 }
 
 .text-monospace {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-family: "Raleway" !important;
 }
 
 .text-justify {
@@ -22304,4 +22304,10 @@ span.select2.select2-container.select2-container--default.select2-container--bel
   50% {
     opacity: 0;
   }
+}
+.txt-conforta {
+  font-family: "Comfortaa" !important;
+}
+.txt-raleway {
+  font-family: "Raleway" !important;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */
