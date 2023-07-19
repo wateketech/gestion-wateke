@@ -411,3 +411,38 @@ span.select2.select2-container.select2-container--default.select2-container--bel
         font-family: 'Raleway' !important;
     }
 }
+
+
+
+// custom search input and ACTIONS
+.search-input {
+    position: relative;
+    display: inline-block;
+
+    & .select-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1;
+        /* display: none; */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        width: 100%;
+        margin-right: 12px;
+
+        & .option {
+            padding: 8px 12px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f2f2f2;
+            }
+        }
+
+    }
+}

@@ -74,6 +74,14 @@ class AllContacts extends Component
 
 
     }
+
+
+
+
+
+
+// ------------------------------ SEARCHS --------------------------------
+
     public function restartFilter($value){
         $this->is_search_name = $value;
         $this->is_search_ids = $value;
@@ -184,17 +192,7 @@ class AllContacts extends Component
 
     // }
 
-    
 
-
-    public function updatedFilterView()
-    {
-        $this->group_view = false;
-    }
-    public function updatedGroupView()
-    {
-        $this->filter_view = false;
-    }
 
     public function render()
     {
@@ -217,13 +215,36 @@ class AllContacts extends Component
                                   ->paginate($this->perPage);
         return view('livewire.contacts.contacts.all-contacts')->with('contacts', $this->contacts);
     }
+// ------------------------------ VIEWS --------------------------------
 
+        public function updatedFilterView()
+        {
+            $this->group_view = false;
+        }
+        public function updatedGroupView()
+        {
+            $this->filter_view = false;
+        }
+
+// ------------------------------ ACTIONS --------------------------------
     public function selectContact($id){
         $this->current_contact = Contacts::find($id);
     }
 
     public function createGroup ($ids){
-        json_decode($ids);
+        $this->dispatchBrowserEvent('show-in-progress');
+    }
+
+    public function importContacts(){
+        $this->dispatchBrowserEvent('show-in-progress');
+    }
+
+    public function exportContact($id){
+        $this->dispatchBrowserEvent('show-in-progress');
+    }
+
+    public function exportContacts($ids){
+        $this->dispatchBrowserEvent('show-in-progress');
     }
 
 
@@ -233,15 +254,13 @@ class AllContacts extends Component
 
 
 
-    
 
 
 
 
 
 
-
-
+// ------------------------------ REMOVE ACTIONS --------------------------------
 
     public function deleteContact_Q($id){
         $this->dispatchBrowserEvent('show-delete-contact', ['contact_id' => $id, 'current_contact' => $this->current_contact]);

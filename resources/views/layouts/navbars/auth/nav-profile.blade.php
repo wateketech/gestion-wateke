@@ -10,11 +10,7 @@
                 <h6 class="text-white font-weight-bolder ms-2 text-capitalize"> {{ str_replace('-', ' ', Route::currentRouteName()) }}</h6>
             </nav>
             <div class="collapse navbar-collapse me-md-0 me-sm-4 mt-sm-0 mt-2" id="navbar">
-                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="{{ __('Type here...')}}">
-                    </div>
-                </div>
+                <livewire:auth.search-actions />
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
@@ -32,7 +28,7 @@
                             </a>
                         </a>
                     </li>
-{{-- 
+{{--
                     <li class="nav-item px-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-white p-0">
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
@@ -129,7 +125,7 @@
 
  --}}
                     </li>
-                </ul>               
+                </ul>
             </div>
         </div>
     </nav>

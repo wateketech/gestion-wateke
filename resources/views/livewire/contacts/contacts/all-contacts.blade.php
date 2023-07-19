@@ -3,10 +3,10 @@
     {{-- ACCIONES  --}}
     <div class="d-flex flex-row justify-content-between mx-4">
         <div>
-            <a class="btn text-white btn-secondary px-3 mx-1" title="buscar / filtrar" wire:click="$toggle('filter_view')">
+            <a class="btn {{ $filter_view ? 'btn-primary' : 'btn-outline-primary' }} px-3 mx-1" title="buscar / filtrar" wire:click="$toggle('filter_view')">
                 <i class="fas fa-search"></i> Buscar / Filtrar
             </a>
-            <a class="btn text-white btn-secondary px-3 mx-1" title="grupos" wire:click="$toggle('group_view')">
+            <a class="btn {{ $group_view ? 'btn-primary' : 'btn-outline-primary' }} px-3 mx-1" title="grupos" wire:click="$toggle('group_view')">
                 <i class="fas fa-users"></i> Grupos
             </a>
             <a class="btn text-white btn-primary active btn-lx px-3 mx-1 " href="{{ route('crear-contacto') }}">
@@ -20,6 +20,10 @@
         {{-- SINGLE CONTACT VIEW --}}
         @if (isset($current_contact) && count($current_contacts) <= 1)
 
+            <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContact('{{ $current_contact }}')">
+                <i class="fas fa-download"></i> &nbsp;
+                Exportar
+            </div>
             <a class="btn btn-outline-primary btn-lx px-3 mx-1" target="_blank" href="{{ route('editar-contacto', ['id' => $current_contact]) }}">
                 <i class="fas fa-pencil-alt"></i> &nbsp;
                 Editar
@@ -36,10 +40,18 @@
 
         {{-- MULTIPLE CONTACT VIEW --}}
         @elseif (count($current_contacts) > 1)
+            <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="importContacts">
+                <i class="fas fa-download"></i> &nbsp;
+                Exportar
+            </div>
+
             <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="createGroup('{{ json_encode($current_contacts) }}')">
                 <i class="fas fa-users"></i> &nbsp;
                 Crear Grupo
             </div>
+
+
+
             @if ($contacts->contains('id', $current_contact))
                 <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContacts_Q('{{ json_encode($current_contacts) }}')">
                     <i class="fas fa-trash-alt "></i>
@@ -50,6 +62,11 @@
                 </div>
             @endif
         @else
+
+            <div class="btn btn-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ json_encode($current_contacts) }}')">
+                <i class="fas fa-cloud-upload-alt"></i> &nbsp;
+                Importar contactos
+            </div>
 
 
 

@@ -19,10 +19,6 @@
                 @endif
 
 
-                {{-- Funcion para exportar los datos de los contactos seleccionados a csv --}}
-                <div class="icon icon-shape icon-md shadow text-center border-radius-50 me-2 disabled" style="background-color: #c0c0c0" href='javascript:void(0)'><i class="fas fa-download"></i></div>
-
-
         </div>
 
 

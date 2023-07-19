@@ -52,6 +52,16 @@ Route::middleware('auth')->group(function () {
     // SECCIÓN DE CUENTA
     Route::get('/profile', Profile::class)->name('profile');
 
+
+
+    // SECCIÓN DE GESTIÓN
+
+
+
+
+
+
+
     // SECCIÓN DE CONTACTOS
     Route::get('/contactos', Contacts::class)->name('contactos');
     Route::get('/contactos/{id?}', Contacts::class)->name('contactos');
@@ -61,25 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/entidades', Entitys::class)->name('entidades');
     Route::get('/entidades/{route?}', Entitys::class)->name('entidades');
     Route::get('/crear-entidad', CreateEntity::class)->name('crear-entidad');
-
-
-
-
-
-    // Route::get('/crear-agencias-basic', CreateFastEntity::class)->name('crear-agencia-basic');
-
-
-
-    // Route::get('/agentes', Agente::class)->name('agente');
-
-
-
-    // Route::get('/billing', Billing::class)->name('billing');
-    // Route::get('/tables', Tables::class)->name('tables');
-    // Route::get('/static-sign-in', StaticSignIn::class)->name('sign-in');            // esta ruta su controlar y vista sobra
-    // Route::get('/static-sign-up', StaticSignUp::class)->name('static-sign-up');     // esta ruta su controlar y vista sobra
-    // Route::get('/rtl', Rtl::class)->name('rtl');                                    // esta ruta su controlar y vista sobra
-    // Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
 
 
 

@@ -22310,4 +22310,32 @@ span.select2.select2-container.select2-container--default.select2-container--bel
 }
 .txt-raleway {
   font-family: "Raleway" !important;
+}
+
+.search-input {
+  position: relative;
+  display: inline-block;
+}
+.search-input .select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  /* display: none; */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  width: 100%;
+  margin-right: 12px;
+}
+.search-input .select-options .option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.search-input .select-options .option:hover {
+  background-color: #f2f2f2;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

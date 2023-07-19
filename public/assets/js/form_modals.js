@@ -17,6 +17,15 @@ const Toast = Swal.mixin({
 
 
 
+window.addEventListener('show-in-progress', function($event){
+      swalWithBootstrapButtons.fire({
+        position: 'center' ,
+        title: '<p class="h3"><i class="fas fa-tools"></i> &nbsp; En construcción</p>',
+        html: 'vuelva pronto para ver esta acción en funcionamiento',
+        icon: 'question',
+        timer: 5000,
+    })
+  });
 
 
 
