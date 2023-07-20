@@ -26,17 +26,14 @@ class ImportExport extends Component
 
     // contact section
     public function importContacts(){
-        // dd('hola');
         $this->dispatchBrowserEvent('show-in-progress');
     }
 
     public function exportContact($id){
-        dd('hola');
         $this->dispatchBrowserEvent('show-in-progress');
     }
 
     public function exportContacts($ids){
-        dd('hola');
         $this->dispatchBrowserEvent('show-in-progress');
     }
 

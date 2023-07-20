@@ -1,5 +1,11 @@
 <div class="main-content p-4">
 
+    {{-- ACTIONS COMPONENTS  --}}
+    <livewire:contacts.import-export />
+
+
+
+
     {{-- ACCIONES  --}}
     <div class="d-flex flex-row justify-content-between mx-4">
         <div>
