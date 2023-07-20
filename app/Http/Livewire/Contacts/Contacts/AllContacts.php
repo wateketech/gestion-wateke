@@ -236,15 +236,15 @@ class AllContacts extends Component
     }
 
     public function importContacts(){
-        $this->dispatchBrowserEvent('show-in-progress');
+        $this->emitTo('contacts.import-export', 'importContacts');
     }
 
     public function exportContact($id){
-        $this->dispatchBrowserEvent('show-in-progress');
+        $this->emitTo('contacts.import-export', 'exportContact', ['id' => $id]);
     }
 
     public function exportContacts($ids){
-        $this->dispatchBrowserEvent('show-in-progress');
+        $this->emitTo('contacts.import-export', 'exportContacts', ['ids' => $ids]);
     }
 
 
