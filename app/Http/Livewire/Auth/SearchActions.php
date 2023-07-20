@@ -3,57 +3,54 @@
 namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
+use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 class SearchActions extends Component
 {
+    private function findMatches($search, $percentage = 0.4) {
+        $matches = array();
 
+        foreach ($this->actions as $name => $action) {
+            $distance = levenshtein(strtolower($name), strtolower($search));
+            $len = max(strlen($name), strlen($search));
+            $similar = 1 - ($distance / $len);
 
+            if ($similar >= $percentage) {
+                $matches[$name] = $action;
+            }
+        }
 
-
-    public $search;
-
-    public $matches = [
-
-    ];
-
-    public $actions = [
-        'crear contacto1' => 'd',
-        'crear contacto2' => 'a',
-        'crear contacto3' => 2,
-        'crear contacto4' => 3,
-    ];
-
-
-
-    // function encontrarCoincidencias($array, $string) {
-    //     $coincidencias = array();
-
-    //     foreach ($array as $elemento) {
-    //         $distancia = levenshtein($elemento, $string);
-    //         $longitud = max(strlen($elemento), strlen($string));
-    //         $similitud = 1 - ($distancia / $longitud);
-
-    //         if ($similitud >= 0.8) {
-    //             $coincidencias[] = $elemento;
-    //         }
-    //     }
-
-    //     return $coincidencias;
-    // }
-
-
-
+        return $matches;
+    }
 
     public function updatedSearch(){
-        // algoritmo de coincidencias entre la busqueda y las posibles acciones
-
-
-
-
+       $this->matches =  $this->findMatches($this->search);
     }
+
     public function render()
     {
         return view('livewire.auth.search-actions');
     }
+
+
+    public function emitEvent($component, $event){
+        $this->emitTo($component, $event);
+    }
+
+
+
+    // variables
+    public $search;
+    public $matches = [];
+    public $actions = [
+        'crear contacto' => ["redirect",  "/crear-contacto"],
+
+
+
+
+
+        'cerrar sesión' =>  ["emitEvent", 'auth.logout', "logout"],
+    ];
+
 
 }

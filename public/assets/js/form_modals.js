@@ -1,38 +1,7 @@
-const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-      container: 'swal-wide-container',
-      popup: 'swal-wide-popup',
-      confirmButton: 'btn btn-success mx-3',
-      cancelButton: 'btn btn-danger mx-3'
-  },
-  buttonsStyling: false
-})
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 4500,
-    showCloseButton: true // Agregamos esta opción
-})
-
-
-
-window.addEventListener('show-in-progress', function($event){
-      swalWithBootstrapButtons.fire({
-        position: 'center' ,
-        title: '<p class="h3"><i class="fas fa-tools"></i> &nbsp; En construcción</p>',
-        html: 'vuelva pronto para ver esta acción en funcionamiento',
-        icon: 'question',
-        timer: 5000,
-    })
-  });
-
-
-
-
+import * as consts from './const.js';
 
 window.addEventListener('ddbb-error', function($event){
-  swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
       icon: 'error',
       title: 'Oops...',
       timer: 5000,
@@ -44,7 +13,7 @@ window.addEventListener('ddbb-error', function($event){
 });
 
 window.addEventListener('pics-error', function($event){
-  swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
       icon: 'warning',
       title: 'Oops...',
       timer: 4000,
@@ -54,7 +23,7 @@ window.addEventListener('pics-error', function($event){
       // cancelButtonText: 'No, cancelar',
   // }).then((result) => {
       //     if (result.isConfirmed) {
-      //         swalWithBootstrapButtons.fire(
+      //         consts.swalWithBootstrapButtons.fire(
       //         'Deleted!',
       //         'Your file has been deleted.',
       //         'success'
@@ -68,7 +37,7 @@ window.addEventListener('pics-error', function($event){
 });
 
 window.addEventListener('error-create-user-exist', function($event){
-    swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
         position: 'center' ,
         title: '¡Ya existen usuarios con los emails!',
         html: "Posteriormente puede crear un usuario y enlazarlo a este contacto de forma manualmente",
@@ -79,7 +48,7 @@ window.addEventListener('error-create-user-exist', function($event){
 
 
 window.addEventListener('show-created-success', function($event){
-  swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
       position: 'center' ,
       title: 'Creado',
       html: $event.detail.text,
@@ -90,7 +59,7 @@ window.addEventListener('show-created-success', function($event){
   })
 });
 window.addEventListener('show-created-warning', function($event){
-  swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
       position: 'center' ,
       title: 'Creado',
       html: $event.detail.text,
@@ -102,7 +71,7 @@ window.addEventListener('show-created-warning', function($event){
   })
 });
 window.addEventListener('show-updated-success', function($event){
-  swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
       position: 'center' ,
       title: 'Actualizado',
       html: $event.detail.text,
@@ -113,7 +82,7 @@ window.addEventListener('show-updated-success', function($event){
   })
 });
 window.addEventListener('show-updated-warning', function($event){
-  swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
       position: 'center' ,
       title: 'Actualizado',
       html: $event.detail.text,
@@ -145,7 +114,7 @@ window.addEventListener('show-updated-warning', function($event){
 
 window.addEventListener('show-delete-contact', function(event){
     let deletedContactId = event.detail.contact_id;
-    swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
         position: 'center' ,
         title: '¿Estas seguro?',
         html: "\
@@ -201,7 +170,7 @@ window.addEventListener('show-delete-contacts', function(event){
     let deletedContactIds = JSON.parse(event.detail.contacts_id);
     let formattedContactIds = deletedContactIds.join(' , ');
 
-    swalWithBootstrapButtons.fire({
+    consts.swalWithBootstrapButtons.fire({
         position: 'center' ,
         title: '¿Estas seguro?',
         html: "\

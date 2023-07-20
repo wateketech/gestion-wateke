@@ -22338,4 +22338,10 @@ span.select2.select2-container.select2-container--default.select2-container--bel
 }
 .search-input .select-options .option:hover {
   background-color: #f2f2f2;
+}
+.search-input .select-options .option > a {
+  display: block;
+}
+.search-input .select-options .option > a:hover {
+  color: #ff6400;
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

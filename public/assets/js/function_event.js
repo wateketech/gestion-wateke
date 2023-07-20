@@ -1,3 +1,15 @@
+import * as consts from './const.js';
+
+window.addEventListener('show-in-progress', function($event){
+  consts.swalWithBootstrapButtons.fire({
+    position: 'center' ,
+    title: '<p class="h3"><i class="fas fa-tools"></i> &nbsp; En construcción</p>',
+    html: 'vuelva pronto para ver esta acción en funcionamiento',
+    icon: 'warning',
+    timer: 5000,
+})
+});
+
 window.addEventListener('coocking-time', function($event){
     let timerInterval
     Swal.fire({
@@ -34,7 +46,6 @@ window.addEventListener('coocking-time', function($event){
         }
     })
   });
-  
-  
-  
-  
+
+
+
