@@ -15,16 +15,27 @@
                         <a href="{{ $action[1] }}" target="_blank">{{ $name }}</a>
                     </li>
 
-                @elseif ($action[0] === 'emitEvent')
+                    @elseif ($action[0] === 'emitEvent')
+                    {{-- <li class="option {{ class_exists($action[1]) ? '' : 'd-none' }}"> --}}
                     <li class="option">
-                        <a wire:click='emitEvent("{{ $action[1] }}", "{{ $action[2] }}")'>{{ $name }}</a>
+                        {{-- INICIAR EL COMPONENTE --}}
+                        <span class="d-none">
+                            @if ($action[1] != null && class_exists($action[1]))
+                                @livewire($action[1])
+                            @endif
+                        </span>
+                        <a wire:click='emitEvent("{{ $action[1] }}", "{{ $action[2] }}")'>
+                        {{-- style="{{ class_exists($action[1]) ? '' : 'text-decoration: line-through;' }}" --}}
+                            {{ $name }}
+                        </a>
                     </li>
 
                 @else
-                    hola
                     {{-- <li class="option"><a href="{{ $action }}" target="_blank">{{ $name }}</a></li> --}}
                 @endif
             @endforeach
         </ul>
+
+
     </div>
 </div>

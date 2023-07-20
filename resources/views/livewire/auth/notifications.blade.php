@@ -81,15 +81,22 @@
 
     // Escuchar el evento click en el objeto document
     document.addEventListener('click', function(event) {
+        let is_open_menu = false;
         // Comprobar si el clic se produjo dentro o fuera del menú desplegable
         var isClickedInside = dropdownToggle.contains(event.target) || dropdownMenu.contains(event.target);
 
         // Si el clic se produjo fuera del menú desplegable, cerrar el menú
-        if (!isClickedInside) {
-            // Livewire.emit('delete_contact', deletedContactId, result.value);
-            Livewire.emit('set_open_menu', false);
-        }else{
-            Livewire.emit('set_open_menu', true);
-        }
+
+        // if (isClickedInside) is_open_menu == true;
+        // if (!isClickedInside) is_open_menu == false;
+
+        // if ( isClickedInside && is_open_menu == true) Livewire.emit('set_open_menu', true);
+        // if ( !isClickedInside && is_open_menu == false) Livewire.emit('set_open_menu', false);
+
+
+        if ( isClickedInside) Livewire.emit('set_open_menu', true);
+        if ( !isClickedInside) Livewire.emit('set_open_menu', false);
+
+
     });
 </script>

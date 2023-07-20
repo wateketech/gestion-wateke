@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
-use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 class SearchActions extends Component
 {
@@ -27,11 +26,21 @@ class SearchActions extends Component
        $this->matches =  $this->findMatches($this->search);
     }
 
+
     public function render()
     {
         return view('livewire.auth.search-actions');
     }
 
+    protected function resolveComponent($component)
+    {
+        $component = ucwords($component, ".-");
+        $component = str_replace('.', '\\', $component);
+        $component = str_replace('-', '', $component);
+
+        $componentClass = 'App\\Http\\Livewire\\' . $component;
+        return app($componentClass);
+    }
 
     public function emitEvent($component, $event){
         $this->emitTo($component, $event);
@@ -40,6 +49,8 @@ class SearchActions extends Component
 
 
     // variables
+    public $prueba = 'contacts.import-export';
+    public $component;
     public $search;
     public $matches = [];
     public $actions = [
@@ -47,9 +58,9 @@ class SearchActions extends Component
 
 
 
-
-
+        'importar contactos' =>  ["emitEvent", 'contacts.import-export', "importContacts"],
         'cerrar sesión' =>  ["emitEvent", 'auth.logout', "logout"],
+
     ];
 
 
