@@ -1,6 +1,7 @@
 <x-layouts.base>
     {{-- If the user is authenticated --}}
     @auth()
+        {{-- @include('layouts.navbars.auth.sidebar-maxs') --}}
         @include('layouts.navbars.auth.sidebar')
         @include('layouts.navbars.auth.nav')
         {{-- @include('components.plugins.fixed-plugin') --}}

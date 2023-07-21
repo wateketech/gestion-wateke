@@ -6,7 +6,8 @@ use Livewire\Component;
 
 class SearchActions extends Component
 {
-    private function findMatches($search, $percentage = 0.4) {
+    private function findMatches($search, $percentage = 0.4)
+    {
         $matches = array();
 
         foreach ($this->actions as $name => $action) {
@@ -32,14 +33,14 @@ class SearchActions extends Component
         return view('livewire.auth.search-actions');
     }
 
-    protected function resolveComponent($component)
+    public function resolveClassName($component)
     {
         $component = ucwords($component, ".-");
         $component = str_replace('.', '\\', $component);
         $component = str_replace('-', '', $component);
 
-        $componentClass = 'App\\Http\\Livewire\\' . $component;
-        return app($componentClass);
+        $className = 'App\\Http\\Livewire\\' . $component;
+        return $className;
     }
 
     public function emitEvent($component, $event){
@@ -54,12 +55,13 @@ class SearchActions extends Component
     public $search;
     public $matches = [];
     public $actions = [
-        'crear contacto' => ["redirect",  "/crear-contacto"],
+        'crear contacto'        =>         ['<i class="fas fa-user-plus fa-flip-horizontal"></i>',
+                                                 "redirect",  "/crear-contacto"],
 
-
-
-        'importar contactos' =>  ["emitEvent", 'contacts.import-export', "importContacts"],
-        'cerrar sesión' =>  ["emitEvent", 'auth.logout', "logout"],
+        'importar contactos'    =>         ['<i class="fas fa-cloud-upload-alt"></i>',
+                                                "emitEvent", 'contacts.import-export', "importContacts"],
+        'cerrar sesión'         =>         ['<i class="fa fa-sign-out"></i>',
+                                                "emitEvent", 'auth.logout', "logout"],
 
     ];
 
