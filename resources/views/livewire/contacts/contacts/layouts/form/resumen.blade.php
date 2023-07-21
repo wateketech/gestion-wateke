@@ -8,7 +8,9 @@
             <div class="d-flex flex-column justify-content-center">
                 <h6 class="mb-0 text-xl h5">
                     @if (isset($prefix))
-                        {!! json_decode($prefixs->find($prefix)->label)->abb !!}.
+                        {{-- @if ($prefixs->find($prefix) !== Null) --}}
+                            {!! json_decode($prefixs->find($prefix)->label)->abb !!}.
+                        {{-- @endif --}}
                     @endif
                     {{$name . ' ' . $middle_name . ' ' . $first_lastname . ' ' . $second_lastname}}
                 </h6>

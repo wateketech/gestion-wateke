@@ -188,7 +188,7 @@
                 <div id="collapsePhone" class="accordion-collapse collapse" aria-labelledby="headingPhone">
                     <div class="accordion-body">
                         @foreach ($contact->phones as $index => $phone)
-                            
+
                             <div class="row pb-3">
                                 <div class="col text-start">
                                     <div class="d-flex px-0 py-1 px-2">
@@ -457,7 +457,7 @@
                                         Copiar
                                     </a>
                                 </div>
-                            
+
                             </div>
                         @endforeach
                     </div>

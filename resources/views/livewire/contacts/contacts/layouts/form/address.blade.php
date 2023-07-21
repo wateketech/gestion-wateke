@@ -74,10 +74,10 @@
                 <div class="row">
                     <div class="col-2 form-check pt-2 h5 d-flex justify-content-end"></div>
 
-                    <div class="col-3 col-md-3 form-group text-start p-0 my-0">
+                    <div class="col-2 col-md-2 form-group text-start p-0 my-0">
                         <label class="form-control-label pl-6 opacity-7">Etiqueta </label>
                     </div>
-                    <div class="col-5 col-md-5 form-group text-start p-0 my-0">
+                    <div class="col-6 col-md-6 form-group text-start p-0 my-0">
                         <label class="form-control-label pl-6 opacity-7">Valores </label>
                     </div>
 
@@ -88,7 +88,7 @@
                     <div class="col-2 form-check pt-2 h5 d-flex justify-content-end">
                         <p class="font-weight-bolder opacity-8">Línea {{ $index_l + 1 }} :</p>
                     </div>
-                    <div class="col-3 col-md-3 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
+                    <div class="col-2 col-md-2 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
                         <input class="@error("address_line.{$index_add}.{$index_l}.label")border border-danger rounded-3 @enderror form-control mb-0"
                             type="text" name="address_line_{{ $index_add }}_label_{{ $index_l }}" id="address_line_{{ $index_add }}_label_{{ $index_l }}"
                             wire:blur="validate_address_lines('label', {{ $index_add }}, {{ $index_l }})"
@@ -96,7 +96,7 @@
 
                         @error("address_line.{$index_add}.{$index_l}.label") <sub class="text-danger">{{ $message }}</sub> @enderror
                     </div>
-                    <div class="col-5 col-md-5 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
+                    <div class="col-6 col-md-6 form-group py-0 pb-3 my-0">{{--  style="padding-right: 9.2em"> --}}
                         <input class="@error("address_line.{$index_add}.{$index_l}.value")border border-danger rounded-3 @enderror form-control mb-0"
                             type="text" name="address_line_{{ $index_add }}_value_{{ $index_l }}" id="address_line_{{ $index_add }}_value_{{ $index_l }}"
                             wire:blur="validate_address_lines('value', {{ $index_add }}, {{ $index_l }})"
@@ -141,6 +141,13 @@
             </div>
         @endforelse
 
+
+        @if (count($address_line[$index_add]) != 0)
+            <div class="mb-n5 h6 d-flex justify-content-end cursor-pointer"
+                onclick="window.dispatchEvent(new CustomEvent('help-address-lines'))">
+                <p class="text-primary px-3 py-1"><u>¿ Qué son las lineas de direción ? **</u></p>
+            </div>
+        @endif
 
 
 </div>

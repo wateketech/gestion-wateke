@@ -16,7 +16,15 @@ export const Toast = Swal.mixin({
 })
 
 
-
+export const questionModals = Swal.mixin({
+  container: 'swal-wide-container',
+  popup: 'swal-wide-popup',
+  confirmButton: 'btn btn-success mx-3',
+  cancelButton: 'btn btn-danger mx-3',
+  position: 'center' ,
+  icon: 'question',
+  timer: 0,
+})
 
 
 

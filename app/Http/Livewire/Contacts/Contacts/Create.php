@@ -76,7 +76,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'general';
+    public $currentStep = 'address';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
 
@@ -123,7 +123,7 @@ class Create extends Component
     public $countries, $states, $cities;
     public $contact_address = [];
     public $address = [];
-    public $address_max = 2;
+    public $address_max = 1;
 
     public $address_line = [];
     public $missing_address_line = [];
@@ -190,6 +190,7 @@ class Create extends Component
         $this->second_lastname = $current_contact->second_lastname;
         $this->about = $current_contact->about;
         $this->gender = $current_contact->gender_id;
+        $this->updatedGender();
         $this->prefix = $current_contact->prefix_id;
 
         $this->address = $current_contact->address->where('enable', true)->toArray();
