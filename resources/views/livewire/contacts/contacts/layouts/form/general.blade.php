@@ -5,7 +5,7 @@
 
 
 
-                <div class="col-3 form-group">
+                <div class="col-sm-6 col-lg-4 form-group">
                     <label for="prefix" class="form-control-label">Titulo</label>
                     <select class="@error("prefix")border border-danger rounded-3 is-invalid @enderror form-control"
                         name="prefix" id="prefix" wire:model="prefix">
@@ -24,14 +24,14 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-6 form-group">
+                <div class="col-12 form-group">
                     <label for="name" class="form-control-label">Primer Nombre *</label>
                     <input class="@error('name')border border-danger rounded-3 is-invalid @enderror form-control" name="name" id="name"
                         wire:blur="validate_general('name')"
                         wire:model="name" type="text">
                     @error('name') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
-                <div class="col-6 form-group">
+                <div class="col-12 form-group">
                     <label for="middle_name" class="form-control-label">Segundo Nombre</label>
                     <input class="@error('middle_name')border border-danger rounded-3 is-invalid @enderror form-control" name="middle_name" id="middle_name"
                         wire:blur="validate_general('middle_name')"
@@ -40,14 +40,14 @@
                 </div>
 
 
-                <div class="col-6 form-group">
+                <div class="col-12 form-group">
                     <label for="first_lastname" class="form-control-label">Primer Apellido *</label>
                     <input class="@error('first_lastname')border border-danger rounded-3 is-invalid @enderror form-control" name="first_lastname" id="first_lastname"
                         wire:blur="validate_general('first_lastname')"
                         wire:model="first_lastname" type="text">
                     @error('first_lastname') <sub class="text-danger">{{ $message }}</sub> @enderror
                 </div>
-                <div class="col-6 form-group">
+                <div class="col-12 form-group">
                     <label for="second_lastname" class="form-control-label">Segundo Apellido</label>
                     <input class="@error('second_lastname')border border-danger rounded-3 is-invalid @enderror form-control" name="second_lastname" id="second_lastname"
                         wire:blur="validate_general('second_lastname')"
@@ -59,7 +59,7 @@
                 <div class="clearfix"></div>
 
 
-                <div class="col-3 form-group">
+                <div class="col-sm-6 col-lg-4 form-group">
                     <label for="gender" class="form-control-label mb-2">Sexo</label>
                     <div class="form-check m-0 mb-2 px-1">
                         @foreach ($genders as $gender)
@@ -76,8 +76,8 @@
 
 
 
-        <div class='col-lg-4 m-xxl-auto m-lg-0' style="width: 20rem;">
-            <div class='col-lg-4 m-xxl-auto m-lg-0' style="width: 20rem;">
+        <div class='col-lg-4 m-xxl-auto m-lg-0' style="width: 17rem;">
+            <div class='col-lg-4 m-xxl-auto m-lg-0' style="width: 17rem;">
                 <div class="position-relative">
                     <img id='profile_pics' class="card-img-top" src="{{ $profile_pics ? $profile_pics[0]->temporaryUrl() : '../assets/img/illustrations/contact-profile-1.png' }}" alt="Imagen de Perfil">
                     <div wire:ignore id="profile_pics-loading" class="position-absolute top-0 start-0 h-100 w-100 bg-white d-flex justify-content-center align-items-center opacity-0">
@@ -96,7 +96,7 @@
                     </script>
                     @endpush
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body p-0 mb-5">
                     <input class="form-control" id="profile_pics" type="file" name="images[]" wire:model="profile_pics" accept=".jpeg,.jpg,.png,.webp" onchange="coocking_time_profile_img()">
                     <small class="card-text"><strong>NOTA:</strong> Seleccionar la imagen de perfil con un tamaño máximo 5mg y un aspect ratio de 1x1.</small>
                     @error('profile_pics')<br/><sub class="text-danger">{{ $message }}</sub> @enderror

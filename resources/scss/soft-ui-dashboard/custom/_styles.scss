@@ -10,6 +10,8 @@
 
 // iconos en general
 .icon{
+    cursor: pointer;
+
     &-call:hover{
         color: #00a600 !important;
     }

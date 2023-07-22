@@ -21995,6 +21995,9 @@ pre[class*=language-] {
   background-color: #ff6400;
 }
 
+.icon {
+  cursor: pointer;
+}
 .icon-call:hover {
   color: #00a600 !important;
 }

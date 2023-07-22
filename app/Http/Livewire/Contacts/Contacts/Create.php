@@ -76,7 +76,7 @@ class Create extends Component
         9 => ['name' => 'resumen', 'is_filled' => false, 'next_step' => null, 'pass_step' => 'more'],
     ];
     public $passStep = [];
-    public $currentStep = 'address';
+    public $currentStep = 'general';
     public $labels_type = ['Personal', 'Trabajo', 'Otro'];
 
 
@@ -84,6 +84,7 @@ class Create extends Component
     public $contact_id;
     public $create_mode = false;
     public $edit_mode = false;
+    public $steps_view = false;
 
     // GENERALS
     public $genders, $prefixs;
@@ -160,24 +161,24 @@ class Create extends Component
     public function initContactPropertys(){
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
-        $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-        $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+        // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
+         $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
-        $this->address[] = [
-            'name' => 'Casa',
-            'city_id' => null,
-            'geolocation' => null,
-            'zip_code' => '',
-            'country_id' => null,
-            'state_id' => null
-        ];
-        // $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
-        $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
-        $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
+        // $this->address[] = [
+        //     'name' => 'Casa',
+        //     'city_id' => null,
+        //     'geolocation' => null,
+        //     'zip_code' => '',
+        //     'country_id' => null,
+        //     'state_id' => null
+        // ];
+        // // $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+        // $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+        // $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
     }
     public function getContactPropertys($id){
         $this->contact_id = $id;
@@ -1466,6 +1467,20 @@ class Create extends Component
     }
     public function stepSubmit_resumen_review(){
         $this->backStep('resumen', 'general');
+    }
+
+    public function reviewSave(){
+        $this->stepSubmit_general_next();
+        $this->stepSubmit_emails_next();
+        $this->stepSubmit_phones_next();
+        $this->stepSubmit_chats_next();
+        $this->stepSubmit_rrss_next();
+        $this->stepSubmit_webs_next();
+        $this->stepSubmit_address_next();
+        $this->stepSubmit_ocupation_next();
+        $this->stepSubmit_more_next();
+
+        $this->store();
     }
 // -------------------------- END - STEPS -------------------------- //
 // -------------------------- END - STEPS -------------------------- //
