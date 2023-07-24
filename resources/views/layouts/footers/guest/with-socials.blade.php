@@ -30,9 +30,9 @@
           <div class="row">
             <div class="col-8 mx-auto text-center mt-1">
                   <p class="mb-0 text-secondary">
-                      Copyright © {{ now()->year }} Made with ❤️ by
-                      <a href="https://github.com/albertolicea00" class="font-weight-bol" target="_blank">Alberto</a>
-                      <a style="color: #252f40;" href="http://wateke.tech/" class="font-italic text-muted" target="_blank">, Wateke Soluciones Tecnológicas</a>
+                      Copyright © {{ now()->year }} Hecho con ❤️ por
+                      {{-- <a href="https://github.com/albertolicea00" class="font-weight-bol" target="_blank">Alberto</a>, --}}
+                      <a style="color: #252f40;" href="http://wateke.tech/" class="font-italic text-muted" target="_blank"> Wateke Soluciones Tecnológicas</a>
               </div>
               </p>
           </div>

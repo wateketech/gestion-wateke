@@ -227,6 +227,21 @@ class AllContacts extends Component
         }
 
 // ------------------------------ ACTIONS --------------------------------
+    public function selectAll(){
+        $allContacts = Contacts::where('enable', true)->pluck('id')->toArray();
+        if (count($allContacts) != count($this->current_contacts)){
+            $this->multiple_selection = true;
+            foreach($allContacts as $contact){
+                $this->current_contact = $contact;
+                $this->updatedCurrentContact();
+            }
+        }else{
+            $this->multiple_selection = false;
+            $this->current_contacts = [];
+            $this->current_contact = null;
+            $this->updatedCurrentContact();
+        }
+    }
     public function selectContact($id){
         $this->current_contact = Contacts::find($id);
     }

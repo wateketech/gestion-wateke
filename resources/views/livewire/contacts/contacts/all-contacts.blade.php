@@ -15,6 +15,10 @@
             <a class="btn {{ $group_view ? 'btn-primary' : 'btn-outline-primary' }} px-3 mx-1" title="grupos" wire:click="$toggle('group_view')">
                 <i class="fas fa-users"></i> Grupos
             </a>
+            <a class="btn btn-primary btn-lx px-3 mx-1" wire:click="importContacts">
+                <i class="fas fa-cloud-upload-alt"></i> &nbsp;
+                Importar contactos
+            </a>
             <a class="btn text-white btn-primary active btn-lx px-3 mx-1 " href="{{ route('crear-contacto') }}">
                 Crear Contacto
             </a>
@@ -38,7 +42,7 @@
             </a>
             @if ($contacts->contains('id', $current_contact))
                 <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContact_Q('{{ $current_contact }}')">
-                    <i class="fas fa-trash-alt "></i>
+                    <i class="fas fa-trash-alt "></i> Eliminar
                 </div>
             @else
                 <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContact('{{ $current_contact }}')">
@@ -71,10 +75,6 @@
             @endif
         @else
 
-            <div class="btn btn-primary btn-lx px-3 mx-1" wire:click="importContacts">
-                <i class="fas fa-cloud-upload-alt"></i> &nbsp;
-                Importar contactos
-            </div>
 
 
 

@@ -19,23 +19,40 @@
     </div>
     <div class="card-body p-3" style="overflow-y: scroll;">
 
-        <div class="table-responsive p-0">
+        <div class="table-responsive p-0" style="
+                                            overflow-x: hidden;
+                                            min-height: 100vh !important;">
             <table class="table align-items-center mb-0 contact-table">
                 <thead class="contact-header">
                     @if (count($contacts))
                         <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
-                        {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Cargo</th> --}}
-                        {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Registrado</th> --}}
+                            <th class="d-flex flex-row justify-content-between py-1 px-4">
+                                <a href='javascript:void(0)' class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                    {{ count($contacts) }} contactos
+                                </a>
+                                <div>
+                                    <a href='javascript:void(0)' class="btn {{ $multiple_selection ? 'btn-primary' : 'btn-outline-primary' }} text-xxs px-2 py-1 m-0 opacity-8"
+                                        wire:click="$toggle('multiple_selection')">
+                                        Seleccion Multiple
+                                    </a>
+                                    <a href='javascript:void(0)' class="btn {{ count($contacts) == count($current_contacts) ? 'btn-primary' : 'btn-outline-primary' }} text-xxs px-2 py-1 m-0 opacity-8"
+                                        wire:click="selectAll">
+                                        Todos
+                                    </a>
+                                </div>
+                            </th>
                         </tr>
                     @endif
                 </thead>
-                <tbody class="contact-list">
+                <tbody class="contact-list" style="border-colapse:collapse">
                     @forelse ($contacts as $index => $contact)
                         <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }} {{ in_array($contact->id, $current_contacts) ? 'active' : '' }}"
-                                wire:click="$set('current_contact', {{ $contact->id }})">
-                            <td class="p-1 px-4">
-                                <div class="d-flex px-2 py-1">
+                                wire:click="$set('current_contact', {{ $contact->id }})"
+                                onMouseOut="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.add('d-none')"
+                                onMouseOver="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.remove('d-none')"
+                                    >
+                            <td class="p-1 px-4" id="contact-content-{{ $contact->id }}">
+                                <div class="d-flex px-2 py-1" id="test">
                                     <a href='javascript:void(0)'> {{-- seleccionar varios a la vez --}}
                                         <img class="avatar avatar-sm me-3"
                                             src="{{ count($contacts->find($contact)->pics) == 0 ? '../assets/img/illustrations/contact-profile-2.png'
@@ -68,26 +85,32 @@
                                 <p class="text-xs text-secondary mb-0">Wateke Travel</p>
                             </td> --}}
 
-                            <td class="align-middle text-center p-1">
+                            <td class="align-middle text-center p-1 d-none" id="contact-fast-actions-{{ $contact->id }}"
+                                style="position: absolute; right: 3em; border: none;" wire:ignore>
                                 @if ($primaryPhone = $contacts->find($contact)->phones->where('is_primary', true)->first())
                                     @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                                        <a href='tel:{!! $phoneNumber !!}'><i class="fas fa-phone-alt fa-sm me-2 icon-call text-dark"></i></a>
+                                        <a class="btn btn-primary btn-md"
+                                            href='tel:{!! $phoneNumber !!}'>
+                                            <i class="fas fa-phone-alt"></i>
+                                        </a>
                                     @endif
                                     @else
                                         {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
                                 @endif
 
                                 @if ($contacts->find($contact)->emails->where('is_primary', true)->first())
-                                    <a href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
-                                        <i class="fas fa-envelope fa-sm me-2 icon-mail text-dark"></i>
+                                    <a class="btn btn-primary btn-md"
+                                        href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
+                                        <i class="fas fa-envelope"></i>
                                     </a>
                                     @else
                                     {{-- <a href='void(0)'><i class="fas fa-phone-alt fa-sm me-2"></i></a> --}}
                                 @endif
 
                                 @if ($primaryChat = $contacts->find($contact)->instant_messages->where('is_primary', true)->first())
-                                        <a href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
-                                            <i class="fas fa-comment fa-sm me-2 icon-text text-dark"></i>
+                                        <a class="btn btn-primary btn-md"
+                                            href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
+                                            <i class="fas fa-comment"></i>
                                         </a>
                                     @else
                                         {{-- <a href='void(0)'><i class="fas fa-comment-alt fa-sm me-2"></i></a> --}}
