@@ -81,78 +81,82 @@
     window.addEventListener('intl-tel-input', function(event){
         var index = event.detail.index;
         var tel = document.getElementById("intl-tel-input-" + index);
-        var iti = window.intlTelInput(tel, {
-            hiddenInput: "tel-" + index,
-            formatOnDisplay: true,
-            initialCountry: "es",
-            separateDialCode: false,
-            // excludeCountries: ["af"],
-            preferredCountries: ['cu', 'gt', 'cr', 'ad', 'es'],
-            utilsScript: "../assets/js/plugins/intl-tel-input/js/utils.js",
-        });
+
+        if (tel.is_iti == false || tel.is_iti == undefined || tel.is_iti == null || tel.is_iti == NaN){
+            tel.is_iti = true;
+            var iti = window.intlTelInput(tel, {
+                hiddenInput: "tel-" + index,
+                formatOnDisplay: true,
+                initialCountry: "es",
+                separateDialCode: false,
+                // excludeCountries: ["af"],
+                preferredCountries: ['cu', 'gt', 'cr', 'ad', 'es'],
+                utilsScript: "../assets/js/plugins/intl-tel-input/js/utils.js",
+            });
 
 
-        if (event.detail.phone){
-            let real_phone = event.detail.phone;
-            let real_meta_phone = JSON.parse(real_phone.value_meta);
+            if (event.detail.phone){
+                let real_phone = event.detail.phone;
+                let real_meta_phone = JSON.parse(real_phone.value_meta);
 
 
-            let flag_div =  tel.parentNode.children[0].children[0];
-            let flag_icon = tel.parentNode.children[0].children[0].children[0];
-            let input = tel;
-            let hidden = tel.parentNode.children[2];
-            let a = tel.parentNode.parentNode.children[1];
+                let flag_div =  tel.parentNode.children[0].children[0];
+                let flag_icon = tel.parentNode.children[0].children[0].children[0];
+                let input = tel;
+                let hidden = tel.parentNode.children[2];
+                let a = tel.parentNode.parentNode.children[1];
 
 
-            flag_div.title = real_meta_phone.country_name + ': +' + real_meta_phone.country_dial_code;
-            //flag_icon.className = 'iti__flag iti__' + real_meta_phone.country_iso2;
-            iti.setCountry(real_meta_phone.country_iso2)
-            input.value = real_phone.value;
-            a.href = real_meta_phone.call_number;
+                flag_div.title = real_meta_phone.country_name + ': +' + real_meta_phone.country_dial_code;
+                //flag_icon.className = 'iti__flag iti__' + real_meta_phone.country_iso2;
+                iti.setCountry(real_meta_phone.country_iso2)
+                input.value = real_phone.value;
+                a.href = real_meta_phone.call_number;
+            }
+
+            tel.addEventListener('blur', function(event) {
+                // Establece el value formateado
+                var formattedPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
+                tel.value = formattedPhoneNumber;
+
+
+                // almacena en el componente las propiedades del telefono (value_meta)
+                let warningMessage = document.getElementById('phone_value_warning-' + index)
+                if (tel.value != null && tel.value != '' && tel.value != undefined){
+                    if (iti.isValidNumber()) warningMessage.hidden = true;
+                    else warningMessage.hidden = false;
+                }
+                else warningMessage.hidden = true;
+
+                let cleanNumber = iti.getNumber().replace(/\D/g, '');
+                let countryCode = iti.getSelectedCountryData().dialCode;
+                cleanNumber = cleanNumber.replace(countryCode, '');
+
+                value_meta = {
+                    is_valid : iti.isValidNumber(),
+                    value : tel.value,
+                    number : iti.getNumber(),
+                    call_number : ('+' + countryCode + cleanNumber),
+                    clean_number : cleanNumber,
+                    formatted_number : formattedPhoneNumber,
+                    country_code : iti.getSelectedCountryData().areaCode,
+                    country_dial_code : countryCode,
+                    country_iso2 : iti.getSelectedCountryData().iso2,
+                    country_name : iti.getSelectedCountryData().name
+                    // flag_title = 'country_name' + ': +' + 'country_dial_code';
+                    // flag_icon = 'iti__flag iti__' + 'country_iso2';
+                }
+
+                value_meta = Object.keys(value_meta).reduce(function(obj, key) {
+                    obj[key] = (typeof value_meta[key] === "undefined") ? null : value_meta[key];
+                    return obj;
+                }, {});
+
+                document.getElementById('phone_call-test-' + index).href = 'tel:' + value_meta['call_number']
+
+                livewire.emit('updatePhoneNumber', index , tel.value, value_meta );
+            });
         }
-
-        tel.addEventListener('blur', function(event) {
-            // Establece el value formateado
-            var formattedPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
-            tel.value = formattedPhoneNumber;
-
-
-            // almacena en el componente las propiedades del telefono (value_meta)
-            let warningMessage = document.getElementById('phone_value_warning-' + index)
-            if (tel.value != null && tel.value != '' && tel.value != undefined){
-                if (iti.isValidNumber()) warningMessage.hidden = true;
-                else warningMessage.hidden = false;
-            }
-            else warningMessage.hidden = true;
-
-            let cleanNumber = iti.getNumber().replace(/\D/g, '');
-            let countryCode = iti.getSelectedCountryData().dialCode;
-            cleanNumber = cleanNumber.replace(countryCode, '');
-
-            value_meta = {
-                is_valid : iti.isValidNumber(),
-                value : tel.value,
-                number : iti.getNumber(),
-                call_number : ('+' + countryCode + cleanNumber),
-                clean_number : cleanNumber,
-                formatted_number : formattedPhoneNumber,
-                country_code : iti.getSelectedCountryData().areaCode,
-                country_dial_code : countryCode,
-                country_iso2 : iti.getSelectedCountryData().iso2,
-                country_name : iti.getSelectedCountryData().name
-                // flag_title = 'country_name' + ': +' + 'country_dial_code';
-                // flag_icon = 'iti__flag iti__' + 'country_iso2';
-            }
-
-            value_meta = Object.keys(value_meta).reduce(function(obj, key) {
-                obj[key] = (typeof value_meta[key] === "undefined") ? null : value_meta[key];
-                return obj;
-            }, {});
-
-            document.getElementById('phone_call-test-' + index).href = 'tel:' + value_meta['call_number']
-
-            livewire.emit('updatePhoneNumber', index , tel.value, value_meta );
-        });
     });
 
     window.addEventListener('intl-tel-input-remove-phone', function(event){

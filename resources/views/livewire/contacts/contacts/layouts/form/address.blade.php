@@ -131,38 +131,41 @@
             </div>
         </div>
 
-        @empty
+    @empty
 
-        <div class="h4 text-dark form-title mr-1 py-3 mb-5 pb-4">
+        <div class="h4 text-dark form-title mr-1 py-3 {{ $steps_view ? 'mb-5 pb-4' : 'mb-0 pb-0' }}">
             <span class="font-weight-500 opacity-7"><i class="fas fa-map-marker-alt"></i> &nbsp; Direcciones</span>
         </div>
             <div class="d-flex justify-content-start my-2 mx-3 h5 text-dark form-title">
                 <div wire:click="addAddress({{ -1 }})" class="btn btn-outline-success px-3">Agregar una Dirección</i></div>
             </div>
-        @endforelse
+    @endforelse
 
 
-        @if (count($address_line[$index_add]) != 0)
+        {{-- @if (count($address_line[$index_add]) != 0)
             <div class="mb-n5 h6 d-flex justify-content-end cursor-pointer"
                 onclick="window.dispatchEvent(new CustomEvent('help-address-lines'))">
                 <p class="text-primary px-3 py-1"><u>¿ Qué son las lineas de direción ? **</u></p>
             </div>
-        @endif
+        @endif --}}
 
 
 </div>
 @push('scripts')
 <script>
     window.addEventListener('init-select2-countries', function(event){
-        $('#countries_' + event.detail.index_add +'.Select--2').select2({
-            placeholder: 'Seleccione un país',
-            templateResult: function (data) {
-                    if (!data.id) {
-                    return data.text;
-                    }
-                    var $result = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
-                    return $result;
-                },
+        var address = $('#countries_' + event.detail.index_add +'.Select--2')
+
+        if (address.is_select == false || address.is_select == undefined || address.is_select == null || address.is_select == NaN){
+            address.select2({
+                placeholder: 'Seleccione un país',
+                templateResult: function (data) {
+                        if (!data.id) {
+                        return data.text;
+                        }
+                        var $result = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
+                        return $result;
+                    },
                 templateSelection: function (data) {
                     if (!data.id) {
                     return data.text;
@@ -170,7 +173,9 @@
                     var $selection = $('<span class="emoji-flag">'+ data.element.dataset.flag + data.text + '</span>');
                     return $selection;
                 }
-        });
+            });
+            address.is_select = true;
+        }
     });
 
     window.addEventListener('init-select2-states-disabled', function(event){
@@ -247,7 +252,7 @@
 
 
 @if ($edit_mode)
-    @foreach ($address as $index => $add)\
+    @foreach ($address as $index => $add)
         <script wire:ignore>
             window.dispatchEvent(new CustomEvent('init-select2-countries', { detail:{
                     index_add: {{ $index }}

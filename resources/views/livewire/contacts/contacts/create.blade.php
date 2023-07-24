@@ -6,36 +6,36 @@
     <div class="container-fluid py-2">
         <div class="row">
 
-            @if ($steps_view && !$edit_mode)
-                {{-- form steps --}}
-                <div class="col-lg-2 py-2" style="text-align: start;">
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'general' ? 'primary-btn-disabled-light' : '' }} {{ in_array("general", $passStep) && $currentStep != 'general' ? 'primary-btn-disabled-dark' : '' }}" id="menu-step-general"> Datos Generales </div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'emails' ? 'primary-btn-disabled-light' : '' }}  {{ in_array("emails", $passStep) && $currentStep != 'emails' ? 'primary-btn-disabled-dark' : '' }}"  id="menu-step-emails" > Emails </div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'phones' ? 'primary-btn-disabled-light' : '' }}  {{ in_array("phones", $passStep) && $currentStep != 'phones' ? 'primary-btn-disabled-dark' : '' }}"  id="menu-step-phones" > Teléfonos </div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'chats' ? 'primary-btn-disabled-light' : '' }}   {{ in_array("chats", $passStep) && $currentStep != 'chats' ? 'primary-btn-disabled-dark' : '' }}"   id="menu-stepchats"   > Mensajerías </div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'rrss' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("rrss", $passStep) && $currentStep != 'rrss' ? 'primary-btn-disabled-dark' : '' }}"    id="menu-step-rrss"   > RRSS </div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'webs' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("webs", $passStep) && $currentStep != 'webs' ? 'primary-btn-disabled-dark' : '' }}"    id="menu-step-webs"   > WEBS </div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'address' ? 'primary-btn-disabled-light' : ''}}  {{ in_array("address", $passStep) && $currentStep != 'address' ? 'primary-btn-disabled-dark' : '' }}" id="menu-step-address"> Dirección</div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'ocupation' ? 'primary-btn-disabled-light' : ''}}{{ in_array("ocupation", $passStep) && $currentStep != 'ocupation' ? 'primary-btn-disabled-dark' : '' }}" id="menu-step-ocupation">Datos Laborales</div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'more' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("more", $passStep) && $currentStep != 'more' ? 'primary-btn-disabled-dark' : '' }}"    id="menu-step-more"   > Datos Extras</div>
-                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'resumen' ? 'primary-btn-disabled-light' : ''}}  {{ in_array("resumen", $passStep) && $currentStep != 'resumen' ? 'primary-btn-disabled-dark' : '' }}" id="menu-step-resumen"> Vista Resumen</div>
 
+                {{-- form steps --}}
+                <div class="col-lg-2 py-2 {{ $steps_view ? '' : 'd-none' }}" style="text-align: start;">
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'general' ? 'primary-btn-disabled-light' : '' }} {{ in_array("general", $passStep) && $currentStep != 'general' ? 'primary-btn-disabled-dark' : '' }}"     id="menu-step-general" > Datos Generales  </div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'emails' ? 'primary-btn-disabled-light' : '' }}  {{ in_array("emails", $passStep) && $currentStep != 'emails' ? 'primary-btn-disabled-dark' : '' }}"       id="menu-step-emails" > Emails </div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'phones' ? 'primary-btn-disabled-light' : '' }}  {{ in_array("phones", $passStep) && $currentStep != 'phones' ? 'primary-btn-disabled-dark' : '' }}"       id="menu-step-phones" > Teléfonos </div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'chats' ? 'primary-btn-disabled-light' : '' }}   {{ in_array("chats", $passStep) && $currentStep != 'chats' ? 'primary-btn-disabled-dark' : '' }}"         id="menu-stepchats"   > Mensajerías </div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'rrss' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("rrss", $passStep) && $currentStep != 'rrss' ? 'primary-btn-disabled-dark' : '' }}"           id="menu-step-rrss"   > RRSS </div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'webs' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("webs", $passStep) && $currentStep != 'webs' ? 'primary-btn-disabled-dark' : '' }}"           id="menu-step-webs"   > WEBS </div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'address' ? 'primary-btn-disabled-light' : ''}}  {{ in_array("address", $passStep) && $currentStep != 'address' ? 'primary-btn-disabled-dark' : '' }}"     id="menu-step-address"> Dirección</div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'ocupation' ? 'primary-btn-disabled-light' : ''}}{{ in_array("ocupation", $passStep) && $currentStep != 'ocupation' ? 'primary-btn-disabled-dark' : '' }}" id="menu-step-ocupation">Datos Laborales</div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'more' ? 'primary-btn-disabled-light' : '' }}    {{ in_array("more", $passStep) && $currentStep != 'more' ? 'primary-btn-disabled-dark' : '' }}"           id="menu-step-more"   > Datos Extras</div>
+                    <div  style="min-width : 10em;" class="d-lg-block btn btn-primary {{ $currentStep != 'resumen' ? 'primary-btn-disabled-light' : ''}}  {{ in_array("resumen", $passStep) && $currentStep != 'resumen' ? 'primary-btn-disabled-dark' : '' }}"     id="menu-step-resumen"> Vista Resumen</div>
                 </div>
-            @endif
                 {{-- form --}}
-                <div class="{{ $steps_view && !$edit_mode ? 'col-lg-10' : 'col-12' }}  py-2">
-                    {{-- actions VIEWS --}}
-                    <div class="mt-n6 d-lg-block d-none" style="text-align: end;">
-                        <div class="btn btn-outline-primary" id="menu-step-general"
-                            wire:click="$toggle('steps_view')">
-                            <i class="far fa-window-restore"></i> &nbsp; Cambiar Vista
+                <div class="{{ $steps_view ? 'col-lg-10' : 'col-12' }}  py-2">
+                {{-- actions VIEWS --}}
+                    @if ($create_mode)
+                        <div class="mt-n6 d-lg-block d-none" style="text-align: end;">
+                            <div class="btn btn-outline-primary" id="menu-step-general"
+                                wire:click="$toggle('steps_view')">
+                                <i class="far fa-window-restore"></i> &nbsp; Cambiar Vista
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
 
                     <form wire:submit.prevent="{{ $create_mode ?  'store' : 'update' }}" method='POST' action="#">
                         @csrf
-                        @if ($steps_view && !$edit_mode)
+                        @if ($steps_view)
                             {{-- STEP VIEW --}}
                             <div class="card card-body blur shadow-blur mx-2 my-1 px-4" style="min-height: 35em;">
 
@@ -445,14 +445,15 @@
                                     </div>
                                     @include("livewire.contacts.contacts.layouts.form.rrss")
                                 </div>
-                                <div>
+                                <div class="mb-6">
                                     <div class="h4 text-dark form-title mt-4 mb-n5 pb-1">
                                         <span class="font-weight-500 opacity-7"><i class="fas fa-globe"></i> &nbsp; Sitios Webs :</span>
                                     </div>
                                     @include("livewire.contacts.contacts.layouts.form.webs")
                                 </div>
-
-                                {{-- @include("livewire.contacts.contacts.layouts.form.address") --}}
+                                <div>
+                                    @include("livewire.contacts.contacts.layouts.form.address")
+                                </div>
                                 {{-- @include("livewire.contacts.contacts.layouts.form.ocupation") --}}
                                 <div class="mt-6">
                                     @include("livewire.contacts.contacts.layouts.form.more")
