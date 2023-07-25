@@ -8,21 +8,21 @@
 
 
 
-        {{-- <div class="align-items-center mb-0 p-0">
+        <div class="align-items-center mb-0 p-0">
 
-                @foreach ($entity_types as $entity)
+                @foreach ($contact_groups as $group)
                         <div class="d-flex px-2 py-2">
                             <div class="icon icon-shape icon-sm shadow text-center border-radius-sm me-2"
-                                style="background-color: {{ $entity->color }}">
-                                {!! html_entity_decode($entity->icon) !!}
+                                style="background-color: {{ $group->color }}">
+                                {!! html_entity_decode($group->icon) !!}
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">{{ $entity->visual_name_p }}</h6>
-                                <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                <h6 class="mb-0 text-sm">{{ $group->name }}</h6>
+                                <p class="text-xs text-secondary mb-0">{{ count($group->contacts) }} Contactos</p>
                             </div>
                         </div>
                 @endforeach
-        </div> --}}
+        </div>
 
 
     </div>

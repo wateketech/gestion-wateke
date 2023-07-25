@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Contacts\Contacts;
 use Livewire\Component;
 use App\Models\EntityType as EntityTypes;
 use App\Models\Contact as Contacts;
+use App\Models\ContactGroup as ContactGroups;
 
 class AllContacts extends Component
 {
@@ -16,9 +17,11 @@ class AllContacts extends Component
         'multiple_selection',
         'delete_contact' => 'deleteContact',
         'delete_contacts' => 'deleteContacts',
-        'enable_contacts' => 'enableContacts'
+        'enable_contacts' => 'enableContacts',
+        'create_contact_group' => 'createGroup'
         ];
 
+    public $contact_groups;
     public $entity_types;
     protected $contacts;
 
@@ -63,7 +66,8 @@ class AllContacts extends Component
         }
 
         $this->restartFilter(false);
-        $this->entity_types = EntityTypes::all();
+        // $this->entity_types = EntityTypes::all();
+        $this->contact_groups = ContactGroups::all()->where('enable', true);
         //$nextPage = $this->contacts->currentPage() + 1;
         //$nextPage = $this->contacts->currentPage() + $this->pageOffset;
         //$morePosts = Contacts::paginate(10, ['*'], 'page', $nextPage);
@@ -241,13 +245,48 @@ class AllContacts extends Component
             $this->current_contact = null;
             $this->updatedCurrentContact();
         }
+        $this->multiple_selection = false;
     }
     public function selectContact($id){
         $this->current_contact = Contacts::find($id);
     }
+    public function createGroupForm($ids){
+        $this->dispatchBrowserEvent('create-contact-group-form',[
+            'ccontactos' => count($this->current_contacts),
+            'name' => '',
+            'color' => '#ff6400',
+            'icon' => '#ff6400',
+            'error' => ''
+        ]);
+    }
+    public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-users"></i>'){
+        $error = null;
 
-    public function createGroup ($ids){
-        $this->dispatchBrowserEvent('show-in-progress');
+        if ($name == null) $error = "El campo es requerido.";
+        elseif (strlen($name) > 15 || strlen($name) <= 1) $error = "El campo 'name' debe tener entre 1 y 15 caracteres.";
+
+
+        if ($error != null){
+            $this->dispatchBrowserEvent('create-contact-group-form',[
+                'ccontactos' => count($this->current_contacts),
+                'name' => $name == null ? '' : $name,
+                'color' => $color,
+                'error' => '<p class="text-danger">' . $error .'</p>'
+            ]);
+        }else{
+            // crear el grupo
+            $group = ContactGroups::create([
+                'name' => $name,
+                'color' => $color,
+                'icon' => $icon,
+            ]);
+            $group->contacts()->createMany($this->current_contacts);
+
+            $this->dispatchBrowserEvent('simple-toast-message',['text' => 'Grupo ' . $name . ' creado exitosamente', 'icon' => 'success']);
+
+
+
+        }
     }
 
     public function importContacts(){

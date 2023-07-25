@@ -19,7 +19,7 @@
                 <i class="fas fa-cloud-upload-alt"></i> &nbsp;
                 Importar contactos
             </a>
-            <a class="btn text-white btn-primary active btn-lx px-3 mx-1 " href="{{ route('crear-contacto') }}">
+            <a class="btn text-white btn-primary active btn-lx px-3 mx-1 " href="{{ route('crear-contacto') }}" target="_blank">
                 Crear Contacto
             </a>
         </div>
@@ -57,7 +57,7 @@
                 Exportar
             </div>
 
-            <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="createGroup('{{ json_encode($current_contacts) }}')">
+            <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="createGroupForm('{{ json_encode($current_contacts) }}')">
                 <i class="fas fa-users"></i> &nbsp;
                 Crear Grupo
             </div>
@@ -66,7 +66,7 @@
 
             @if ($contacts->contains('id', $current_contact))
                 <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContacts_Q('{{ json_encode($current_contacts) }}')">
-                    <i class="fas fa-trash-alt "></i>
+                    <i class="fas fa-trash-alt "></i> Eliminar
                 </div>
             @else
                 <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContacts('{{ json_encode($current_contacts) }}')">

@@ -67,7 +67,7 @@
                                         </h6>
 
                                         {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
-                                        <span class="text-secondary text-xs font-weight-bold" wire:poll.keep-alive>
+                                        <span class="text-secondary text-raleway text-xs" wire:poll.keep-alive>
                                             @if ($contact->is_editing)
                                                 <span class="text-primary blink-3 ">en edicion por {{ $contact->edited_by_user->name }}</span>
                                             @else

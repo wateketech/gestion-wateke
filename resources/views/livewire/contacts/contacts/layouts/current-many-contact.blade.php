@@ -58,7 +58,7 @@
                     <div class="accordion-body">
                         <div>
                             <div class="text-center">
-                                @for ($i = 0; $i < 15; $i++)
+                                {{-- @for ($i = 0; $i < 15; $i++)
                                     <a class="btn btn-outline-primary border-2 btn-lx p-0 m-1" href="javascript:void(0)">
                                         <div class="d-flex py-2 px-3" title="nombre de la plantilla">
                                             <div class="d-flex flex-column justify-content-center">
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                @endfor
+                                @endfor --}}
                             </div>
                         </div>
                     </div>
