@@ -29,6 +29,7 @@ class AllContacts extends Component
     public $multiple_selection = false;
     public $current_contacts = [];
     public $current_contact;
+    public $current_group = Null;
 
     private $perPage = 100;
     public $pageOffset = 0;
@@ -52,13 +53,16 @@ class AllContacts extends Component
             if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null) {
                 $this->current_contacts[] = $this->current_contact;
             }
-
         }else{
             $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
             $this->current_contacts= [];
         }
     }
 
+    public function setCurrentGroup($value){
+        if ($this->current_group == $value) $this->current_group = Null;
+        else $this->current_group = $value;
+    }
     public function mount($id = null ){
         $this->current_contact = $id;
 
@@ -217,6 +221,7 @@ class AllContacts extends Component
                                               ->orWhereHas('webs', function ($query) { $query->where('value', 'like', '%'.$this->search_webs.'%');
                                         });
                                     })
+                                  ->whereHas('groups', function ($query) {  if($this->current_group != Null) $query->where('group_id', $this->current_group); })
                                   ->paginate($this->perPage);
         return view('livewire.contacts.contacts.all-contacts')->with('contacts', $this->contacts);
     }
@@ -260,7 +265,7 @@ class AllContacts extends Component
             'error' => ''
         ]);
     }
-    public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-users"></i>'){
+    public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>'){
         $error = null;
 
         if ($name == null) $error = "El campo es requerido.";
@@ -278,13 +283,6 @@ class AllContacts extends Component
 
             DB::beginTransaction();
             try {
-                $group = ContactGroups::create([
-                    'name' => '2holass',
-                    'color' => '#ff6400',
-                    'icon' => '<i class="fas fa-users"></i>',
-                ]);
-
-
                 // crear el grupo
                 $group = ContactGroups::create([
                     'name' => $name,
@@ -298,6 +296,7 @@ class AllContacts extends Component
                 $group->contacts()->createMany($current_contacts);
 
 
+                $this->contact_groups = ContactGroups::all()->where('enable', true);
                 DB::commit();
             } catch (\Illuminate\Database\QueryException $e) {
                 DB::rollBack();

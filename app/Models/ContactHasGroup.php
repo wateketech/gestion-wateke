@@ -17,6 +17,6 @@ class ContactHasGroup extends Model
         return $this->belongsTo('App\Models\Contact', 'contact_id', 'id');
     }
     public function group(){
-        return $this->belongsToMany('App\Models\ContactGroup', 'contact_groups', 'group_id', 'id');
+        return $this->belongsTo('App\Models\ContactGroup', 'group_id', 'id');
     }
 }

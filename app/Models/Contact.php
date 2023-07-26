@@ -74,7 +74,7 @@ class Contact extends Model
     }
 
     public function groups(){
-        return $this->hasMany('App\Models\ContactGroups', 'contact_id', 'id')->with('group');
+        return $this->hasMany('App\Models\ContactHasGroup', 'contact_id', 'id')->with('group');
     }
 
 

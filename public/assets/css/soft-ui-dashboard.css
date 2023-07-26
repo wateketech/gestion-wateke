@@ -22219,6 +22219,23 @@ span.select2.select2-container.select2-container--default {
   font-weight: bold;
 }
 
+.contact-row {
+  width: 100% !important;
+  cursor: pointer;
+}
+.contact-row :first-child:hover {
+  transform: scale(1.03) !important;
+}
+.contact-row.active {
+  background-color: #fed9b7 !important;
+}
+.contact-row.active :first-child {
+  transform: scale(1.03) !important;
+}
+.contact-row.active :first-child .row-name {
+  font-weight: bold;
+}
+
 .blink-1 {
   animation: blinker 0.5s linear infinite;
 }
@@ -22266,7 +22283,7 @@ span.select2.select2-container.select2-container--default {
 }
 
 .form-control-label {
-  font-family: raleway !important;
+  font-family: "Raleway" !important;
 }
 
 .search-input {
