@@ -89,7 +89,7 @@
                                 style="position: absolute; right: 3em; border: none;" wire:ignore>
                                 @if ($primaryPhone = $contacts->find($contact)->phones->where('is_primary', true)->first())
                                     @if ($phoneNumber = json_decode($primaryPhone->value_meta)->call_number)
-                                        <a class="btn btn-primary btn-md"
+                                        <a class="btn btn-primary px-3 btn-md"
                                             href='tel:{!! $phoneNumber !!}'>
                                             <i class="fas fa-phone-alt"></i>
                                         </a>
@@ -99,7 +99,7 @@
                                 @endif
 
                                 @if ($contacts->find($contact)->emails->where('is_primary', true)->first())
-                                    <a class="btn btn-primary btn-md"
+                                    <a class="btn btn-primary px-3 btn-md"
                                         href='mailto:{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}'>
                                         <i class="fas fa-envelope"></i>
                                     </a>
@@ -108,7 +108,7 @@
                                 @endif
 
                                 @if ($primaryChat = $contacts->find($contact)->instant_messages->where('is_primary', true)->first())
-                                        <a class="btn btn-primary btn-md"
+                                        <a class="btn btn-primary px-3 btn-md"
                                             href='{{ $primaryChat->type->url . $primaryChat->value  }}' target="_blank">
                                             <i class="fas fa-comment"></i>
                                         </a>

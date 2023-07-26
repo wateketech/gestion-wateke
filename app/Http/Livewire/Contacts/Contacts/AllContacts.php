@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Contacts\Contacts;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use App\Models\EntityType as EntityTypes;
 use App\Models\Contact as Contacts;
 use App\Models\ContactGroup as ContactGroups;
@@ -263,8 +264,8 @@ class AllContacts extends Component
         $error = null;
 
         if ($name == null) $error = "El campo es requerido.";
+        elseif (ContactGroups::where('name', $name)->count() != 0) $error = "Ya existe un grupo con este nombre.";
         elseif (strlen($name) > 15 || strlen($name) <= 1) $error = "El campo 'name' debe tener entre 1 y 15 caracteres.";
-
 
         if ($error != null){
             $this->dispatchBrowserEvent('create-contact-group-form',[
@@ -274,13 +275,34 @@ class AllContacts extends Component
                 'error' => '<p class="text-danger">' . $error .'</p>'
             ]);
         }else{
-            // crear el grupo
-            $group = ContactGroups::create([
-                'name' => $name,
-                'color' => $color,
-                'icon' => $icon,
-            ]);
-            $group->contacts()->createMany($this->current_contacts);
+
+            DB::beginTransaction();
+            try {
+                $group = ContactGroups::create([
+                    'name' => '2holass',
+                    'color' => '#ff6400',
+                    'icon' => '<i class="fas fa-users"></i>',
+                ]);
+
+
+                // crear el grupo
+                $group = ContactGroups::create([
+                    'name' => $name,
+                    'color' => $color,
+                    'icon' => $icon,
+                ]);
+
+                $current_contacts = array_map(function ($current_contacts) {
+                    return ['contact_id' => $current_contacts];
+                }, $this->current_contacts);
+                $group->contacts()->createMany($current_contacts);
+
+
+                DB::commit();
+            } catch (\Illuminate\Database\QueryException $e) {
+                DB::rollBack();
+                $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2], 'redirect' => '/contactos']);
+            }
 
             $this->dispatchBrowserEvent('simple-toast-message',['text' => 'Grupo ' . $name . ' creado exitosamente', 'icon' => 'success']);
 
