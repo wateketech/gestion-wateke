@@ -30,7 +30,8 @@
 
     <div class="avatar-group mx-2">
         @foreach ($contacts as $contact)
-            <a href="javascript:void(0)" class="avatar avatar-xxl" data-bs-toggle="tooltip" data-bs-placement="bottom"
+            <a href="/contactos/{{ $contact['id'] }}" target="_blank"
+                class="avatar avatar-xxl" data-bs-toggle="tooltip" data-bs-placement="bottom"
                 title="{{$contact['name'] . ' ' . $contact['middle_name'] . ' ' . $contact['first_lastname'] . ' ' . $contact['second_lastname'] }}" style="border-radius: 20%;">
                 <img alt="imagen perfil" style="border-radius: 20%;"
                     src="{{ (!empty($contact['pics'])) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path($contact['pics'][0]['store'] . $contact['pics'][0]['name'])))

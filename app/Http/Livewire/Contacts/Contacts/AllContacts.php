@@ -33,7 +33,7 @@ class AllContacts extends Component
     public $current_contact;
     public $current_group = Null;
 
-    private $perPage = 100;
+    private $perPage = Null;
     public $pageOffset = 0;
 
     // variables de busqueda y filtro en un solo campo (pseudo)
@@ -42,6 +42,9 @@ class AllContacts extends Component
 
     public $is_search_all, $is_search_name, $is_search_ids, $is_search_emails, $is_search_phones, $is_search_webs;
 
+    // variables de ordenacion
+    public $order_by = 'name';
+    public $order_asc = true;
 
     public function multiple_selection($args){
         $this->multiple_selection = $args['is_multiple'];
@@ -225,6 +228,7 @@ class AllContacts extends Component
                                         });
                                     })
                                   ->whereHas('groups', function ($query) {  if($this->current_group != Null) $query->where('group_id', $this->current_group); })
+                                  ->orderby($this->order_by, $this->order_asc ? 'asc' : 'desc' )
                                   ->paginate($this->perPage);
 
     }

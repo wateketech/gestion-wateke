@@ -33,8 +33,11 @@
                             <div class="position-relative icon icon-shape icon-md shadow text-center border-radius-sm me-2"
                                 style="background-color: {{ $group->color }}">
                                 {!! html_entity_decode($group->icon) !!}
-                                <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2"  wire:click="GroupForm('{{ $group->id }}')">
-                                    <i class="fa fa-pen top-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-hidden="true" data-bs-original-title="Editar Grupo" aria-label="Editar Image"></i><span class="sr-only">Editar Grupo</span>
+                                <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2"  wire:click="GroupForm('{{ $group->id }}')"
+                                    style="transform: scale(.85)">
+                                    <i class="fa fa-pen top-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-hidden="true"
+                                    data-bs-original-title="Editar" aria-label="Editar Image"></i>
+                                    <span class="sr-only">Editar</span>
                                 </a>
                             </div>
                             <div class="d-flex flex-column justify-content-center pl-2">

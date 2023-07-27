@@ -3,9 +3,10 @@
     <div class="d-flex px-2 py-1 justify-content-between">
         <div class="d-flex">
             {{-- <div class="avatar avatar-xxl me-3 bg-primary text-center fs-4">id: {{ $contact->id }} </div> --}}
-                <img class="avatar avatar-xxl me-3"
+                <img class="avatar avatar-xxl me-3 cursor-pointer"
                     src="{{ count($contact->pics) == 0 ? '../assets/img/illustrations/contact-profile-1.png'
-                        : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contact->pics->first()->store . $contact->pics->first()->name ))) }}">
+                        : 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path( $contact->pics->first()->store . $contact->pics->first()->name ))) }}"
+                    onclick="document.getElementById('contact-content-{{ $contact->id }}').scrollIntoView();">
 
             <div class="d-flex flex-column justify-content-center">
                 <h6 class="mb-0 text-xl h5">

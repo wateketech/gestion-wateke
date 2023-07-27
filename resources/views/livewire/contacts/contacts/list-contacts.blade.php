@@ -15,6 +15,28 @@
                 <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_webs')"><i class="fas fa-globe {{ $is_search_webs ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
                 <div class="py-2 px-1" type="button" wire:click="$toggle('is_search_phones')"><i class="fas fa-phone {{ $is_search_phones ? 'icon-primary fa-md': 'fa-xs'}}" aria-hidden="true"></i></div>
             </div> --}}
+            @if (count($contacts))
+                <div class="d-flex flex-row justify-content-between py-1 px-4 mt-2">
+                    <a href='javascript:void(0)' class="text-uppercase text-secondary text-sm opacity-8"
+                        onclick="document.querySelector('[name=fisrtcontact]').scrollIntoView();">
+                        {{ count($contacts) }} contactos
+                    </a>
+                    <div>
+                        <a href='javascript:void(0)' class="btn {{ $multiple_selection ? 'btn-primary' : 'btn-outline-primary' }} text-xxs px-2 py-1 m-0 opacity-8"
+                            wire:click="$toggle('multiple_selection')">
+                            Seleccion Multiple
+                        </a>
+                        <a href='javascript:void(0)' class="btn {{ count($contacts) == count($current_contacts) ? 'btn-primary' : 'btn-outline-primary' }} text-xxs px-2 py-1 m-0 opacity-8"
+                            wire:click="selectAll">
+                            Todos
+                        </a>
+                        <a href='javascript:void(0)' class="btn btn-primary text-xxs px-2 py-1 m-0 opacity-8"
+                            wire:click="$toggle('order_asc')">
+                            {{ $order_asc ? 'A-Z' : 'Z-A'  }}
+                        </a>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="card-body p-3" style="overflow-y: scroll;">
@@ -23,7 +45,7 @@
                                             overflow-x: hidden;
                                             min-height: 100vh !important;">
             <table class="table align-items-center mb-0 contact-table">
-                <thead class="contact-header">
+                {{-- <thead class="contact-header">
                     @if (count($contacts))
                         <tr>
                             <th class="d-flex flex-row justify-content-between py-1 px-4">
@@ -43,7 +65,7 @@
                             </th>
                         </tr>
                     @endif
-                </thead>
+                </thead> --}}
                 <tbody class="contact-list" style="border-colapse:collapse">
                     @forelse ($contacts as $index => $contact)
                         <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }} {{ in_array($contact->id, $current_contacts) ? 'active' : '' }}"
@@ -51,7 +73,7 @@
                                 onMouseOut="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.add('d-none')"
                                 onMouseOver="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.remove('d-none')"
                                     >
-                            <td class="p-1 px-4" id="contact-content-{{ $contact->id }}">
+                            <td name="fisrtcontact" class="p-1 px-4" id="contact-content-{{ $contact->id }}">
                                 <div class="d-flex px-2 py-1" id="test">
                                     <a href='javascript:void(0)'> {{-- seleccionar varios a la vez --}}
                                         <img class="avatar avatar-sm me-3"
