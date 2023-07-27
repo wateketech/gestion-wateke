@@ -11,8 +11,8 @@
 
 
 
-
-        <div class="d-flex flex-row flex-lg-column align-items-start mb-0 p-1">
+            <div class="container">
+                <div class="row">
 {{--
                 <div class="d-flex p-2 m-1 contact-row {{ $current_group == '*' ? 'active': '' }}"
                         wire:click="$set('current_group', '*')">
@@ -27,12 +27,13 @@
                 </div> --}}
 
                 @forelse ($contact_groups as $group)
+                    <div class="col-lg-12 col-md-3 col-sm-4 col-xs-6 p-0">
                         <div class="d-flex p-2 m-1 contact-row {{ $current_group == $group->id ? 'active': '' }}"
                                 wire:click="setCurrentGroup({{ $group->id }})">
                             <div class="position-relative icon icon-shape icon-md shadow text-center border-radius-sm me-2"
                                 style="background-color: {{ $group->color }}">
                                 {!! html_entity_decode($group->icon) !!}
-                                <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2">
+                                <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2"  wire:click="GroupForm('{{ $group->id }}')">
                                     <i class="fa fa-pen top-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-hidden="true" data-bs-original-title="Editar Grupo" aria-label="Editar Image"></i><span class="sr-only">Editar Grupo</span>
                                 </a>
                             </div>
@@ -41,6 +42,7 @@
                                 <p class="text-xs text-secondary mb-0">{{ count($group->contacts) }} Contactos</p>
                             </div>
                         </div>
+                    </div>
                 @empty
 
                     {{-- <div class="d-flex justify-content-center">
@@ -50,6 +52,7 @@
                     </div> --}}
 
                 @endforelse
+            </div>
         </div>
 
 

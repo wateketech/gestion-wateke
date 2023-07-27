@@ -57,7 +57,7 @@
                 Exportar
             </div>
 
-            <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="createGroupForm('{{ json_encode($current_contacts) }}')">
+            <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="GroupForm">
                 <i class="fas fa-users"></i> &nbsp;
                 Crear Grupo
             </div>

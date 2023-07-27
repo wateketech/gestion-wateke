@@ -19,7 +19,9 @@ class AllContacts extends Component
         'delete_contact' => 'deleteContact',
         'delete_contacts' => 'deleteContacts',
         'enable_contacts' => 'enableContacts',
-        'create_contact_group' => 'createGroup'
+        'create_contact_group' => 'createGroup',
+        'update_contact_group' => 'updateGroup',
+        'delete_contact_group' => 'deleteGroup'
         ];
 
     public $contact_groups;
@@ -256,28 +258,105 @@ class AllContacts extends Component
     public function selectContact($id){
         $this->current_contact = Contacts::find($id);
     }
-    public function createGroupForm($ids){
-        $this->dispatchBrowserEvent('create-contact-group-form',[
-            'ccontactos' => count($this->current_contacts),
-            'name' => '',
-            'color' => '#ff6400',
-            'icon' => '#ff6400',
-            'error' => ''
-        ]);
-    }
-    public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>'){
-        $error = null;
 
-        if ($name == null) $error = "El campo es requerido.";
-        elseif (ContactGroups::where('name', $name)->count() != 0) $error = "Ya existe un grupo con este nombre.";
-        elseif (strlen($name) > 15 || strlen($name) <= 1) $error = "El campo 'name' debe tener entre 1 y 15 caracteres.";
+    private function validateGroupForm($mode, $name, $color, $icon){
+        if ($mode == 'create'){
+            if (ContactGroups::where('name', $name)->count() != 0) return "Ya existe un grupo con este nombre.";
+        }
+        elseif($mode == 'update'){
+            if (ContactGroups::where('name', $name)->count() != 0 && ContactGroups::where('name', $name) != $name) return "Ya existe un grupo con este nombre.";
+        }
+
+        if ($name == null) return "El campo es requerido.";
+        elseif (strlen($name) > 15 || strlen($name) <= 1) return "El campo 'name' debe tener entre 1 y 15 caracteres.";
+
+
+        return Null;
+    }
+    public function GroupForm($id = null){
+        // create mode
+        if ($id == null){
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($this->current_contacts),
+                'name' => '',
+                'color' => '#ff6400',
+                'icon' => '#ff6400',
+                'error' => '',
+                'mode' => 'create',
+                'id' => $id
+            ]);
+        // edit mode
+        }else{
+            // $group = ContactGroups::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
+            $group = ContactGroups::find($id);
+
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' =>  count($group->contacts),
+                'name' =>  $group->name,
+                'color' =>  $group->color,
+                'icon' =>  $group->icon,
+                'error' =>  '',
+                'mode' => 'edit',
+                'id' => $group->id
+            ]);
+        }
+
+
+    }
+    public function deleteGroup($name, $id){
+        $group = ContactGroups::find($id);
+        if ($group->name == $name)
+            $group->update(['enable' => false]);
+            $this->contact_groups = ContactGroups::all()->where('enable', true);
+    }
+    public function updateGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>', $id = Null){
+        $name = trim($name);
+        $error = $this->validateGroupForm('create', $name, $color, $icon);
 
         if ($error != null){
-            $this->dispatchBrowserEvent('create-contact-group-form',[
+            $this->dispatchBrowserEvent('contact-group-form',[
                 'ccontactos' => count($this->current_contacts),
                 'name' => $name == null ? '' : $name,
                 'color' => $color,
-                'error' => '<p class="text-danger">' . $error .'</p>'
+                'error' => '<p class="text-danger">' . $error .'</p>',
+                'mode' => 'edit',
+                'id' => $id
+            ]);
+        }else{
+
+            DB::beginTransaction();
+            try {
+                // actualizar el grupo
+                $group = ContactGroups::find($id)-> update([
+                    'name' => $name,
+                    'color' => $color,
+                    'icon' => $icon,
+                ]);
+
+                // dar la posibilidad de incluir y eliminar contactos del grupo
+
+                $this->contact_groups = ContactGroups::all()->where('enable', true);
+                DB::commit();
+            } catch (\Illuminate\Database\QueryException $e) {
+                DB::rollBack();
+                $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2], 'redirect' => '/contactos']);
+            }
+
+            $this->dispatchBrowserEvent('simple-toast-message',['text' => 'Grupo ' . $name . ' actualizado exitosamente', 'icon' => 'success']);
+        }
+    }
+    public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>', $id = Null){
+        $name = trim($name);
+        $error = $this->validateGroupForm('create', $name, $color, $icon);
+
+        if ($error != null){
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($this->current_contacts),
+                'name' => $name == null ? '' : $name,
+                'color' => $color,
+                'error' => '<p class="text-danger">' . $error .'</p>',
+                'mode' => 'create',
+                'id' => $id
             ]);
         }else{
 
