@@ -48,7 +48,8 @@ class CurrentContact extends Component
 
         // Si el contacto no existe, lo agregamos al arreglo
         $existingIndex = array_search($contact_id, array_column($this->contacts, 'id'));
-        if ($existingIndex === false) {
+
+        if ($existingIndex === false && $contact_id !== null) {
             $this->contacts[] = Contacts::with('pics', 'emails', 'phones')
                 ->where('enable', true)->find($contact_id)->toArray();
         }
@@ -69,15 +70,17 @@ class CurrentContact extends Component
 
 
     private function getMassivePropertys($id){
-        $email = Contacts::where('enable', true)->find($id)->emails->where('is_primary', true)->first();
-        if ($email) $this->contacts_emails[] = $email;
+        $existingIndex = array_search($id, array_column($this->contacts, 'id'));
+        if ($existingIndex === false && $id !== null){
+            $email = Contacts::where('enable', true)->find($id)->emails->where('is_primary', true)->first();
+            if ($email) $this->contacts_emails[] = $email;
 
-        $phone = Contacts::where('enable', true)->find($id)->phones->where('is_primary', true)->first();
-        if ($phone) $this->contacts_phones[] = $phone;
+            $phone = Contacts::where('enable', true)->find($id)->phones->where('is_primary', true)->first();
+            if ($phone) $this->contacts_phones[] = $phone;
 
-        $instant_message = Contacts::where('enable', true)->find($id)->instant_messages->where('is_primary', true)->first();
-        if ($instant_message) $this->contacts_instant_messages[] = $instant_message;
-
+            $instant_message = Contacts::where('enable', true)->find($id)->instant_messages->where('is_primary', true)->first();
+            if ($instant_message) $this->contacts_instant_messages[] = $instant_message;
+        }
     }
     private function cleanMassivePropertys(){
         $this->contacts_emails = [];

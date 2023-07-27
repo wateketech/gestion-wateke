@@ -64,6 +64,9 @@ class AllContacts extends Component
     public function setCurrentGroup($value){
         if ($this->current_group == $value) $this->current_group = Null;
         else $this->current_group = $value;
+        $this->current_contacts = [];
+        $this->current_contact = null;
+        $this->updatedCurrentContact();
     }
     public function mount($id = null ){
         $this->current_contact = $id;
@@ -203,11 +206,9 @@ class AllContacts extends Component
 
     // }
 
-
-
-    public function render()
-    {
-        $this->contacts = Contacts::where('enable', true)
+// ------------------------------ LIVE FILTERS --------------------------------
+    private function getContacts(){
+        return Contacts::where('enable', true)
                                   ->where(function ($query) {
                                         $query->where(function ($query) {
                                                 $query->where('name', 'like', '%'.$this->search_name.'%')
@@ -225,22 +226,27 @@ class AllContacts extends Component
                                     })
                                   ->whereHas('groups', function ($query) {  if($this->current_group != Null) $query->where('group_id', $this->current_group); })
                                   ->paginate($this->perPage);
-        return view('livewire.contacts.contacts.all-contacts')->with('contacts', $this->contacts);
+
     }
 // ------------------------------ VIEWS --------------------------------
 
-        public function updatedFilterView()
-        {
-            $this->group_view = false;
-        }
-        public function updatedGroupView()
-        {
-            $this->filter_view = false;
-        }
+    public function render(){
+        $this->contacts = $this->getContacts();
+        return view('livewire.contacts.contacts.all-contacts')->with('contacts', $this->contacts);
+    }
+    public function updatedFilterView()
+    {
+        $this->group_view = false;
+    }
+    public function updatedGroupView()
+    {
+        $this->filter_view = false;
+        $this->current_group = Null;
+    }
 
 // ------------------------------ ACTIONS --------------------------------
     public function selectAll(){
-        $allContacts = Contacts::where('enable', true)->pluck('id')->toArray();
+        $allContacts = $this->getContacts()->pluck('id')->toArray();
         if (count($allContacts) != count($this->current_contacts)){
             $this->multiple_selection = true;
             foreach($allContacts as $contact){
@@ -259,6 +265,75 @@ class AllContacts extends Component
         $this->current_contact = Contacts::find($id);
     }
 
+
+
+
+
+    public function importContacts(){
+        $this->emitTo('contacts.import-export', 'importContacts');
+    }
+
+    public function exportContact($id){
+        $this->emitTo('contacts.import-export', 'exportContact', ['id' => $id]);
+    }
+
+    public function exportContacts($ids){
+        $this->emitTo('contacts.import-export', 'exportContacts', ['ids' => $ids]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------ REMOVE ACTIONS --------------------------------
+
+    public function deleteContact_Q($id){
+        $this->dispatchBrowserEvent('show-delete-contact', ['contact_id' => $id, 'current_contact' => $this->current_contact]);
+    }
+    public function deleteContacts_Q($ids){
+        $this->dispatchBrowserEvent('show-delete-contacts', ['contacts_id' => $ids, 'current_contacts' => $this->current_contacts]);
+    }
+    public function deleteContact($id, $value){
+        if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
+            Contacts::find($id)->update(['enable' => false]);
+        }
+    }
+    public function deleteContacts($ids, $value){
+        if ($ids == $this->current_contacts) {
+            foreach ($ids as $id){
+                Contacts::find($id)->update(['enable' => false]);
+            }
+        }
+    }
+
+
+    public function enableContact($id){
+        if ($id == $this->current_contact){
+            $contact_id = Contacts::find($id)->update(['enable' => true]);
+            $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => false]);
+        }
+        else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => false]);
+
+    }
+    public function enableContacts($ids){
+        if (json_decode($ids) == $this->current_contacts){
+            foreach ($this->current_contacts as $id){
+                $contact_id = Contacts::find($id)->update(['enable' => true]);
+            }
+            $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => true]);
+        }
+        else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => true]);
+    }
+ // ------------------------------ GROUPS Management --------------------------------
     private function validateGroupForm($mode, $name, $color, $icon){
         if ($mode == 'create'){
             if (ContactGroups::where('name', $name)->count() != 0) return "Ya existe un grupo con este nombre.";
@@ -387,71 +462,6 @@ class AllContacts extends Component
 
 
         }
-    }
-
-    public function importContacts(){
-        $this->emitTo('contacts.import-export', 'importContacts');
-    }
-
-    public function exportContact($id){
-        $this->emitTo('contacts.import-export', 'exportContact', ['id' => $id]);
-    }
-
-    public function exportContacts($ids){
-        $this->emitTo('contacts.import-export', 'exportContacts', ['ids' => $ids]);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ------------------------------ REMOVE ACTIONS --------------------------------
-
-    public function deleteContact_Q($id){
-        $this->dispatchBrowserEvent('show-delete-contact', ['contact_id' => $id, 'current_contact' => $this->current_contact]);
-    }
-    public function deleteContacts_Q($ids){
-        $this->dispatchBrowserEvent('show-delete-contacts', ['contacts_id' => $ids, 'current_contacts' => $this->current_contacts]);
-    }
-    public function deleteContact($id, $value){
-        if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
-            Contacts::find($id)->update(['enable' => false]);
-        }
-    }
-    public function deleteContacts($ids, $value){
-        if ($ids == $this->current_contacts) {
-            foreach ($ids as $id){
-                Contacts::find($id)->update(['enable' => false]);
-            }
-        }
-    }
-
-
-    public function enableContact($id){
-        if ($id == $this->current_contact){
-            $contact_id = Contacts::find($id)->update(['enable' => true]);
-            $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => false]);
-        }
-        else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => false]);
-
-    }
-    public function enableContacts($ids){
-        if (json_decode($ids) == $this->current_contacts){
-            foreach ($this->current_contacts as $id){
-                $contact_id = Contacts::find($id)->update(['enable' => true]);
-            }
-            $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => true]);
-        }
-        else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => true]);
     }
 
 }
