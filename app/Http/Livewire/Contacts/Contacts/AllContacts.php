@@ -274,17 +274,19 @@ class AllContacts extends Component
 
 
     public function importContacts(){
-        $this->emitTo('contacts.import-export', 'importContacts');
+        $this->emitTo('contacts.import-export', 'importContactsQ');
     }
 
-    public function exportContact($id){
-        $this->emitTo('contacts.import-export', 'exportContact', ['id' => $id]);
+    public function exportContacts($id){
+        switch (gettype(json_decode($id))) {
+            case 'integer':
+                $this->emitTo('contacts.import-export', 'exportContactsQ', ['multiple' => false, 'id' => json_decode($id)]);
+                break;
+            case 'array':
+                $this->emitTo('contacts.import-export', 'exportContactsQ', ['multiple' => true, 'id' => json_decode($id)]);
+                break;
+        }
     }
-
-    public function exportContacts($ids){
-        $this->emitTo('contacts.import-export', 'exportContacts', ['ids' => $ids]);
-    }
-
 
 
 

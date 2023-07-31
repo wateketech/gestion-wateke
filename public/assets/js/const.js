@@ -27,7 +27,16 @@ export const questionModals = Swal.mixin({
   timer: 0,
 })
 
-
+export const actionsModals = Swal.mixin({
+  customClass: {
+    container: 'swal-wide-container',
+    popup: 'swal-wide-popup',
+    confirmButton: 'btn btn-outline-secondary border-2 mx-2',
+  },
+  confirmButtonText: 'Cancelar',
+  buttonsStyling: false,
+  timer: 0,
+})
 
 
 

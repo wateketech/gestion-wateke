@@ -31,7 +31,7 @@
         @if (isset($current_contact) && count($current_contacts) <= 1)
 
 
-            <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContact('{{ $current_contact }}')">
+            <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ $current_contact }}')">
                 <i class="fas fa-download"></i> &nbsp;
                 Exportar
             </div>

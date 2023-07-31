@@ -45,7 +45,52 @@ window.addEventListener('coocking-time', function($event){
             clearInterval(timerInterval)
         }
     })
-  });
+});
 
 
 
+
+
+
+window.addEventListener('export-contacts', function($event){
+  let action = $event.detail.action;
+  let tittle = $event.detail.title;
+
+
+  consts.actionsModals.fire({
+      position: 'center' ,
+      title: tittle ,
+      html: '\
+      <p class="form-title text-center my-0 pb-3">¿ Para que plataforma decea exportar ?</p>\
+      <div class="w-65 m-auto my-4">\
+          <div class="row justify-content-between">\
+              <a class="col-12 btn btn-primary disabled text-white opacity-8"> SUIT Microsoft</a>\
+                <a class="col mx-1 btn btn-outline-primary"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\', extension: \'csv\' });">\
+                  CSV</a>\
+                <a class="col mx-1 btn btn-outline-primary"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\', extension: \'xlsx\' });">\
+                  XLSX</a>\
+               <a class="col mx-1 btn btn-outline-primary"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\', extension: \'txt\' });">\
+                  TXT</a>\
+\
+          </div>\
+          <div class="row justify-content-between mt-4">\
+              <a class="col-12 btn btn-primary disabled text-white opacity-8"> Contactos Brevo</a>\
+                <a class="col mx-1 btn btn-outline-primary"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'brevo\', extension: \'csv\' });">\
+                  CSV</a>\
+                <a class="col mx-1 btn btn-outline-primary"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'brevo\', extension: \'xlsx\' });">\
+                  XLSX</a>\
+               <a class="col mx-1 btn btn-outline-primary"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'brevo\', extension: \'txt\' });">\
+                  TXT</a>\
+\
+          </div>\
+      </div>\
+      ',
+      showConfirmButton: false,
+  })
+});
