@@ -30,7 +30,9 @@ class ImportExport extends Component
 
     // contact section
     public function importContactsQ(){
-        $this->dispatchBrowserEvent('show-in-progress');
+        $this->dispatchBrowserEvent('import-contacts', [
+            'action' => 'importContacts'
+        ]);
     }
     public function exportContactsQ($args){
         $this->multiple = $args['multiple'];
@@ -53,18 +55,20 @@ class ImportExport extends Component
 
     }
 
-    public function importContacts($id){
+    public function importContacts($args){
+        if (array_key_exists('platform', $args)) $platform = $args['platform'];
+        if (array_key_exists('extension', $args)) $extension = $args['extension'];
         $this->dispatchBrowserEvent('show-in-progress');
     }
     public function exportContact($args){
         if (array_key_exists('platform', $args)) $this->platform = $args['platform'];
         if (array_key_exists('extension', $args)) $this->extension = $args['extension'];
-
+        $this->dispatchBrowserEvent('show-in-progress');
     }
     public function exportContacts($args){
         if (array_key_exists('platform', $args)) $this->platform = $args['platform'];
         if (array_key_exists('extension', $args)) $this->extension = $args['extension'];
-
+        $this->dispatchBrowserEvent('show-in-progress');
     }
 
 

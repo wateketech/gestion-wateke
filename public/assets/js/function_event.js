@@ -51,7 +51,6 @@ window.addEventListener('coocking-time', function($event){
 
 
 
-
 window.addEventListener('export-contacts', function($event){
   let action = $event.detail.action;
   let tittle = $event.detail.title;
@@ -61,10 +60,10 @@ window.addEventListener('export-contacts', function($event){
       position: 'center' ,
       title: tittle ,
       html: '\
-      <p class="form-title text-center my-0 pb-3">¿ Para que plataforma decea exportar ?</p>\
+      <p class="form-title text-center my-0 pb-3">¿ Para que plataforma desea exportar ?</p>\
       <div class="w-65 m-auto my-4">\
           <div class="row justify-content-between">\
-              <a class="col-12 btn btn-primary disabled text-white opacity-8"> SUIT Microsoft</a>\
+              <a class="col-12 btn btn-primary disabled text-white opacity-8"> SUITE Microsoft</a>\
                 <a class="col mx-1 btn btn-outline-primary"\
                   onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\', extension: \'csv\' });">\
                   CSV</a>\
@@ -94,3 +93,31 @@ window.addEventListener('export-contacts', function($event){
       showConfirmButton: false,
   })
 });
+
+
+window.addEventListener('import-contacts', function($event){
+  let action = $event.detail.action;
+  let tittle = '<i class="fas fa-cloud-upload-alt"></i> &nbsp; Importar Contactos</p>';
+
+
+  consts.actionsModals.fire({
+      position: 'center' ,
+      title: tittle ,
+      html: '\
+      <p class="form-title text-center my-0 pb-3">¿ Desde que plataforma desea importar ?</p>\
+      <div class="w-65 m-auto my-4">\
+          <div class="row justify-content-between">\
+              <a class="col-12 btn btn-outline-primary opacity-8"\
+              onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\' });">\
+              SUITE Microsoft</a>\
+              <a class="col-12 btn btn-outline-primary opacity-8"\
+                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'brevo\' });">\
+                  Contactos Brevo</a>\
+          </div>\
+      </div>\
+      ',
+      showConfirmButton: false,
+  })
+});
+
+
