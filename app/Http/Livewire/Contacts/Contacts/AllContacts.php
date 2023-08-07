@@ -341,6 +341,7 @@ class AllContacts extends Component
     }
  // ------------------------------ GROUPS Management --------------------------------
     private function validateGroupForm($mode, $name, $color, $icon){
+
         if ($mode == 'create'){
             if (ContactGroups::where('name', $name)->count() != 0) return "Ya existe un grupo con este nombre.";
         }
@@ -354,7 +355,21 @@ class AllContacts extends Component
 
         return Null;
     }
-    public function GroupForm($id = null){
+    public function GroupForm($id = null, $enable = false){
+        // enable group
+        if ($enable == true){
+            $group = ContactGroups::find($id);
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($group->contacts),
+                'name' =>  $group->name,
+                'color' =>  $group->color,
+                'icon' =>  $group->icon,
+                'error' => '<sub>¡ Este grupo había sido eliminado recientemente !</sub>',
+                'mode' => 'enable',
+                'id' => $id,
+            ]);
+            return;
+        }
         // create mode
         if ($id == null){
             $this->dispatchBrowserEvent('contact-group-form',[
@@ -364,7 +379,7 @@ class AllContacts extends Component
                 'icon' => '#ff6400',
                 'error' => '',
                 'mode' => 'create',
-                'id' => $id
+                'id' => $id,
             ]);
         // edit mode
         }else{
@@ -378,7 +393,7 @@ class AllContacts extends Component
                 'icon' =>  $group->icon,
                 'error' =>  '',
                 'mode' => 'edit',
-                'id' => $group->id
+                'id' => $group->id,
             ]);
         }
 
@@ -387,6 +402,14 @@ class AllContacts extends Component
     public function deleteGroup($name, $id){
         $group = ContactGroups::find($id);
         if ($group->name == $name)
+            if ($group->enable == false){
+                foreach($group->contacts as $contact){
+                    $contact->delete();
+                }
+                $group->delete();
+                return;
+            }
+
             $group->update(['enable' => false]);
             $this->contact_groups = ContactGroups::all()->where('enable', true);
     }
@@ -428,6 +451,13 @@ class AllContacts extends Component
     }
     public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>', $id = Null){
         $name = trim($name);
+
+        $disabled = ContactGroups::where('name', $name)->where('enable', 0)->first();
+        if ($disabled != Null){
+            $this->GroupForm($disabled->id, true);
+            return;
+        };
+
         $error = $this->validateGroupForm('create', $name, $color, $icon);
 
         if ($error != null){

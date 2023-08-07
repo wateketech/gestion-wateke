@@ -2,24 +2,31 @@ import * as consts from './const.js';
 
 
 window.addEventListener('contact-group-form', function($event){
-    if ($event.detail.mode == 'create'){
+    if ($event.detail.mode == 'enable'){
+        var tittle ='Habilitar grupo con ' + $event.detail.ccontactos + ' contactos';
+        var confirmButtonText = 'Recuperar';
+        var livewireAction = 'enable_contact_group';
+        var showDenyButton = "<i class='fas fa-trash-alt'> </i> Eliminar para siempre";
+    }
+    else if ($event.detail.mode == 'create'){
         var tittle ='Crear grupo de ' + $event.detail.ccontactos + ' contactos';
         var confirmButtonText = 'Crear';
         var livewireAction = 'create_contact_group';
-        var showDenyButton = false
+        var showDenyButton = ''
     }
     else if($event.detail.mode == 'edit'){
         var tittle = 'Editar grupo de ' + $event.detail.ccontactos + ' contactos';
         var confirmButtonText = 'Actualizar';
         var livewireAction = 'update_contact_group';
-        var showDenyButton = true
+        var showDenyButton =  "<i class='fas fa-trash-alt'> </i> Eliminar";
     }
+
     consts.swalWithBootstrapButtons.fire({
         position: 'center' ,
         title: tittle,
         html: "\
-        <div class='form-group'>\
-            <label for='group_name' class='form-control-label'\
+        <div class='form-group pt-2'>\
+            <label for='group_name' class='form-control-label px-3'\
                 style='width: 99%;text-align: start;'>\
                 Nombre *\
             </label>\
@@ -33,11 +40,10 @@ window.addEventListener('contact-group-form', function($event){
                     style='padding-left: 50px !important;'>\
                 </div>\
             </div>\
-            \
         </div>\
         ",
-        showDenyButton: showDenyButton,
-        denyButtonText: "<i class='fas fa-trash-alt'> </i> Eliminar",
+        showDenyButton: showDenyButton == '' ? false : true,
+        denyButtonText: showDenyButton,
         confirmButtonText: confirmButtonText,
         showCancelButton: true,
         reverseButtons: true,
@@ -101,4 +107,3 @@ window.addEventListener('contact-group-form', function($event){
         }
     });
 });
-
