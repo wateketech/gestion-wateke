@@ -26,7 +26,12 @@
 
         {{-- MIENTRAS NO ESTE O ESTEN EN EDICION --}}
         @if(isset($current_contact))
-        @if(!array_reduce($contacts->find($current_contacts)->toArray(),function($carry, $editing) { return $carry || $editing['is_editing']; }, false) && !$contacts->find($current_contact)->is_editing)
+        {{-- @if(isset($current_contact->is_editing)) --}}
+        @if(
+            // !$contacts->find($current_contact)->is_editing &&
+            !array_reduce($contacts->find($current_contacts)->toArray(), function($carry, $editing) {
+                    return $carry || ($editing['is_editing'] === true || $editing['is_editing'] === null);
+            }, false))
             <div>
             {{-- SINGLE CONTACT VIEW --}}
             @if (count($current_contacts) <= 1)
@@ -87,6 +92,7 @@
 
             </div>
         @endif
+        {{-- @endif --}}
         @endif
     </div>
 

@@ -147,7 +147,7 @@ window.addEventListener('show-delete-contact', function(event){
                     resolve();
                 })
                 .then(() => {
-                    Toast.fire({
+                    consts.Toast.fire({
                         icon: 'success',
                         title: '¡Eliminado!',
                         text: 'El contacto ha sido eliminado de la base de datos.',
@@ -160,7 +160,7 @@ window.addEventListener('show-delete-contact', function(event){
 
                 });
             }else{
-                Toast.fire(
+                consts.Toast.fire(
                     '¡Error al eliminar!',
                     'Error en el id de confirmacion al eliminar el contacto :)',
                     'error'
@@ -168,7 +168,7 @@ window.addEventListener('show-delete-contact', function(event){
             }
         } else if
         ( result.dismiss === Swal.DismissReason.cancel){
-            Toast.fire(
+            consts.Toast.fire(
                 'Cancelado',
                 'El contacto esta a salvo :)',
                 'warning'
@@ -204,7 +204,7 @@ window.addEventListener('show-delete-contacts', function(event){
                     resolve();
                 })
                 .then(() => {
-                    Toast.fire({
+                    consts.Toast.fire({
                         icon: 'success',
                         title: '¡Eliminado!',
                         text: 'Los contactos ha sido eliminados de la base de datos.',
@@ -217,7 +217,7 @@ window.addEventListener('show-delete-contacts', function(event){
 
                 });
             }else{
-                Toast.fire(
+                consts.Toast.fire(
                     '¡Error al eliminar!',
                     'Error en los ids de confirmacion al eliminar los contactos :)',
                     'error'
@@ -225,7 +225,7 @@ window.addEventListener('show-delete-contacts', function(event){
             }
         } else if
         ( result.dismiss === Swal.DismissReason.cancel){
-            Toast.fire(
+            consts.Toast.fire(
                 'Cancelado',
                 'Los contactos están a salvo :)',
                 'warning'
@@ -237,7 +237,7 @@ window.addEventListener('show-delete-contacts', function(event){
 window.addEventListener('show-recovery-contact-success', function(event){
     let is_multiple = event.detail.is_multiple;
 
-    Toast.fire({
+    consts.Toast.fire({
         title: '¡Recuperado!',
         text: is_multiple ? 'Contacto recuperado exitosamente.' : 'Contactos recuperados exitosamente.',
         icon: 'success',
@@ -247,7 +247,7 @@ window.addEventListener('show-recovery-contact-success', function(event){
 window.addEventListener('show-recovery-contact-error', function(event){
     let is_multiple = event.detail.is_multiple;
 
-    Toast.fire({
+    consts.Toast.fire({
         title: '¡Error!',
         text: is_multiple ? 'No se ha podido recuper el contacto.' : 'No se han podido recuper los contactos.',
         icon: 'danger',

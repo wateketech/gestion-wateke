@@ -6,7 +6,7 @@
     </div>
     <div class="card-body px-2 pt-0">
         <p href='javascript:void(0)' class="text-uppercase text-secondary text-xs font-weight-bolder opacity-8 mx-3">
-            {{ count($contact_groups) }} grupos
+            {{ count($contact_groups) + 2 }} grupos
         </p>
 
 
