@@ -22318,4 +22318,17 @@ span.select2.select2-container.select2-container--default {
 }
 .search-input .select-options .option > a:hover {
   color: #ff6400;
+}
+
+.blocking-page {
+  position: relative;
+  opacity: 0.4;
+}
+.blocking-page:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  content: " ";
 }/*# sourceMappingURL=soft-ui-dashboard.css.map */

@@ -9,6 +9,7 @@ use Psy\ExecutionLoop\Listener;
 class CurrentContact extends Component
 {
     public $prueba;
+    public $blocking_page = false;
     public $multiple_selection = 'holaa';
     public $contacts = [];
 
@@ -21,15 +22,25 @@ class CurrentContact extends Component
         'mount', 'remount', 'remount_multiple', 'remount_multiple_unset'
         ];
 
+    public function blocking_page(){
+        // poner para la seleccion multiple
+        $this->blocking_page = false;
+        if ($this->contact != Null){
+            if ( !$this->contact->enable || $this->contact->is_editing)
+                $this->blocking_page = true;
+        }
+    }
 
     public function mount($contact_id = null){
         if ($contact_id) $this->remount(['id' => $contact_id]);
+        $this->blocking_page();
     }
 
     public function remount($args){
         $contact_id = $args['id'];
 
-        $this->contact = Contacts::where('enable', true)->find($contact_id);
+        $this->contact = Contacts::find($contact_id);
+        $this->blocking_page();
 
         // for else multiple selection
         $this->multiple_selection = false;
@@ -51,7 +62,9 @@ class CurrentContact extends Component
 
         if ($existingIndex === false && $contact_id !== null) {
             $this->contacts[] = Contacts::with('pics', 'emails', 'phones')
-                ->where('enable', true)->find($contact_id)->toArray();
+                ->find($contact_id)->toArray();
+
+            // $this->blocking_page();
         }
 
         $this->getMassivePropertys($contact_id);
@@ -72,13 +85,13 @@ class CurrentContact extends Component
     private function getMassivePropertys($id){
         $existingIndex = array_search($id, array_column($this->contacts, 'id'));
         if ($existingIndex === false && $id !== null){
-            $email = Contacts::where('enable', true)->find($id)->emails->where('is_primary', true)->first();
+            $email = Contacts::find($id)->emails->where('is_primary', true)->first();
             if ($email) $this->contacts_emails[] = $email;
 
-            $phone = Contacts::where('enable', true)->find($id)->phones->where('is_primary', true)->first();
+            $phone = Contacts::find($id)->phones->where('is_primary', true)->first();
             if ($phone) $this->contacts_phones[] = $phone;
 
-            $instant_message = Contacts::where('enable', true)->find($id)->instant_messages->where('is_primary', true)->first();
+            $instant_message = Contacts::find($id)->instant_messages->where('is_primary', true)->first();
             if ($instant_message) $this->contacts_instant_messages[] = $instant_message;
         }
     }

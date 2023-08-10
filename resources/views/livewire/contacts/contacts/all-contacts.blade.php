@@ -24,63 +24,70 @@
             </a>
         </div>
 
+        {{-- MIENTRAS NO ESTE O ESTEN EN EDICION --}}
+        @if(isset($current_contact))
+        @if(!array_reduce($contacts->find($current_contacts)->toArray(),function($carry, $editing) { return $carry || $editing['is_editing']; }, false) && !$contacts->find($current_contact)->is_editing)
+            <div>
+            {{-- SINGLE CONTACT VIEW --}}
+            @if (count($current_contacts) <= 1)
 
 
-        <div>
-        {{-- SINGLE CONTACT VIEW --}}
-        @if (isset($current_contact) && count($current_contacts) <= 1)
-
-
-            <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ $current_contact }}')">
-                <i class="fas fa-download"></i> &nbsp;
-                Exportar
-            </div>
-
-            <a class="btn btn-outline-primary btn-lx px-3 mx-1" target="_blank" href="{{ route('editar-contacto', ['id' => $current_contact]) }}">
-                <i class="fas fa-pencil-alt"></i> &nbsp;
-                Editar
-            </a>
-            @if ($contacts->contains('id', $current_contact))
-                <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContact_Q('{{ $current_contact }}')">
-                    <i class="fas fa-trash-alt "></i> Eliminar
+                <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ $current_contact }}')">
+                    <i class="fas fa-download"></i> &nbsp;
+                    Exportar
                 </div>
+
+                <a class="btn btn-outline-primary btn-lx px-3 mx-1" target="_blank" href="{{ route('editar-contacto', ['id' => $current_contact]) }}">
+                    <i class="fas fa-pencil-alt"></i> &nbsp;
+                    Editar
+                </a>
+
+                @if ($contacts->contains('id', $current_contact) && $contacts->find($current_contact)->enable)
+                    <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContact_Q('{{ $current_contact }}')">
+                        <i class="fas fa-trash-alt "></i> Eliminar
+                    </div>
+                @else
+                    <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContact('{{ $current_contact }}')">
+                        <i class="fas fa-share fa-flip-horizontal"></i> Recuperar
+                    </div>
+                @endif
+
+            {{-- MULTIPLE CONTACT VIEW --}}
+            @elseif (count($current_contacts) > 1)
+                <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ json_encode($current_contacts) }}')">
+                    <i class="fas fa-download"></i> &nbsp;
+                    Exportar
+                </div>
+
+                <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="GroupForm">
+                    <i class="fas fa-users"></i> &nbsp;
+                    Crear Grupo
+                </div>
+
+
+
+
+
+
+                @if ($contacts->contains('id', $current_contact) && array_reduce( $contacts->find($current_contacts)->toArray(), function($carry, $contact) { return $carry || $contact['enable']; }, false ))
+                    <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContacts_Q('{{ json_encode($current_contacts) }}')">
+                        <i class="fas fa-trash-alt "></i> Eliminar
+                    </div>
+                @else
+                    <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContacts('{{ json_encode($current_contacts) }}')">
+                        <i class="fas fa-share fa-flip-horizontal"></i> Recuperar
+                    </div>
+                @endif
             @else
-                <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContact('{{ $current_contact }}')">
-                    <i class="fas fa-share fa-flip-horizontal"></i> Deshacer {{-- Recuperar --}}
-                </div>
+
+
+
+
             @endif
 
-        {{-- MULTIPLE CONTACT VIEW --}}
-        @elseif (count($current_contacts) > 1)
-            <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ json_encode($current_contacts) }}')">
-                <i class="fas fa-download"></i> &nbsp;
-                Exportar
             </div>
-
-            <div class="btn btn-outline-primary btn-lx mx-1 px-3" wire:click="GroupForm">
-                <i class="fas fa-users"></i> &nbsp;
-                Crear Grupo
-            </div>
-
-
-
-            @if ($contacts->contains('id', $current_contact))
-                <div class="btn text-white btn-danger btn-lx px-3 mx-1" wire:click="deleteContacts_Q('{{ json_encode($current_contacts) }}')">
-                    <i class="fas fa-trash-alt "></i> Eliminar
-                </div>
-            @else
-                <div class="btn btn-outline-danger btn-lx px-3 mx-1 animate-pulse" wire:click="enableContacts('{{ json_encode($current_contacts) }}')">
-                    <i class="fas fa-share fa-flip-horizontal"></i> Deshacer {{-- Recuperar --}}
-                </div>
-            @endif
-        @else
-
-
-
-
         @endif
-
-        </div>
+        @endif
     </div>
 
 

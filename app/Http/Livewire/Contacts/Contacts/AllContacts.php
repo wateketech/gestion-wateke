@@ -211,7 +211,7 @@ class AllContacts extends Component
 
 // ------------------------------ LIVE FILTERS --------------------------------
     private function getContacts(){
-        return Contacts::where('enable', true)
+        return Contacts::where('enable', $this->current_group != -1 ? true : false )
                                   ->where(function ($query) {
                                         $query->where(function ($query) {
                                                 $query->where('name', 'like', '%'.$this->search_name.'%')
@@ -227,7 +227,7 @@ class AllContacts extends Component
                                               ->orWhereHas('webs', function ($query) { $query->where('value', 'like', '%'.$this->search_webs.'%');
                                         });
                                     })
-                                  ->whereHas('groups', function ($query) {  if($this->current_group != Null) $query->where('group_id', $this->current_group); })
+                                  ->whereHas('groups', function ($query) {  if($this->current_group != Null && $this->current_group != -1 ) $query->where('group_id', $this->current_group); })
                                   ->orderby($this->order_by, $this->order_asc ? 'asc' : 'desc' )
                                   ->paginate($this->perPage);
 
@@ -308,15 +308,29 @@ class AllContacts extends Component
     public function deleteContacts_Q($ids){
         $this->dispatchBrowserEvent('show-delete-contacts', ['contacts_id' => $ids, 'current_contacts' => $this->current_contacts]);
     }
+
+    private function deletePermanent(){
+        dd('Hola');
+    }
     public function deleteContact($id, $value){
         if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
-            Contacts::find($id)->update(['enable' => false]);
+            $contact = Contacts::find($id);
+            if ($contact->enable == false){
+                $this->deletePermanent($contact->id);
+                return;
+            }
+            $contact->update(['enable' => false]);
         }
     }
     public function deleteContacts($ids, $value){
         if ($ids == $this->current_contacts) {
             foreach ($ids as $id){
-                Contacts::find($id)->update(['enable' => false]);
+                $contact = Contacts::find($id);
+                if ($contact->enable == false){
+                    $this->deletePermanent($contact->id);
+                    return;
+                }
+                $contact->update(['enable' => false]);
             }
         }
     }

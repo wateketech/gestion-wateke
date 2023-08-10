@@ -13,18 +13,19 @@
 
             <div class="container">
                 <div class="row">
-{{--
-                <div class="d-flex p-2 m-1 contact-row {{ $current_group == '*' ? 'active': '' }}"
-                        wire:click="$set('current_group', '*')">
-                    <div class="position-relative icon icon-shape icon-md shadow text-center border-radius-sm me-2"
-                        style="background-color:#ff6400">
-                        <i class="fas fa-users"></i>
+                    <div class="col-lg-12 col-md-3 col-sm-4 col-xs-6 p-0">
+                        <div class="d-flex p-2 m-1 contact-row {{ $current_group == Null ? 'active': '' }}"
+                                wire:click="setCurrentGroup({{ 0 }})">
+                            <div class="position-relative icon icon-shape icon-md shadow text-center border-radius-sm me-2"
+                                style="background-color: #75b14f">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center pl-2">
+                                <h6 class="mb-0 text-md row-name">Todos</h6>
+                                {{-- <p class="text-xs text-secondary mb-0">Recientemente</p> --}}
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex flex-column justify-content-center pl-2">
-                        <h6 class="mb-0 text-sm row-name">Todos</h6>
-                        <p class="text-xs text-secondary mb-0">Todos los Contactos</p>
-                    </div>
-                </div> --}}
 
                 @forelse ($contact_groups as $group)
                     <div class="col-lg-12 col-md-3 col-sm-4 col-xs-6 p-0">
@@ -55,6 +56,19 @@
                     </div> --}}
 
                 @endforelse
+                <div class="col-lg-12 col-md-3 col-sm-4 col-xs-6 p-0">
+                    <div class="d-flex p-2 m-1 contact-row {{ $current_group == -1 ? 'active': '' }}"
+                            wire:click="setCurrentGroup({{ -1 }})">
+                        <div class="position-relative icon icon-shape icon-md shadow text-center border-radius-sm me-2"
+                            style="background-color: #323232">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center pl-2">
+                            <h6 class="mb-0 text-md row-name">Papelera</h6>
+                            {{-- <p class="text-xs text-secondary mb-0">Recientemente</p> --}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -70,8 +70,10 @@
                     @forelse ($contacts as $index => $contact)
                         <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }} {{ in_array($contact->id, $current_contacts) ? 'active' : '' }}"
                                 wire:click="$set('current_contact', {{ $contact->id }})"
-                                onMouseOut="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.add('d-none')"
-                                onMouseOver="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.remove('d-none')"
+                                @if($contact->enable == true)
+                                    onMouseOut="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.add('d-none')"
+                                    onMouseOver="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.remove('d-none')"
+                                @endif
                                     >
                             <td name="fisrtcontact" class="p-1 px-4" id="contact-content-{{ $contact->id }}">
                                 <div class="d-flex px-2 py-1" id="test">
@@ -90,12 +92,22 @@
 
                                         {{-- <p class="text-xs text-secondary mb-0">{{ $contacts->find($contact)->emails->where('is_primary', true)->first()->value }}</p> --}}
                                         <span class="text-secondary text-raleway text-xs" wire:poll.keep-alive>
-                                            @if ($contact->is_editing)
-                                                <span class="text-primary blink-3 ">en edicion por {{ $contact->edited_by_user->name }}</span>
+                                            @if($contact->enable)
+                                                @if ($contact->is_editing)
+                                                    <span class="text-primary blink-3 ">en edicion por {{ $contact->edited_by_user->name }}</span>
+                                                @else
+                                                    {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
+                                                    por {{$contact->created_at == $contact->updated_at ? $contact->created_by_user->name : $contact->edited_by_user->name   }}
+                                                    {{ $contact->updated_at->diffForHumans() }}
+                                                @endif
                                             @else
-                                                {{ $contact->created_at == $contact->updated_at ? 'creado' : 'actualizado' }}
-                                                por {{$contact->created_at == $contact->updated_at ? $contact->created_by_user->name : $contact->edited_by_user->name   }}
-                                                {{ $contact->updated_at->diffForHumans() }}
+                                                <span class="text-danger">
+                                                    eliminado por {{$contact->created_at == $contact->updated_at ? $contact->created_by_user->name : $contact->edited_by_user->name   }}
+                                                    {{ $contact->updated_at->diffForHumans() }}
+                                                </span>
+                                                {{-- <span class="text-danger">
+                                                    Eliminado permanete dentro de {{ $contact->delete_at->diffForHumans() }}
+                                                </span> --}}
                                             @endif
                                         </span>
 
