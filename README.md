@@ -24,7 +24,7 @@ This project is used by the following companies:
 
 ## Support
 
-For support, email soporteit@wateke.tech or email pjunior@wateke.tech
+For support, email soporteit@wateke.tech
 
 
 ## Screenshots
