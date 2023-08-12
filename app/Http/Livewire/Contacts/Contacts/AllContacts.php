@@ -48,8 +48,14 @@ class AllContacts extends Component
 
     public function multiple_selection($args){
         $this->multiple_selection = $args['is_multiple'];
-        if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null) {
+        if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null && !$this->isBusy($this->current_contact)) {
             $this->current_contacts[] = $this->current_contact;
+        }
+    }
+    public function setCurrentContact($id){
+        if(!$this->isBusy($id) || !$this->multiple_selection){
+            $this->current_contact = $id;
+            $this->updatedCurrentContact();
         }
     }
     public function updatedCurrentContact(){
@@ -62,6 +68,10 @@ class AllContacts extends Component
             $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
             $this->current_contacts= [];
         }
+    }
+
+    public function isBusy($id){
+        return Contacts::find($id)->is_editing;
     }
 
     public function setCurrentGroup($value){

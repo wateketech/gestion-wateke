@@ -69,7 +69,7 @@
                 <tbody class="contact-list" style="border-colapse:collapse">
                     @forelse ($contacts as $index => $contact)
                         <tr class="contact-row {{ $current_contact == $contact->id ? 'active': '' }} {{ in_array($contact->id, $current_contacts) ? 'active' : '' }}"
-                                wire:click="$set('current_contact', {{ $contact->id }})"
+                                wire:click="setCurrentContact({{ $contact->id }})"
                                 @if($contact->enable == true)
                                     onMouseOut="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.add('d-none')"
                                     onMouseOver="document.getElementById('contact-fast-actions-{{ $contact->id }}').classList.remove('d-none')"

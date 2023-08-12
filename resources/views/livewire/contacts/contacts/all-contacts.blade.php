@@ -28,13 +28,13 @@
         @if(isset($current_contact))
         {{-- @if(isset($current_contact->is_editing)) --}}
         @if(
-            // !$contacts->find($current_contact)->is_editing &&
+            !$this->isBusy($current_contact) &&
             !array_reduce($contacts->find($current_contacts)->toArray(), function($carry, $editing) {
                     return $carry || ($editing['is_editing'] === true || $editing['is_editing'] === null);
             }, false))
             <div>
             {{-- SINGLE CONTACT VIEW --}}
-            @if (count($current_contacts) <= 1)
+            @if (count($current_contacts) <= 1 && !$contacts->find($current_contact)->is_editing)
 
 
                 <div class="btn btn-outline-primary btn-lx px-3 mx-1" wire:click="exportContacts('{{ $current_contact }}')">
