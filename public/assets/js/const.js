@@ -31,9 +31,10 @@ export const actionsModals = Swal.mixin({
   customClass: {
     container: 'swal-wide-container',
     popup: 'swal-wide-popup',
-    confirmButton: 'btn btn-outline-secondary border-2 mx-2',
+    confirmButton: 'btn btn-primary border-2 mx-2',
+    cancelButton: 'btn btn-outline-secondary border-2 mx-2',
   },
-  confirmButtonText: 'Cancelar',
+  cancelButtonText: 'Cancelar',
   buttonsStyling: false,
   timer: 0,
 })

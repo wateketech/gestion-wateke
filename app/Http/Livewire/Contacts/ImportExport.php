@@ -58,17 +58,74 @@ class ImportExport extends Component
     public function importContacts($args){
         if (array_key_exists('platform', $args)) $platform = $args['platform'];
         if (array_key_exists('extension', $args)) $extension = $args['extension'];
-        $this->dispatchBrowserEvent('show-in-progress');
+        if ($this->platform && $this->extension){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }else{
+            $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extencion por la cual importar']);
+        }
     }
     public function exportContact($args){
         if (array_key_exists('platform', $args)) $this->platform = $args['platform'];
         if (array_key_exists('extension', $args)) $this->extension = $args['extension'];
-        $this->dispatchBrowserEvent('show-in-progress');
+        if ($this->platform && $this->extension){
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }else{
+            $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extención para la cual exportar']);
+        }
     }
     public function exportContacts($args){
         if (array_key_exists('platform', $args)) $this->platform = $args['platform'];
         if (array_key_exists('extension', $args)) $this->extension = $args['extension'];
-        $this->dispatchBrowserEvent('show-in-progress');
+        if ($this->platform && $this->extension){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }else{
+            $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extención para la cual exportar']);
+        }
     }
 
 
@@ -101,6 +158,18 @@ class ImportExport extends Component
     }
     public function exportEntitys($ids){
         $this->dispatchBrowserEvent('show-in-progress');
+    }
+
+
+
+
+
+
+
+
+
+    private function createContact(){
+        
     }
 
 

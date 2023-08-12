@@ -61,8 +61,15 @@ window.addEventListener('export-contacts', function($event){
       title: tittle ,
       html: '\
       <p class="form-title text-center my-0 pb-3">¿ Para que plataforma desea exportar ?</p>\
-      <div class="w-65 m-auto my-4">\
-          <div class="row justify-content-between">\
+      <div class="w-65 m-auto my-3">\
+\
+      <div class="row justify-content-center mb-2">\
+        <a class="col-12 btn btn-outline-primary opacity-8"\
+          onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'vcard\', extension: \'vcf\' });">\
+          vCard </a>\
+      </div>\
+\
+        <div class="row justify-content-between">\
               <a class="col-12 btn btn-primary disabled text-white opacity-8"> SUITE Microsoft</a>\
                 <a class="col mx-1 btn btn-outline-primary"\
                   onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\', extension: \'csv\' });">\
@@ -73,8 +80,8 @@ window.addEventListener('export-contacts', function($event){
                <a class="col mx-1 btn btn-outline-primary"\
                   onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\', extension: \'txt\' });">\
                   TXT</a>\
-\
           </div>\
+\
           <div class="row justify-content-between mt-4">\
               <a class="col-12 btn btn-primary disabled text-white opacity-8"> Contactos Brevo</a>\
                 <a class="col mx-1 btn btn-outline-primary"\
@@ -86,8 +93,8 @@ window.addEventListener('export-contacts', function($event){
                <a class="col mx-1 btn btn-outline-primary"\
                   onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'brevo\', extension: \'txt\' });">\
                   TXT</a>\
-\
           </div>\
+\
       </div>\
       ',
       showConfirmButton: false,
@@ -95,7 +102,7 @@ window.addEventListener('export-contacts', function($event){
 });
 
 
-window.addEventListener('import-contacts', function($event){
+window.addEventListener('import-contactss', function($event){
   let action = $event.detail.action;
   let tittle = '<i class="fas fa-cloud-upload-alt"></i> &nbsp; Importar Contactos</p>';
 
@@ -105,13 +112,16 @@ window.addEventListener('import-contacts', function($event){
       title: tittle ,
       html: '\
       <p class="form-title text-center my-0 pb-3">¿ Desde que plataforma desea importar ?</p>\
-      <div class="w-65 m-auto my-4">\
+      <div class="w-65 m-auto my-3">\
           <div class="row justify-content-between">\
               <a class="col-12 btn btn-outline-primary opacity-8"\
-              onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'microsoft\' });">\
-              SUITE Microsoft</a>\
+                  onclick="new CustomEvent(\'import-contacts-dropzone\', { detail: { platform: \'vcard\' } });">\
+                  vCard</a>\
               <a class="col-12 btn btn-outline-primary opacity-8"\
-                  onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'brevo\' });">\
+                  onclick="new CustomEvent(\'import-contacts-dropzone\', { detail: { platform: \'microsoft\' } });">\
+                  SUITE Microsoft</a>\
+              <a class="col-12 btn btn-outline-primary opacity-8"\
+                  onclick="new CustomEvent(\'import-contacts-dropzone\', { detail: { platform: \'brevo\' } });">\
                   Contactos Brevo</a>\
           </div>\
       </div>\
@@ -119,5 +129,64 @@ window.addEventListener('import-contacts', function($event){
       showConfirmButton: false,
   })
 });
+
+
+window.addEventListener('import-contacts', function($event){
+  consts.actionsModals.fire({
+    position: 'center' ,
+    title: 'hola' ,
+    html: `<input type="file" id="filepond">`,
+    showConfirmButton: true,
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Importar",
+    showCancelButton: true,
+    reverseButtons: true,
+    }).then((result) => {
+    if (result.isConfirmed) {
+
+    }
+  })
+
+  const inputElement = document.getElementById('filepond');
+  const pond = FilePond.create(inputElement, {
+        server: {
+          process: null
+        }
+      });
+
+      pond.on('addfile', (error, file) => {
+        if (!error) {
+          // Acción al agregar un archivo
+        }
+      });
+
+      pond.on('processfile', (error, file) => {
+        if (!error) {
+          // Acción al completar la carga de un archivo
+        }
+      });
+
+      pond.on('error', (error, file) => {
+        // Acción en caso de error
+      });
+
+      const uploadButton = document.createElement('button');
+      uploadButton.innerHTML = 'Cargar archivos';
+      uploadButton.addEventListener('click', () => {
+        pond.processFiles();
+      });
+
+      document.body.appendChild(uploadButton);
+
+//   onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'vcard\' });">\
+});
+
+
+
+
+
+
+
+
 
 
