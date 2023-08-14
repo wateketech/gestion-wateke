@@ -14,6 +14,7 @@ use App\Http\Livewire\Account\Management\UserManagement;
 
 
 // use App\Http\Livewire\LaravelExamples\UserProfile;
+// use App\Http\Livewire\Contacts\ImportExport;
 use App\Http\Livewire\Contacts\Contacts\AllContacts as Contacts;
 use App\Http\Livewire\Contacts\Contacts\Create as CreateContact;
 use App\Http\Livewire\Contacts\Entity\AllEntity as Entitys;
@@ -31,6 +32,9 @@ use App\Http\Livewire\Contacts\Entity\Create as CreateEntity;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Route::post('/load-import-contactos', [ImportExport::class, 'loadFile'])->name('load-import-contactos');
+
 
 Route::get('/', Login::class)->name('login');
 // Route::get('/sign-up', SignUp::class)->name('sign-up');

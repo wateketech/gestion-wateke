@@ -1,22 +1,27 @@
 <?php
 
 namespace App\Http\Livewire\Contacts;
-
+use Illuminate\Http\Request;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ImportExport extends Component
 {
+    use WithFileUploads;
+
     public $contact_id;
     public $contact_ids;
     public $multiple;
     public $platform;
     public $extension;
+    public $file;
 
     protected $listeners = [
         'importContactsQ', 'importContacts',
         'exportContactsQ', 'exportContact','exportContacts',
         'importEntitysQ',  'importEntitys',
         'exportEntitysQ',  'exportEntity','exportEntitys',
+        'loadFile'
     ];
 
     public function render()
@@ -31,7 +36,8 @@ class ImportExport extends Component
     // contact section
     public function importContactsQ(){
         $this->dispatchBrowserEvent('import-contacts', [
-            'action' => 'importContacts'
+            'action' => 'importContacts',
+            'id_component' => $this->id
         ]);
     }
     public function exportContactsQ($args){
@@ -55,10 +61,21 @@ class ImportExport extends Component
 
     }
 
+    public function loadFile($data)
+    {
+        dd($data);
+    }
+
+
+
     public function importContacts($args){
-        if (array_key_exists('platform', $args)) $platform = $args['platform'];
-        if (array_key_exists('extension', $args)) $extension = $args['extension'];
-        if ($this->platform && $this->extension){
+        dd($args);
+        // if (array_key_exists('platform', $args)) $platform = $args['platform'];
+        // if (array_key_exists('extension', $args)) $extension = $args['extension'];
+        // else{
+
+        // }
+        // if ($this->platform && $this->extension){
 
 
 
@@ -80,9 +97,9 @@ class ImportExport extends Component
 
 
 
-        }else{
-            $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extencion por la cual importar']);
-        }
+        // }else{
+        //     $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extencion por la cual importar']);
+        // }
     }
     public function exportContact($args){
         if (array_key_exists('platform', $args)) $this->platform = $args['platform'];
@@ -169,7 +186,7 @@ class ImportExport extends Component
 
 
     private function createContact(){
-        
+
     }
 
 

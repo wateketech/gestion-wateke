@@ -102,10 +102,10 @@ window.addEventListener('export-contacts', function($event){
 });
 
 
-window.addEventListener('import-contactss', function($event){
+window.addEventListener('import-contacts', function($event){
   let action = $event.detail.action;
+  let id_component = $event.detail.id_component;
   let tittle = '<i class="fas fa-cloud-upload-alt"></i> &nbsp; Importar Contactos</p>';
-
 
   consts.actionsModals.fire({
       position: 'center' ,
@@ -115,13 +115,13 @@ window.addEventListener('import-contactss', function($event){
       <div class="w-65 m-auto my-3">\
           <div class="row justify-content-between">\
               <a class="col-12 btn btn-outline-primary opacity-8"\
-                  onclick="new CustomEvent(\'import-contacts-dropzone\', { detail: { platform: \'vcard\' } });">\
+                  onclick="window.dispatchEvent(new CustomEvent(\'import-contacts-dropzone\', { detail: { id_component: \'' + id_component + '\', action: \'' + action + '\', platform: \'vcard\' } }));">\
                   vCard</a>\
               <a class="col-12 btn btn-outline-primary opacity-8"\
-                  onclick="new CustomEvent(\'import-contacts-dropzone\', { detail: { platform: \'microsoft\' } });">\
+                  onclick="window.dispatchEvent(new CustomEvent(\'import-contacts-dropzone\', { detail: { id_component: \'' + id_component + '\', action: \'' + action + '\', platform: \'microsoft\' } }));">\
                   SUITE Microsoft</a>\
               <a class="col-12 btn btn-outline-primary opacity-8"\
-                  onclick="new CustomEvent(\'import-contacts-dropzone\', { detail: { platform: \'brevo\' } });">\
+                  onclick="window.dispatchEvent(new CustomEvent(\'import-contacts-dropzone\', { detail: { id_component: \'' + id_component + '\', action: \'' + action + '\', platform: \'brevo\' } }));">\
                   Contactos Brevo</a>\
           </div>\
       </div>\
@@ -131,32 +131,62 @@ window.addEventListener('import-contactss', function($event){
 });
 
 
-window.addEventListener('import-contacts', function($event){
+window.addEventListener('import-contacts-dropzone', function($event){
+  let action = $event.detail.action;
+  let platform = $event.detail.platform;
+  let id_component = $event.detail.id_component;
+  let tittle = '<i class="fas fa-cloud-upload-alt"></i> &nbsp; Importar Contactos</p>';
+  let labelIdle = $event.detail.multiple ? 'Arrastra y suelta tus archivos aquí o <span class="filepond--label-action">Selecciona archivos</span>' : 'Arrastra y suelta tu archivo aquí o <span class="filepond--label-action">Selecciona archivo</span>';
+
+
+  var args = {
+    'platform' : platform,
+  }
+
   consts.actionsModals.fire({
     position: 'center' ,
-    title: 'hola' ,
-    html: `<input type="file" id="filepond">`,
+    title: tittle ,
+    html: `
+      <p class="form-title text-center my-n1 pb-4">desde ` + platform + `</p>\
+      <div class="w-85 m-auto my-2">\
+        <input class="px-5" type="file" id="filepond" accept=".txt, .json, .xml, .csv, .vcard"/>
+      </div>
+    `,
     showConfirmButton: true,
     cancelButtonText: "Cancelar",
     confirmButtonText: "Importar",
     showCancelButton: true,
     reverseButtons: true,
     }).then((result) => {
-    if (result.isConfirmed) {
-
-    }
+      if (result.isConfirmed) {
+        console.log(args)
+        // Livewire.emit(action, args);
+      }
   })
 
   const inputElement = document.getElementById('filepond');
   const pond = FilePond.create(inputElement, {
-        server: {
-          process: null
-        }
+    // allowMultiple: false,
+    // maxFileSize: '1MB',
+    // acceptedFileTypes: ['image/png', 'image/jpeg'],
+    labelIdle: labelIdle,
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        var component = Livewire.find(id_component);
+        component.upload('file', file, load, error, progress)
+      },
+    },
       });
 
       pond.on('addfile', (error, file) => {
         if (!error) {
-          // Acción al agregar un archivo
+          // Acción al cargar un archivo
+          if (file.fileExtension !== '.txt' || file.fileExtension !== '.json' || file.fileExtension !== '.xml' || file.fileExtension !== '.csv' && file.fileExtension !== '.vcard') {
+            // pond.setOptions({
+            //   labelFileProcessingError: 'Archivo no válido'
+            // });
+            //   return;
+          }
         }
       });
 
