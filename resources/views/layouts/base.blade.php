@@ -100,6 +100,7 @@
     {{-- <link href="https://cdn.jsdelivr.net/npm/flag-icon-css@3.5.0/css/flag-icon.min.css" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="../assets/js/plugins/intl-tel-input/css/intlTelInput.css">
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     @livewireStyles
     <script>

@@ -61,45 +61,33 @@ class ImportExport extends Component
 
     }
 
-    public function loadFile($data)
-    {
-        dd($data);
+    public function loadFile($data){
     }
 
 
 
     public function importContacts($args){
-        dd($args);
-        // if (array_key_exists('platform', $args)) $platform = $args['platform'];
-        // if (array_key_exists('extension', $args)) $extension = $args['extension'];
-        // else{
+        if (array_key_exists('platform', $args)) $platform = $args['platform'];
+        if (array_key_exists('extension', $args)) $extension = $args['extension'];
 
-        // }
-        // if ($this->platform && $this->extension){
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // }else{
-        //     $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extencion por la cual importar']);
-        // }
+        if(!$this->platform && !$this->extension){
+            $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extencion por la cual importar']);
+            return;
+        }
+        else if (!$this->file){
+            $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha cargado un archivo para importar']);
+            return;
+        }else{
+            try {
+                dd('hola');
+                // leer el fichero, su header e insertar en la base de datos
+                //code to read and insert in database (each one is a error (indices no coinciden))...
+            } catch (\Throwable $th) {
+                $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'danger', 'text' => 'Ha ocurrido un error al importar los contactos']);
+                return;
+            }
+        }
+        $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'success', 'text' => 'x Contactos importados exitosamente']);
     }
     public function exportContact($args){
         if (array_key_exists('platform', $args)) $this->platform = $args['platform'];
@@ -120,6 +108,7 @@ class ImportExport extends Component
 
         }else{
             $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning', 'text' => 'No se ha especificado una plataforma y/o extención para la cual exportar']);
+            return;
         }
     }
     public function exportContacts($args){

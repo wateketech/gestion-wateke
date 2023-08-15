@@ -20,10 +20,10 @@ window.addEventListener('coocking-time', function($event){
         //   html: 'Esto tomará unos segundos <img class="w-25 m-auto mt-4 mb-2" src="../assets/img/logos/loading.gif">',
       //   title: 'Lo estamos cocinando',
         html: '\
-          <img src="../assets/img/logos/notification_plane_30.gif" alt="Cargando..." width="400" height="200" \
+          <img id="coocking-time-img" src="../assets/img/logos/notification_plane_30.gif" alt="Cargando..." width="400" height="200" \
             style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 2em;border-radius: 20px;margin-top: 1em;">\
           <p style="text-align: center !important;font-family: Comfortaa;">\Esto solo tomará unos segundos</p><p style="margin-bottom: 0em !important; margin-top: 1em !important;">\
-          <img src="../assets/img/logos/loading.gif" alt="Cargando..." width="75" height="75" \
+          <img id="coocking-time-img" src="../assets/img/logos/loading.gif" alt="Cargando..." width="75" height="75" \
             style="display: block; margin-left: auto; margin-right: auto;">\
           </p>',
         timer: $event.detail.time,
@@ -45,6 +45,11 @@ window.addEventListener('coocking-time', function($event){
             clearInterval(timerInterval)
         }
     })
+    // setTimeout(function() {
+    //   document.querySelectorAll('#coocking-time-img')[0].style.display = 'block';
+    //   document.querySelectorAll('#coocking-time-img')[1].style.display = 'block';
+    // }, 0);
+
 });
 
 
@@ -137,11 +142,9 @@ window.addEventListener('import-contacts-dropzone', function($event){
   let id_component = $event.detail.id_component;
   let tittle = '<i class="fas fa-cloud-upload-alt"></i> &nbsp; Importar Contactos</p>';
   let labelIdle = $event.detail.multiple ? 'Arrastra y suelta tus archivos aquí o <span class="filepond--label-action">Selecciona archivos</span>' : 'Arrastra y suelta tu archivo aquí o <span class="filepond--label-action">Selecciona archivo</span>';
-
-
-  var args = {
-    'platform' : platform,
-  }
+  let args = {}
+  const component = Livewire.find(id_component);
+  component.set('platform', platform);
 
   consts.actionsModals.fire({
     position: 'center' ,
@@ -149,7 +152,7 @@ window.addEventListener('import-contacts-dropzone', function($event){
     html: `
       <p class="form-title text-center my-n1 pb-4">desde ` + platform + `</p>\
       <div class="w-85 m-auto my-2">\
-        <input class="px-5" type="file" id="filepond" accept=".txt, .json, .xml, .csv, .vcard"/>
+        <input class="px-5" type="file" id="filepond"/>
       </div>
     `,
     showConfirmButton: true,
@@ -159,55 +162,28 @@ window.addEventListener('import-contacts-dropzone', function($event){
     reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(args)
-        // Livewire.emit(action, args);
+        window.dispatchEvent(new CustomEvent('coocking-time', { detail: { time: 999999 } }));
+        Livewire.emit(action, args);
       }
   })
 
   const inputElement = document.getElementById('filepond');
   const pond = FilePond.create(inputElement, {
-    // allowMultiple: false,
-    // maxFileSize: '1MB',
-    // acceptedFileTypes: ['image/png', 'image/jpeg'],
-    labelIdle: labelIdle,
+    allowMultiple: false,
+    maxFileSize: '1MB',
+    acceptedFileTypes: ['text/plain', 'text/csv', 'text/vcard', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+    // labelIdle: labelIdle,
     server: {
       process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-        var component = Livewire.find(id_component);
         component.upload('file', file, load, error, progress)
+        component.set('extension', file.name.split('.').pop());
+      },
+      revert: (filename, load) => {
+        component.removeUpload('file', filename, load);
+        component.set('extension', null);
       },
     },
-      });
-
-      pond.on('addfile', (error, file) => {
-        if (!error) {
-          // Acción al cargar un archivo
-          if (file.fileExtension !== '.txt' || file.fileExtension !== '.json' || file.fileExtension !== '.xml' || file.fileExtension !== '.csv' && file.fileExtension !== '.vcard') {
-            // pond.setOptions({
-            //   labelFileProcessingError: 'Archivo no válido'
-            // });
-            //   return;
-          }
-        }
-      });
-
-      pond.on('processfile', (error, file) => {
-        if (!error) {
-          // Acción al completar la carga de un archivo
-        }
-      });
-
-      pond.on('error', (error, file) => {
-        // Acción en caso de error
-      });
-
-      const uploadButton = document.createElement('button');
-      uploadButton.innerHTML = 'Cargar archivos';
-      uploadButton.addEventListener('click', () => {
-        pond.processFiles();
-      });
-
-      document.body.appendChild(uploadButton);
-
+  });
 //   onclick="Livewire.emit(\'' + $event.detail.action + '\', { platform: \'vcard\' });">\
 });
 
