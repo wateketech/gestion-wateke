@@ -119,10 +119,10 @@ window.addEventListener('import-contacts', function($event){
       <p class="form-title text-center my-0 pb-3">¿ Desde que plataforma desea importar ?</p>\
       <div class="w-65 m-auto my-3">\
           <div class="row justify-content-between">\
-              <a class="col-12 btn btn-outline-primary opacity-8"\
+              <a class="col-12 btn btn-outline-secondary opacity-8 disabled"\
                   onclick="window.dispatchEvent(new CustomEvent(\'import-contacts-dropzone\', { detail: { id_component: \'' + id_component + '\', action: \'' + action + '\', platform: \'vcard\' } }));">\
                   vCard</a>\
-              <a class="col-12 btn btn-outline-primary opacity-8"\
+              <a class="col-12 btn btn-outline-secondary opacity-8 disabled"\
                   onclick="window.dispatchEvent(new CustomEvent(\'import-contacts-dropzone\', { detail: { id_component: \'' + id_component + '\', action: \'' + action + '\', platform: \'microsoft\' } }));">\
                   SUITE Microsoft</a>\
               <a class="col-12 btn btn-outline-primary opacity-8"\
@@ -146,6 +146,7 @@ window.addEventListener('import-contacts-dropzone', function($event){
   const component = Livewire.find(id_component);
   component.set('platform', platform);
 
+
   consts.actionsModals.fire({
     position: 'center' ,
     title: tittle ,
@@ -154,6 +155,17 @@ window.addEventListener('import-contacts-dropzone', function($event){
       <div class="w-85 m-auto my-2">\
         <input class="px-5" type="file" id="filepond"/>
       </div>
+
+      <sub class="d-flex flex-column align-items-start mt-4">
+        <div class="form-check form-switch">
+          <input class="form-checkbox" type="checkbox" id="opt_fistRowHeader" disabled checked>
+          <label class="font-weight-normal" for="opt_fistRowHeader"> la primera fila contiene el nombre de los campos ? *</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-checkbox" type="checkbox" id="opt_overwrite">
+          <label class="font-weight-normal" for="opt_overwrite"> permitir sobrescribir los campos de los contactos ?</label>
+        </div>
+      </sub>
     `,
     showConfirmButton: true,
     cancelButtonText: "Cancelar",
@@ -167,6 +179,12 @@ window.addEventListener('import-contacts-dropzone', function($event){
       }
   })
 
+  // wire:model of the options for import
+  document.getElementById('opt_fistRowHeader').addEventListener('change', () => { component.set('fistRowHeader', !component.fistRowHeader); });
+  document.getElementById('opt_overwrite').addEventListener('change', () => { component.set('overwrite', !component.overwrite) });
+
+
+  // build the dropzone
   const inputElement = document.getElementById('filepond');
   const pond = FilePond.create(inputElement, {
     allowMultiple: false,
