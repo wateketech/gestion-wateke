@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\Contacts;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Livewire\Account\Management\User\User;
+use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
-use App\Models\Contact;
+
+use App\Http\Livewire\Contacts\Contacts\ContactClass as ContactClass;
 
 class ImportExport extends Component
 {
@@ -16,6 +19,7 @@ class ImportExport extends Component
     public $fistRowHeader = true;
     public $overwrite = false;
 
+    public $temp_contact = [];
     public $contacts_good = [];
     public $contacts_bad = [];
     private $match_name_percentage = 0.9;
@@ -35,7 +39,6 @@ class ImportExport extends Component
         'exportEntitysQ',  'exportEntity','exportEntitys',
         'loadFile'
     ];
-
     public function render()
     {
         return view('livewire.contacts.import-export');
@@ -121,6 +124,16 @@ class ImportExport extends Component
 
         return $separator;
     }
+    private function cleanDataHeader($separator, $data, $header){
+        $values = [];
+        $data = explode($separator, $data);
+        for ($i=0; $i < count($data); $i++) {
+            $value = trim($data[$i], '"');
+            $values[$header[$i]] = strpos($value, 'b') === 0 ? substr($value, 1) : $value;
+
+        }
+        return $values;
+    }
 
     public function importContacts($args){
         // leer el fichero, su header e insertar en la base de datos
@@ -156,32 +169,38 @@ class ImportExport extends Component
             // try {
                 // carga el archivo
                 $lines = file($this->file->getRealPath(), FILE_IGNORE_NEW_LINES);
-
                 $result = $this->getHeaderData($lines);
-                $header = array_key_exists('header', $result) ? $result['header'] : null;
-                $data = $result['data'];
-                $header = str_getcsv($header, $this->getSeparator($header) , '"');
+
+                if ($this->fistRowHeader){
+                    $header = array_key_exists('header', $result) ? $result['header'] : null;
+                    $separator = $this->getSeparator($header);
+                    $data = $result['data'];
+                    $header = str_getcsv($header, $separator , '"');
+                }else{
+                    $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'warning',
+                        'text' => 'Esta operación aun no soporta archivos sin cabecera']);
+                    return;
+                }
 
                 foreach ($data as $data) {
-                    $contact = new Contact();
-                    $values = explode($this->getSeparator($data), $data);
+                    $contact = new ContactClass();
+
+                    if ($this->fistRowHeader) $values = $this->cleanDataHeader($separator, $data, $header);
 
                     switch ($this->platform) {
-                        // arreglar los valores que tienen muchas "
-                        // foreach ($values as $value) {
-                        //     $values[] = trim($value, '"');
-                        // }
-
                         case 'brevo':
-                            $contact = $this->get_brevo_data($data, $header, $contact);
+                            if (!$this->fistRowHeader) $values = $this->cleanDataHeader($separator, $data, array_keys($this->brevoHeader()));
+                            $contact = $this->get_brevo_data($values, $header, $contact);
                             break;
 
                         case 'microsoft':
-                            $contact = $this->get_microsoft_data($data, $header, $contact);
+                            if (!$this->fistRowHeader) $values = $this->cleanDataHeader($separator, $data, array_keys($this->microsoftHeader()));
+                            $contact = $this->get_microsoft_data($values, $header, $contact);
                             break;
 
                         case 'vcard':
-                            $contact = $this->get_vcard_data($data, $header, $contact);
+                            if (!$this->fistRowHeader) $values = $this->cleanDataHeader($separator, $data, array_keys($this->vcardHeader()));
+                            $contact = $this->get_vcard_data($values, $header, $contact);
                             break;
 
                         default:
@@ -190,13 +209,21 @@ class ImportExport extends Component
                             return;
                         }
 
-                        if ($this->checkMatch($contact)){
+                        if ($this->checkMatch($contact)) {
                             $this->contacts_bad[] = $contact;
                         }else{
                             $this->contacts_good[] = $contact;
                         }
 
 
+        // !! HASTA AQUÍ FUNCIONA, SIN MULTIPLES EMAILS , ..
+                        dd($contact);
+                        DB::beginTransaction();
+                        // ($contact['contact'])->save();
+                        // $contact->emails()->create(['value' => 'hola@email.com']);
+                        DB::commit();
+
+                        // DB::rollBack();
                 }
             // } catch (\Throwable $th) {
             //     $this->dispatchBrowserEvent('simple-toast-message', ['icon' => 'danger', 'text' => 'Ha ocurrido un error al importar los contactos']);
@@ -208,83 +235,20 @@ class ImportExport extends Component
 
 
 
-
-
-
-    private function get_brevo_data($data, $header, $contact){
+    private function get_brevo_data($values, $header, $contact){
         foreach ($header as $label) {
-            switch (strtoupper(trim($label))) {
-                case "CONTACT ID":
-
-                    break;
-                case "EMAIL":
-
-                    break;
-                case "NOMBRE":
-
-                    break;
-                case "SURNAME":
-
-                    break;
-                case "SMS":
-
-                    break;
-                case "WHATSAPP":
-
-                    break;
-                case "DOUBLE_OPT":
-
-                    break;
-                case "MONOPARENTAL":
-
-                    break;
-                case "ZONA_SPAIN":
-
-                    break;
-                case "PAIS":
-
-                    break;
-                case "OPT_IN":
-
-                    break;
-                case "ACEPTACION_PRIVACIDAD":
-
-                    break;
-                case "ORIGEN":
-
-                    break;
-                case "PROVINCIA":
-
-                    break;
-                case "MONOPARENTALES":
-
-                    break;
-                case "NOMBRE_SURNAME":
-
-                    break;
-                case "NOMBRE_DEL_CONTACTO":
-
-                    break;
-                case "ADDED_TIME":
-
-                    break;
-                case "MODIFIED_TIME":
-
-                    break;
-                case 'value':
-                    # code...
-                    break;
-
-                default:
-                    # code...
-                    break;
+            // $label = strtoupper(trim($label));
+            if (isset($this->brevoHeader()[$label])) {
+                $this->brevoHeader()[$label]($values, $contact);
+            } else {
+                $contact->about .= "\n" . $label . $values[$label];
             }
         }
         return $contact;
     }
-    private function get_microsoft_data($data, $header, $contact){
+    private function get_microsoft_data($values, $header, $contact){
         foreach ($header as $label) {
-            switch (strtoupper(trim($label))) {
+            switch ($label) {
                 case "CONTACT ID":
                     break;
                 default:
@@ -293,7 +257,7 @@ class ImportExport extends Component
         }
         return $contact;
     }
-    private function get_vcard_data($data, $header, $contact){
+    private function get_vcard_data($values, $header, $contact){
         foreach ($header as $label) {
             switch (strtoupper(trim($label))) {
                 case "CONTACT ID":
@@ -399,5 +363,95 @@ class ImportExport extends Component
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function brevoHeader(){
+        return [
+            "CONTACT ID" => function($values, $contact){
+                    $contact->addMeta(value : ['brevo_id' => $values['CONTACT ID']]);
+            }
+            ,"EMAIL" => function($values, $contact){
+                    $contact->addEmail(value:$values['EMAIL'], is_primary: true);
+            }
+            ,"NOMBRE" => function($values, $contact){
+                    $names = explode(' ', $values['NOMBRE']);
+                    $contact->name = $names[0] ?? '';
+                    $contact->middle_name = isset($names[1]) ? $names[1] : '';
+            }
+            ,"SURNAME" => function($values, $contact){
+                    $lastNames = explode(' ', $values['SURNAME']);
+                    $contact->first_lastname = $lastNames[0] ?? '';
+                    $contact->second_lastname = isset($lastNames[1]) ? $lastNames[1] : '';
+            }
+            ,"SMS" => function($values, $contact){
+                    $contact->addPhone(value : $values['SMS']);
+            }
+            ,"WHATSAPP" => function($values, $contact) {
+                    $contact->addInstantMessage(value : $values['WHATSAPP'], type_id : 1);
+            }
+            ,"DOUBLE_OPT-IN" => function($values, $contact) {
+                    $contact->addMeta(value : ['brevo_DOUBLE_OPT-IN' => $values['DOUBLE_OPT-IN']]);
+            }
+            ,"MONOPARENTAL" => function($values, $contact) {
+                    $contact->addMeta(value : ['brevo_MONOPARENTAL' => $values['MONOPARENTAL']]);
+            }
+            ,"ZONA_SPAIN" => function($values, $contact) {}
+            ,"PAIS" => function($values, $contact) {}
+            ,"OPT_IN" => function($values, $contact) {
+                $contact->addMeta(value : ['brevo_OPT_IN' => $values['OPT_IN']]);
+            }
+            ,"ACEPTACION_PRIVACIDAD"=> function($values, $contact) {
+                $contact->addMeta(value : ['brevo_ACEPTACION_PRIVACIDAD' => $values['ACEPTACION_PRIVACIDAD']]);
+            }
+            ,"ORIGEN" => function($values, $contact) {
+                $contact->addMeta(value : ['brevo_ORIGEN' => $values['ORIGEN']]);
+            }
+            ,"PROVINCIA" => function($values, $contact) {}
+            ,"MONOPARENTALES" => function($values, $contact){
+                    $contact->addMeta(value : ['brevo_MONOPARENTALES' => $values['MONOPARENTALES']]);
+            }
+            ,"NOMBRE_SURNAME" => function($values, $contact){
+                    $contact->addMeta(value : ['brevo_NOMBRE_SURNAME' => $values['NOMBRE_SURNAME']]);
+            }
+            ,"NOMBRE_DEL_CONTACTO" => function($values, $contact){
+                    $contact->alias = $values['NOMBRE_DEL_CONTACTO'];
+            }
+            ,"ADDED_TIME" => function($values, $contact){
+                    $contact->addMeta(value : ['brevo_ADDED_TIME' => $values['ADDED_TIME']]);
+            }
+            ,"MODIFIED_TIME" => function($values, $contact){
+                    $contact->addMeta(value : ['brevo_MODIFIED_TIME' => $values['MODIFIED_TIME']]);
+            }
+        ];
+    }
+
+    public function microsoftHeader(){
+        return [
+
+        ];
+    }
+    public function vcardHeader(){
+        return [
+
+        ];
+    }
 
 }
