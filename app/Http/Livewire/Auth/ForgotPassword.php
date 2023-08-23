@@ -14,18 +14,18 @@ class ForgotPassword extends Component
 
     public $email = '';
 
-    public $showSuccesNotification = false; 
+    public $showSuccesNotification = false;
     public $showFailureNotification = false;
 
     public $showDemoNotification = false;
 
     protected $rules = [
         'email' => 'required|email',
-    ];  
+    ];
 
     public function mount() {
         if(auth()->user()){
-            redirect('/dashboard');
+            redirect('/inicio');
         }
     }
 
@@ -33,7 +33,7 @@ class ForgotPassword extends Component
         return $this->email;
     }
 
-    public function recoverPassword() { 
+    public function recoverPassword() {
         // validar cunado no se pueda conectar con el servidor que envia los correos
 
         if(env('IS_DEMO')) {

@@ -9,7 +9,8 @@ use App\Http\Livewire\Auth\Login;
 
 use App\Http\Livewire\Dashboard\Dashboard;
 use App\Http\Livewire\Account\Profile\Profile;
-use App\Http\Livewire\Account\Management\UserManagement;
+use App\Http\Livewire\Account\Management\UsersManagement;
+use App\Http\Livewire\Account\Management\RolesManagement;
 
 
 
@@ -31,6 +32,9 @@ use App\Http\Livewire\Contacts\Entity\Create as CreateEntity;
 | contains the "web" middleware group. Now create something great!
 |
 */
+if (file_exists($routes = base_path('bootstrap/cache/routes_trans.php'))) {
+    require $routes;
+}
 
 Route::get('/', Login::class)->name('login');
 // Route::get('/sign-up', SignUp::class)->name('sign-up');
@@ -40,21 +44,23 @@ Route::get('/login', Login::class)->name('login');
 // Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');  //  identificar esta ruta
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get(trans('routes.dashboard'), Dashboard::class)->name('dashboard');
 
     // RUTAS PARA GERENCIA
     Route::group(['middleware' => ['role:Gerencia|SuperAdmin']], function () {
         // SECCIÓN DE CUENTA
-        Route::get('/user-management', UserManagement::class)->name('user-management');
+        // Route::get('/user-management', UserManagement::class)->name('user-management');
     });
 
 
     // SECCIÓN DE CUENTA
-    Route::get('/profile', Profile::class)->name('profile');
+    Route::get(trans('routes.profile'), Profile::class)->name('profile');
 
 
 
     // SECCIÓN DE GESTIÓN
+    // Route::get(trans('routes.user-management'), UsersManagement::class)->name('user-management');
+    // Route::get(trans('routes.roles-management'), RolesManagement::class)->name('roles-management');
 
 
 
@@ -71,13 +77,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/entidades', Entitys::class)->name('entidades');
     Route::get('/entidades/{route?}', Entitys::class)->name('entidades');
     Route::get('/crear-entidad', CreateEntity::class)->name('crear-entidad');
-
+    // Route::get('/editar-entidad/{id}', CreateEntity::class)->name('editar-contacto');
 
 
 
 
 
 });
+
+
 
 
 // Route::fallback(function (){

@@ -25,7 +25,7 @@ class UserTable extends LivewireDatatable
     {
         return[
             Column::name('users.name')  ->label('Nombre'),
-            
+
             Column::callback(['id'], function ($id) {
                 $role = User::selectRaw('roles.name')
                 ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
@@ -45,10 +45,10 @@ class UserTable extends LivewireDatatable
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->where('users.id', '=', $id)
                 ->get();
-                
+
                 $roleN = isset($role[0]) ? $role[0]->name : 'Ninguno';
-                
-                return view('livewire.account.management.user.table-actions', ['id' => $id, 'name' => $name, 'role' => $roleN]);
+
+                return view('livewire.account.management.user-table-actions', ['id' => $id, 'name' => $name, 'role' => $roleN]);
             })->unsortable()->label('Acciones')
 
         ];

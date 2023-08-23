@@ -417,8 +417,8 @@
           <p class="ct-docs-page-title-lead">You can register as a user by filling in the name, email and password for your account.</p>
           <hr class="ct-docs-hr">
           <div>
-            <p>You can do this by accessing the sign up page from the <b>Sign Up</b> button in the top navbar or by clicking the <b>Sign Up</b> button from 
-                the bottom of the log in form or if you are logged in from the <b>Sign Up</b> button from the sidebar. Another simple way is adding 
+            <p>You can do this by accessing the sign up page from the <b>Sign Up</b> button in the top navbar or by clicking the <b>Sign Up</b> button from
+                the bottom of the log in form or if you are logged in from the <b>Sign Up</b> button from the sidebar. Another simple way is adding
                 <b><code class="language-html">/sign-up</code></b> in the url.</p>
               <p>The <code class="language-html">App\Http\Livewire\Auth\SignUp</code> handles the registration of a new user.</p>
           </div>
@@ -433,7 +433,7 @@
                         'password' => Hash::make($this->password)
                     ]);
                     auth()->login($user);
-                    return redirect('/dashboard');
+                    return redirect('/inicio');
                 }
               </code>
             </pre>

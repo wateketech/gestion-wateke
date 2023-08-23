@@ -853,7 +853,19 @@
     "weekly": "Semanal",
     "monthly": "Mensual",
 
+
+    "dashboard" : "inicio",
+    "profile" : "mi perfil",
+    "user management" : "gestion de usuarios",
+    "roles management" : "gestion de roles",
+    "permissions management" : "gestion de permisos",
+    "contacts" : "contactos",
+    "create contact" : "Crear contacto",
+    "entitys" : "Entidades",
+    "create entity" : "Crear entidad",
+
     "" : ""
+
 
 
 }
