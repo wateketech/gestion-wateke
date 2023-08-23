@@ -23,6 +23,7 @@ return [
     'create-contact' => 'crear-contacto',
     'entitys' => 'entidades',
     'create-entity' => 'crear-entidad',
+    'admin' => 'administracion',
 
     // ...
 ];

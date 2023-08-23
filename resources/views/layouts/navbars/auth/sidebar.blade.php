@@ -14,7 +14,7 @@
 
 
             @include('layouts.navbars.auth.sidebar.account')
-            {{-- @include('layouts.navbars.auth.sidebar.management') --}}
+            @include('layouts.navbars.auth.sidebar.management')
 
             @include('layouts.navbars.auth.sidebar.contact')
         </ul>

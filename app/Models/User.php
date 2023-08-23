@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
     use HasFactory, Notifiable, HasRoles;
 

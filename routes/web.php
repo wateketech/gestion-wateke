@@ -33,6 +33,8 @@ use App\Http\Livewire\Contacts\Entity\Create as CreateEntity;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 if (file_exists($routes = base_path('bootstrap/cache/routes_trans.php'))) {
     require $routes;
 }
@@ -63,6 +65,9 @@ Route::middleware('auth')->group(function () {
 
 
     // SECCIÓN DE GESTIÓN
+    Route::group(['prefix' => 'admin'], function () {
+        Voyager::routes();
+    });
     // Route::get(trans('routes.user-management'), UsersManagement::class)->name('user-management');
     // Route::get(trans('routes.roles-management'), RolesManagement::class)->name('roles-management');
 
