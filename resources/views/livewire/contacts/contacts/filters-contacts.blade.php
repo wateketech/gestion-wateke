@@ -1,10 +1,15 @@
 <div class="card h-100">
-    <div class="card-header p-3">
+    <div class="card-header p-4 form-title">
         <div class="w-100 text-center">
-            <p>Filtros</p>
+            <i class="fas fa-search"></i> &nbsp;Filtros
         </div>
     </div>
     <div class="card-body px-2 pt-0">
+        <p href='javascript:void(0)' class="text-uppercase text-secondary text-xs font-weight-bolder opacity-8 mx-3">
+            {{ count($contact_groups) }} filtros aplicados
+        </p>
+
+
 
 
 

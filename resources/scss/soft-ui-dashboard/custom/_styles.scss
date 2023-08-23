@@ -359,6 +359,26 @@ span.select2.select2-container.select2-container--default{
 }
 
 
+.contact-row {
+    width: 100% !important;
+    cursor: pointer;
+    :first-child:hover{
+        transform: scale(1.03) !important;
+    }
+
+    &.active{
+        background-color: #fed9b7 !important;
+        :first-child{
+            transform:scale(1.03) !important;
+
+            .row-name{
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+
 
 
 
@@ -417,7 +437,19 @@ span.select2.select2-container.select2-container--default{
     }
 }
 
+.swal2-title{
+    font-family: 'Comfortaa' !important;
+}
 
+.btn{
+    font-family: 'Raleway' !important;
+}
+.nav-link-text{
+    font-family: inherit;
+}
+.form-control-label{
+    font-family: 'Raleway' !important;
+}
 
 // custom search input and ACTIONS
 .search-input {
@@ -456,5 +488,26 @@ span.select2.select2-container.select2-container--default{
             }
         }
 
+    }
+}
+
+
+
+
+
+
+
+.blocking-page{
+    position: relative;
+    opacity: .4;
+
+    &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        content: ' ';
+        // background-color: rgba(0, 0, 0, 0.4);
     }
 }

@@ -30,7 +30,8 @@
 
     <div class="avatar-group mx-2">
         @foreach ($contacts as $contact)
-            <a href="javascript:void(0)" class="avatar avatar-xxl" data-bs-toggle="tooltip" data-bs-placement="bottom"
+            <a href="/contactos/{{ $contact['id'] }}" target="_blank"
+                class="avatar avatar-xxl" data-bs-toggle="tooltip" data-bs-placement="bottom"
                 title="{{$contact['name'] . ' ' . $contact['middle_name'] . ' ' . $contact['first_lastname'] . ' ' . $contact['second_lastname'] }}" style="border-radius: 20%;">
                 <img alt="imagen perfil" style="border-radius: 20%;"
                     src="{{ (!empty($contact['pics'])) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents(storage_path($contact['pics'][0]['store'] . $contact['pics'][0]['name'])))
@@ -58,7 +59,7 @@
                     <div class="accordion-body">
                         <div>
                             <div class="text-center">
-                                @for ($i = 0; $i < 15; $i++)
+                                {{-- @for ($i = 0; $i < 15; $i++)
                                     <a class="btn btn-outline-primary border-2 btn-lx p-0 m-1" href="javascript:void(0)">
                                         <div class="d-flex py-2 px-3" title="nombre de la plantilla">
                                             <div class="d-flex flex-column justify-content-center">
@@ -67,7 +68,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                @endfor
+                                @endfor --}}
                             </div>
                         </div>
                     </div>

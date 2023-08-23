@@ -73,6 +73,9 @@ class Contact extends Model
         return $this->hasOne('App\Models\ContactLinkUser', 'contact_id', 'id')->with('user');
     }
 
+    public function groups(){
+        return $this->hasMany('App\Models\ContactHasGroup', 'contact_id', 'id')->with('group');
+    }
 
 
 

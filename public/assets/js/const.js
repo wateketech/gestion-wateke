@@ -2,8 +2,9 @@ export const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
       container: 'swal-wide-container',
       popup: 'swal-wide-popup',
-      confirmButton: 'btn btn-success mx-3',
-      cancelButton: 'btn btn-danger mx-3'
+      confirmButton: 'btn btn-primary border-2 mx-2',
+      denyButton: 'btn btn-danger border-2 mx-1',
+      cancelButton: 'btn btn-outline-secondary border-2 mx-2',
   },
   buttonsStyling: false
 })
@@ -26,7 +27,17 @@ export const questionModals = Swal.mixin({
   timer: 0,
 })
 
-
+export const actionsModals = Swal.mixin({
+  customClass: {
+    container: 'swal-wide-container',
+    popup: 'swal-wide-popup',
+    confirmButton: 'btn btn-primary border-2 mx-2',
+    cancelButton: 'btn btn-outline-secondary border-2 mx-2',
+  },
+  cancelButtonText: 'Cancelar',
+  buttonsStyling: false,
+  timer: 0,
+})
 
 
 

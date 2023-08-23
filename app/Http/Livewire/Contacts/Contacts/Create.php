@@ -84,7 +84,7 @@ class Create extends Component
     public $contact_id;
     public $create_mode = false;
     public $edit_mode = false;
-    public $steps_view = false;
+    public $steps_view = true;
 
     // GENERALS
     public $genders, $prefixs;
@@ -157,14 +157,39 @@ class Create extends Component
 
 
     // ----------------------- RENDER --------------------------
+    public function updatedStepsView(){
+        if ($this->steps_view){
+            // $this->currentStep = 'general';
 
+            if (count($this->address) == 0){
+                $this->address[] = [
+                    'name' => 'Casa',
+                    'city_id' => null,
+                    'geolocation' => null,
+                    'zip_code' => '',
+                    'country_id' => null,
+                    'state_id' => null
+                ];
+                // $this->address_line[0][] = ['label' => 'Localidad', 'value' => ''];
+                $this->address_line[0][] = ['label' => 'Número', 'value' => ''];
+                $this->address_line[0][] = ['label' => 'Calle', 'value' => ''];
+            }
+        }
+
+        if (count($this->phones) == 0){
+            $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];;
+        }
+        if (count($this->dates) == 0){
+            $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        }
+    }
     public function initContactPropertys(){
         $this->emails[] = ['type_id' => null, 'label' => '', 'value' => null, 'is_primary' => true, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         $this->phones[] = ['type_id' => $this->phone_types[0]->id, 'value_meta' => '{}', 'value' => '', 'is_primary' => true, 'about' => '', 'extension' => ''];
         // $this->instant_messages[] = ['type_id' => $this->instant_message_types[0]->id, 'label' => '', 'is_primary' => true, 'value' => '', 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->rrss[] = ['type_id' => $this->rrss_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->webs[] = ['type_id' => $this->web_types[0]->id, 'value' => '', 'label' => null, 'about' => '', 'meta' => "{\"is_valid\":null}"];
-         $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
+        $this->dates[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->publish_us[] = ['type_id' => $this->date_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
         // $this->ids[] = ['type_id' => $this->id_types[0]->id, 'value' => '', 'meta' => "{\"is_valid\":null}"];
 
@@ -241,6 +266,7 @@ class Create extends Component
         }
         else if (isset($id) || $id !== null) {
             $this->edit_mode = true;
+            $this->steps_view = true;
             if (Contacts::find($id) === null) abort(404);
 
             $this->set_editing_contact($id);
@@ -253,7 +279,6 @@ class Create extends Component
             Contacts::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
         }
     }
-
     public function updated(){
         $this->set_editing_contact($this->contact_id);
     }
@@ -870,16 +895,20 @@ class Create extends Component
     }
     private function nextStep($passStep, $currentStep, $time = 2000){
         $this->set_editing_contact($this->contact_id);
-        if (!in_array($currentStep, $this->passStep)) {
-            $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+        if($this->steps_view){
+            if (!in_array($currentStep, $this->passStep)) {
+                $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+            }
+            $this->passStep[] = $passStep;
+            $this->currentStep = $currentStep;
         }
-        $this->passStep[] = $passStep;
-        $this->currentStep = $currentStep;
     }
     public function omitStep($currentStep, $time = 1000){
         $this->set_editing_contact($this->contact_id);
-        $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
-        $this->currentStep = $currentStep;
+        if($this->steps_view){
+            $this->dispatchBrowserEvent('coocking-time', ['time' => $time]);
+            $this->currentStep = $currentStep;
+        }
     }
     public function continueStep($time = 600){
         $this->set_editing_contact($this->contact_id);
@@ -1487,6 +1516,7 @@ class Create extends Component
 
 
     public function update(){
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 5000]);
         $picsError = false;
         $linkUserError = false;
 
@@ -1598,6 +1628,7 @@ class Create extends Component
 
 
     public function store(){
+        $this->dispatchBrowserEvent('coocking-time', ['time' => 5000]);
         $picsError = false;
         $linkUserError = false;
 

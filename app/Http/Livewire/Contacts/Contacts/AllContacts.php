@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Contacts\Contacts;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use App\Models\EntityType as EntityTypes;
 use App\Models\Contact as Contacts;
+use App\Models\ContactGroup as ContactGroups;
 
 class AllContacts extends Component
 {
@@ -16,17 +18,22 @@ class AllContacts extends Component
         'multiple_selection',
         'delete_contact' => 'deleteContact',
         'delete_contacts' => 'deleteContacts',
-        'enable_contacts' => 'enableContacts'
+        'enable_contacts' => 'enableContacts',
+        'create_contact_group' => 'createGroup',
+        'update_contact_group' => 'updateGroup',
+        'delete_contact_group' => 'deleteGroup'
         ];
 
+    public $contact_groups;
     public $entity_types;
     protected $contacts;
 
     public $multiple_selection = false;
     public $current_contacts = [];
     public $current_contact;
+    public $current_group = Null;
 
-    private $perPage = 100;
+    private $perPage = Null;
     public $pageOffset = 0;
 
     // variables de busqueda y filtro en un solo campo (pseudo)
@@ -35,11 +42,20 @@ class AllContacts extends Component
 
     public $is_search_all, $is_search_name, $is_search_ids, $is_search_emails, $is_search_phones, $is_search_webs;
 
+    // variables de ordenacion
+    public $order_by = 'name';
+    public $order_asc = true;
 
     public function multiple_selection($args){
         $this->multiple_selection = $args['is_multiple'];
-        if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null) {
+        if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null && !$this->isBusy($this->current_contact)) {
             $this->current_contacts[] = $this->current_contact;
+        }
+    }
+    public function setCurrentContact($id){
+        if(!$this->isBusy($id) || !$this->multiple_selection){
+            $this->current_contact = $id;
+            $this->updatedCurrentContact();
         }
     }
     public function updatedCurrentContact(){
@@ -48,13 +64,23 @@ class AllContacts extends Component
             if (!in_array($this->current_contact, $this->current_contacts) && $this->current_contact !== null) {
                 $this->current_contacts[] = $this->current_contact;
             }
-
         }else{
             $this->emitTo('contacts.contacts.current-contact', 'remount', ['id' => $this->current_contact]);
             $this->current_contacts= [];
         }
     }
 
+    public function isBusy($id){
+        return Contacts::find($id)->is_editing;
+    }
+
+    public function setCurrentGroup($value){
+        if ($this->current_group == $value) $this->current_group = Null;
+        else $this->current_group = $value;
+        $this->current_contacts = [];
+        $this->current_contact = null;
+        $this->updatedCurrentContact();
+    }
     public function mount($id = null ){
         $this->current_contact = $id;
 
@@ -63,7 +89,8 @@ class AllContacts extends Component
         }
 
         $this->restartFilter(false);
-        $this->entity_types = EntityTypes::all();
+        // $this->entity_types = EntityTypes::all();
+        $this->contact_groups = ContactGroups::all()->where('enable', true);
         //$nextPage = $this->contacts->currentPage() + 1;
         //$nextPage = $this->contacts->currentPage() + $this->pageOffset;
         //$morePosts = Contacts::paginate(10, ['*'], 'page', $nextPage);
@@ -192,11 +219,9 @@ class AllContacts extends Component
 
     // }
 
-
-
-    public function render()
-    {
-        $this->contacts = Contacts::where('enable', true)
+// ------------------------------ LIVE FILTERS --------------------------------
+    private function getContacts(){
+        return Contacts::where('enable', $this->current_group != -1 ? true : false )
                                   ->where(function ($query) {
                                         $query->where(function ($query) {
                                                 $query->where('name', 'like', '%'.$this->search_name.'%')
@@ -212,41 +237,66 @@ class AllContacts extends Component
                                               ->orWhereHas('webs', function ($query) { $query->where('value', 'like', '%'.$this->search_webs.'%');
                                         });
                                     })
+                                  ->whereHas('groups', function ($query) {  if($this->current_group != Null && $this->current_group != -1 ) $query->where('group_id', $this->current_group); })
+                                  ->orderby($this->order_by, $this->order_asc ? 'asc' : 'desc' )
                                   ->paginate($this->perPage);
-        return view('livewire.contacts.contacts.all-contacts')->with('contacts', $this->contacts);
+
     }
 // ------------------------------ VIEWS --------------------------------
 
-        public function updatedFilterView()
-        {
-            $this->group_view = false;
-        }
-        public function updatedGroupView()
-        {
-            $this->filter_view = false;
-        }
+    public function render(){
+        $this->contacts = $this->getContacts();
+        return view('livewire.contacts.contacts.all-contacts')->with('contacts', $this->contacts);
+    }
+    public function updatedFilterView()
+    {
+        $this->group_view = false;
+    }
+    public function updatedGroupView()
+    {
+        $this->filter_view = false;
+        $this->current_group = Null;
+    }
 
 // ------------------------------ ACTIONS --------------------------------
+    public function selectAll(){
+        $allContacts = $this->getContacts()->pluck('id')->toArray();
+        if (count($allContacts) != count($this->current_contacts)){
+            $this->multiple_selection = true;
+            foreach($allContacts as $contact){
+                $this->current_contact = $contact;
+                $this->updatedCurrentContact();
+            }
+        }else{
+            $this->multiple_selection = false;
+            $this->current_contacts = [];
+            $this->current_contact = null;
+            $this->updatedCurrentContact();
+        }
+        $this->multiple_selection = false;
+    }
     public function selectContact($id){
         $this->current_contact = Contacts::find($id);
     }
 
-    public function createGroup ($ids){
-        $this->dispatchBrowserEvent('show-in-progress');
-    }
+
+
+
 
     public function importContacts(){
-        $this->emitTo('contacts.import-export', 'importContacts');
+        $this->emitTo('contacts.import-export', 'importContactsQ');
     }
 
-    public function exportContact($id){
-        $this->emitTo('contacts.import-export', 'exportContact', ['id' => $id]);
+    public function exportContacts($id){
+        switch (gettype(json_decode($id))) {
+            case 'integer':
+                $this->emitTo('contacts.import-export', 'exportContactsQ', ['multiple' => false, 'id' => json_decode($id)]);
+                break;
+            case 'array':
+                $this->emitTo('contacts.import-export', 'exportContactsQ', ['multiple' => true, 'id' => json_decode($id)]);
+                break;
+        }
     }
-
-    public function exportContacts($ids){
-        $this->emitTo('contacts.import-export', 'exportContacts', ['ids' => $ids]);
-    }
-
 
 
 
@@ -268,15 +318,29 @@ class AllContacts extends Component
     public function deleteContacts_Q($ids){
         $this->dispatchBrowserEvent('show-delete-contacts', ['contacts_id' => $ids, 'current_contacts' => $this->current_contacts]);
     }
+
+    private function deletePermanent(){
+        dd('Hola');
+    }
     public function deleteContact($id, $value){
         if ($id == $this->current_contact && $id == $value && $this->current_contact == $value) {
-            Contacts::find($id)->update(['enable' => false]);
+            $contact = Contacts::find($id);
+            if ($contact->enable == false){
+                $this->deletePermanent($contact->id);
+                return;
+            }
+            $contact->update(['enable' => false]);
         }
     }
     public function deleteContacts($ids, $value){
         if ($ids == $this->current_contacts) {
             foreach ($ids as $id){
-                Contacts::find($id)->update(['enable' => false]);
+                $contact = Contacts::find($id);
+                if ($contact->enable == false){
+                    $this->deletePermanent($contact->id);
+                    return;
+                }
+                $contact->update(['enable' => false]);
             }
         }
     }
@@ -298,6 +362,166 @@ class AllContacts extends Component
             $this->dispatchBrowserEvent('show-recovery-contact-success', ['is_muliple' => true]);
         }
         else $this->dispatchBrowserEvent('show-recovery-contact-error', ['is_muliple' => true]);
+    }
+ // ------------------------------ GROUPS Management --------------------------------
+    private function validateGroupForm($mode, $name, $color, $icon){
+
+        if ($mode == 'create'){
+            if (ContactGroups::where('name', $name)->count() != 0) return "Ya existe un grupo con este nombre.";
+        }
+        elseif($mode == 'update'){
+            if (ContactGroups::where('name', $name)->count() != 0 && ContactGroups::where('name', $name) != $name) return "Ya existe un grupo con este nombre.";
+        }
+
+        if ($name == null) return "El campo es requerido.";
+        elseif (strlen($name) > 15 || strlen($name) <= 1) return "El campo 'name' debe tener entre 1 y 15 caracteres.";
+
+
+        return Null;
+    }
+    public function GroupForm($id = null, $enable = false){
+        // enable group
+        if ($enable == true){
+            $group = ContactGroups::find($id);
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($group->contacts),
+                'name' =>  $group->name,
+                'color' =>  $group->color,
+                'icon' =>  $group->icon,
+                'error' => '<sub>¡ Este grupo había sido eliminado recientemente !</sub>',
+                'mode' => 'enable',
+                'id' => $id,
+            ]);
+            return;
+        }
+        // create mode
+        if ($id == null){
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($this->current_contacts),
+                'name' => '',
+                'color' => '#ff6400',
+                'icon' => '#ff6400',
+                'error' => '',
+                'mode' => 'create',
+                'id' => $id,
+            ]);
+        // edit mode
+        }else{
+            // $group = ContactGroups::find($id)->update(['is_editing' => true, 'edited_by' => auth()->user()->id,]);
+            $group = ContactGroups::find($id);
+
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' =>  count($group->contacts),
+                'name' =>  $group->name,
+                'color' =>  $group->color,
+                'icon' =>  $group->icon,
+                'error' =>  '',
+                'mode' => 'edit',
+                'id' => $group->id,
+            ]);
+        }
+
+
+    }
+    public function deleteGroup($name, $id){
+        $group = ContactGroups::find($id);
+        if ($group->name == $name)
+            if ($group->enable == false){
+                foreach($group->contacts as $contact){
+                    $contact->delete();
+                }
+                $group->delete();
+                return;
+            }
+
+            $group->update(['enable' => false]);
+            $this->contact_groups = ContactGroups::all()->where('enable', true);
+    }
+    public function updateGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>', $id = Null){
+        $name = trim($name);
+        $error = $this->validateGroupForm('create', $name, $color, $icon);
+
+        if ($error != null){
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($this->current_contacts),
+                'name' => $name == null ? '' : $name,
+                'color' => $color,
+                'error' => '<p class="text-danger">' . $error .'</p>',
+                'mode' => 'edit',
+                'id' => $id
+            ]);
+        }else{
+
+            DB::beginTransaction();
+            try {
+                // actualizar el grupo
+                $group = ContactGroups::find($id)-> update([
+                    'name' => $name,
+                    'color' => $color,
+                    'icon' => $icon,
+                ]);
+
+                // dar la posibilidad de incluir y eliminar contactos del grupo
+
+                $this->contact_groups = ContactGroups::all()->where('enable', true);
+                DB::commit();
+            } catch (\Illuminate\Database\QueryException $e) {
+                DB::rollBack();
+                $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2], 'redirect' => '/contactos']);
+            }
+
+            $this->dispatchBrowserEvent('simple-toast-message',['text' => 'Grupo ' . $name . ' actualizado exitosamente', 'icon' => 'success']);
+        }
+    }
+    public function createGroup($name, $color = '#ff6400', $icon = '<i class="fas fa-user-friends"></i>', $id = Null){
+        $name = trim($name);
+
+        $disabled = ContactGroups::where('name', $name)->where('enable', 0)->first();
+        if ($disabled != Null){
+            $this->GroupForm($disabled->id, true);
+            return;
+        };
+
+        $error = $this->validateGroupForm('create', $name, $color, $icon);
+
+        if ($error != null){
+            $this->dispatchBrowserEvent('contact-group-form',[
+                'ccontactos' => count($this->current_contacts),
+                'name' => $name == null ? '' : $name,
+                'color' => $color,
+                'error' => '<p class="text-danger">' . $error .'</p>',
+                'mode' => 'create',
+                'id' => $id
+            ]);
+        }else{
+
+            DB::beginTransaction();
+            try {
+                // crear el grupo
+                $group = ContactGroups::create([
+                    'name' => $name,
+                    'color' => $color,
+                    'icon' => $icon,
+                ]);
+
+                $current_contacts = array_map(function ($current_contacts) {
+                    return ['contact_id' => $current_contacts];
+                }, $this->current_contacts);
+                $group->contacts()->createMany($current_contacts);
+
+
+                $this->contact_groups = ContactGroups::all()->where('enable', true);
+                DB::commit();
+            } catch (\Illuminate\Database\QueryException $e) {
+                DB::rollBack();
+                $this->dispatchBrowserEvent('ddbb-error', ['code' => $e->errorInfo[1], 'message' => $e->errorInfo[2], 'redirect' => '/contactos']);
+            }
+
+            $this->dispatchBrowserEvent('simple-toast-message',['text' => 'Grupo ' . $name . ' creado exitosamente', 'icon' => 'success']);
+
+
+
+        }
     }
 
 }

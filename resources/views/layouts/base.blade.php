@@ -92,12 +92,16 @@
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <!--   Plugins CSS  -->
+    {{-- <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script> --}}
+    {{-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> --}}
     <link rel="stylesheet" href="../assets/js/plugins/shepherd/shepherd.css"/>
     <script src="../assets/js/plugins/shepherd/shepherd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <link href="https://cdn.jsdelivr.net/npm/flag-icon-css@3.5.0/css/flag-icon.min.css" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="../assets/js/plugins/intl-tel-input/css/intlTelInput.css">
-
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     @livewireStyles
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -110,7 +114,6 @@
     </script>
     @yield('styles')
     @stack('styles')
-
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -118,6 +121,8 @@
     {{ $slot }}
 
     <!--   Plugins JS  -->
+    {{-- <script src="../assets/js/plugins/dropzone.min.js"></script> --}}
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
