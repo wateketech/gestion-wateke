@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+// use TCG\Voyager\Models\User;
 
 class UsersSeeder extends Seeder
 {
@@ -23,8 +24,10 @@ class UsersSeeder extends Seeder
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 54771254',
             'about' => '  ',
-            'enable' => true
-        ])->assignRole('SuperAdmin');
+            'enable' => true,
+            'role_id' => 1
+        ]);
+        // ->assignRole('admin');
 
         User::factory()->create([
             'name' => 'Eduardo',
@@ -32,8 +35,10 @@ class UsersSeeder extends Seeder
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 58643912',
             'about' => '  ',
-            'enable' => true
-        ])->assignRole('SuperAdmin');
+            'enable' => true,
+            'role_id' => 1
+        ]);
+        // ->assignRole('SuperAdmin');
 
         User::factory()->create([
             'name' => 'Erduin',
@@ -41,8 +46,10 @@ class UsersSeeder extends Seeder
             'password' => Hash::make('B3lcr0s5*8905'),
             'phone' => '+53 58640646',
             'about' => '  ',
-            'enable' => true
-        ])->assignRole('SuperAdmin');
+            'enable' => true,
+            'role_id' => 1
+        ]);
+        // ->assignRole('SuperAdmin');
 
         User::factory()->create([
             'name' => 'Archi',
@@ -50,7 +57,9 @@ class UsersSeeder extends Seeder
             'password' => Hash::make('Wateke2023+'),
             'phone' => '+53 58958864',
             'about' => '  ',
-            'enable' => true
-        ])->assignRole('SuperAdmin');
+            'enable' => true,
+            'role_id' => 1
+        ]);
+        // ->assignRole('SuperAdmin');
     }
 }
